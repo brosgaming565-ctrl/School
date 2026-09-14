@@ -31,6 +31,7 @@
             justify-content: center;
             background: linear-gradient(135deg, rgba(26, 35, 126, 0.9), rgba(13, 71, 161, 0.85)), 
                         url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            position: relative;
         }
 
         #loginScreen { 
@@ -42,6 +43,32 @@
         #loginScreen p { font-size: 12px; color: #555; margin-bottom: 22px; }
         #loginScreen input { width: 100%; padding: 11px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
         #loginScreen button { width: 100%; padding: 11px; background: #1a237e; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+        /* Developer Credit on Login Bottom Right */
+        .dev-credit {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            color: #ffffff;
+            font-size: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .dev-credit a {
+            color: #25D366;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .dev-credit a:hover { text-decoration: underline; }
 
         /* Tabs */
         .tab-content { display: none; }
@@ -126,6 +153,16 @@
         <input type="email" id="loginEmail" placeholder="Admin Email" value="admin@school.com">
         <input type="password" id="loginPassword" placeholder="Password" value="admin123">
         <button onclick="login()">Login to Dashboard</button>
+    </div>
+
+    <!-- Developer Credit Tag -->
+    <div class="dev-credit">
+        <span>This software prepared by <strong>Niranjan Kumar Shah</strong></span>
+        <a href="https://wa.me/9779826216576" target="_blank">
+            <!-- WhatsApp SVG Logo -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            +9779826216576
+        </a>
     </div>
 </div>
 
@@ -387,27 +424,33 @@
 
                         <div class="grid-3">
                             <div class="form-group">
-                                <label>Basic Salary (NPR)</label>
+                                <label>Total Salary (NPR) [e.g. 20000]</label>
                                 <input type="number" id="basicSalary" oninput="calculateTeacherSalary()" required placeholder="0.00">
                             </div>
                             <div class="form-group">
-                                <label>Deduction (NPR)</label>
-                                <input type="number" id="deductionSalary" oninput="calculateTeacherSalary()" value="0" placeholder="0.00">
+                                <label>Now Paid (NPR) [e.g. 10000]</label>
+                                <input type="number" id="newSalaryPaidInput" oninput="calculateTeacherSalary()" required placeholder="0.00">
                             </div>
                             <div class="form-group">
-                                <label>Net Paid Amount</label>
-                                <input type="number" id="netPaidSalary" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
+                                <label>Remaining Dues (Baki)</label>
+                                <input type="number" id="salaryDues" readonly placeholder="0.00" style="font-weight: bold; color: red; background:#fee;">
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Salary Month / Year</label>
-                            <input type="text" id="salaryMonth" placeholder="e.g. Baishakh 2081" required>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Total Paid Till Date</label>
+                                <input type="number" id="netPaidSalary" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
+                            </div>
+                            <div class="form-group">
+                                <label>Salary Month / Year</label>
+                                <input type="text" id="salaryMonth" placeholder="e.g. Baishakh 2081" required>
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label>Amount in Words (Manual)</label>
-                            <input type="text" id="salaryInWords" placeholder="e.g. TWENTY THOUSAND RUPEES ONLY" required>
+                            <input type="text" id="salaryInWords" placeholder="e.g. TEN THOUSAND RUPEES ONLY" required>
                         </div>
 
                         <div class="grid-2">
@@ -436,7 +479,9 @@
                                     <th>Receipt No</th>
                                     <th>Teacher Name</th>
                                     <th>Month</th>
-                                    <th>Net Paid</th>
+                                    <th>Total Sal.</th>
+                                    <th>Paid</th>
+                                    <th>Dues</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -450,7 +495,10 @@
             <div class="box" id="teacherSalaryHistoryBox" style="display: none; margin-top: 15px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
                     <h3 id="teacherHistoryTitle">📅 Selected Teacher Payment History</h3>
-                    <button class="btn btn-primary" onclick="printSelectedTeacherHistory()">🖨️ Print Teacher History</button>
+                    <div style="display:flex; gap:6px;">
+                        <button class="btn btn-primary" onclick="printSelectedTeacherHistory()">🖨️ Print Teacher History</button>
+                        <button class="btn btn-success" onclick="exportSelectedTeacherHistoryToExcel()">📊 Download Excel</button>
+                    </div>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="data-table">
@@ -460,7 +508,9 @@
                                 <th>Receipt No</th>
                                 <th>Teacher Name</th>
                                 <th>Month</th>
+                                <th>Total Salary</th>
                                 <th>Paid Amount (Rs.)</th>
+                                <th>Remaining Dues</th>
                             </tr>
                         </thead>
                         <tbody id="teacherHistoryTableBody"></tbody>
@@ -543,8 +593,8 @@
             <tr><td><strong>Receipt No:</strong> <span id="psReceiptNo"></span></td><td><strong>Paid Date:</strong> <span id="psDate"></span></td></tr>
             <tr><td><strong>Teacher's Name:</strong> <span id="psTeacherName"></span></td><td><strong>Father's Name:</strong> <span id="psFatherName"></span></td></tr>
             <tr><td><strong>Contact No:</strong> <span id="psContact"></span></td><td><strong>Designation:</strong> <span id="psDesignation"></span></td></tr>
-            <tr><td><strong>Basic Salary:</strong> Rs. <span id="psBasic"></span></td><td><strong>Deduction:</strong> Rs. <span id="psDeduction"></span></td></tr>
-            <tr><td><strong>Net Paid:</strong> Rs. <span id="psNetPaid"></span></td><td><strong>Month/Year:</strong> <span id="psMonth"></span></td></tr>
+            <tr><td><strong>Total Salary:</strong> Rs. <span id="psBasic"></span></td><td><strong>Paid Amount:</strong> Rs. <span id="psNetPaid"></span></td></tr>
+            <tr><td><strong>Remaining Dues:</strong> Rs. <span id="psDues"></span></td><td><strong>Month/Year:</strong> <span id="psMonth"></span></td></tr>
         </table>
 
         <p style="font-size: 10px; margin-top: 6px;"><strong>Amount in Words:</strong> <span id="psInWords"></span></p>
@@ -613,12 +663,14 @@
                     <th>Payment Date</th>
                     <th>Receipt No</th>
                     <th>Month</th>
-                    <th>Paid Amount (Rs.)</th>
+                    <th>Total Sal.</th>
+                    <th>Paid</th>
+                    <th>Dues</th>
                 </tr>
             </thead>
             <tbody id="pthRows"></tbody>
             <tfoot>
-                <tr><th colspan="4" style="text-align: right;">Total Cumulative Paid:</th><th id="pthTotalPaid"></th></tr>
+                <tr><th colspan="5" style="text-align: right;">Total Cumulative Paid:</th><th id="pthTotalPaid" colspan="2"></th></tr>
             </tfoot>
         </table>
 
@@ -706,10 +758,21 @@
     }
 
     function calculateTeacherSalary() {
-        let basic = parseFloat(document.getElementById('basicSalary').value) || 0;
-        let deduction = parseFloat(document.getElementById('deductionSalary').value) || 0;
-        let net = basic - deduction;
-        document.getElementById('netPaidSalary').value = net > 0 ? net : 0;
+        let totalSal = parseFloat(document.getElementById('basicSalary').value) || 0;
+        let pastPaid = parseFloat(document.getElementById('netPaidSalary').dataset.base) || 0;
+        let newPaid = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
+        
+        let totalPaidTillDate = pastPaid + newPaid;
+        document.getElementById('netPaidSalary').value = totalPaidTillDate;
+
+        let dues = totalSal - totalPaidTillDate;
+        document.getElementById('salaryDues').value = dues >= 0 ? dues : 0;
+
+        let wordsInput = document.getElementById('salaryInWords');
+        if(!wordsInput.value || wordsInput.dataset.auto === "true") {
+            wordsInput.value = inWords(newPaid > 0 ? newPaid : totalSal);
+            wordsInput.dataset.auto = "true";
+        }
     }
 
     function login() {
@@ -825,46 +888,56 @@
     function saveSalary(e) {
         e.preventDefault();
         let id = document.getElementById('salaryRecordId').value;
+        let newPaidVal = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
+        let salaryDt = document.getElementById('salaryDate').value;
 
         if (id) {
             let index = salaryData.findIndex(s => s.id === id);
             if(index !== -1) {
-                salaryData[index] = {
-                    id: id,
-                    schoolAddress: document.getElementById('salarySchoolAddress').value,
-                    receiptNo: document.getElementById('salaryReceiptNo').value,
-                    date: document.getElementById('salaryDate').value,
-                    teacherName: document.getElementById('teacherName').value,
-                    fatherName: document.getElementById('teacherFatherName').value,
-                    contact: document.getElementById('teacherContact').value,
-                    designation: document.getElementById('teacherDesignation').value,
-                    basic: parseFloat(document.getElementById('basicSalary').value) || 0,
-                    deduction: parseFloat(document.getElementById('deductionSalary').value) || 0,
-                    netPaid: parseFloat(document.getElementById('netPaidSalary').value) || 0,
-                    month: document.getElementById('salaryMonth').value,
-                    inWords: document.getElementById('salaryInWords').value,
-                    preparedBy: document.getElementById('salaryPreparedBy').value,
-                    authSign: document.getElementById('salaryAuthSign').value
-                };
+                let record = salaryData[index];
+                if(!record.history) record.history = [];
+
+                if(newPaidVal > 0) {
+                    record.history.push({ amount: newPaidVal, date: salaryDt, month: document.getElementById('salaryMonth').value });
+                }
+
+                record.schoolAddress = document.getElementById('salarySchoolAddress').value;
+                record.receiptNo = document.getElementById('salaryReceiptNo').value;
+                record.date = salaryDt;
+                record.teacherName = document.getElementById('teacherName').value;
+                record.fatherName = document.getElementById('teacherFatherName').value;
+                record.contact = document.getElementById('teacherContact').value;
+                record.designation = document.getElementById('teacherDesignation').value;
+                record.basic = parseFloat(document.getElementById('basicSalary').value) || 0;
+                record.netPaid = parseFloat(document.getElementById('netPaidSalary').value) || 0;
+                record.dues = parseFloat(document.getElementById('salaryDues').value) || 0;
+                record.month = document.getElementById('salaryMonth').value;
+                record.inWords = document.getElementById('salaryInWords').value;
+                record.preparedBy = document.getElementById('salaryPreparedBy').value;
+                record.authSign = document.getElementById('salaryAuthSign').value;
+
+                salaryData[index] = record;
                 alert("Teacher Salary Record Updated!");
             }
         } else {
+            let totalSal = parseFloat(document.getElementById('basicSalary').value) || 0;
             let record = {
                 id: Date.now().toString(),
                 schoolAddress: document.getElementById('salarySchoolAddress').value,
                 receiptNo: document.getElementById('salaryReceiptNo').value,
-                date: document.getElementById('salaryDate').value,
+                date: salaryDt,
                 teacherName: document.getElementById('teacherName').value,
                 fatherName: document.getElementById('teacherFatherName').value,
                 contact: document.getElementById('teacherContact').value,
                 designation: document.getElementById('teacherDesignation').value,
-                basic: parseFloat(document.getElementById('basicSalary').value) || 0,
-                deduction: parseFloat(document.getElementById('deductionSalary').value) || 0,
-                netPaid: parseFloat(document.getElementById('netPaidSalary').value) || 0,
+                basic: totalSal,
+                netPaid: newPaidVal,
+                dues: totalSal - newPaidVal,
                 month: document.getElementById('salaryMonth').value,
                 inWords: document.getElementById('salaryInWords').value,
                 preparedBy: document.getElementById('salaryPreparedBy').value,
-                authSign: document.getElementById('salaryAuthSign').value
+                authSign: document.getElementById('salaryAuthSign').value,
+                history: newPaidVal > 0 ? [{ amount: newPaidVal, date: salaryDt, month: document.getElementById('salaryMonth').value }] : []
             };
             salaryData.push(record);
             alert("Teacher Salary Record Saved!");
@@ -1072,11 +1145,13 @@
                 <td>${item.receiptNo || 'N/A'}</td>
                 <td>${item.teacherName}</td>
                 <td>${item.month}</td>
-                <td style="color:green; font-weight:bold;">Rs. ${item.netPaid}</td>
+                <td>Rs. ${item.basic || 0}</td>
+                <td style="color:green; font-weight:bold;">Rs. ${item.netPaid || 0}</td>
+                <td style="color:${(item.dues || 0) > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.dues || 0}</td>
                 <td>
                     <div class="action-btns">
                         <button class="btn-act-print" onclick="printSalary('${item.id}')">🖨️ Print</button>
-                        <button class="btn-act-edit" onclick="editSalary('${item.id}')">✏️ Edit</button>
+                        <button class="btn-act-edit" onclick="editSalary('${item.id}')">✏️ Edit / Pay</button>
                         <button class="btn-act-delete" onclick="deleteSalary('${item.id}')">🗑️ Delete</button>
                     </div>
                 </td>
@@ -1100,14 +1175,17 @@
         document.getElementById('teacherContact').value = item.contact || '';
         document.getElementById('teacherDesignation').value = item.designation || '';
         document.getElementById('basicSalary').value = item.basic || 0;
-        document.getElementById('deductionSalary').value = item.deduction || 0;
+        document.getElementById('newSalaryPaidInput').value = 0;
+        
         document.getElementById('netPaidSalary').value = item.netPaid || 0;
+        document.getElementById('netPaidSalary').dataset.base = item.netPaid || 0;
+        document.getElementById('salaryDues').value = item.dues || 0;
         document.getElementById('salaryMonth').value = item.month || '';
         document.getElementById('salaryInWords').value = item.inWords || '';
         document.getElementById('salaryPreparedBy').value = item.preparedBy || '';
         document.getElementById('salaryAuthSign').value = item.authSign || '';
 
-        document.getElementById('salaryFormTitle').innerText = `Edit Salary Record for: ${item.teacherName}`;
+        document.getElementById('salaryFormTitle').innerText = `Edit Salary & Add Payment for: ${item.teacherName}`;
         document.getElementById('cancelSalaryBtn').style.display = 'block';
 
         renderSelectedTeacherHistory(item.teacherName);
@@ -1131,12 +1209,14 @@
                     <td>${s.receiptNo}</td>
                     <td>${s.teacherName}</td>
                     <td>${s.month}</td>
-                    <td style="color:green; font-weight:bold;">Rs. ${s.netPaid}</td>
+                    <td>Rs. ${s.basic || 0}</td>
+                    <td style="color:green; font-weight:bold;">Rs. ${s.netPaid || 0}</td>
+                    <td style="color:red; font-weight:bold;">Rs. ${s.dues || 0}</td>
                 `;
                 tbody.appendChild(tr);
             });
         } else {
-            tbody.innerHTML = `<tr><td colspan="5">Is teacher ka koi salary record nahi mila.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7">Is teacher ka koi salary record nahi mila.</td></tr>`;
         }
     }
 
@@ -1159,7 +1239,7 @@
 
         teacherRecords.forEach((s, index) => {
             totalPaidSum += Number(s.netPaid) || 0;
-            pthRows.innerHTML += `<tr><td style="text-align:center;">${index+1}</td><td>${s.date}</td><td>${s.receiptNo}</td><td>${s.month}</td><td>Rs. ${s.netPaid}</td></tr>`;
+            pthRows.innerHTML += `<tr><td style="text-align:center;">${index+1}</td><td>${s.date}</td><td>${s.receiptNo}</td><td>${s.month}</td><td>Rs. ${s.basic || 0}</td><td>Rs. ${s.netPaid || 0}</td><td>Rs. ${s.dues || 0}</td></tr>`;
         });
 
         document.getElementById('pthTotalPaid').innerText = "Rs. " + totalPaidSum;
@@ -1169,10 +1249,41 @@
         document.body.className = '';
     }
 
+    function exportSelectedTeacherHistoryToExcel() {
+        if(!activeEditingTeacherName) return;
+        let tName = activeEditingTeacherName;
+        let teacherRecords = salaryData.filter(s => s.teacherName.toLowerCase() === tName.toLowerCase());
+
+        if(teacherRecords.length === 0) {
+            alert("No salary history available for this teacher to export!");
+            return;
+        }
+
+        let exportData = [];
+        teacherRecords.forEach(s => {
+            exportData.push({
+                "Payment Date": s.date,
+                "Receipt No": s.receiptNo,
+                "Teacher Name": s.teacherName,
+                "Designation": s.designation,
+                "Month/Year": s.month,
+                "Total Salary (Rs.)": s.basic || 0,
+                "Paid Amount (Rs.)": s.netPaid || 0,
+                "Remaining Dues (Rs.)": s.dues || 0
+            });
+        });
+
+        let worksheet = XLSX.utils.json_to_sheet(exportData);
+        let workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Teacher Salary History");
+        XLSX.writeFile(workbook, `${tName}_Salary_History.xlsx`);
+    }
+
     function resetSalaryForm() {
         activeEditingTeacherName = null;
         document.getElementById('salaryRecordId').value = '';
         document.getElementById('salaryForm').reset();
+        document.getElementById('netPaidSalary').dataset.base = 0;
         document.getElementById('salaryFormTitle').innerText = "Teacher Salary Payment Form";
         document.getElementById('cancelSalaryBtn').style.display = 'none';
         document.getElementById('teacherSalaryHistoryBox').style.display = 'none';
@@ -1225,12 +1336,12 @@
         document.getElementById('psContact').innerText = item.contact || '';
         document.getElementById('psDesignation').innerText = item.designation || '';
         document.getElementById('psBasic').innerText = item.basic || '0';
-        document.getElementById('psDeduction').innerText = item.deduction || '0';
         document.getElementById('psNetPaid').innerText = item.netPaid || '0';
+        document.getElementById('psDues').innerText = item.dues || '0';
         document.getElementById('psMonth').innerText = item.month || '';
         document.getElementById('psInWords').innerText = item.inWords || '';
         document.getElementById('psPreparedBy').innerText = item.preparedBy || '';
-        document.getElementById('psAuthSign').innerText = item.authorizedSign || '';
+        document.getElementById('psAuthSign').innerText = item.authSign || '';
 
         document.body.className = 'print-salary';
         window.print();
@@ -1267,7 +1378,7 @@
                 <td>
                     <div class="action-btns">
                         <button class="btn-act-print" onclick="printBill('${item.id}')">🖨️ Print</button>
-                        <button class="btn-act-edit" onclick="editBill('${item.id}')">✏️ Edit / Pay</button>
+                        <button class="btn-act-edit" onclick="editSalary('${item.id}')">✏️ Edit / Pay</button>
                         <button class="btn-act-delete" onclick="deleteBill('${item.id}')">🗑️ Delete</button>
                     </div>
                 </td>
@@ -1308,7 +1419,7 @@
 
     function restoreBackup() {
         let fileInput = document.getElementById('backupFileInput');
-        if(!fileInput.files.length) { alert("Select a file!"); return; }
+        if(!fileInput.files.length) { alert("Test file select karein!"); return; }
 
         let reader = new FileReader();
         reader.onload = function(e) {
@@ -1319,7 +1430,7 @@
                     salaryData = data.salaries;
                     saveToLocalStorage();
                     loadData();
-                    alert("Data Restored!");
+                    alert("Data Restored Successfully!");
                 } else { alert("Invalid Backup Format!"); }
             } catch(err) { alert("Error reading file!"); }
         };
