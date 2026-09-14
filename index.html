@@ -1,1148 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL - ERP System</title>
-
-    <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f0f2f5; color: #333; }
-        
-        /* Navigation */
-        nav { background: #1a237e; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .brand-container { display: flex; align-items: center; gap: 12px; }
-        .school-logo-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #fff; border: 2px solid #fff; }
-        nav h1 { font-size: 15px; }
-        nav div { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        nav button { background: #3949ab; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; }
-        nav button:hover { background: #5c6bc0; }
-
-        .container { max-width: 1250px; margin: 20px auto; padding: 0 15px; }
-
-        /* Login Screen */
-        #loginScreen { max-width: 400px; margin: 80px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); text-align: center; }
-        #loginScreen img { width: 70px; height: 70px; margin-bottom: 10px; border-radius: 50%; }
-        #loginScreen input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
-        #loginScreen button { width: 100%; padding: 10px; background: #1a237e; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-
-        /* Tabs */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: #fff; padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .section-header h2 { font-size: 18px; color: #1a237e; }
-
-        /* Dashboard Cards */
-        .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #1a237e; cursor: pointer; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-3px); }
-        .card h3 { font-size: 12px; color: #666; text-transform: uppercase; }
-        .card p { font-size: 22px; font-weight: bold; margin-top: 5px; color: #1a237e; }
-
-        /* Form Layout */
-        .grid-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
-        .box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .box h3 { margin-bottom: 15px; border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; color: #1a237e; font-size: 16px; }
-
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 3px; }
-        .form-group input, .form-group select { width: 100%; padding: 7px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-
-        /* Particulars Table */
-        .part-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .part-table th, .part-table td { border: 1px solid #ddd; padding: 5px; font-size: 11px; text-align: left; }
-        .part-table th { background: #f5f5f5; }
-        .part-table input { width: 100%; padding: 3px; border: 1px solid #ddd; border-radius: 2px; }
-
-        /* Buttons */
-        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-success { background: #2e7d32; color: white; }
-        .btn-primary { background: #1565c0; color: white; }
-        .btn-warning { background: #f57c00; color: white; }
-        .btn-danger { background: #c62828; color: white; }
-        .btn-block { width: 100%; margin-top: 10px; }
-
-        /* Tables */
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; font-size: 11px; text-align: center; vertical-align: top; }
-        .data-table th { background: #1a237e; color: white; }
-
-        /* History Table */
-        .history-list { font-size: 10px; text-align: left; background: #fafafa; padding: 5px; border: 1px solid #eee; margin-top: 2px; max-height: 90px; overflow-y: auto; }
-
-        /* Hide Print Sections on Normal Screen */
-        #printableArea, #salaryPrintableArea { display: none; }
-
-        /* PRINT STYLES FIX */
-        @media print {
-            body * { visibility: hidden !important; }
-            
-            body.print-student-mode #printableArea, 
-            body.print-student-mode #printableArea * { 
-                visibility: visible !important; 
-            }
-            body.print-student-mode #printableArea { 
-                display: block !important;
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-            }
-
-            body.print-salary-mode #salaryPrintableArea, 
-            body.print-salary-mode #salaryPrintableArea * { 
-                visibility: visible !important; 
-            }
-            body.print-salary-mode #salaryPrintableArea { 
-                display: block !important;
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-            }
-
-            .bill-box { 
-                border: 2px solid #000; 
-                padding: 15px; 
-                width: 100%; 
-                max-width: 750px; 
-                margin: 0 auto; 
-                box-sizing: border-box; 
-                background: #fff;
-            }
-            .bill-header { 
-                display: table !important; 
-                width: 100% !important; 
-                border-bottom: 2px solid #000; 
-                padding-bottom: 8px; 
-                margin-bottom: 10px; 
-            }
-            .bill-header-left { display: table-cell !important; width: 80px; vertical-align: middle; }
-            .bill-header-center { display: table-cell !important; text-align: center; vertical-align: middle; }
-            .bill-header img { width: 65px; height: 65px; object-fit: contain; }
-            .bill-header h2 { font-size: 16px; margin-bottom: 2px; font-weight: bold; }
-            .bill-header p { font-size: 11px; }
-
-            .info-table { width: 100%; font-size: 11px; margin-bottom: 8px; border-collapse: collapse; }
-            .info-table td { padding: 3px 4px; }
-
-            .p-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
-            .p-table th, .p-table td { border: 1px solid #000; padding: 5px; font-size: 11px; text-align: left; }
-            .p-table th { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
-            
-            .sig-area { display: table !important; width: 100% !important; margin-top: 40px; font-size: 11px; }
-            .sig-box { display: table-cell !important; width: 50%; text-align: center; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Salary Receipt</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: #f4f4f9;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #333;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 100px;
+      height: auto;
+    }
+    .header-text {
+      text-align: center;
+      flex-grow: 1;
+    }
+    .header-text h1 {
+      font-size: 20px;
+      color: #000;
+      text-transform: uppercase;
+    }
+    .header-text p {
+      font-size: 13px;
+      color: #444;
+      margin-top: 3px;
+    }
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 16px;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group.full {
+      grid-column: span 2;
+    }
+    label {
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #333;
+    }
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .signatures {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 10px;
+    }
+    .sig-box {
+      text-align: center;
+      width: 200px;
+    }
+    .sig-line {
+      border-top: 1px solid #000;
+      margin-top: 40px;
+      padding-top: 5px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .btn-container {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .btn-print {
+      background: #28a745;
+      color: white;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    @media print {
+      .btn-container { display: none; }
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; border: none; }
+      input { border: none; border-bottom: 1px dotted #000; border-radius: 0; padding: 2px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-    <img id="loginLogoDisplay" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
-    <h2 style="color: #1a237e; margin-bottom: 5px; font-size: 16px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-    <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Management System Login</p>
-    <input type="email" id="loginEmail" placeholder="Admin Email" value="admin@school.com">
-    <input type="password" id="loginPassword" placeholder="Password" value="admin123">
-    <button onclick="login()">Login to Dashboard</button>
-</div>
-
-<!-- MAIN APP SCREEN -->
-<div id="appScreen" style="display: none;">
-    <nav>
-        <div class="brand-container">
-            <img id="appNavLogo" src="https://via.placeholder.com/100?text=LOGO" class="school-logo-img" alt="School Logo">
-            <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-        </div>
-        <div>
-            <button onclick="showTab('dashboardTab')" style="background: #00897b;">🏠 Dashboard</button>
-            <button onclick="showTab('billingTab')">📄 Student Billing</button>
-            <button onclick="showTab('salaryTab')">👨‍🏫 Teacher Salary</button>
-            <button onclick="showTab('backupTab')" style="background: #2e7d32;">💾 Backup & Restore</button>
-            <button onclick="showTab('securityTab')">⚙️ Settings & Logo</button>
-            <button onclick="logout()" style="background: #c62828;">🔒 Logout</button>
-        </div>
-    </nav>
-
-    <div class="container">
-
-        <!-- DASHBOARD MODULE -->
-        <div id="dashboardTab" class="tab-content active">
-            <div class="section-header">
-                <h2>System Overview & Quick Access</h2>
-            </div>
-            
-            <div class="dashboard-cards">
-                <div class="card" onclick="showTab('billingTab')">
-                    <h3>Total Student Bills</h3>
-                    <p id="statTotalEntries">0</p>
-                </div>
-                <div class="card" style="border-top-color: #2e7d32;" onclick="showTab('billingTab')">
-                    <h3>Total Fees Collected</h3>
-                    <p id="statTotalCollection">Rs. 0</p>
-                </div>
-                <div class="card" style="border-top-color: #c62828;" onclick="showTab('billingTab')">
-                    <h3>Total Outstanding Dues</h3>
-                    <p id="statTotalDues">Rs. 0</p>
-                </div>
-                <div class="card" style="border-top-color: #f57c00;" onclick="showTab('salaryTab')">
-                    <h3>Total Teacher Salary Paid</h3>
-                    <p id="statTotalSalaryPaid">Rs. 0</p>
-                </div>
-            </div>
-
-            <div class="grid-layout">
-                <div class="box">
-                    <h3>Quick Shortcuts</h3>
-                    <button class="btn btn-primary btn-block" onclick="showTab('billingTab')">➕ Create New Student Bill</button>
-                    <button class="btn btn-success btn-block" onclick="showTab('salaryTab')">💵 Pay Teacher Salary</button>
-                    <button class="btn btn-warning btn-block" onclick="showTab('backupTab')">📥 Download Data Backup</button>
-                </div>
-                <div class="box">
-                    <h3>School Logo & Branding Details</h3>
-                    <p style="font-size:12px; color:#555; margin-bottom:10px;">Logo Navigation Header aur Bill Slips par active hai.</p>
-                    <button class="btn btn-primary" onclick="showTab('securityTab')">Change Logo & Settings</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- STUDENT BILLING MODULE -->
-        <div id="billingTab" class="tab-content">
-            <div class="section-header">
-                <h2>Student Fee Billing Management</h2>
-                <button class="btn btn-primary" onclick="showTab('dashboardTab')">← Back to Dashboard</button>
-            </div>
-
-            <div class="grid-layout">
-                <!-- BILL FORM -->
-                <div class="box">
-                    <h3 id="formTitle">Create New Bill / Add Deposit Payment</h3>
-                    <form id="billingForm" onsubmit="saveBill(event)">
-                        <input type="hidden" id="recordId">
-                        
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Bill No</label>
-                                <input type="text" id="billNo" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" id="billDate" required>
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Student Name</label>
-                                <input type="text" id="studentName" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Father's Name</label>
-                                <input type="text" id="fatherName" required>
-                            </div>
-                        </div>
-
-                        <div class="grid-3">
-                            <div class="form-group">
-                                <label>Class</label>
-                                <input type="text" id="studentClass">
-                            </div>
-                            <div class="form-group">
-                                <label>Roll No</label>
-                                <input type="text" id="rollNo">
-                            </div>
-                            <div class="form-group">
-                                <label>Section</label>
-                                <input type="text" id="section">
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Contact Number</label>
-                                <input type="text" id="contactNo" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Bill Period / Month</label>
-                                <input type="text" id="billMonth" placeholder="e.g. Baishakh to Jesth">
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Bill Prepared By</label>
-                                <input type="text" id="billPreparedBy" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Authorized Signatory</label>
-                                <input type="text" id="authorizedSign" value="Accountant">
-                            </div>
-                        </div>
-
-                        <label style="font-size: 11px; font-weight: bold; display: block; margin-top: 8px;">19 Fee Particulars:</label>
-                        <div style="max-height: 180px; overflow-y: auto; border: 1px solid #ddd; margin-top: 4px;">
-                            <table class="part-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Particular Name</th>
-                                        <th>Amount (Rs.)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="particularsContainer"></tbody>
-                            </table>
-                        </div>
-
-                        <div style="background: #e8eaf6; padding: 10px; margin-top: 10px; border-radius: 4px;">
-                            <div class="form-group">
-                                <label>Gross Total Fee Amount:</label>
-                                <input type="number" id="grossTotal" readonly style="font-weight: bold;">
-                            </div>
-
-                            <div class="grid-2">
-                                <div class="form-group">
-                                    <label>New Deposit Amount (-):</label>
-                                    <input type="number" id="depositAmount" value="0" oninput="calculateBalance()">
-                                </div>
-                                <div class="form-group">
-                                    <label>Deposit Date:</label>
-                                    <input type="date" id="depositDate">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Remaining Dues Balance:</label>
-                                <input type="number" id="netDues" readonly style="font-weight: bold; color: red;">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Amount In Words:</label>
-                                <input type="text" id="amountInWords" readonly>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-success btn-block" id="saveBtn">Save / Add Payment Record</button>
-                        <button type="button" class="btn btn-warning btn-block" id="cancelBtn" onclick="resetForm()" style="display:none;">Cancel Edit</button>
-                    </form>
-                </div>
-
-                <!-- FIND RECORDS & DATA LIST -->
-                <div class="box">
-                    <h3>Find Student Records</h3>
-                    <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search Student Name, Father Name, Bill No..." style="width:100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
-
-                    <div style="overflow-x: auto;">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Bill No</th>
-                                    <th>Student Name</th>
-                                    <th>Gross Total</th>
-                                    <th>Total Paid</th>
-                                    <th>Dues</th>
-                                    <th>Deposit History</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="billingTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TEACHER SALARY MODULE -->
-        <div id="salaryTab" class="tab-content">
-            <div class="section-header">
-                <h2>Teacher Salary & Payment Management</h2>
-                <button class="btn btn-primary" onclick="showTab('dashboardTab')">← Back to Dashboard</button>
-            </div>
-
-            <div class="grid-layout">
-                <div class="box">
-                    <h3 id="salaryFormTitle">Add Teacher / Pay Salary</h3>
-                    <form onsubmit="saveSalary(event)" id="salaryForm">
-                        <input type="hidden" id="salaryRecordId">
-                        <div class="form-group">
-                            <label>Teacher Name</label>
-                            <input type="text" id="teacherName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Designation / Subject</label>
-                            <input type="text" id="teacherDesignation" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Basic Monthly Salary Amount</label>
-                            <input type="number" id="basicSalary" required>
-                        </div>
-
-                        <div style="background: #f0f4c3; padding: 10px; border-radius: 4px; margin-top: 10px;">
-                            <h4 style="font-size:12px; margin-bottom:5px; color:#33691e;">New Salary Payment Details:</h4>
-                            <div class="grid-2">
-                                <div class="form-group">
-                                    <label>Payment Amount</label>
-                                    <input type="number" id="paidSalary" value="0" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Payment Date</label>
-                                    <input type="date" id="salaryDate" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Salary Period / Month</label>
-                                <input type="text" id="salaryMonth" placeholder="e.g. Baishakh 2081" required>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-block" id="saveSalaryBtn">Save / Add Payment Record</button>
-                        <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
-                    </form>
-                </div>
-
-                <div class="box">
-                    <h3>Teacher Salary Records</h3>
-                    <div style="overflow-x: auto;">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Teacher Name</th>
-                                    <th>Basic Salary</th>
-                                    <th>Total Paid</th>
-                                    <th>Payment History</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="salaryTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- BACKUP MODULE -->
-        <div id="backupTab" class="tab-content">
-            <div class="section-header">
-                <h2>Data Backup & System Restore</h2>
-                <button class="btn btn-primary" onclick="showTab('dashboardTab')">← Back to Dashboard</button>
-            </div>
-
-            <div class="box" style="max-width: 600px; margin: 20px auto;">
-                <h3>1. Export / Download Data Backup</h3>
-                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Full backup file download karke safe rakhein.</p>
-                <button onclick="downloadBackup()" class="btn btn-success btn-block">Download Backup File</button>
-            </div>
-
-            <div class="box" style="max-width: 600px; margin: 20px auto;">
-                <h3>2. Import / Restore Data Backup</h3>
-                <div class="form-group">
-                    <label>Select Backup File (.json):</label>
-                    <input type="file" id="backupFileInput" accept=".json">
-                </div>
-                <button onclick="restoreBackup()" class="btn btn-primary btn-block">Restore Data</button>
-            </div>
-        </div>
-
-        <!-- SETTINGS MODULE -->
-        <div id="securityTab" class="tab-content">
-            <div class="section-header">
-                <h2>System Settings & Branding</h2>
-                <button class="btn btn-primary" onclick="showTab('dashboardTab')">← Back to Dashboard</button>
-            </div>
-
-            <div class="grid-layout">
-                <div class="box">
-                    <h3>Update School Logo URL</h3>
-                    <form onsubmit="saveSchoolLogo(event)">
-                        <div class="form-group">
-                            <label>School Logo Image URL</label>
-                            <input type="url" id="logoUrlInput" placeholder="https://example.com/logo.png" required>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block">Save Logo URL</button>
-                    </form>
-                </div>
-
-                <div class="box">
-                    <h3>Change Admin Password</h3>
-                    <form onsubmit="changePassword(event)">
-                        <div class="form-group">
-                            <label>Current Password</label>
-                            <input type="password" id="currPass" required>
-                        </div>
-                        <div class="form-group">
-                            <label>New Password</label>
-                            <input type="password" id="newPass" required>
-                        </div>
-                        <button type="submit" class="btn btn-warning btn-block">Update Password</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="container">
+  <!-- Header with Logo -->
+  <div class="header">
+    <img src="https://i.ibb.co/6R2s89y/logo.jpg" alt="School Logo" id="schoolLogo">
+    <div class="header-text">
+      <h1>Shree Chiranjivee Narayani Residential School</h1>
+      <p>Yamunamai, R.M.-1, Sukdev Chowk, Rautahat</p>
+      <p>Estd: 2073</p>
     </div>
-</div>
+  </div>
 
-<!-- PRINTABLE STUDENT BILL TEMPLATE -->
-<div id="printableArea">
-    <div class="bill-box">
-        <div class="bill-header">
-            <div class="bill-header-left">
-                <img id="pLogoImg" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
-            </div>
-            <div class="bill-header-center">
-                <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top: 4px; text-decoration: underline; font-size:13px;">INFORMATION BILL</h3>
-            </div>
-        </div>
+  <div class="title">TEACHER SALARY RECEIPT</div>
 
-        <table class="info-table">
-            <tr>
-                <td style="width: 50%;"><strong>Bill No:</strong> <span id="pBillNo"></span></td>
-                <td style="width: 50%;"><strong>Date:</strong> <span id="pDate"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Student Name:</strong> <span id="pStudentName"></span></td>
-                <td><strong>Father's Name:</strong> <span id="pFatherName"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Class/Sec:</strong> <span id="pClass"></span> / <span id="pSec"></span></td>
-                <td><strong>Roll No:</strong> <span id="pRoll"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Contact:</strong> <span id="pContact"></span></td>
-                <td><strong>Period:</strong> <span id="pMonth"></span></td>
-            </tr>
-        </table>
-
-        <table class="p-table">
-            <thead>
-                <tr>
-                    <th style="width: 8%;">S.N</th>
-                    <th>Particulars</th>
-                    <th style="width: 25%;">Amount (Rs.)</th>
-                </tr>
-            </thead>
-            <tbody id="pRows"></tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="2" style="text-align: right;">Gross Total:</th>
-                    <th id="pGross"></th>
-                </tr>
-                <tr>
-                    <th colspan="2" style="text-align: right;">Total Paid / Deposited:</th>
-                    <th id="pPaid"></th>
-                </tr>
-                <tr>
-                    <th colspan="2" style="text-align: right;">Remaining Dues:</th>
-                    <th id="pDues"></th>
-                </tr>
-            </tfoot>
-        </table>
-
-        <div style="font-size:10px; margin-top:6px; border:1px solid #000; padding:6px;">
-            <strong>Deposit History:</strong>
-            <div id="pDepositHistory"></div>
-        </div>
-
-        <p style="font-size: 11px; margin-top: 8px;"><strong>In Words:</strong> <span id="pInWords"></span></p>
-
-        <div class="sig-area">
-            <div class="sig-box">
-                <p>___________________</p>
-                <p><strong>Prepared By:</strong> <span id="pPreparedBy"></span></p>
-            </div>
-            <div class="sig-box">
-                <p>___________________</p>
-                <p><strong>Authorized Sign:</strong> <span id="pAuthSign"></span></p>
-            </div>
-        </div>
+  <!-- Details Form -->
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Receipt No:</label>
+      <input type="text" placeholder="Receipt Number">
     </div>
-</div>
-
-<!-- PRINTABLE TEACHER SALARY RECEIPT TEMPLATE -->
-<div id="salaryPrintableArea">
-    <div class="bill-box">
-        <div class="bill-header">
-            <div class="bill-header-left">
-                <img id="pSalaryLogoImg" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
-            </div>
-            <div class="bill-header-center">
-                <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top: 4px; text-decoration: underline; font-size:13px;">TEACHER SALARY RECEIPT</h3>
-            </div>
-        </div>
-
-        <table class="info-table">
-            <tr>
-                <td style="width: 50%;"><strong>Teacher Name:</strong> <span id="psName"></span></td>
-                <td style="width: 50%;"><strong>Designation:</strong> <span id="psDesig"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Basic Monthly Salary:</strong> Rs. <span id="psBasic"></span></td>
-                <td><strong>Print Date:</strong> <span id="psPrintDate"></span></td>
-            </tr>
-        </table>
-
-        <p style="font-size: 11px; font-weight: bold; margin: 8px 0 4px 0;">Date-wise Payment History:</p>
-        <table class="p-table">
-            <thead>
-                <tr>
-                    <th style="width: 8%;">S.N</th>
-                    <th>Payment Date</th>
-                    <th>Salary Period</th>
-                    <th>Amount Paid (Rs.)</th>
-                </tr>
-            </thead>
-            <tbody id="psHistoryRows"></tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="3" style="text-align: right;">Total Paid Till Date:</th>
-                    <th id="psTotalPaid"></th>
-                </tr>
-            </tfoot>
-        </table>
-
-        <div class="sig-area">
-            <div class="sig-box">
-                <p>___________________</p>
-                <p><strong>Teacher's Signature</strong></p>
-            </div>
-            <div class="sig-box">
-                <p>___________________</p>
-                <p><strong>Accountant / Principal Sign</strong></p>
-            </div>
-        </div>
+    <div class="form-group">
+      <label>Date:</label>
+      <input type="date">
     </div>
+
+    <div class="form-group">
+      <label>Teacher's Name:</label>
+      <input type="text" placeholder="Enter Teacher Name">
+    </div>
+    <div class="form-group">
+      <label>Father's Name:</label>
+      <input type="text" placeholder="Enter Father's Name">
+    </div>
+
+    <div class="form-group">
+      <label>Contact No:</label>
+      <input type="text" placeholder="Enter Phone Number">
+    </div>
+    <div class="form-group">
+      <label>Designation/Subject:</label>
+      <input type="text" placeholder="e.g. Science Teacher">
+    </div>
+
+    <div class="form-group">
+      <label>Basic Salary (NPR):</label>
+      <input type="number" id="basicSalary" oninput="calculateNet()" placeholder="0.00">
+    </div>
+    <div class="form-group">
+      <label>Deduction Amount (NPR):</label>
+      <input type="number" id="deduction" oninput="calculateNet()" placeholder="0.00">
+    </div>
+
+    <div class="form-group">
+      <label>Net Paid Amount (NPR):</label>
+      <input type="number" id="netAmount" readonly placeholder="0.00">
+    </div>
+    <div class="form-group">
+      <label>Month / Year:</label>
+      <input type="text" placeholder="e.g. Baishakh 2081">
+    </div>
+
+    <div class="form-group full">
+      <label>Amount in Words (Manual):</label>
+      <input type="text" placeholder="e.g. Twenty Thousand Five Hundred Rupees Only">
+    </div>
+  </div>
+
+  <!-- Signatures -->
+  <div class="signatures">
+    <div class="sig-box">
+      <div class="form-group" style="margin-bottom: 5px;">
+        <label>Prepared By (Name):</label>
+        <input type="text" placeholder="Staff Name" style="text-align: center;">
+      </div>
+      <div style="font-size: 12px; color: #555;">(Bill Prepared By)</div>
+    </div>
+
+    <div class="sig-box">
+      <div class="sig-line">Authorized Signature</div>
+    </div>
+  </div>
+
+  <div class="btn-container">
+    <button class="btn-print" onclick="window.print()">Print Receipt</button>
+  </div>
 </div>
 
 <script>
-    const standardParticulars = [
-        "Annual Fee", "Admission Fee", "Monthly School Fee", "Exam Fee 1,2,3", 
-        "Ext. Tuation Fee", "Tie, Belt, Badge", "Stationary", "Dairy, ID Card", 
-        "Games/Science/Library", "Library", "Form/Entrance/Exam", "Medical", 
-        "Character Certificate", "Computer Fee", "Hostel Fee", "Bus", 
-        "Dress", "Disposit", "Dues"
-    ];
-
-    let billsData = JSON.parse(localStorage.getItem('sch_bills')) || [];
-    let salaryData = JSON.parse(localStorage.getItem('sch_salaries')) || [];
-    let schoolLogo = localStorage.getItem('sch_logo') || 'https://via.placeholder.com/100?text=SCHOOL+LOGO';
-
-    window.onload = function() {
-        renderParticulars();
-        updateLogoDisplays();
-        document.getElementById('billDate').valueAsDate = new Date();
-        document.getElementById('depositDate').valueAsDate = new Date();
-        document.getElementById('salaryDate').valueAsDate = new Date();
-    };
-
-    function updateLogoDisplays() {
-        document.getElementById('loginLogoDisplay').src = schoolLogo;
-        document.getElementById('appNavLogo').src = schoolLogo;
-        document.getElementById('pLogoImg').src = schoolLogo;
-        document.getElementById('pSalaryLogoImg').src = schoolLogo;
-        document.getElementById('logoUrlInput').value = schoolLogo;
-    }
-
-    function saveSchoolLogo(e) {
-        e.preventDefault();
-        let newLogo = document.getElementById('logoUrlInput').value;
-        if(newLogo) {
-            schoolLogo = newLogo;
-            localStorage.setItem('sch_logo', schoolLogo);
-            updateLogoDisplays();
-            alert("School Logo Updated!");
-        }
-    }
-
-    function renderParticulars() {
-        const container = document.getElementById('particularsContainer');
-        container.innerHTML = '';
-        standardParticulars.forEach((item, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${item}</td>
-                <td><input type="number" class="part-amt" value="0" oninput="calculateGross()"></td>
-            `;
-            container.appendChild(row);
-        });
-    }
-
-    function inWords(num) {
-        let a = ['','one ','two ','three ','four ','five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
-        let b = ['', '', 'twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
-        if ((num = num.toString()).length > 9) return 'overflow';
-        let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-        if (!n) return ''; 
-        let str = '';
-        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'rupees only ' : 'rupees only';
-        return str.toUpperCase();
-    }
-
-    function calculateGross() {
-        let inputs = document.querySelectorAll('.part-amt');
-        let total = 0;
-        inputs.forEach(input => { total += parseFloat(input.value) || 0; });
-        document.getElementById('grossTotal').value = total;
-        calculateBalance();
-    }
-
-    function calculateBalance() {
-        let gross = parseFloat(document.getElementById('grossTotal').value) || 0;
-        let id = document.getElementById('recordId').value;
-        let pastTotalDeposit = 0;
-
-        if (id) {
-            let existingRecord = billsData.find(b => b.id === id);
-            if (existingRecord && existingRecord.history) {
-                pastTotalDeposit = existingRecord.history.reduce((sum, h) => sum + h.amount, 0);
-            }
-        }
-
-        let newDeposit = parseFloat(document.getElementById('depositAmount').value) || 0;
-        let totalDeposit = pastTotalDeposit + newDeposit;
-        let netDues = gross - totalDeposit;
-
-        document.getElementById('netDues').value = netDues;
-        document.getElementById('amountInWords').value = inWords(newDeposit > 0 ? newDeposit : (totalDeposit > 0 ? totalDeposit : gross));
-    }
-
-    function login() {
-        let pass = document.getElementById('loginPassword').value;
-        let storedPass = localStorage.getItem('admin_pass') || 'admin123';
-
-        if(pass === storedPass) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('appScreen').style.display = 'block';
-            loadData();
-        } else {
-            alert('Incorrect Password!');
-        }
-    }
-
-    function logout() {
-        document.getElementById('appScreen').style.display = 'none';
-        document.getElementById('loginScreen').style.display = 'block';
-    }
-
-    function showTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-    }
-
-    function saveBill(e) {
-        e.preventDefault();
-        let id = document.getElementById('recordId').value;
-        let parts = [];
-        document.querySelectorAll('.part-amt').forEach((inp, idx) => {
-            parts.push({ name: standardParticulars[idx], amount: parseFloat(inp.value) || 0 });
-        });
-
-        let depositVal = parseFloat(document.getElementById('depositAmount').value) || 0;
-        let depositDt = document.getElementById('depositDate').value;
-
-        if (id) {
-            let index = billsData.findIndex(b => b.id === id);
-            if(index !== -1) {
-                let existingRecord = billsData[index];
-                if(depositVal > 0) {
-                    existingRecord.history.push({ amount: depositVal, date: depositDt });
-                }
-
-                existingRecord.billNo = document.getElementById('billNo').value;
-                existingRecord.billDate = document.getElementById('billDate').value;
-                existingRecord.studentName = document.getElementById('studentName').value;
-                existingRecord.fatherName = document.getElementById('fatherName').value;
-                existingRecord.studentClass = document.getElementById('studentClass').value;
-                existingRecord.rollNo = document.getElementById('rollNo').value;
-                existingRecord.section = document.getElementById('section').value;
-                existingRecord.contactNo = document.getElementById('contactNo').value;
-                existingRecord.billMonth = document.getElementById('billMonth').value;
-                existingRecord.billPreparedBy = document.getElementById('billPreparedBy').value;
-                existingRecord.authorizedSign = document.getElementById('authorizedSign').value;
-                existingRecord.particulars = parts;
-                existingRecord.grossTotal = parseFloat(document.getElementById('grossTotal').value) || 0;
-                
-                let totPaid = existingRecord.history.reduce((a, b) => a + b.amount, 0);
-                existingRecord.depositAmount = totPaid;
-                existingRecord.netDues = existingRecord.grossTotal - totPaid;
-                existingRecord.amountInWords = document.getElementById('amountInWords').value;
-
-                billsData[index] = existingRecord;
-                alert("Student Record Updated!");
-            }
-        } else {
-            let newRecord = {
-                id: Date.now().toString(),
-                billNo: document.getElementById('billNo').value,
-                billDate: document.getElementById('billDate').value,
-                studentName: document.getElementById('studentName').value,
-                fatherName: document.getElementById('fatherName').value,
-                studentClass: document.getElementById('studentClass').value,
-                rollNo: document.getElementById('rollNo').value,
-                section: document.getElementById('section').value,
-                contactNo: document.getElementById('contactNo').value,
-                billMonth: document.getElementById('billMonth').value,
-                billPreparedBy: document.getElementById('billPreparedBy').value,
-                authorizedSign: document.getElementById('authorizedSign').value,
-                particulars: parts,
-                grossTotal: parseFloat(document.getElementById('grossTotal').value) || 0,
-                depositAmount: depositVal,
-                netDues: (parseFloat(document.getElementById('grossTotal').value) || 0) - depositVal,
-                amountInWords: document.getElementById('amountInWords').value,
-                history: depositVal > 0 ? [{ amount: depositVal, date: depositDt }] : []
-            };
-            billsData.push(newRecord);
-            alert("New Student Bill Created!");
-        }
-
-        saveToLocalStorage();
-        resetForm();
-        loadData();
-    }
-
-    function saveToLocalStorage() {
-        localStorage.setItem('sch_bills', JSON.stringify(billsData));
-        localStorage.setItem('sch_salaries', JSON.stringify(salaryData));
-    }
-
-    function loadData() {
-        renderBillingTable(billsData);
-        renderSalaryTable();
-        updateDashboard();
-    }
-
-    function updateDashboard() {
-        document.getElementById('statTotalEntries').innerText = billsData.length;
-        let totalColl = billsData.reduce((acc, item) => acc + item.depositAmount, 0);
-        let totalDues = billsData.reduce((acc, item) => acc + item.netDues, 0);
-        let totalSal = salaryData.reduce((acc, item) => acc + item.paid, 0);
-
-        document.getElementById('statTotalCollection').innerText = 'Rs. ' + totalColl;
-        document.getElementById('statTotalDues').innerText = 'Rs. ' + totalDues;
-        document.getElementById('statTotalSalaryPaid').innerText = 'Rs. ' + totalSal;
-    }
-
-    function renderBillingTable(data) {
-        const tbody = document.getElementById('billingTableBody');
-        tbody.innerHTML = '';
-        data.forEach(item => {
-            let historyHtml = '<div class="history-list">';
-            if(item.history && item.history.length > 0) {
-                item.history.forEach((h, i) => {
-                    historyHtml += `<div>${i+1}. Rs. ${h.amount} (${h.date})</div>`;
-                });
-            } else { historyHtml += 'No History'; }
-            historyHtml += '</div>';
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${item.billNo}</td>
-                <td><strong>${item.studentName}</strong><br><small>(${item.fatherName})</small></td>
-                <td>Rs. ${item.grossTotal}</td>
-                <td style="color:green; font-weight:bold;">Rs. ${item.depositAmount}</td>
-                <td style="color:${item.netDues > 0 ? 'red' : 'green'}; font-weight:bold;">Rs. ${item.netDues}</td>
-                <td>${historyHtml}</td>
-                <td>
-                    <button class="btn btn-primary" onclick="printBill('${item.id}')">Print Bill</button>
-                    <button class="btn btn-warning" onclick="editBill('${item.id}')">Edit / Deposit</button>
-                    <button class="btn btn-danger" onclick="deleteBill('${item.id}')">Delete</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function searchRecords() {
-        let q = document.getElementById('searchInput').value.toLowerCase();
-        let filtered = billsData.filter(b => 
-            b.studentName.toLowerCase().includes(q) ||
-            b.fatherName.toLowerCase().includes(q) ||
-            b.billNo.toLowerCase().includes(q)
-        );
-        renderBillingTable(filtered);
-    }
-
-    function editBill(id) {
-        let item = billsData.find(b => b.id === id);
-        if(!item) return;
-
-        document.getElementById('recordId').value = item.id;
-        document.getElementById('billNo').value = item.billNo;
-        document.getElementById('billDate').value = item.billDate;
-        document.getElementById('studentName').value = item.studentName;
-        document.getElementById('fatherName').value = item.fatherName;
-        document.getElementById('studentClass').value = item.studentClass;
-        document.getElementById('rollNo').value = item.rollNo;
-        document.getElementById('section').value = item.section;
-        document.getElementById('contactNo').value = item.contactNo;
-        document.getElementById('billMonth').value = item.billMonth;
-        document.getElementById('billPreparedBy').value = item.billPreparedBy;
-        document.getElementById('authorizedSign').value = item.authorizedSign;
-        document.getElementById('depositAmount').value = 0;
-
-        let inputs = document.querySelectorAll('.part-amt');
-        item.particulars.forEach((p, idx) => { if(inputs[idx]) inputs[idx].value = p.amount; });
-
-        calculateGross();
-        document.getElementById('formTitle').innerText = "Add Deposit Payment for " + item.studentName;
-        document.getElementById('saveBtn').innerText = "Update & Save";
-        document.getElementById('cancelBtn').style.display = 'block';
-    }
-
-    function deleteBill(id) {
-        if(confirm("Are you sure you want to delete this record?")) {
-            billsData = billsData.filter(b => b.id !== id);
-            saveToLocalStorage();
-            loadData();
-        }
-    }
-
-    function resetForm() {
-        document.getElementById('billingForm').reset();
-        document.getElementById('recordId').value = '';
-        document.getElementById('formTitle').innerText = "Create New Bill / Add Deposit Payment";
-        document.getElementById('saveBtn').innerText = "Save / Add Payment Record";
-        document.getElementById('cancelBtn').style.display = 'none';
-        document.getElementById('billDate').valueAsDate = new Date();
-        document.getElementById('depositDate').valueAsDate = new Date();
-    }
-
-    // TEACHER SALARY FUNCTIONS
-    function saveSalary(e) {
-        e.preventDefault();
-        let id = document.getElementById('salaryRecordId').value;
-        let payVal = parseFloat(document.getElementById('paidSalary').value) || 0;
-        let payDt = document.getElementById('salaryDate').value;
-        let payMonth = document.getElementById('salaryMonth').value;
-
-        if (id) {
-            let index = salaryData.findIndex(s => s.id === id);
-            if (index !== -1) {
-                let rec = salaryData[index];
-                rec.name = document.getElementById('teacherName').value;
-                rec.desig = document.getElementById('teacherDesignation').value;
-                rec.basic = parseFloat(document.getElementById('basicSalary').value) || 0;
-
-                if (payVal > 0) {
-                    rec.history.push({ amount: payVal, date: payDt, month: payMonth });
-                }
-                rec.paid = rec.history.reduce((a, b) => a + b.amount, 0);
-                salaryData[index] = rec;
-                alert("Teacher Payment Updated!");
-            }
-        } else {
-            let newTeacher = {
-                id: Date.now().toString(),
-                name: document.getElementById('teacherName').value,
-                desig: document.getElementById('teacherDesignation').value,
-                basic: parseFloat(document.getElementById('basicSalary').value) || 0,
-                paid: payVal,
-                history: payVal > 0 ? [{ amount: payVal, date: payDt, month: payMonth }] : []
-            };
-            salaryData.push(newTeacher);
-            alert("New Teacher Saved!");
-        }
-
-        saveToLocalStorage();
-        resetSalaryForm();
-        renderSalaryTable();
-        updateDashboard();
-    }
-
-    function renderSalaryTable() {
-        const tbody = document.getElementById('salaryTableBody');
-        tbody.innerHTML = '';
-        salaryData.forEach(s => {
-            let histHtml = '<div class="history-list">';
-            if(s.history && s.history.length > 0) {
-                s.history.forEach((h, i) => {
-                    histHtml += `<div>${i+1}. Rs. ${h.amount} - ${h.month} (${h.date})</div>`;
-                });
-            } else { histHtml += 'No Payments'; }
-            histHtml += '</div>';
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${s.name}</strong><br><small>(${s.desig})</small></td>
-                <td>Rs. ${s.basic}</td>
-                <td style="color:green; font-weight:bold;">Rs. ${s.paid}</td>
-                <td>${histHtml}</td>
-                <td>
-                    <button class="btn btn-primary" onclick="printSalarySlip('${s.id}')">Print Slip</button>
-                    <button class="btn btn-warning" onclick="editSalary('${s.id}')">Pay / Edit</button>
-                    <button class="btn btn-danger" onclick="deleteSalary('${s.id}')">Delete</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function editSalary(id) {
-        let s = salaryData.find(item => item.id === id);
-        if(!s) return;
-
-        document.getElementById('salaryRecordId').value = s.id;
-        document.getElementById('teacherName').value = s.name;
-        document.getElementById('teacherDesignation').value = s.desig;
-        document.getElementById('basicSalary').value = s.basic;
-        document.getElementById('paidSalary').value = 0;
-
-        document.getElementById('salaryFormTitle').innerText = "Add Salary Payment for " + s.name;
-        document.getElementById('saveSalaryBtn').innerText = "Update & Save";
-        document.getElementById('cancelSalaryBtn').style.display = 'block';
-    }
-
-    function resetSalaryForm() {
-        document.getElementById('salaryForm').reset();
-        document.getElementById('salaryRecordId').value = '';
-        document.getElementById('salaryFormTitle').innerText = "Add Teacher / Pay Salary";
-        document.getElementById('saveSalaryBtn').innerText = "Save / Add Payment Record";
-        document.getElementById('cancelSalaryBtn').style.display = 'none';
-        document.getElementById('salaryDate').valueAsDate = new Date();
-    }
-
-    function deleteSalary(id) {
-        if(confirm("Are you sure you want to delete this teacher record?")) {
-            salaryData = salaryData.filter(s => s.id !== id);
-            saveToLocalStorage();
-            renderSalaryTable();
-            updateDashboard();
-        }
-    }
-
-    // BACKUP & RESTORE FUNCTIONS
-    function downloadBackup() {
-        let backupData = { bills: billsData, salaries: salaryData, logo: schoolLogo };
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData));
-        let downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "School_Data_Backup_" + new Date().toISOString().slice(0,10) + ".json");
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    }
-
-    function restoreBackup() {
-        let fileInput = document.getElementById('backupFileInput');
-        if (!fileInput.files.length) {
-            alert("Please select a valid backup (.json) file!");
-            return;
-        }
-
-        let file = fileInput.files[0];
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                let parsedData = JSON.parse(e.target.result);
-                if (parsedData.bills && parsedData.salaries) {
-                    billsData = parsedData.bills;
-                    salaryData = parsedData.salaries;
-                    if(parsedData.logo) {
-                        schoolLogo = parsedData.logo;
-                        localStorage.setItem('sch_logo', schoolLogo);
-                        updateLogoDisplays();
-                    }
-                    saveToLocalStorage();
-                    loadData();
-                    alert("Data Restored Successfully!");
-                }
-            } catch (err) {
-                alert("Invalid Backup File!");
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    function changePassword(e) {
-        e.preventDefault();
-        let curr = document.getElementById('currPass').value;
-        let newP = document.getElementById('newPass').value;
-        let storedPass = localStorage.getItem('admin_pass') || 'admin123';
-
-        if(curr === storedPass) {
-            localStorage.setItem('admin_pass', newP);
-            alert("Password Changed Successfully!");
-            e.target.reset();
-        } else {
-            alert("Current Password does not match!");
-        }
-    }
-
-    // PRINT FUNCTIONS
-    function printBill(id) {
-        let item = billsData.find(b => b.id === id);
-        if(!item) return;
-
-        document.getElementById('pBillNo').innerText = item.billNo;
-        document.getElementById('pDate').innerText = item.billDate;
-        document.getElementById('pStudentName').innerText = item.studentName;
-        document.getElementById('pFatherName').innerText = item.fatherName;
-        document.getElementById('pClass').innerText = item.studentClass;
-        document.getElementById('pSec').innerText = item.section;
-        document.getElementById('pRoll').innerText = item.rollNo;
-        document.getElementById('pContact').innerText = item.contactNo;
-        document.getElementById('pMonth').innerText = item.billMonth;
-        document.getElementById('pGross').innerText = 'Rs. ' + item.grossTotal;
-        document.getElementById('pPaid').innerText = 'Rs. ' + item.depositAmount;
-        document.getElementById('pDues').innerText = 'Rs. ' + item.netDues;
-        document.getElementById('pInWords').innerText = item.amountInWords;
-        document.getElementById('pPreparedBy').innerText = item.billPreparedBy;
-        document.getElementById('pAuthSign').innerText = item.authorizedSign;
-
-        let rowsHtml = '';
-        item.particulars.forEach((p, idx) => {
-            if(p.amount > 0) {
-                rowsHtml += `<tr><td>${idx + 1}</td><td>${p.name}</td><td>Rs. ${p.amount}</td></tr>`;
-            }
-        });
-        document.getElementById('pRows').innerHTML = rowsHtml;
-
-        let historyHtml = '';
-        if(item.history && item.history.length > 0) {
-            item.history.forEach((h, idx) => {
-                historyHtml += `<span>[${idx+1}] Rs. ${h.amount} on ${h.date}</span> &nbsp;&nbsp; `;
-            });
-        } else { historyHtml = 'No payment history'; }
-        document.getElementById('pDepositHistory').innerHTML = historyHtml;
-
-        document.body.className = 'print-student-mode';
-        window.print();
-        document.body.className = '';
-    }
-
-    function printSalarySlip(id) {
-        let s = salaryData.find(item => item.id === id);
-        if(!s) return;
-
-        document.getElementById('psName').innerText = s.name;
-        document.getElementById('psDesig').innerText = s.desig;
-        document.getElementById('psBasic').innerText = s.basic;
-        document.getElementById('psPrintDate').innerText = new Date().toLocaleDateString();
-        document.getElementById('psTotalPaid').innerText = 'Rs. ' + s.paid;
-
-        let rowsHtml = '';
-        if(s.history && s.history.length > 0) {
-            s.history.forEach((h, idx) => {
-                rowsHtml += `<tr><td>${idx + 1}</td><td>${h.date}</td><td>${h.month}</td><td>Rs. ${h.amount}</td></tr>`;
-            });
-        } else {
-            rowsHtml = '<tr><td colspan="4">No payment history recorded</td></tr>';
-        }
-        document.getElementById('psHistoryRows').innerHTML = rowsHtml;
-
-        document.body.className = 'print-salary-mode';
-        window.print();
-        document.body.className = '';
-    }
+  function calculateNet() {
+    const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
+    const deduction = parseFloat(document.getElementById('deduction').value) || 0;
+    const net = basic - deduction;
+    document.getElementById('netAmount').value = net > 0 ? net.toFixed(2) : '0.00';
+  }
 </script>
 
 </body>
