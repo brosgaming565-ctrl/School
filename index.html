@@ -73,24 +73,40 @@
         /* History Table */
         .history-list { font-size: 10px; text-align: left; background: #fafafa; padding: 5px; border: 1px solid #eee; margin-top: 2px; max-height: 90px; overflow-y: auto; }
 
-        /* Hide Print Areas on Screen */
+        /* Hide Print Sections on Normal Screen */
         #printableArea, #salaryPrintableArea { display: none; }
 
-        /* PRINT MEDIA CONTROLS (PREVENTS OVERLAPPING) */
+        /* STRICT SEPARATE PRINT CONTROLS */
         @media print {
             body * { display: none !important; }
-            
-            /* Student Bill Print Mode */
-            body.print-student #printableArea, body.print-student #printableArea * { display: block !important; }
-            body.print-student #printableArea table, body.print-student #printableArea tr, body.print-student #printableArea td, body.print-student #printableArea th { display: table-cell !important; }
-            body.print-student #printableArea table { display: table !important; }
-            body.print-student #printableArea tr { display: table-row !important; }
 
-            /* Teacher Salary Print Mode */
-            body.print-salary #salaryPrintableArea, body.print-salary #salaryPrintableArea * { display: block !important; }
-            body.print-salary #salaryPrintableArea table, body.print-salary #salaryPrintableArea tr, body.print-salary #salaryPrintableArea td, body.print-salary #salaryPrintableArea th { display: table-cell !important; }
-            body.print-salary #salaryPrintableArea table { display: table !important; }
-            body.print-salary #salaryPrintableArea tr { display: table-row !important; }
+            /* Mode 1: Student Bill Print */
+            body.print-student-mode #printableArea, 
+            body.print-student-mode #printableArea * { 
+                display: block !important; 
+            }
+            body.print-student-mode #printableArea table, 
+            body.print-student-mode #printableArea tr, 
+            body.print-student-mode #printableArea td, 
+            body.print-student-mode #printableArea th { 
+                display: table-cell !important; 
+            }
+            body.print-student-mode #printableArea table { display: table !important; }
+            body.print-student-mode #printableArea tr { display: table-row !important; }
+
+            /* Mode 2: Salary Slip Print */
+            body.print-salary-mode #salaryPrintableArea, 
+            body.print-salary-mode #salaryPrintableArea * { 
+                display: block !important; 
+            }
+            body.print-salary-mode #salaryPrintableArea table, 
+            body.print-salary-mode #salaryPrintableArea tr, 
+            body.print-salary-mode #salaryPrintableArea td, 
+            body.print-salary-mode #salaryPrintableArea th { 
+                display: table-cell !important; 
+            }
+            body.print-salary-mode #salaryPrintableArea table { display: table !important; }
+            body.print-salary-mode #salaryPrintableArea tr { display: table-row !important; }
 
             .bill-box { border: 2px solid #000; padding: 15px; width: 100%; max-width: 700px; margin: 0 auto; box-sizing: border-box; }
             .bill-header { display: flex !important; align-items: center; justify-content: center; gap: 15px; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 10px; text-align: center; }
@@ -1038,7 +1054,7 @@
         }
     }
 
-    // PRINTING FUNCTIONS (FIXED)
+    // PRINT FUNCTIONS
     function printBill(id) {
         let item = billsData.find(b => b.id === id);
         if(!item) return;
@@ -1075,8 +1091,7 @@
         } else { historyHtml = 'No payment history'; }
         document.getElementById('pDepositHistory').innerHTML = historyHtml;
 
-        // Apply student print class only
-        document.body.className = 'print-student';
+        document.body.className = 'print-student-mode';
         window.print();
         document.body.className = '';
     }
@@ -1101,8 +1116,7 @@
         }
         document.getElementById('psHistoryRows').innerHTML = rowsHtml;
 
-        // Apply salary print class only
-        document.body.className = 'print-salary';
+        document.body.className = 'print-salary-mode';
         window.print();
         document.body.className = '';
     }
