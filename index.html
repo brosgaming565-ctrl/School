@@ -429,7 +429,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Now Paid (NPR) [e.g. 10000]</label>
-                                <input type="number" id="newSalaryPaidInput" oninput="calculateTeacherSalary()" required placeholder="0.00">
+                                <input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required placeholder="0.00">
                             </div>
                             <div class="form-group">
                                 <label>Remaining Dues (Baki)</label>
@@ -440,7 +440,7 @@
                         <div class="grid-2">
                             <div class="form-group">
                                 <label>Total Paid Till Date</label>
-                                <input type="number" id="netPaidSalary" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
+                                <input type="number" id="netPaidSalary" value="0" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
                             </div>
                             <div class="form-group">
                                 <label>Salary Month / Year</label>
@@ -506,7 +506,6 @@
                             <tr style="background:#283593;">
                                 <th>Payment Date</th>
                                 <th>Receipt No</th>
-                                <th>Teacher Name</th>
                                 <th>Month</th>
                                 <th>Total Salary</th>
                                 <th>Paid Amount (Rs.)</th>
@@ -693,7 +692,7 @@
     let billsData = JSON.parse(localStorage.getItem('sch_bills')) || [];
     let salaryData = JSON.parse(localStorage.getItem('sch_salaries')) || [];
     let activeEditingStudent = null;
-    let activeEditingTeacherName = null;
+    let activeEditingTeacher = null;
 
     window.onload = function() {
         renderParticulars();
@@ -748,7 +747,7 @@
         document.getElementById('depositAmount').value = totalDeposit;
 
         let netDues = gross - totalDeposit;
-        document.getElementById('netDues').value = netDues;
+        document.getElementById('netDues').value = netDues >= 0 ? netDues : 0;
         
         let wordsInput = document.getElementById('amountInWords');
         if(!wordsInput.value || wordsInput.dataset.auto === "true") {
@@ -1164,7 +1163,7 @@
         let item = salaryData.find(s => s.id === id);
         if(!item) return;
 
-        activeEditingTeacherName = item.teacherName;
+        activeEditingTeacher = item;
 
         document.getElementById('salaryRecordId').value = item.id;
         document.getElementById('salarySchoolAddress').value = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
@@ -1188,59 +1187,69 @@
         document.getElementById('salaryFormTitle').innerText = `Edit Salary & Add Payment for: ${item.teacherName}`;
         document.getElementById('cancelSalaryBtn').style.display = 'block';
 
-        renderSelectedTeacherHistory(item.teacherName);
+        renderSelectedTeacherHistory(item);
         document.getElementById('salaryFormBox').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function renderSelectedTeacherHistory(tName) {
+    function renderSelectedTeacherHistory(teacher) {
         const container = document.getElementById('teacherSalaryHistoryBox');
         const tbody = document.getElementById('teacherHistoryTableBody');
-        document.getElementById('teacherHistoryTitle').innerText = `📅 Salary History: ${tName}`;
+        document.getElementById('teacherHistoryTitle').innerText = `📅 Salary History: ${teacher.teacherName} (${teacher.fatherName || ''})`;
 
-        let teacherRecords = salaryData.filter(s => s.teacherName.toLowerCase() === tName.toLowerCase());
         tbody.innerHTML = '';
         container.style.display = 'block';
 
-        if(teacherRecords.length > 0) {
-            teacherRecords.forEach(s => {
+        if(teacher.history && teacher.history.length > 0) {
+            teacher.history.forEach(h => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><strong>📅 ${s.date}</strong></td>
-                    <td>${s.receiptNo}</td>
-                    <td>${s.teacherName}</td>
-                    <td>${s.month}</td>
-                    <td>Rs. ${s.basic || 0}</td>
-                    <td style="color:green; font-weight:bold;">Rs. ${s.netPaid || 0}</td>
-                    <td style="color:red; font-weight:bold;">Rs. ${s.dues || 0}</td>
+                    <td><strong>📅 ${h.date}</strong></td>
+                    <td>${teacher.receiptNo}</td>
+                    <td>${h.month || teacher.month}</td>
+                    <td>Rs. ${teacher.basic || 0}</td>
+                    <td style="color:green; font-weight:bold;">Rs. ${h.amount}</td>
+                    <td style="color:red; font-weight:bold;">Rs. ${teacher.dues || 0}</td>
                 `;
                 tbody.appendChild(tr);
             });
+        } else if(teacher.netPaid > 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>📅 ${teacher.date}</strong></td>
+                <td>${teacher.receiptNo}</td>
+                <td>${teacher.month}</td>
+                <td>Rs. ${teacher.basic || 0}</td>
+                <td style="color:green; font-weight:bold;">Rs. ${teacher.netPaid}</td>
+                <td style="color:red; font-weight:bold;">Rs. ${teacher.dues || 0}</td>
+            `;
+            tbody.appendChild(tr);
         } else {
-            tbody.innerHTML = `<tr><td colspan="7">Is teacher ka koi salary record nahi mila.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6">Is teacher ka koi payment record nahi mila.</td></tr>`;
         }
     }
 
     function printSelectedTeacherHistory() {
-        if(!activeEditingTeacherName) return;
-        let tName = activeEditingTeacherName;
-        let teacherRecords = salaryData.filter(s => s.teacherName.toLowerCase() === tName.toLowerCase());
+        if(!activeEditingTeacher) return;
+        let teacher = activeEditingTeacher;
 
-        if(teacherRecords.length === 0) return;
-        let sample = teacherRecords[0];
-
-        document.getElementById('pthTeacherName').innerText = sample.teacherName;
-        document.getElementById('pthDesignation').innerText = sample.designation || 'N/A';
-        document.getElementById('pthFatherName').innerText = sample.fatherName || 'N/A';
-        document.getElementById('pthContact').innerText = sample.contact || 'N/A';
+        document.getElementById('pthTeacherName').innerText = teacher.teacherName;
+        document.getElementById('pthDesignation').innerText = teacher.designation || 'N/A';
+        document.getElementById('pthFatherName').innerText = teacher.fatherName || 'N/A';
+        document.getElementById('pthContact').innerText = teacher.contact || 'N/A';
 
         let pthRows = document.getElementById('pthRows');
         pthRows.innerHTML = '';
         let totalPaidSum = 0;
 
-        teacherRecords.forEach((s, index) => {
-            totalPaidSum += Number(s.netPaid) || 0;
-            pthRows.innerHTML += `<tr><td style="text-align:center;">${index+1}</td><td>${s.date}</td><td>${s.receiptNo}</td><td>${s.month}</td><td>Rs. ${s.basic || 0}</td><td>Rs. ${s.netPaid || 0}</td><td>Rs. ${s.dues || 0}</td></tr>`;
-        });
+        if(teacher.history && teacher.history.length > 0) {
+            teacher.history.forEach((h, index) => {
+                totalPaidSum += Number(h.amount) || 0;
+                pthRows.innerHTML += `<tr><td style="text-align:center;">${index+1}</td><td>${h.date}</td><td>${teacher.receiptNo}</td><td>${h.month || teacher.month}</td><td>Rs. ${teacher.basic || 0}</td><td>Rs. ${h.amount}</td><td>Rs. ${teacher.dues || 0}</td></tr>`;
+            });
+        } else if(teacher.netPaid > 0) {
+            totalPaidSum = Number(teacher.netPaid) || 0;
+            pthRows.innerHTML += `<tr><td style="text-align:center;">1</td><td>${teacher.date}</td><td>${teacher.receiptNo}</td><td>${teacher.month}</td><td>Rs. ${teacher.basic || 0}</td><td>Rs. ${teacher.netPaid}</td><td>Rs. ${teacher.dues || 0}</td></tr>`;
+        }
 
         document.getElementById('pthTotalPaid').innerText = "Rs. " + totalPaidSum;
 
@@ -1250,37 +1259,49 @@
     }
 
     function exportSelectedTeacherHistoryToExcel() {
-        if(!activeEditingTeacherName) return;
-        let tName = activeEditingTeacherName;
-        let teacherRecords = salaryData.filter(s => s.teacherName.toLowerCase() === tName.toLowerCase());
+        if(!activeEditingTeacher) return;
+        let teacher = activeEditingTeacher;
+        let exportData = [];
 
-        if(teacherRecords.length === 0) {
+        if(teacher.history && teacher.history.length > 0) {
+            teacher.history.forEach(h => {
+                exportData.push({
+                    "Payment Date": h.date,
+                    "Receipt No": teacher.receiptNo,
+                    "Teacher Name": teacher.teacherName,
+                    "Designation": teacher.designation,
+                    "Month/Year": h.month || teacher.month,
+                    "Total Salary (Rs.)": teacher.basic || 0,
+                    "Paid Amount (Rs.)": h.amount,
+                    "Remaining Dues (Rs.)": teacher.dues || 0
+                });
+            });
+        } else if(teacher.netPaid > 0) {
+            exportData.push({
+                "Payment Date": teacher.date,
+                "Receipt No": teacher.receiptNo,
+                "Teacher Name": teacher.teacherName,
+                "Designation": teacher.designation,
+                "Month/Year": teacher.month,
+                "Total Salary (Rs.)": teacher.basic || 0,
+                "Paid Amount (Rs.)": teacher.netPaid,
+                "Remaining Dues (Rs.)": teacher.dues || 0
+            });
+        }
+
+        if(exportData.length === 0) {
             alert("No salary history available for this teacher to export!");
             return;
         }
 
-        let exportData = [];
-        teacherRecords.forEach(s => {
-            exportData.push({
-                "Payment Date": s.date,
-                "Receipt No": s.receiptNo,
-                "Teacher Name": s.teacherName,
-                "Designation": s.designation,
-                "Month/Year": s.month,
-                "Total Salary (Rs.)": s.basic || 0,
-                "Paid Amount (Rs.)": s.netPaid || 0,
-                "Remaining Dues (Rs.)": s.dues || 0
-            });
-        });
-
         let worksheet = XLSX.utils.json_to_sheet(exportData);
         let workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Teacher Salary History");
-        XLSX.writeFile(workbook, `${tName}_Salary_History.xlsx`);
+        XLSX.writeFile(workbook, `${teacher.teacherName}_Salary_History.xlsx`);
     }
 
     function resetSalaryForm() {
-        activeEditingTeacherName = null;
+        activeEditingTeacher = null;
         document.getElementById('salaryRecordId').value = '';
         document.getElementById('salaryForm').reset();
         document.getElementById('netPaidSalary').dataset.base = 0;
@@ -1378,7 +1399,7 @@
                 <td>
                     <div class="action-btns">
                         <button class="btn-act-print" onclick="printBill('${item.id}')">🖨️ Print</button>
-                        <button class="btn-act-edit" onclick="editSalary('${item.id}')">✏️ Edit / Pay</button>
+                        <button class="btn-act-edit" onclick="editBill('${item.id}')">✏️ Edit / Pay</button>
                         <button class="btn-act-delete" onclick="deleteBill('${item.id}')">🗑️ Delete</button>
                     </div>
                 </td>
