@@ -312,6 +312,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- DEPOSIT HISTORY SECTION (Restored) -->
+            <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                    <h3 id="historyTitle" style="margin: 0;">📅 Deposit History</h3>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="printDepositHistory()" class="btn btn-primary" style="font-size: 11px; padding: 5px 10px;">🖨️ Print History</button>
+                        <button onclick="downloadDepositExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
+                        <button onclick="downloadDepositJSON()" class="btn btn-warning" style="font-size: 11px; padding: 5px 10px;">📥 Download JSON</button>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Deposit Paid Date</th>
+                                <th>Bill No</th>
+                                <th>Student Name</th>
+                                <th>Father's Name</th>
+                                <th>Deposited Amount (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositHistoryTableBody">
+                            <tr><td colspan="5" style="color: #777;">Select or edit a student record to view their payment history.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <!-- TEACHER SALARY -->
@@ -696,10 +724,101 @@
         document.getElementById('netDues').value = st.netDues || 0;
         document.getElementById('newDepositInput').value = 0;
 
+        renderDepositHistory(st);
+
         document.getElementById('formTitle').innerText = "Update Student Bill / Add Deposit";
         document.getElementById('saveBtn').innerText = "Update Bill & Add Payment";
         document.getElementById('cancelBtn').style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderDepositHistory(st) {
+        const tbody = document.getElementById('depositHistoryTableBody');
+        tbody.innerHTML = '';
+        document.getElementById('historyTitle').innerText = `📅 Deposit History: ${st.studentName} (${st.fatherName})`;
+        
+        if(!st.history || st.history.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="color: #777;">No deposit history found for this student.</td></tr>`;
+            return;
+        }
+
+        st.history.forEach(h => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>📅 ${h.date || '-'}</td>
+                <td>${st.billNo || '-'}</td>
+                <td>${st.studentName || '-'}</td>
+                <td>${st.fatherName || '-'}</td>
+                <td style="color: green; font-weight: bold;">Rs. ${h.amount || 0}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function printDepositHistory() {
+        if(editingStudentId === null) {
+            alert("Pehle kisi student ko Edit mode me select karein!");
+            return;
+        }
+        let st = studentsData.find(s => s.id == editingStudentId);
+        if(!st || !st.history || st.history.length === 0) {
+            alert("Print karne ke liye koi history available nahi hai!");
+            return;
+        }
+        let printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Deposit History - ' + st.studentName + '</title>');
+        printWindow.document.write('<style>body{font-family:sans-serif;padding:20px;} table{width:100%;border-collapse:collapse;margin-top:15px;} th,td{border:1px solid #ccc;padding:8px;text-align:center;} th{background:#1a237e;color:white;}</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<h2>Deposit History: ' + st.studentName + ' (Father: ' + st.fatherName + ')</h2>');
+        printWindow.document.write('<table><thead><tr><th>Date</th><th>Bill No</th><th>Student Name</th><th>Father Name</th><th>Amount (Rs.)</th></tr></thead><tbody>');
+        st.history.forEach(h => {
+            printWindow.document.write('<tr><td>' + h.date + '</td><td>' + st.billNo + '</td><td>' + st.studentName + '</td><td>' + st.fatherName + '</td><td>Rs. ' + h.amount + '</td></tr>');
+        });
+        printWindow.document.write('</tbody></table></body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    function downloadDepositExcel() {
+        if(editingStudentId === null) {
+            alert("Pehle kisi student ko Edit mode me select karein!");
+            return;
+        }
+        let st = studentsData.find(s => s.id == editingStudentId);
+        if(!st || !st.history || st.history.length === 0) {
+            alert("Export karne ke liye koi history available nahi hai!");
+            return;
+        }
+        let dataToExport = st.history.map(h => ({
+            "Deposit Date": h.date,
+            "Bill No": st.billNo,
+            "Student Name": st.studentName,
+            "Father's Name": st.fatherName,
+            "Deposited Amount (Rs.)": h.amount
+        }));
+        let worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        let workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Deposit History");
+        XLSX.writeFile(workbook, `Deposit_History_${st.studentName}.xlsx`);
+    }
+
+    function downloadDepositJSON() {
+        if(editingStudentId === null) {
+            alert("Pehle kisi student ko Edit mode me select karein!");
+            return;
+        }
+        let st = studentsData.find(s => s.id == editingStudentId);
+        if(!st || !st.history || !st.history.length) {
+            alert("Download karne ke liye koi history available nahi hai!");
+            return;
+        }
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(st.history, null, 2));
+        let dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", `Deposit_History_${st.studentName}.json`);
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
     }
 
     function deleteStudent(id) {
@@ -718,6 +837,8 @@
         document.getElementById('formTitle').innerText = "Create New Student Bill";
         document.getElementById('saveBtn').innerText = "Save / Update Entry";
         document.getElementById('cancelBtn').style.display = "none";
+        document.getElementById('historyTitle').innerText = "📅 Deposit History";
+        document.getElementById('depositHistoryTableBody').innerHTML = `<tr><td colspan="5" style="color: #777;">Select or edit a student record to view their payment history.</td></tr>`;
         initParticularsTable();
         setDefaultDates();
     }
@@ -898,7 +1019,7 @@
         setDefaultDates();
     }
 
-    // Backup & Robust Restore supporting 'bills' and 'salaries'
+    // Backup & Restore supporting 'bills' and 'salaries'
     function downloadBackup() {
         let backupObj = { bills: studentsData, salaries: salaryData };
         let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupObj));
@@ -921,7 +1042,6 @@
             try {
                 let parsed = JSON.parse(e.target.result);
                 
-                // Read from 'bills', 'students', or raw array
                 if(parsed.bills && Array.isArray(parsed.bills)) {
                     studentsData = parsed.bills;
                 } else if(parsed.students && Array.isArray(parsed.students)) {
@@ -930,7 +1050,6 @@
                     studentsData = parsed;
                 }
 
-                // Read from 'salaries' or 'salary'
                 if(parsed.salaries && Array.isArray(parsed.salaries)) {
                     salaryData = parsed.salaries;
                 } else if(parsed.salary && Array.isArray(parsed.salary)) {
