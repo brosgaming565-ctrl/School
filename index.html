@@ -236,7 +236,7 @@
                             </div>
                         </div>
 
-                        <label style="font-size: 11px; font-weight: 600; display: block; margin-top: 6px;">19 Fee Particulars:</label>
+                        <label style="font-size: 11px; font-weight: 600; display: block; margin-top: 6px;">Fee Particulars:</label>
                         <div class="part-table-container">
                             <table class="part-table">
                                 <thead>
@@ -310,25 +310,6 @@
                             <tbody id="billingTableBody"></tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-
-            <!-- SINGLE STUDENT DEPOSIT HISTORY REPORT -->
-            <div class="box" id="studentDepositHistoryBox" style="display: none; margin-top: 15px;">
-                <h3 id="studentHistoryTitle">📅 Selected Student Deposit History</h3>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr style="background:#283593;">
-                                <th>Deposit Paid Date</th>
-                                <th>Bill No</th>
-                                <th>Student Name</th>
-                                <th>Father's Name</th>
-                                <th>Deposited Amount (Rs.)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentHistoryTableBody"></tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -478,12 +459,12 @@
     if (!localStorage.getItem("school_user")) localStorage.setItem("school_user", "admin");
     if (!localStorage.getItem("school_pass")) localStorage.setItem("school_pass", "12345");
 
-    const particularNamesList = [
-        "Admission Fee", "Monthly Tuition Fee", "Exam Fee", "Computer Fee", 
-        "Library Fee", "Transport Fee", "Hostel Fee", "Laboratory Fee", 
-        "Sports Fee", "Activity Fee", "Uniform Fee", "Books & Stationery", 
-        "Identity Card Fee", "Registration Fee", "Development Fee", 
-        "Security Deposit", "Fine / Late Fee", "Miscellaneous Fee", "Annual Function Fee"
+    const defaultParticularNames = [
+        "Annual Fee", "Admission Fee", "Monthly School Fee", "Exam Fee 1,2,3", 
+        "Ext. Tuation Fee", "Tie, Belt, Badge", "Stationary", "Dairy, ID Card", 
+        "Games/Science/Library", "Library", "Form/Entrance/Exam", "Medical", 
+        "Character Certificate", "Computer Fee", "Hostel Fee", "Bus", 
+        "Dress", "Disposit", "Dues"
     ];
 
     let studentsData = JSON.parse(localStorage.getItem('school_students_data')) || [];
@@ -506,18 +487,21 @@
         if(!document.getElementById('salaryDate').value) document.getElementById('salaryDate').value = today;
     }
 
-    function initParticularsTable() {
+    function initParticularsTable(customParticulars = null) {
         const tbody = document.getElementById('particularsContainer');
         tbody.innerHTML = '';
-        particularNamesList.forEach((name, index) => {
+        let listToUse = customParticulars || defaultParticularNames.map(name => ({ name: name, amount: 0 }));
+        
+        listToUse.forEach((item, index) => {
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${index + 1}</td>
-                <td><input type="text" class="part-name-input" value="${name}" readonly style="background:#fcfcfc;"></td>
-                <td><input type="number" class="part-amount-input" value="0" min="0" oninput="calculateGrossTotal()"></td>
+                <td><input type="text" class="part-name-input" value="${item.name}" readonly style="background:#fcfcfc;"></td>
+                <td><input type="number" class="part-amount-input" value="${item.amount || 0}" min="0" oninput="calculateGrossTotal()"></td>
             `;
             tbody.appendChild(tr);
         });
+        calculateGrossTotal();
     }
 
     function calculateGrossTotal() {
@@ -533,8 +517,10 @@
         let newDeposit = parseFloat(document.getElementById('newDepositInput').value) || 0;
         let existingTotalDeposit = 0;
         if(editingStudentId !== null) {
-            let student = studentsData.find(s => s.id === editingStudentId);
-            if(student) existingTotalDeposit = student.totalDeposit || 0;
+            let student = studentsData.find(s => s.id == editingStudentId);
+            if(student) {
+                existingTotalDeposit = student.depositAmount || 0;
+            }
         }
         let totalPaid = existingTotalDeposit + newDeposit;
         let netDues = gross - totalPaid;
@@ -597,10 +583,17 @@
         let newDeposit = parseFloat(document.getElementById('newDepositInput').value) || 0;
         let depositDate = document.getElementById('depositDate').value;
         let grossTotal = parseFloat(document.getElementById('grossTotal').value) || 0;
+        let depositAmountVal = parseFloat(document.getElementById('depositAmount').value) || 0;
+        let netDuesVal = parseFloat(document.getElementById('netDues').value) || 0;
 
         if(editingStudentId === null) {
+            let newId = Date.now().toString();
+            let hist = [];
+            if(newDeposit > 0) {
+                hist.push({ date: depositDate, amount: newDeposit });
+            }
             studentsData.push({
-                id: Date.now(),
+                id: newId,
                 schoolAddress: document.getElementById('schoolAddress').value,
                 billNo: document.getElementById('billNo').value,
                 billDate: document.getElementById('billDate').value,
@@ -615,12 +608,13 @@
                 authorizedSign: document.getElementById('authorizedSign').value,
                 particulars: particulars,
                 grossTotal: grossTotal,
-                totalDeposit: newDeposit,
+                depositAmount: depositAmountVal,
+                netDues: netDuesVal,
                 amountInWords: document.getElementById('amountInWords').value,
-                history: newDeposit > 0 ? [{ date: depositDate, amount: newDeposit, billNo: document.getElementById('billNo').value }] : []
+                history: hist
             });
         } else {
-            let st = studentsData.find(s => s.id === editingStudentId);
+            let st = studentsData.find(s => s.id == editingStudentId);
             if(st) {
                 st.schoolAddress = document.getElementById('schoolAddress').value;
                 st.billNo = document.getElementById('billNo').value;
@@ -636,11 +630,12 @@
                 st.authorizedSign = document.getElementById('authorizedSign').value;
                 st.particulars = particulars;
                 st.grossTotal = grossTotal;
+                st.depositAmount = depositAmountVal;
+                st.netDues = netDuesVal;
                 st.amountInWords = document.getElementById('amountInWords').value;
                 if(newDeposit > 0) {
-                    st.totalDeposit = (st.totalDeposit || 0) + newDeposit;
                     if(!st.history) st.history = [];
-                    st.history.push({ date: depositDate, amount: newDeposit, billNo: st.billNo });
+                    st.history.push({ date: depositDate, amount: newDeposit });
                 }
             }
         }
@@ -656,8 +651,8 @@
         tbody.innerHTML = '';
         studentsData.forEach(st => {
             let total = st.grossTotal || 0;
-            let paid = st.totalDeposit || 0;
-            let dues = total - paid;
+            let paid = st.depositAmount || 0;
+            let dues = st.netDues !== undefined ? st.netDues : (total - paid);
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${st.billNo}</td>
@@ -667,8 +662,8 @@
                 <td>Rs. ${paid}</td>
                 <td style="color:red; font-weight:bold;">Rs. ${dues}</td>
                 <td>
-                    <button class="btn-act-edit" onclick="editStudent(${st.id})">Edit</button>
-                    <button class="btn-act-delete" onclick="deleteStudent(${st.id})">Delete</button>
+                    <button class="btn-act-edit" onclick="editStudent('${st.id}')">Edit</button>
+                    <button class="btn-act-delete" onclick="deleteStudent('${st.id}')">Delete</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -676,7 +671,7 @@
     }
 
     function editStudent(id) {
-        let st = studentsData.find(s => s.id === id);
+        let st = studentsData.find(s => s.id == id);
         if(!st) return;
         editingStudentId = id;
         document.getElementById('recordId').value = st.id;
@@ -694,15 +689,11 @@
         document.getElementById('authorizedSign').value = st.authorizedSign || '';
         document.getElementById('amountInWords').value = st.amountInWords || '';
 
-        document.querySelectorAll('#particularsContainer tr').forEach((row, idx) => {
-            if(st.particulars && st.particulars[idx]) {
-                row.querySelector('.part-amount-input').value = st.particulars[idx].amount;
-            }
-        });
+        initParticularsTable(st.particulars);
 
         document.getElementById('grossTotal').value = st.grossTotal || 0;
-        document.getElementById('depositAmount').value = st.totalDeposit || 0;
-        document.getElementById('netDues').value = (st.grossTotal || 0) - (st.totalDeposit || 0);
+        document.getElementById('depositAmount').value = st.depositAmount || 0;
+        document.getElementById('netDues').value = st.netDues || 0;
         document.getElementById('newDepositInput').value = 0;
 
         document.getElementById('formTitle').innerText = "Update Student Bill / Add Deposit";
@@ -713,7 +704,7 @@
 
     function deleteStudent(id) {
         if(confirm("Delete this bill?")) {
-            studentsData = studentsData.filter(s => s.id !== id);
+            studentsData = studentsData.filter(s => s.id != id);
             localStorage.setItem('school_students_data', JSON.stringify(studentsData));
             renderBillingTable();
             updateDashboardStats();
@@ -740,8 +731,9 @@
         document.getElementById('statTotalEntries').innerText = studentsData.length;
         let totalColl = 0, totalDues = 0;
         studentsData.forEach(st => {
-            totalColl += st.totalDeposit || 0;
-            totalDues += (st.grossTotal || 0) - (st.totalDeposit || 0);
+            totalColl += st.depositAmount || 0;
+            let dues = st.netDues !== undefined ? st.netDues : ((st.grossTotal || 0) - (st.depositAmount || 0));
+            totalDues += dues;
         });
         document.getElementById('statTotalCollection').innerText = `Rs. ${totalColl}`;
         document.getElementById('statTotalDues').innerText = `Rs. ${totalDues}`;
@@ -751,8 +743,8 @@
         let query = document.getElementById('searchInput').value.toLowerCase();
         const tbody = document.getElementById('billingTableBody');
         tbody.innerHTML = '';
-        studentsData.filter(st => st.studentName.toLowerCase().includes(query) || st.fatherName.toLowerCase().includes(query) || st.billNo.toLowerCase().includes(query)).forEach(st => {
-            let total = st.grossTotal || 0, paid = st.totalDeposit || 0, dues = total - paid;
+        studentsData.filter(st => (st.studentName && st.studentName.toLowerCase().includes(query)) || (st.fatherName && st.fatherName.toLowerCase().includes(query)) || (st.billNo && st.billNo.toLowerCase().includes(query))).forEach(st => {
+            let total = st.grossTotal || 0, paid = st.depositAmount || 0, dues = st.netDues !== undefined ? st.netDues : (total - paid);
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${st.billNo}</td>
@@ -762,8 +754,8 @@
                 <td>Rs. ${paid}</td>
                 <td style="color:red; font-weight:bold;">Rs. ${dues}</td>
                 <td>
-                    <button class="btn-act-edit" onclick="editStudent(${st.id})">Edit</button>
-                    <button class="btn-act-delete" onclick="deleteStudent(${st.id})">Delete</button>
+                    <button class="btn-act-edit" onclick="editStudent('${st.id}')">Edit</button>
+                    <button class="btn-act-delete" onclick="deleteStudent('${st.id}')">Delete</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -776,8 +768,8 @@
         let nowPaid = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
         let existingPaid = 0;
         if(editingSalaryId !== null) {
-            let sal = salaryData.find(s => s.id === editingSalaryId);
-            if(sal) existingPaid = sal.totalPaid || 0;
+            let sal = salaryData.find(s => s.id == editingSalaryId);
+            if(sal) existingPaid = sal.netPaid || 0;
         }
         let netPaid = existingPaid + nowPaid;
         document.getElementById('netPaidSalary').value = netPaid;
@@ -789,10 +781,18 @@
         let total = parseFloat(document.getElementById('basicSalary').value) || 0;
         let nowPaid = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
         let payDate = document.getElementById('salaryDate').value;
+        let netPaidVal = parseFloat(document.getElementById('netPaidSalary').value) || 0;
+        let duesVal = parseFloat(document.getElementById('salaryDues').value) || 0;
+        let monthVal = document.getElementById('salaryMonth').value;
 
         if(editingSalaryId === null) {
+            let newId = Date.now().toString();
+            let hist = [];
+            if(nowPaid > 0) {
+                hist.push({ amount: nowPaid, date: payDate, month: monthVal });
+            }
             salaryData.push({
-                id: Date.now(),
+                id: newId,
                 schoolAddress: document.getElementById('salarySchoolAddress').value,
                 receiptNo: document.getElementById('salaryReceiptNo').value,
                 date: payDate,
@@ -800,13 +800,15 @@
                 fatherName: document.getElementById('teacherFatherName').value,
                 contact: document.getElementById('teacherContact').value,
                 designation: document.getElementById('teacherDesignation').value,
-                totalSalary: total,
-                totalPaid: nowPaid,
-                month: document.getElementById('salaryMonth').value,
-                inWords: document.getElementById('salaryInWords').value
+                basic: total,
+                netPaid: netPaidVal,
+                dues: duesVal,
+                month: monthVal,
+                inWords: document.getElementById('salaryInWords').value,
+                history: hist
             });
         } else {
-            let sal = salaryData.find(s => s.id === editingSalaryId);
+            let sal = salaryData.find(s => s.id == editingSalaryId);
             if(sal) {
                 sal.schoolAddress = document.getElementById('salarySchoolAddress').value;
                 sal.receiptNo = document.getElementById('salaryReceiptNo').value;
@@ -815,10 +817,15 @@
                 sal.fatherName = document.getElementById('teacherFatherName').value;
                 sal.contact = document.getElementById('teacherContact').value;
                 sal.designation = document.getElementById('teacherDesignation').value;
-                sal.totalSalary = total;
-                if(nowPaid > 0) sal.totalPaid = (sal.totalPaid || 0) + nowPaid;
-                sal.month = document.getElementById('salaryMonth').value;
+                sal.basic = total;
+                sal.netPaid = netPaidVal;
+                sal.dues = duesVal;
+                sal.month = monthVal;
                 sal.inWords = document.getElementById('salaryInWords').value;
+                if(nowPaid > 0) {
+                    if(!sal.history) sal.history = [];
+                    sal.history.push({ amount: nowPaid, date: payDate, month: monthVal });
+                }
             }
         }
         localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
@@ -831,19 +838,19 @@
         const tbody = document.getElementById('salaryTableBody');
         tbody.innerHTML = '';
         salaryData.forEach(s => {
-            let dues = s.totalSalary - s.totalPaid;
+            let dues = s.dues !== undefined ? s.dues : (s.basic - s.netPaid);
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${s.date}</td>
                 <td>${s.receiptNo}</td>
                 <td>${s.teacherName}</td>
                 <td>${s.month}</td>
-                <td>Rs. ${s.totalSalary}</td>
-                <td>Rs. ${s.totalPaid}</td>
+                <td>Rs. ${s.basic}</td>
+                <td>Rs. ${s.netPaid}</td>
                 <td style="color:red; font-weight:bold;">Rs. ${dues}</td>
                 <td>
-                    <button class="btn-act-edit" onclick="editSalary(${s.id})">Edit</button>
-                    <button class="btn-act-delete" onclick="deleteSalary(${s.id})">Delete</button>
+                    <button class="btn-act-edit" onclick="editSalary('${s.id}')">Edit</button>
+                    <button class="btn-act-delete" onclick="deleteSalary('${s.id}')">Delete</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -851,7 +858,7 @@
     }
 
     function editSalary(id) {
-        let s = salaryData.find(item => item.id === id);
+        let s = salaryData.find(item => item.id == id);
         if(!s) return;
         editingSalaryId = id;
         document.getElementById('salaryRecordId').value = s.id;
@@ -862,10 +869,10 @@
         document.getElementById('teacherFatherName').value = s.fatherName || '';
         document.getElementById('teacherContact').value = s.contact || '';
         document.getElementById('teacherDesignation').value = s.designation || '';
-        document.getElementById('basicSalary').value = s.totalSalary || 0;
+        document.getElementById('basicSalary').value = s.basic || 0;
         document.getElementById('newSalaryPaidInput').value = 0;
-        document.getElementById('netPaidSalary').value = s.totalPaid || 0;
-        document.getElementById('salaryDues').value = (s.totalSalary || 0) - (s.totalPaid || 0);
+        document.getElementById('netPaidSalary').value = s.netPaid || 0;
+        document.getElementById('salaryDues').value = s.dues !== undefined ? s.dues : ((s.basic || 0) - (s.netPaid || 0));
         document.getElementById('salaryMonth').value = s.month || '';
         document.getElementById('salaryInWords').value = s.inWords || '';
         document.getElementById('salaryFormTitle').innerText = "Update Salary Record";
@@ -875,7 +882,7 @@
 
     function deleteSalary(id) {
         if(confirm("Delete salary record?")) {
-            salaryData = salaryData.filter(item => item.id !== id);
+            salaryData = salaryData.filter(item => item.id != id);
             localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
             renderSalaryTable();
             resetSalaryForm();
@@ -891,13 +898,13 @@
         setDefaultDates();
     }
 
-    // Improved Backup & Robust Restore
+    // Backup & Robust Restore supporting 'bills' and 'salaries'
     function downloadBackup() {
-        let backupObj = { students: studentsData, salary: salaryData };
+        let backupObj = { bills: studentsData, salaries: salaryData };
         let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupObj));
         let dlAnchor = document.createElement('a');
         dlAnchor.setAttribute("href", dataStr);
-        dlAnchor.setAttribute("download", "school_backup_" + new Date().toISOString().split('T')[0] + ".json");
+        dlAnchor.setAttribute("download", "School_Data_Backup_" + new Date().toISOString().split('T')[0] + ".json");
         document.body.appendChild(dlAnchor);
         dlAnchor.click();
         dlAnchor.remove();
@@ -914,14 +921,19 @@
             try {
                 let parsed = JSON.parse(e.target.result);
                 
-                // Smart parsing for different formats
-                if(parsed.students && Array.isArray(parsed.students)) {
+                // Read from 'bills', 'students', or raw array
+                if(parsed.bills && Array.isArray(parsed.bills)) {
+                    studentsData = parsed.bills;
+                } else if(parsed.students && Array.isArray(parsed.students)) {
                     studentsData = parsed.students;
                 } else if(Array.isArray(parsed)) {
                     studentsData = parsed;
                 }
 
-                if(parsed.salary && Array.isArray(parsed.salary)) {
+                // Read from 'salaries' or 'salary'
+                if(parsed.salaries && Array.isArray(parsed.salaries)) {
+                    salaryData = parsed.salaries;
+                } else if(parsed.salary && Array.isArray(parsed.salary)) {
                     salaryData = parsed.salary;
                 }
 
