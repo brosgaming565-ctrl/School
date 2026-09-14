@@ -11,10 +11,12 @@
         /* Navigation Bar */
         nav { background: #1a237e; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
-        nav .nav-btns { display: flex; gap: 6px; }
+        nav .nav-btns { display: flex; gap: 6px; align-items: center; }
         nav button { background: #3949ab; color: white; border: none; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; }
         nav button:hover { background: #283593; }
         nav button.active-tab { background: #283593; box-shadow: inset 0 0 4px rgba(0,0,0,0.3); }
+        nav button.new-entry-btn { background: #2e7d32; border: 1px solid #4caf50; font-weight: bold; }
+        nav button.new-entry-btn:hover { background: #1b5e20; }
         nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
 
         .container { max-width: 1350px; margin: 15px auto; padding: 0 15px; }
@@ -73,16 +75,22 @@
         .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; text-align: center; }
         .btn-success { background: #2e7d32; color: white; }
         .btn-primary { background: #1565c0; color: white; }
-        .btn-warning { background: #ef6c00; color: white; }
-        .btn-danger { background: #c62828; color: white; }
+        .btn-warning { background: #f57c00; color: white; }
+        .btn-danger { background: #b71c1c; color: white; }
         .btn-secondary { background: #616161; color: white; }
         .btn-block { width: 100%; margin-top: 8px; }
+
+        /* DISTINCT ACTION BUTTON STYLES FOR SAFETY */
+        .action-btns { display: flex; gap: 6px; justify-content: center; align-items: center; }
+        .btn-act-print { background: #1565c0; color: white; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; }
+        .btn-act-edit { background: #ff9800; color: #fff; border: 1px solid #e65100; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; }
+        .btn-act-delete { background: #d32f2f; color: #ffffff; border: 1px solid #8e0000; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; margin-left: 6px; }
+        .btn-act-edit:hover { background: #e65100; }
+        .btn-act-delete:hover { background: #b71c1c; }
 
         .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
-        .action-btns { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
-        .action-btns .btn { padding: 4px 8px; font-size: 10px; }
 
         /* Print Hidden Elements */
         #printableArea, #printableSalaryArea { display: none; }
@@ -125,6 +133,7 @@
         <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
         <div class="nav-btns">
             <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">🏠 Home Dashboard</button>
+            <button class="new-entry-btn" onclick="startNewStudentEntry()">➕ New Entry</button>
             <button id="tabBtnFind" onclick="scrollToReportSection()">🔍 Find Report</button>
             <button id="tabBtnHistory" onclick="scrollToDepositHistory()">📅 Deposit History Report</button>
             <button id="tabBtnSalary" onclick="showTab('salaryTab')">Teacher Salary</button>
@@ -153,9 +162,9 @@
             </div>
 
             <div class="grid-layout">
-                <!-- CREATE BILL FORM -->
-                <div class="box">
-                    <h3 id="formTitle">Create New Bill / Update Deposit</h3>
+                <!-- CREATE / UPDATE BILL FORM -->
+                <div class="box" id="studentFormBox">
+                    <h3 id="formTitle">Create New Bill / Add Deposit</h3>
                     <form id="billingForm" onsubmit="saveBill(event)">
                         <input type="hidden" id="recordId">
                         
@@ -170,7 +179,7 @@
                                 <input type="text" id="billNo" required>
                             </div>
                             <div class="form-group">
-                                <label>Date</label>
+                                <label>Bill Creation Date</label>
                                 <input type="date" id="billDate" required>
                             </div>
                         </div>
@@ -249,7 +258,7 @@
                                     <input type="number" id="depositAmount" value="0" oninput="calculateBalance()">
                                 </div>
                                 <div class="form-group">
-                                    <label>Deposit Date:</label>
+                                    <label>Deposit Date (Jama Kis Tareekh Ko Hua):</label>
                                     <input type="date" id="depositDate">
                                 </div>
                             </div>
@@ -265,7 +274,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-block" id="saveBtn">Save / Update In Same Entry</button>
+                        <button type="submit" class="btn btn-success btn-block" id="saveBtn">Save / Update Entry</button>
                         <button type="button" class="btn btn-warning btn-block" id="cancelBtn" onclick="resetForm()" style="display:none;">Cancel Edit</button>
                     </form>
                 </div>
@@ -296,13 +305,13 @@
 
             <!-- DEPOSIT DATE & HISTORY REPORT SECTION -->
             <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
-                <h3>📅 Date-Wise Deposit History Report</h3>
-                <p style="font-size:11px; color:#666; margin-bottom:10px;">Consolidated list of all payments received with deposit dates.</p>
+                <h3>📅 Date-Wise Student Deposit History Report</h3>
+                <p style="font-size:11px; color:#666; margin-bottom:10px;">Har payment ki tareekh (Date) ke saath jama kiye gaye paise ki poori history.</p>
                 <div style="overflow-x: auto;">
                     <table class="data-table">
                         <thead>
                             <tr style="background:#283593;">
-                                <th>Deposit Date</th>
+                                <th>Deposit Paid Date</th>
                                 <th>Bill No</th>
                                 <th>Student Name</th>
                                 <th>Father's Name</th>
@@ -319,9 +328,12 @@
         <!-- TEACHER SALARY -->
         <div id="salaryTab" class="tab-content">
             <div class="grid-layout">
-                <div class="box">
-                    <h3>Teacher Salary Receipt Form</h3>
-                    <form onsubmit="saveSalary(event)">
+                <!-- TEACHER SALARY FORM -->
+                <div class="box" id="salaryFormBox">
+                    <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
+                    <form id="salaryForm" onsubmit="saveSalary(event)">
+                        <input type="hidden" id="salaryRecordId">
+                        
                         <div class="form-group">
                             <label>School Address</label>
                             <input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
@@ -333,7 +345,7 @@
                                 <input type="text" id="salaryReceiptNo" required placeholder="Receipt No">
                             </div>
                             <div class="form-group">
-                                <label>Payment Date</label>
+                                <label>Salary Payment Date (Jis Tareekh Ko Diya)</label>
                                 <input type="date" id="salaryDate" required>
                             </div>
                         </div>
@@ -370,7 +382,7 @@
                                 <input type="number" id="deductionSalary" oninput="calculateTeacherSalary()" value="0" placeholder="0.00">
                             </div>
                             <div class="form-group">
-                                <label>Net Paid (NPR)</label>
+                                <label>Net Paid Amount</label>
                                 <input type="number" id="netPaidSalary" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
                             </div>
                         </div>
@@ -396,21 +408,21 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block">Save Salary Record</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="saveSalaryBtn">Save / Update Salary Record</button>
+                        <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
                     </form>
                 </div>
 
                 <div class="box">
-                    <h3>Teacher Salary Records</h3>
+                    <h3>Teacher Salary Records & Payment Dates</h3>
                     <div style="overflow-x: auto;">
                         <table class="data-table">
                             <thead>
                                 <tr>
+                                    <th>Payment Date</th>
                                     <th>Receipt No</th>
                                     <th>Teacher Name</th>
                                     <th>Month</th>
-                                    <th>Basic</th>
-                                    <th>Deduction</th>
                                     <th>Net Paid</th>
                                     <th>Action</th>
                                 </tr>
@@ -493,7 +505,7 @@
         </div>
 
         <table style="width:100%; font-size:10px; margin-bottom:10px; line-height: 1.6;">
-            <tr><td><strong>Receipt No:</strong> <span id="psReceiptNo"></span></td><td><strong>Date:</strong> <span id="psDate"></span></td></tr>
+            <tr><td><strong>Receipt No:</strong> <span id="psReceiptNo"></span></td><td><strong>Paid Date:</strong> <span id="psDate"></span></td></tr>
             <tr><td><strong>Teacher's Name:</strong> <span id="psTeacherName"></span></td><td><strong>Father's Name:</strong> <span id="psFatherName"></span></td></tr>
             <tr><td><strong>Contact No:</strong> <span id="psContact"></span></td><td><strong>Designation:</strong> <span id="psDesignation"></span></td></tr>
             <tr><td><strong>Basic Salary:</strong> Rs. <span id="psBasic"></span></td><td><strong>Deduction:</strong> Rs. <span id="psDeduction"></span></td></tr>
@@ -612,6 +624,12 @@
         if(tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
     }
 
+    function startNewStudentEntry() {
+        showTab('billingTab');
+        resetForm();
+        document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
     function scrollToReportSection() {
         showTab('billingTab');
         document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' });
@@ -660,7 +678,7 @@
                 record.amountInWords = document.getElementById('amountInWords').value;
 
                 billsData[index] = record;
-                alert("Record updated!");
+                alert("Student Record updated successfully!");
             }
         } else {
             let record = {
@@ -685,7 +703,7 @@
                 history: depositVal > 0 ? [{ amount: depositVal, date: depositDt }] : []
             };
             billsData.push(record);
-            alert("New Bill Saved!");
+            alert("New Student Bill Saved!");
         }
 
         saveToLocalStorage();
@@ -695,29 +713,55 @@
 
     function saveSalary(e) {
         e.preventDefault();
-        let record = {
-            id: Date.now().toString(),
-            schoolAddress: document.getElementById('salarySchoolAddress').value,
-            receiptNo: document.getElementById('salaryReceiptNo').value,
-            date: document.getElementById('salaryDate').value,
-            teacherName: document.getElementById('teacherName').value,
-            fatherName: document.getElementById('teacherFatherName').value,
-            contact: document.getElementById('teacherContact').value,
-            designation: document.getElementById('teacherDesignation').value,
-            basic: parseFloat(document.getElementById('basicSalary').value) || 0,
-            deduction: parseFloat(document.getElementById('deductionSalary').value) || 0,
-            netPaid: parseFloat(document.getElementById('netPaidSalary').value) || 0,
-            month: document.getElementById('salaryMonth').value,
-            inWords: document.getElementById('salaryInWords').value,
-            preparedBy: document.getElementById('salaryPreparedBy').value,
-            authSign: document.getElementById('salaryAuthSign').value
-        };
+        let id = document.getElementById('salaryRecordId').value;
 
-        salaryData.push(record);
+        if (id) {
+            let index = salaryData.findIndex(s => s.id === id);
+            if(index !== -1) {
+                salaryData[index] = {
+                    id: id,
+                    schoolAddress: document.getElementById('salarySchoolAddress').value,
+                    receiptNo: document.getElementById('salaryReceiptNo').value,
+                    date: document.getElementById('salaryDate').value,
+                    teacherName: document.getElementById('teacherName').value,
+                    fatherName: document.getElementById('teacherFatherName').value,
+                    contact: document.getElementById('teacherContact').value,
+                    designation: document.getElementById('teacherDesignation').value,
+                    basic: parseFloat(document.getElementById('basicSalary').value) || 0,
+                    deduction: parseFloat(document.getElementById('deductionSalary').value) || 0,
+                    netPaid: parseFloat(document.getElementById('netPaidSalary').value) || 0,
+                    month: document.getElementById('salaryMonth').value,
+                    inWords: document.getElementById('salaryInWords').value,
+                    preparedBy: document.getElementById('salaryPreparedBy').value,
+                    authSign: document.getElementById('salaryAuthSign').value
+                };
+                alert("Teacher Salary Record Updated!");
+            }
+        } else {
+            let record = {
+                id: Date.now().toString(),
+                schoolAddress: document.getElementById('salarySchoolAddress').value,
+                receiptNo: document.getElementById('salaryReceiptNo').value,
+                date: document.getElementById('salaryDate').value,
+                teacherName: document.getElementById('teacherName').value,
+                fatherName: document.getElementById('teacherFatherName').value,
+                contact: document.getElementById('teacherContact').value,
+                designation: document.getElementById('teacherDesignation').value,
+                basic: parseFloat(document.getElementById('basicSalary').value) || 0,
+                deduction: parseFloat(document.getElementById('deductionSalary').value) || 0,
+                netPaid: parseFloat(document.getElementById('netPaidSalary').value) || 0,
+                month: document.getElementById('salaryMonth').value,
+                inWords: document.getElementById('salaryInWords').value,
+                preparedBy: document.getElementById('salaryPreparedBy').value,
+                authSign: document.getElementById('salaryAuthSign').value
+            };
+            salaryData.push(record);
+            alert("Teacher Salary Record Saved!");
+        }
+
         saveToLocalStorage();
-        alert("Salary Record Saved!");
+        resetSalaryForm();
         renderSalaryTable();
-        e.target.reset();
     }
 
     function saveToLocalStorage() {
@@ -754,9 +798,9 @@
                 <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.netDues}</td>
                 <td>
                     <div class="action-btns">
-                        <button class="btn btn-primary" onclick="printBill('${item.id}')">Print</button>
-                        <button class="btn btn-warning" onclick="editBill('${item.id}')">Edit / Update</button>
-                        <button class="btn btn-danger" onclick="deleteBill('${item.id}')">Delete</button>
+                        <button class="btn-act-print" onclick="printBill('${item.id}')">🖨️ Print</button>
+                        <button class="btn-act-edit" onclick="editBill('${item.id}')">✏️ Edit</button>
+                        <button class="btn-act-delete" onclick="deleteBill('${item.id}')">🗑️ Delete</button>
                     </div>
                 </td>
             `;
@@ -773,7 +817,7 @@
                 bill.history.forEach(h => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td><strong>${h.date}</strong></td>
+                        <td><strong>📅 ${h.date}</strong></td>
                         <td>${bill.billNo}</td>
                         <td>${bill.studentName}</td>
                         <td>${bill.fatherName}</td>
@@ -785,7 +829,7 @@
             } else if(bill.depositAmount > 0) {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><strong>${bill.billDate}</strong></td>
+                    <td><strong>📅 ${bill.billDate}</strong></td>
                     <td>${bill.billNo}</td>
                     <td>${bill.studentName}</td>
                     <td>${bill.fatherName}</td>
@@ -803,21 +847,54 @@
         salaryData.forEach(item => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
+                <td><strong>📅 ${item.date || 'N/A'}</strong></td>
                 <td>${item.receiptNo || 'N/A'}</td>
                 <td>${item.teacherName}</td>
                 <td>${item.month}</td>
-                <td>Rs. ${item.basic}</td>
-                <td>Rs. ${item.deduction}</td>
-                <td>Rs. ${item.netPaid}</td>
+                <td style="color:green; font-weight:bold;">Rs. ${item.netPaid}</td>
                 <td>
                     <div class="action-btns">
-                        <button class="btn btn-primary" onclick="printSalary('${item.id}')">Print</button>
-                        <button class="btn btn-danger" onclick="deleteSalary('${item.id}')">Delete</button>
+                        <button class="btn-act-print" onclick="printSalary('${item.id}')">🖨️ Print</button>
+                        <button class="btn-act-edit" onclick="editSalary('${item.id}')">✏️ Edit</button>
+                        <button class="btn-act-delete" onclick="deleteSalary('${item.id}')">🗑️ Delete</button>
                     </div>
                 </td>
             `;
             tbody.appendChild(tr);
         });
+    }
+
+    function editSalary(id) {
+        let item = salaryData.find(s => s.id === id);
+        if(!item) return;
+
+        document.getElementById('salaryRecordId').value = item.id;
+        document.getElementById('salarySchoolAddress').value = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
+        document.getElementById('salaryReceiptNo').value = item.receiptNo || '';
+        document.getElementById('salaryDate').value = item.date || '';
+        document.getElementById('teacherName').value = item.teacherName || '';
+        document.getElementById('teacherFatherName').value = item.fatherName || '';
+        document.getElementById('teacherContact').value = item.contact || '';
+        document.getElementById('teacherDesignation').value = item.designation || '';
+        document.getElementById('basicSalary').value = item.basic || 0;
+        document.getElementById('deductionSalary').value = item.deduction || 0;
+        document.getElementById('netPaidSalary').value = item.netPaid || 0;
+        document.getElementById('salaryMonth').value = item.month || '';
+        document.getElementById('salaryInWords').value = item.inWords || '';
+        document.getElementById('salaryPreparedBy').value = item.preparedBy || '';
+        document.getElementById('salaryAuthSign').value = item.authSign || '';
+
+        document.getElementById('salaryFormTitle').innerText = "Edit Teacher Salary Record";
+        document.getElementById('cancelSalaryBtn').style.display = 'block';
+        document.getElementById('salaryFormBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetSalaryForm() {
+        document.getElementById('salaryRecordId').value = '';
+        document.getElementById('salaryForm').reset();
+        document.getElementById('salaryFormTitle').innerText = "Teacher Salary Payment Form";
+        document.getElementById('cancelSalaryBtn').style.display = 'none';
+        document.getElementById('salaryDate').valueAsDate = new Date();
     }
 
     function printBill(id) {
@@ -879,7 +956,7 @@
     }
 
     function deleteSalary(id) {
-        if(confirm("Delete this record?")) {
+        if(confirm("Are you sure you want to DELETE this Teacher Salary Record?")) {
             salaryData = salaryData.filter(s => s.id !== id);
             saveToLocalStorage();
             renderSalaryTable();
@@ -907,9 +984,9 @@
                 <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.netDues}</td>
                 <td>
                     <div class="action-btns">
-                        <button class="btn btn-primary" onclick="printBill('${item.id}')">Print</button>
-                        <button class="btn btn-warning" onclick="editBill('${item.id}')">Edit / Update</button>
-                        <button class="btn btn-danger" onclick="deleteBill('${item.id}')">Delete</button>
+                        <button class="btn-act-print" onclick="printBill('${item.id}')">🖨️ Print</button>
+                        <button class="btn-act-edit" onclick="editBill('${item.id}')">✏️ Edit</button>
+                        <button class="btn-act-delete" onclick="deleteBill('${item.id}')">🗑️ Delete</button>
                     </div>
                 </td>
             `;
@@ -948,12 +1025,13 @@
         wordsInput.value = item.amountInWords;
         wordsInput.dataset.auto = "false";
 
-        document.getElementById('formTitle').innerText = "Update Existing Bill Entry";
+        document.getElementById('formTitle').innerText = "Update Existing Student Entry";
         document.getElementById('cancelBtn').style.display = 'block';
+        document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' });
     }
 
     function deleteBill(id) {
-        if(confirm("Delete this bill?")) {
+        if(confirm("Are you sure you want to DELETE this Student Bill?")) {
             billsData = billsData.filter(b => b.id !== id);
             saveToLocalStorage();
             loadData();
@@ -964,7 +1042,7 @@
         document.getElementById('recordId').value = '';
         document.getElementById('billingForm').reset();
         document.querySelectorAll('.part-amt').forEach(inp => inp.value = 0);
-        document.getElementById('formTitle').innerText = "Create New Bill / Update Deposit";
+        document.getElementById('formTitle').innerText = "Create New Bill / Add Deposit";
         document.getElementById('cancelBtn').style.display = 'none';
         document.getElementById('billDate').valueAsDate = new Date();
         document.getElementById('depositDate').valueAsDate = new Date();
