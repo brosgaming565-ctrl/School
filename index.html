@@ -8,7 +8,7 @@
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
-        /* Top Navigation Bar */
+        /* Navigation Bar */
         nav { background: #1a237e; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
         nav .nav-btns { display: flex; gap: 6px; }
@@ -75,22 +75,47 @@
         .action-btns { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
         .action-btns .btn { padding: 4px 8px; font-size: 10px; }
 
-        /* History Badge List */
+        /* History List */
         .history-list { font-size: 10px; text-align: left; color: #444; max-height: 50px; overflow-y: auto; line-height: 1.3; }
 
-        /* Print Setup */
+        /* Print Hidden Elements */
         #printableArea, #printableSalaryArea { display: none; }
+
+        /* FIXED PRINT CSS - NO OVERLAPPING */
         @media print {
             body * { visibility: hidden; }
-            #printableArea, #printableArea *, #printableSalaryArea, #printableSalaryArea * { visibility: visible; }
-            #printableArea, #printableSalaryArea { display: block; position: absolute; left: 0; top: 0; width: 100%; padding: 15px; }
-            .bill-box { border: 2px solid #000; padding: 15px; max-width: 650px; margin: auto; }
+            
+            body.print-billing #printableArea, 
+            body.print-billing #printableArea * { 
+                visibility: visible; 
+            }
+            body.print-billing #printableArea { 
+                display: block !important; 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+            }
+
+            body.print-salary #printableSalaryArea, 
+            body.print-salary #printableSalaryArea * { 
+                visibility: visible; 
+            }
+            body.print-salary #printableSalaryArea { 
+                display: block !important; 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+            }
+
+            .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
             .bill-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 8px; }
             .bill-header h2 { font-size: 16px; margin-bottom: 2px; }
             .bill-header p { font-size: 10px; }
             .p-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
             .p-table th, .p-table td { border: 1px solid #000; padding: 4px; font-size: 10px; }
-            .sig-area { display: flex; justify-content: space-between; margin-top: 35px; font-size: 10px; }
+            .sig-area { display: flex; justify-content: space-between; margin-top: 40px; font-size: 10px; }
         }
     </style>
 </head>
@@ -461,7 +486,7 @@
     <div class="bill-box">
         <div class="bill-header">
             <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-            <p>Yamunamai, R.M.-1, Sukdev Chowk, Rautahat</p>
+            <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
             <h3 style="margin-top: 4px; font-size: 13px;">TEACHER SALARY RECEIPT</h3>
         </div>
 
@@ -477,7 +502,7 @@
 
         <div class="sig-area">
             <div><p>___________________</p><p><strong>Prepared By:</strong> <span id="psPreparedBy"></span></p></div>
-            <div><p>___________________</p><p><strong>Authorized Signature</strong></p></div>
+            <div><p>___________________</p><p><strong>Authorized Signature:</strong> <span id="psAuthSign"></span></p></div>
         </div>
     </div>
 </div>
@@ -750,44 +775,7 @@
         });
     }
 
-    function printSalary(id) {
-        let item = salaryData.find(s => s.id === id);
-        if(!item) return;
-
-        document.getElementById('psReceiptNo').innerText = item.receiptNo || '';
-        document.getElementById('psDate').innerText = item.date || '';
-        document.getElementById('psTeacherName').innerText = item.teacherName || '';
-        document.getElementById('psFatherName').innerText = item.fatherName || '';
-        document.getElementById('psContact').innerText = item.contact || '';
-        document.getElementById('psDesignation').innerText = item.designation || '';
-        document.getElementById('psBasic').innerText = item.basic || '0';
-        document.getElementById('psDeduction').innerText = item.deduction || '0';
-        document.getElementById('psNetPaid').innerText = item.netPaid || '0';
-        document.getElementById('psMonth').innerText = item.month || '';
-        document.getElementById('psInWords').innerText = item.inWords || '';
-        document.getElementById('psPreparedBy').innerText = item.preparedBy || '';
-
-        window.print();
-    }
-
-    function deleteSalary(id) {
-        if(confirm("Delete this record?")) {
-            salaryData = salaryData.filter(s => s.id !== id);
-            saveToLocalStorage();
-            renderSalaryTable();
-        }
-    }
-
-    function searchRecords() {
-        let q = document.getElementById('searchInput').value.toLowerCase();
-        let filtered = billsData.filter(b => 
-            b.studentName.toLowerCase().includes(q) || 
-            b.fatherName.toLowerCase().includes(q) || 
-            b.billNo.toLowerCase().includes(q)
-        );
-        renderBillingTable(filtered);
-    }
-
+    /* ISOLATED PRINT FUNCTIONS */
     function printBill(id) {
         let item = billsData.find(b => b.id === id);
         if(!item) return;
@@ -816,7 +804,50 @@
             }
         });
 
+        document.body.className = 'print-billing';
         window.print();
+        document.body.className = '';
+    }
+
+    function printSalary(id) {
+        let item = salaryData.find(s => s.id === id);
+        if(!item) return;
+
+        document.getElementById('psReceiptNo').innerText = item.receiptNo || '';
+        document.getElementById('psDate').innerText = item.date || '';
+        document.getElementById('psTeacherName').innerText = item.teacherName || '';
+        document.getElementById('psFatherName').innerText = item.fatherName || '';
+        document.getElementById('psContact').innerText = item.contact || '';
+        document.getElementById('psDesignation').innerText = item.designation || '';
+        document.getElementById('psBasic').innerText = item.basic || '0';
+        document.getElementById('psDeduction').innerText = item.deduction || '0';
+        document.getElementById('psNetPaid').innerText = item.netPaid || '0';
+        document.getElementById('psMonth').innerText = item.month || '';
+        document.getElementById('psInWords').innerText = item.inWords || '';
+        document.getElementById('psPreparedBy').innerText = item.preparedBy || '';
+        document.getElementById('psAuthSign').innerText = item.authSign || '';
+
+        document.body.className = 'print-salary';
+        window.print();
+        document.body.className = '';
+    }
+
+    function deleteSalary(id) {
+        if(confirm("Delete this record?")) {
+            salaryData = salaryData.filter(s => s.id !== id);
+            saveToLocalStorage();
+            renderSalaryTable();
+        }
+    }
+
+    function searchRecords() {
+        let q = document.getElementById('searchInput').value.toLowerCase();
+        let filtered = billsData.filter(b => 
+            b.studentName.toLowerCase().includes(q) || 
+            b.fatherName.toLowerCase().includes(q) || 
+            b.billNo.toLowerCase().includes(q)
+        );
+        renderBillingTable(filtered);
     }
 
     function editBill(id) {
