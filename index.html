@@ -19,7 +19,7 @@
 
         .container { max-width: 1350px; margin: 15px auto; padding: 0 15px; }
 
-        /* Stylish Blue & School Splice Login Screen */
+        /* Stylish Blue Login Screen */
         #loginBgWrapper {
             min-height: 100vh;
             display: flex;
@@ -30,21 +30,14 @@
         }
 
         #loginScreen { 
-            width: 100%;
-            max-width: 400px; 
-            background: rgba(255, 255, 255, 0.96); 
-            padding: 35px 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
-            text-align: center; 
-            border-top: 5px solid #1a237e;
+            width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.96); 
+            padding: 35px 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
+            text-align: center; border-top: 5px solid #1a237e;
         }
         #loginScreen h2 { color: #1a237e; font-size: 16px; margin-bottom: 6px; font-weight: 800; }
         #loginScreen p { font-size: 12px; color: #555; margin-bottom: 22px; }
         #loginScreen input { width: 100%; padding: 11px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
-        #loginScreen input:focus { border-color: #1a237e; box-shadow: 0 0 4px rgba(26,35,126,0.3); }
-        #loginScreen button { width: 100%; padding: 11px; background: #1a237e; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; }
-        #loginScreen button:hover { background: #283593; }
+        #loginScreen button { width: 100%; padding: 11px; background: #1a237e; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
 
         /* Tabs */
         .tab-content { display: none; }
@@ -58,7 +51,7 @@
         .card h3 { font-size: 11px; color: #555; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
         .card p { font-size: 20px; font-weight: bold; margin-top: 6px; color: #1a237e; }
 
-        /* Form & Main Layout */
+        /* Layout & Tables */
         .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: start; }
         .box { background: white; padding: 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 15px; }
         .box h3 { margin-bottom: 12px; color: #1a237e; font-size: 14px; font-weight: 700; }
@@ -69,53 +62,37 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
-        /* Fee Table Scroll Box */
         .part-table-container { max-height: 180px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; }
         .part-table { width: 100%; border-collapse: collapse; }
         .part-table th, .part-table td { border: 1px solid #e0e0e0; padding: 4px 8px; font-size: 11px; text-align: left; }
         .part-table th { background: #f5f5f5; font-weight: 600; position: sticky; top: 0; }
         .part-table input { width: 100%; padding: 3px 5px; border: 1px solid #ccc; border-radius: 3px; font-size: 11px; }
 
-        /* Calculated Section Area */
         .summary-box { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px; margin-top: 10px; }
 
-        /* Action Buttons */
         .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; text-align: center; }
         .btn-success { background: #2e7d32; color: white; }
-        .btn-success:hover { background: #1b5e20; }
         .btn-primary { background: #1565c0; color: white; }
         .btn-warning { background: #ef6c00; color: white; }
         .btn-danger { background: #c62828; color: white; }
         .btn-secondary { background: #616161; color: white; }
         .btn-block { width: 100%; margin-top: 8px; }
 
-        /* Pagination Controls */
-        .pagination-container { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee; }
-        .pagination-btns { display: flex; gap: 4px; }
-
-        /* Records Table */
         .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
         .action-btns { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
         .action-btns .btn { padding: 4px 8px; font-size: 10px; }
 
-        /* History List */
-        .history-list { font-size: 10px; text-align: left; color: #444; max-height: 50px; overflow-y: auto; line-height: 1.3; }
-
         /* Print Hidden Elements */
         #printableArea, #printableSalaryArea { display: none; }
 
-        /* FIXED PRINT CSS - NO OVERLAPPING */
         @media print {
             body * { visibility: hidden; }
-            
-            body.print-billing #printableArea, 
-            body.print-billing #printableArea * { visibility: visible; }
+            body.print-billing #printableArea, body.print-billing #printableArea * { visibility: visible; }
             body.print-billing #printableArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
 
-            body.print-salary #printableSalaryArea, 
-            body.print-salary #printableSalaryArea * { visibility: visible; }
+            body.print-salary #printableSalaryArea, body.print-salary #printableSalaryArea * { visibility: visible; }
             body.print-salary #printableSalaryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
 
             .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
@@ -130,7 +107,7 @@
 </head>
 <body>
 
-<!-- LOGIN SCREEN WITH BLUE SCHOOL IMAGE BACKDROP -->
+<!-- LOGIN SCREEN -->
 <div id="loginBgWrapper">
     <div id="loginScreen">
         <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
@@ -141,21 +118,23 @@
     </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
+<!-- MAIN SYSTEM -->
 <div id="appScreen" style="display: none;">
+    <!-- HEADER NAVIGATION -->
     <nav>
         <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
         <div class="nav-btns">
-            <button id="tabBtnBilling" class="active-tab" onclick="showTab('billingTab')">Student Billing</button>
+            <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">🏠 Home Dashboard</button>
+            <button id="tabBtnFind" onclick="scrollToReportSection()">🔍 Find Report</button>
+            <button id="tabBtnHistory" onclick="scrollToDepositHistory()">📅 Deposit History Report</button>
             <button id="tabBtnSalary" onclick="showTab('salaryTab')">Teacher Salary</button>
-            <button id="tabBtnBackup" onclick="showTab('backupTab')" style="background: #2e7d32;">Data Backup & Restore</button>
-            <button id="tabBtnSecurity" onclick="showTab('securityTab')">Change Password</button>
+            <button id="tabBtnBackup" onclick="showTab('backupTab')" style="background: #2e7d32;">Backup / Restore</button>
             <button onclick="logout()" class="logout-btn">Logout</button>
         </div>
     </nav>
 
     <div class="container">
-        <!-- STUDENT BILLING -->
+        <!-- STUDENT BILLING & HOME DASHBOARD -->
         <div id="billingTab" class="tab-content active">
             <!-- TOP METRICS -->
             <div class="dashboard-cards">
@@ -291,9 +270,9 @@
                     </form>
                 </div>
 
-                <!-- SEARCH & RECORDS (OLD REPORT / FIND REPORT) -->
-                <div class="box">
-                    <h3>Find Reports & Old Bills History</h3>
+                <!-- FIND REPORT & BILLS LIST -->
+                <div class="box" id="findReportBox">
+                    <h3>🔍 Find Reports & All Student Bills</h3>
                     <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search Student Name, Father Name, Bill No..." style="width:100%; padding: 7px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
 
                     <div style="overflow-x: auto;">
@@ -306,23 +285,33 @@
                                     <th>Total</th>
                                     <th>Paid</th>
                                     <th>Dues</th>
-                                    <th>Deposit History</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="billingTableBody"></tbody>
                         </table>
                     </div>
+                </div>
+            </div>
 
-                    <!-- PAGINATION CONTROLS -->
-                    <div class="pagination-container">
-                        <button class="btn btn-secondary" onclick="goHome()" title="Home / Reset Page">🏠 Home Dashboard</button>
-                        <span id="pageInfo" style="font-size: 11px; font-weight: 600;">Page 1 of 1</span>
-                        <div class="pagination-btns">
-                            <button class="btn btn-primary" onclick="prevPage()" id="prevBtn">← Back</button>
-                            <button class="btn btn-primary" onclick="nextPage()" id="nextBtn">Next →</button>
-                        </div>
-                    </div>
+            <!-- DEPOSIT DATE & HISTORY REPORT SECTION -->
+            <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
+                <h3>📅 Date-Wise Deposit History Report</h3>
+                <p style="font-size:11px; color:#666; margin-bottom:10px;">Consolidated list of all payments received with deposit dates.</p>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr style="background:#283593;">
+                                <th>Deposit Date</th>
+                                <th>Bill No</th>
+                                <th>Student Name</th>
+                                <th>Father's Name</th>
+                                <th>Deposited Amount</th>
+                                <th>Dues Balance Left</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositHistoryTableBody"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -450,24 +439,6 @@
                 <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
             </div>
         </div>
-
-        <!-- PASSWORD CHANGE -->
-        <div id="securityTab" class="tab-content">
-            <div class="box" style="max-width: 380px; margin: 30px auto;">
-                <h3>Change Password</h3>
-                <form onsubmit="changePassword(event)">
-                    <div class="form-group">
-                        <label>Current Password</label>
-                        <input type="password" id="currPass" required>
-                    </div>
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" id="newPass" required>
-                    </div>
-                    <button type="submit" class="btn btn-warning btn-block">Update Password</button>
-                </form>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -550,11 +521,6 @@
     let billsData = JSON.parse(localStorage.getItem('sch_bills')) || [];
     let salaryData = JSON.parse(localStorage.getItem('sch_salaries')) || [];
 
-    // Pagination Variables
-    let currentPage = 1;
-    const rowsPerPage = 5;
-    let filteredBills = [...billsData];
-
     window.onload = function() {
         renderParticulars();
         document.getElementById('billDate').valueAsDate = new Date();
@@ -605,7 +571,6 @@
         let netDues = gross - deposit;
         document.getElementById('netDues').value = netDues;
         
-        // Auto Suggest words if empty
         let wordsInput = document.getElementById('amountInWords');
         if(!wordsInput.value || wordsInput.dataset.auto === "true") {
             wordsInput.value = inWords(deposit > 0 ? deposit : gross);
@@ -643,8 +608,18 @@
         document.querySelectorAll('nav .nav-btns button').forEach(btn => btn.classList.remove('active-tab'));
         document.getElementById(tabId).classList.add('active');
         
-        if(tabId === 'billingTab') document.getElementById('tabBtnBilling').classList.add('active-tab');
+        if(tabId === 'billingTab') document.getElementById('tabBtnHome').classList.add('active-tab');
         if(tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
+    }
+
+    function scrollToReportSection() {
+        showTab('billingTab');
+        document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToDepositHistory() {
+        showTab('billingTab');
+        document.getElementById('depositHistoryBox').scrollIntoView({ behavior: 'smooth' });
     }
 
     function saveBill(e) {
@@ -751,8 +726,8 @@
     }
 
     function loadData() {
-        filteredBills = [...billsData];
         renderBillingTable();
+        renderDepositHistoryTable();
         renderSalaryTable();
         updateDashboard();
     }
@@ -768,32 +743,15 @@
     function renderBillingTable() {
         const tbody = document.getElementById('billingTableBody');
         tbody.innerHTML = '';
-
-        let totalPages = Math.ceil(filteredBills.length / rowsPerPage) || 1;
-        if(currentPage > totalPages) currentPage = totalPages;
-
-        let start = (currentPage - 1) * rowsPerPage;
-        let end = start + rowsPerPage;
-        let paginatedData = filteredBills.slice(start, end);
-
-        paginatedData.forEach(item => {
-            let historyHtml = '<div class="history-list">';
-            if(item.history && item.history.length > 0) {
-                item.history.forEach(h => {
-                    historyHtml += `<div>• Rs.${h.amount} (${h.date})</div>`;
-                });
-            } else { historyHtml += '-'; }
-            historyHtml += '</div>';
-
+        billsData.forEach(item => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${item.billNo}</td>
                 <td>${item.studentName}</td>
                 <td>${item.fatherName}</td>
-                <td>${item.grossTotal}</td>
-                <td>${item.depositAmount}</td>
-                <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">${item.netDues}</td>
-                <td>${historyHtml}</td>
+                <td>Rs. ${item.grossTotal}</td>
+                <td>Rs. ${item.depositAmount}</td>
+                <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.netDues}</td>
                 <td>
                     <div class="action-btns">
                         <button class="btn btn-primary" onclick="printBill('${item.id}')">Print</button>
@@ -804,35 +762,39 @@
             `;
             tbody.appendChild(tr);
         });
-
-        // Update Pagination State
-        document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages}`;
-        document.getElementById('prevBtn').disabled = currentPage === 1;
-        document.getElementById('nextBtn').disabled = currentPage === totalPages;
     }
 
-    function prevPage() {
-        if(currentPage > 1) {
-            currentPage--;
-            renderBillingTable();
-        }
-    }
+    function renderDepositHistoryTable() {
+        const tbody = document.getElementById('depositHistoryTableBody');
+        tbody.innerHTML = '';
 
-    function nextPage() {
-        let totalPages = Math.ceil(filteredBills.length / rowsPerPage) || 1;
-        if(currentPage < totalPages) {
-            currentPage++;
-            renderBillingTable();
-        }
-    }
-
-    // HOME DASHBOARD BUTTON FUNCTION
-    function goHome() {
-        currentPage = 1;
-        document.getElementById('searchInput').value = '';
-        filteredBills = [...billsData];
-        showTab('billingTab');
-        renderBillingTable();
+        billsData.forEach(bill => {
+            if(bill.history && bill.history.length > 0) {
+                bill.history.forEach(h => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${h.date}</strong></td>
+                        <td>${bill.billNo}</td>
+                        <td>${bill.studentName}</td>
+                        <td>${bill.fatherName}</td>
+                        <td style="color:green; font-weight:bold;">Rs. ${h.amount}</td>
+                        <td style="color:red; font-weight:bold;">Rs. ${bill.netDues}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else if(bill.depositAmount > 0) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${bill.billDate}</strong></td>
+                    <td>${bill.billNo}</td>
+                    <td>${bill.studentName}</td>
+                    <td>${bill.fatherName}</td>
+                    <td style="color:green; font-weight:bold;">Rs. ${bill.depositAmount}</td>
+                    <td style="color:red; font-weight:bold;">Rs. ${bill.netDues}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        });
     }
 
     function renderSalaryTable() {
@@ -858,7 +820,6 @@
         });
     }
 
-    /* ISOLATED PRINT FUNCTIONS */
     function printBill(id) {
         let item = billsData.find(b => b.id === id);
         if(!item) return;
@@ -927,13 +888,33 @@
 
     function searchRecords() {
         let q = document.getElementById('searchInput').value.toLowerCase();
-        filteredBills = billsData.filter(b => 
+        let filtered = billsData.filter(b => 
             b.studentName.toLowerCase().includes(q) || 
             b.fatherName.toLowerCase().includes(q) || 
             b.billNo.toLowerCase().includes(q)
         );
-        currentPage = 1;
-        renderBillingTable();
+        
+        const tbody = document.getElementById('billingTableBody');
+        tbody.innerHTML = '';
+        filtered.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.billNo}</td>
+                <td>${item.studentName}</td>
+                <td>${item.fatherName}</td>
+                <td>Rs. ${item.grossTotal}</td>
+                <td>Rs. ${item.depositAmount}</td>
+                <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.netDues}</td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn btn-primary" onclick="printBill('${item.id}')">Print</button>
+                        <button class="btn btn-warning" onclick="editBill('${item.id}')">Edit / Update</button>
+                        <button class="btn btn-danger" onclick="deleteBill('${item.id}')">Delete</button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     function editBill(id) {
@@ -1016,21 +997,6 @@
             } catch(err) { alert("Error reading file!"); }
         };
         reader.readAsText(fileInput.files[0]);
-    }
-
-    function changePassword(e) {
-        e.preventDefault();
-        let curr = document.getElementById('currPass').value;
-        let newP = document.getElementById('newPass').value;
-        let stored = localStorage.getItem('admin_pass') || 'admin123';
-
-        if(curr === stored) {
-            localStorage.setItem('admin_pass', newP);
-            alert("Password updated!");
-            e.target.reset();
-        } else {
-            alert("Current password incorrect!");
-        }
     }
 </script>
 </body>
