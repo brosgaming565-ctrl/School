@@ -19,12 +19,32 @@
 
         .container { max-width: 1350px; margin: 15px auto; padding: 0 15px; }
 
-        /* Login Screen */
-        #loginScreen { max-width: 380px; margin: 100px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); text-align: center; }
-        #loginScreen h2 { color: #1a237e; font-size: 16px; margin-bottom: 5px; }
-        #loginScreen p { font-size: 12px; color: #666; margin-bottom: 20px; }
-        #loginScreen input { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
-        #loginScreen button { width: 100%; padding: 10px; background: #1a237e; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        /* Stylish Blue & School Splice Login Screen */
+        #loginBgWrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.9), rgba(13, 71, 161, 0.85)), 
+                        url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+        }
+
+        #loginScreen { 
+            width: 100%;
+            max-width: 400px; 
+            background: rgba(255, 255, 255, 0.96); 
+            padding: 35px 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
+            text-align: center; 
+            border-top: 5px solid #1a237e;
+        }
+        #loginScreen h2 { color: #1a237e; font-size: 16px; margin-bottom: 6px; font-weight: 800; }
+        #loginScreen p { font-size: 12px; color: #555; margin-bottom: 22px; }
+        #loginScreen input { width: 100%; padding: 11px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
+        #loginScreen input:focus { border-color: #1a237e; box-shadow: 0 0 4px rgba(26,35,126,0.3); }
+        #loginScreen button { width: 100%; padding: 11px; background: #1a237e; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        #loginScreen button:hover { background: #283593; }
 
         /* Tabs */
         .tab-content { display: none; }
@@ -110,13 +130,15 @@
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
-    <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-    <p>Management System Login</p>
-    <input type="email" id="loginEmail" placeholder="Admin Email" value="admin@school.com">
-    <input type="password" id="loginPassword" placeholder="Password" value="admin123">
-    <button onclick="login()">Login to Dashboard</button>
+<!-- LOGIN SCREEN WITH BLUE SCHOOL IMAGE BACKDROP -->
+<div id="loginBgWrapper">
+    <div id="loginScreen">
+        <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+        <p>Management System Login</p>
+        <input type="email" id="loginEmail" placeholder="Admin Email" value="admin@school.com">
+        <input type="password" id="loginPassword" placeholder="Password" value="admin123">
+        <button onclick="login()">Login to Dashboard</button>
+    </div>
 </div>
 
 <!-- MAIN DASHBOARD -->
@@ -294,7 +316,7 @@
 
                     <!-- PAGINATION CONTROLS -->
                     <div class="pagination-container">
-                        <button class="btn btn-secondary" onclick="goHome()" title="Home / Reset Page">🏠 Home</button>
+                        <button class="btn btn-secondary" onclick="goHome()" title="Home / Reset Page">🏠 Home Dashboard</button>
                         <span id="pageInfo" style="font-size: 11px; font-weight: 600;">Page 1 of 1</span>
                         <div class="pagination-btns">
                             <button class="btn btn-primary" onclick="prevPage()" id="prevBtn">← Back</button>
@@ -603,7 +625,7 @@
         let storedPass = localStorage.getItem('admin_pass') || 'admin123';
 
         if(pass === storedPass) {
-            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('loginBgWrapper').style.display = 'none';
             document.getElementById('appScreen').style.display = 'block';
             loadData();
         } else {
@@ -613,7 +635,7 @@
 
     function logout() {
         document.getElementById('appScreen').style.display = 'none';
-        document.getElementById('loginScreen').style.display = 'block';
+        document.getElementById('loginBgWrapper').style.display = 'flex';
     }
 
     function showTab(tabId) {
@@ -804,10 +826,12 @@
         }
     }
 
+    // HOME DASHBOARD BUTTON FUNCTION
     function goHome() {
         currentPage = 1;
         document.getElementById('searchInput').value = '';
         filteredBills = [...billsData];
+        showTab('billingTab');
         renderBillingTable();
     }
 
