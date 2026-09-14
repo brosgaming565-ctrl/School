@@ -313,10 +313,10 @@
                 </div>
             </div>
 
-            <!-- DEPOSIT HISTORY SECTION (Restored) -->
+            <!-- PAYMENT HISTORY SECTION (Students & Teachers) -->
             <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
-                    <h3 id="historyTitle" style="margin: 0;">📅 Deposit History</h3>
+                    <h3 id="historyTitle" style="margin: 0;">📅 Payment / Deposit History</h3>
                     <div style="display: flex; gap: 8px;">
                         <button onclick="printDepositHistory()" class="btn btn-primary" style="font-size: 11px; padding: 5px 10px;">🖨️ Print History</button>
                         <button onclick="downloadDepositExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
@@ -327,15 +327,16 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Deposit Paid Date</th>
-                                <th>Bill No</th>
-                                <th>Student Name</th>
+                                <th>Payment Date</th>
+                                <th>Ref / Bill / Receipt No</th>
+                                <th>Name (Student / Teacher)</th>
                                 <th>Father's Name</th>
-                                <th>Deposited Amount (Rs.)</th>
+                                <th>Paid Amount (Rs.)</th>
+                                <th>Remaining Dues (Rs.)</th>
                             </tr>
                         </thead>
                         <tbody id="depositHistoryTableBody">
-                            <tr><td colspan="5" style="color: #777;">Select or edit a student record to view their payment history.</td></tr>
+                            <tr><td colspan="6" style="color: #777;">Select or edit a student or teacher record to view their payment history.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -499,6 +500,7 @@
     let salaryData = JSON.parse(localStorage.getItem('school_salary_data')) || [];
     let editingStudentId = null;
     let editingSalaryId = null;
+    let activeHistoryType = null; // 'student' or 'salary'
 
     window.onload = function() {
         initParticularsTable();
@@ -618,7 +620,7 @@
             let newId = Date.now().toString();
             let hist = [];
             if(newDeposit > 0) {
-                hist.push({ date: depositDate, amount: newDeposit });
+                hist.push({ date: depositDate, amount: newDeposit, duesAfter: netDuesVal });
             }
             studentsData.push({
                 id: newId,
@@ -663,12 +665,13 @@
                 st.amountInWords = document.getElementById('amountInWords').value;
                 if(newDeposit > 0) {
                     if(!st.history) st.history = [];
-                    st.history.push({ date: depositDate, amount: newDeposit });
+                    st.history.push({ date: depositDate, amount: newDeposit, duesAfter: netDuesVal });
                 }
             }
         }
         localStorage.setItem('school_students_data', JSON.stringify(studentsData));
-        resetForm();
+        let updatedSt = studentsData.find(s => s.id == (editingStudentId || studentsData[studentsData.length-1].id));
+        editStudent(updatedSt.id); // keep in edit mode to view history
         renderBillingTable();
         updateDashboardStats();
         alert("Saved successfully!");
@@ -702,6 +705,7 @@
         let st = studentsData.find(s => s.id == id);
         if(!st) return;
         editingStudentId = id;
+        activeHistoryType = 'student';
         document.getElementById('recordId').value = st.id;
         document.getElementById('schoolAddress').value = st.schoolAddress || '';
         document.getElementById('billNo').value = st.billNo || '';
@@ -729,7 +733,6 @@
         document.getElementById('formTitle').innerText = "Update Student Bill / Add Deposit";
         document.getElementById('saveBtn').innerText = "Update Bill & Add Payment";
         document.getElementById('cancelBtn').style.display = "block";
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderDepositHistory(st) {
@@ -738,7 +741,7 @@
         document.getElementById('historyTitle').innerText = `📅 Deposit History: ${st.studentName} (${st.fatherName})`;
         
         if(!st.history || st.history.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="color: #777;">No deposit history found for this student.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="color: #777;">No deposit history found for this student.</td></tr>`;
             return;
         }
 
@@ -746,76 +749,126 @@
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>📅 ${h.date || '-'}</td>
-                <td>${st.billNo || '-'}</td>
+                <td>Bill #${st.billNo || '-'}</td>
                 <td>${st.studentName || '-'}</td>
                 <td>${st.fatherName || '-'}</td>
                 <td style="color: green; font-weight: bold;">Rs. ${h.amount || 0}</td>
+                <td style="color: red; font-weight: bold;">Rs. ${h.duesAfter !== undefined ? h.duesAfter : '-'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderSalaryHistory(sal) {
+        const tbody = document.getElementById('depositHistoryTableBody');
+        tbody.innerHTML = '';
+        document.getElementById('historyTitle').innerText = `📅 Teacher Salary History: ${sal.teacherName} (${sal.fatherName})`;
+        
+        if(!sal.history || sal.history.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="color: #777;">No salary history found for this teacher.</td></tr>`;
+            return;
+        }
+
+        sal.history.forEach(h => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>📅 ${h.date || '-'}</td>
+                <td>Receipt #${sal.receiptNo || '-'}</td>
+                <td>${sal.teacherName || '-'} (${sal.month || '-'})</td>
+                <td>${sal.fatherName || '-'}</td>
+                <td style="color: green; font-weight: bold;">Rs. ${h.amount || 0}</td>
+                <td style="color: red; font-weight: bold;">Rs. ${h.duesAfter !== undefined ? h.duesAfter : '-'}</td>
             `;
             tbody.appendChild(tr);
         });
     }
 
     function printDepositHistory() {
-        if(editingStudentId === null) {
-            alert("Pehle kisi student ko Edit mode me select karein!");
-            return;
+        if(activeHistoryType === 'student' && editingStudentId !== null) {
+            let st = studentsData.find(s => s.id == editingStudentId);
+            if(!st || !st.history || st.history.length === 0) { alert("Print karne ke liye koi history available nahi hai!"); return; }
+            let printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Deposit History - ' + st.studentName + '</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;padding:20px;} table{width:100%;border-collapse:collapse;margin-top:15px;} th,td{border:1px solid #ccc;padding:8px;text-align:center;} th{background:#1a237e;color:white;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Deposit History: ' + st.studentName + ' (Father: ' + st.fatherName + ')</h2>');
+            printWindow.document.write('<table><thead><tr><th>Date</th><th>Bill No</th><th>Student Name</th><th>Father Name</th><th>Paid Amount (Rs.)</th><th>Remaining Dues (Rs.)</th></tr></thead><tbody>');
+            st.history.forEach(h => {
+                printWindow.document.write('<tr><td>' + h.date + '</td><td>' + st.billNo + '</td><td>' + st.studentName + '</td><td>' + st.fatherName + '</td><td>Rs. ' + h.amount + '</td><td>Rs. ' + (h.duesAfter !== undefined ? h.duesAfter : '-') + '</td></tr>');
+            });
+            printWindow.document.write('</tbody></table></body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        } else if(activeHistoryType === 'salary' && editingSalaryId !== null) {
+            let sal = salaryData.find(s => s.id == editingSalaryId);
+            if(!sal || !sal.history || sal.history.length === 0) { alert("Print karne ke liye koi history available nahi hai!"); return; }
+            let printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Salary History - ' + sal.teacherName + '</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;padding:20px;} table{width:100%;border-collapse:collapse;margin-top:15px;} th,td{border:1px solid #ccc;padding:8px;text-align:center;} th{background:#1a237e;color:white;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Salary History: ' + sal.teacherName + ' (Father: ' + sal.fatherName + ')</h2>');
+            printWindow.document.write('<table><thead><tr><th>Date</th><th>Receipt No</th><th>Teacher Name</th><th>Father Name</th><th>Paid Amount (Rs.)</th><th>Remaining Dues (Rs.)</th></tr></thead><tbody>');
+            sal.history.forEach(h => {
+                printWindow.document.write('<tr><td>' + h.date + '</td><td>' + sal.receiptNo + '</td><td>' + sal.teacherName + '</td><td>' + sal.fatherName + '</td><td>Rs. ' + h.amount + '</td><td>Rs. ' + (h.duesAfter !== undefined ? h.duesAfter : '-') + '</td></tr>');
+            });
+            printWindow.document.write('</tbody></table></body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        } else {
+            alert("Pehle Home tab ya Teacher Salary tab se kisi record ko Edit mode me select karein!");
         }
-        let st = studentsData.find(s => s.id == editingStudentId);
-        if(!st || !st.history || st.history.length === 0) {
-            alert("Print karne ke liye koi history available nahi hai!");
-            return;
-        }
-        let printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Deposit History - ' + st.studentName + '</title>');
-        printWindow.document.write('<style>body{font-family:sans-serif;padding:20px;} table{width:100%;border-collapse:collapse;margin-top:15px;} th,td{border:1px solid #ccc;padding:8px;text-align:center;} th{background:#1a237e;color:white;}</style>');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write('<h2>Deposit History: ' + st.studentName + ' (Father: ' + st.fatherName + ')</h2>');
-        printWindow.document.write('<table><thead><tr><th>Date</th><th>Bill No</th><th>Student Name</th><th>Father Name</th><th>Amount (Rs.)</th></tr></thead><tbody>');
-        st.history.forEach(h => {
-            printWindow.document.write('<tr><td>' + h.date + '</td><td>' + st.billNo + '</td><td>' + st.studentName + '</td><td>' + st.fatherName + '</td><td>Rs. ' + h.amount + '</td></tr>');
-        });
-        printWindow.document.write('</tbody></table></body></html>');
-        printWindow.document.close();
-        printWindow.print();
     }
 
     function downloadDepositExcel() {
-        if(editingStudentId === null) {
-            alert("Pehle kisi student ko Edit mode me select karein!");
-            return;
+        if(activeHistoryType === 'student' && editingStudentId !== null) {
+            let st = studentsData.find(s => s.id == editingStudentId);
+            if(!st || !st.history || st.history.length === 0) { alert("Export karne ke liye koi history nahi hai!"); return; }
+            let dataToExport = st.history.map(h => ({
+                "Payment Date": h.date,
+                "Bill No": st.billNo,
+                "Student Name": st.studentName,
+                "Father's Name": st.fatherName,
+                "Paid Amount (Rs.)": h.amount,
+                "Remaining Dues (Rs.)": h.duesAfter
+            }));
+            let worksheet = XLSX.utils.json_to_sheet(dataToExport);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Deposit History");
+            XLSX.writeFile(workbook, `Deposit_History_${st.studentName}.xlsx`);
+        } else if(activeHistoryType === 'salary' && editingSalaryId !== null) {
+            let sal = salaryData.find(s => s.id == editingSalaryId);
+            if(!sal || !sal.history || sal.history.length === 0) { alert("Export karne ke liye koi history nahi hai!"); return; }
+            let dataToExport = sal.history.map(h => ({
+                "Payment Date": h.date,
+                "Receipt No": sal.receiptNo,
+                "Teacher Name": sal.teacherName,
+                "Father's Name": sal.fatherName,
+                "Paid Amount (Rs.)": h.amount,
+                "Remaining Dues (Rs.)": h.duesAfter
+            }));
+            let worksheet = XLSX.utils.json_to_sheet(dataToExport);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Salary History");
+            XLSX.writeFile(workbook, `Salary_History_${sal.teacherName}.xlsx`);
+        } else {
+            alert("Pehle kisi student ya teacher ko Edit mode me select karein!");
         }
-        let st = studentsData.find(s => s.id == editingStudentId);
-        if(!st || !st.history || st.history.length === 0) {
-            alert("Export karne ke liye koi history available nahi hai!");
-            return;
-        }
-        let dataToExport = st.history.map(h => ({
-            "Deposit Date": h.date,
-            "Bill No": st.billNo,
-            "Student Name": st.studentName,
-            "Father's Name": st.fatherName,
-            "Deposited Amount (Rs.)": h.amount
-        }));
-        let worksheet = XLSX.utils.json_to_sheet(dataToExport);
-        let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Deposit History");
-        XLSX.writeFile(workbook, `Deposit_History_${st.studentName}.xlsx`);
     }
 
     function downloadDepositJSON() {
-        if(editingStudentId === null) {
-            alert("Pehle kisi student ko Edit mode me select karein!");
-            return;
+        let targetData = null, filename = "History.json";
+        if(activeHistoryType === 'student' && editingStudentId !== null) {
+            let st = studentsData.find(s => s.id == editingStudentId);
+            if(st) { targetData = st.history; filename = `Deposit_History_${st.studentName}.json`; }
+        } else if(activeHistoryType === 'salary' && editingSalaryId !== null) {
+            let sal = salaryData.find(s => s.id == editingSalaryId);
+            if(sal) { targetData = sal.history; filename = `Salary_History_${sal.teacherName}.json`; }
         }
-        let st = studentsData.find(s => s.id == editingStudentId);
-        if(!st || !st.history || !st.history.length) {
-            alert("Download karne ke liye koi history available nahi hai!");
-            return;
-        }
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(st.history, null, 2));
+        if(!targetData || !targetData.length) { alert("Download karne ke liye koi history available nahi hai!"); return; }
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(targetData, null, 2));
         let dlAnchor = document.createElement('a');
         dlAnchor.setAttribute("href", dataStr);
-        dlAnchor.setAttribute("download", `Deposit_History_${st.studentName}.json`);
+        dlAnchor.setAttribute("download", filename);
         document.body.appendChild(dlAnchor);
         dlAnchor.click();
         dlAnchor.remove();
@@ -833,12 +886,13 @@
 
     function resetForm() {
         editingStudentId = null;
+        activeHistoryType = null;
         document.getElementById('billingForm').reset();
         document.getElementById('formTitle').innerText = "Create New Student Bill";
         document.getElementById('saveBtn').innerText = "Save / Update Entry";
         document.getElementById('cancelBtn').style.display = "none";
-        document.getElementById('historyTitle').innerText = "📅 Deposit History";
-        document.getElementById('depositHistoryTableBody').innerHTML = `<tr><td colspan="5" style="color: #777;">Select or edit a student record to view their payment history.</td></tr>`;
+        document.getElementById('historyTitle').innerText = "📅 Payment / Deposit History";
+        document.getElementById('depositHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Select or edit a student or teacher record to view their payment history.</td></tr>`;
         initParticularsTable();
         setDefaultDates();
     }
@@ -893,8 +947,9 @@
             if(sal) existingPaid = sal.netPaid || 0;
         }
         let netPaid = existingPaid + nowPaid;
+        let dues = total - netPaid;
         document.getElementById('netPaidSalary').value = netPaid;
-        document.getElementById('salaryDues').value = total - netPaid;
+        document.getElementById('salaryDues').value = dues;
     }
 
     function saveSalary(e) {
@@ -910,7 +965,7 @@
             let newId = Date.now().toString();
             let hist = [];
             if(nowPaid > 0) {
-                hist.push({ amount: nowPaid, date: payDate, month: monthVal });
+                hist.push({ amount: nowPaid, date: payDate, month: monthVal, duesAfter: duesVal });
             }
             salaryData.push({
                 id: newId,
@@ -945,12 +1000,13 @@
                 sal.inWords = document.getElementById('salaryInWords').value;
                 if(nowPaid > 0) {
                     if(!sal.history) sal.history = [];
-                    sal.history.push({ amount: nowPaid, date: payDate, month: monthVal });
+                    sal.history.push({ amount: nowPaid, date: payDate, month: monthVal, duesAfter: duesVal });
                 }
             }
         }
         localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
-        resetSalaryForm();
+        let updatedSal = salaryData.find(s => s.id == (editingSalaryId || salaryData[salaryData.length-1].id));
+        editSalary(updatedSal.id); // keep in edit mode to view history
         renderSalaryTable();
         alert("Salary saved successfully!");
     }
@@ -982,6 +1038,7 @@
         let s = salaryData.find(item => item.id == id);
         if(!s) return;
         editingSalaryId = id;
+        activeHistoryType = 'salary';
         document.getElementById('salaryRecordId').value = s.id;
         document.getElementById('salarySchoolAddress').value = s.schoolAddress || '';
         document.getElementById('salaryReceiptNo').value = s.receiptNo || '';
@@ -993,9 +1050,14 @@
         document.getElementById('basicSalary').value = s.basic || 0;
         document.getElementById('newSalaryPaidInput').value = 0;
         document.getElementById('netPaidSalary').value = s.netPaid || 0;
-        document.getElementById('salaryDues').value = s.dues !== undefined ? s.dues : ((s.basic || 0) - (s.netPaid || 0));
+        let currentDues = s.dues !== undefined ? s.dues : ((s.basic || 0) - (s.netPaid || 0));
+        document.getElementById('salaryDues').value = currentDues;
         document.getElementById('salaryMonth').value = s.month || '';
         document.getElementById('salaryInWords').value = s.inWords || '';
+
+        renderSalaryHistory(s);
+        showTab('billingTab'); // Switch to home tab to see the history section below
+
         document.getElementById('salaryFormTitle').innerText = "Update Salary Record";
         document.getElementById('saveSalaryBtn').innerText = "Update Salary Record";
         document.getElementById('cancelSalaryBtn').style.display = "block";
