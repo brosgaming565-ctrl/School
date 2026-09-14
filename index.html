@@ -67,7 +67,6 @@
             align-items: center;
             gap: 4px;
         }
-        .dev-credit a:hover { text-decoration: underline; }
 
         /* Tabs */
         .tab-content { display: none; }
@@ -110,31 +109,8 @@
         .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
-
-        #printableArea, #printableSalaryArea, #printableHistoryArea, #printableTeacherHistoryArea { display: none; }
-
-        @media print {
-            body * { visibility: hidden; }
-            body.print-billing #printableArea, body.print-billing #printableArea * { visibility: visible; }
-            body.print-billing #printableArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-
-            body.print-salary #printableSalaryArea, body.print-salary #printableSalaryArea * { visibility: visible; }
-            body.print-salary #printableSalaryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-
-            body.print-history #printableHistoryArea, body.print-history #printableHistoryArea * { visibility: visible; }
-            body.print-history #printableHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-
-            body.print-teacher-history #printableTeacherHistoryArea, body.print-teacher-history #printableTeacherHistoryArea * { visibility: visible; }
-            body.print-teacher-history #printableTeacherHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-
-            .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
-            .bill-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 8px; }
-            .bill-header h2 { font-size: 16px; margin-bottom: 2px; }
-            .bill-header p { font-size: 11px; font-weight: 600; }
-            .p-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
-            .p-table th, .p-table td { border: 1px solid #000; padding: 4px; font-size: 10px; }
-            .sig-area { display: flex; justify-content: space-between; margin-top: 40px; font-size: 10px; }
-        }
+        .btn-act-edit { background: #ff9800; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; }
+        .btn-act-delete { background: #f44336; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin-left: 4px; }
     </style>
 </head>
 <body>
@@ -151,11 +127,8 @@
 
     <!-- Developer Credit Tag -->
     <div class="dev-credit">
-        <span>This software prepared by <strong>Niranjan Kumar Shah</strong></span>
-        <a href="https://wa.me/9779826216576" target="_blank">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            +9779826216576
-        </a>
+        <span>Prepared by <strong>Niranjan Kumar Shah</strong></span>
+        <a href="https://wa.me/9779826216576" target="_blank">+9779826216576</a>
     </div>
 </div>
 
@@ -285,11 +258,11 @@
 
                             <div class="grid-2">
                                 <div class="form-group">
-                                    <label>Make Deposit Payment (Is Month Kitna Diya):</label>
-                                    <input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter payment amount">
+                                    <label>Make Deposit Payment:</label>
+                                    <input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter amount">
                                 </div>
                                 <div class="form-group">
-                                    <label>Deposit Date (Tareekh):</label>
+                                    <label>Deposit Date:</label>
                                     <input type="date" id="depositDate">
                                 </div>
                             </div>
@@ -342,17 +315,7 @@
 
             <!-- SINGLE STUDENT DEPOSIT HISTORY REPORT -->
             <div class="box" id="studentDepositHistoryBox" style="display: none; margin-top: 15px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                    <div>
-                        <h3 id="studentHistoryTitle">📅 Selected Student Deposit History</h3>
-                        <p style="font-size:11px; color:#666;">Is student ki pehle se le kar ab tak ki tamam payments ki history.</p>
-                    </div>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="printSelectedStudentHistory()">🖨️ Print History</button>
-                        <button class="btn btn-success" onclick="exportSelectedStudentHistoryToExcel()">📊 Download Excel</button>
-                        <button class="btn" style="background: #37474f; color: white;" onclick="exportSelectedStudentHistoryToJSON()">📥 Download JSON</button>
-                    </div>
-                </div>
+                <h3 id="studentHistoryTitle">📅 Selected Student Deposit History</h3>
                 <div style="overflow-x: auto;">
                     <table class="data-table">
                         <thead>
@@ -426,7 +389,7 @@
                                 <input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required placeholder="0.00">
                             </div>
                             <div class="form-group">
-                                <label>Remaining Dues (Baki)</label>
+                                <label>Remaining Dues</label>
                                 <input type="number" id="salaryDues" readonly placeholder="0.00" style="font-weight: bold; color: red; background:#fee;">
                             </div>
                         </div>
@@ -443,19 +406,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Amount in Words (Manual)</label>
+                            <label>Amount in Words</label>
                             <input type="text" id="salaryInWords" placeholder="e.g. TEN THOUSAND RUPEES ONLY" required>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Prepared By</label>
-                                <input type="text" id="salaryPreparedBy" required placeholder="Staff Name">
-                            </div>
-                            <div class="form-group">
-                                <label>Authorized Signature Text</label>
-                                <input type="text" id="salaryAuthSign" value="Authorized Signature">
-                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block" id="saveSalaryBtn">Save / Update Salary Record</button>
@@ -469,8 +421,8 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Payment Date</th>
-                                    <th>Receipt No</th>
+                                    <th>Date</th>
+                                    <th>Receipt</th>
                                     <th>Teacher Name</th>
                                     <th>Month</th>
                                     <th>Total Sal.</th>
@@ -486,11 +438,10 @@
             </div>
         </div>
 
-        <!-- SETTINGS TAB (CHANGE USERNAME & PASSWORD) -->
+        <!-- SETTINGS TAB -->
         <div id="settingsTab" class="tab-content">
             <div class="box" style="max-width: 500px; margin: 30px auto;">
                 <h3>⚙️ Change Login Username & Password</h3>
-                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Yahan se aap apne system ka username aur password badal sakte hain.</p>
                 <div class="form-group">
                     <label>New Username:</label>
                     <input type="text" id="newUsername" placeholder="Enter new username">
@@ -513,7 +464,7 @@
 
             <div class="box" style="max-width: 500px; margin: 30px auto;">
                 <h3>2. Restore Data Backup</h3>
-                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Restore system database using exported .json file.</p>
+                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Select your exported .json backup file to load data.</p>
                 <div class="form-group">
                     <input type="file" id="backupFileInput" accept=".json">
                 </div>
@@ -523,16 +474,10 @@
     </div>
 </div>
 
-<!-- PRINTABLE TEMPLATES -->
-<div id="printableArea"></div>
-<div id="printableSalaryArea"></div>
-
 <script>
-    // Default Credentials setup
     if (!localStorage.getItem("school_user")) localStorage.setItem("school_user", "admin");
     if (!localStorage.getItem("school_pass")) localStorage.setItem("school_pass", "12345");
 
-    // 19 Default Fee Particular Names
     const particularNamesList = [
         "Admission Fee", "Monthly Tuition Fee", "Exam Fee", "Computer Fee", 
         "Library Fee", "Transport Fee", "Hostel Fee", "Laboratory Fee", 
@@ -546,7 +491,6 @@
     let editingStudentId = null;
     let editingSalaryId = null;
 
-    // Initialize page
     window.onload = function() {
         initParticularsTable();
         setDefaultDates();
@@ -579,9 +523,7 @@
     function calculateGrossTotal() {
         const amounts = document.querySelectorAll('.part-amount-input');
         let total = 0;
-        amounts.forEach(inp => {
-            total += parseFloat(inp.value) || 0;
-        });
+        amounts.forEach(inp => { total += parseFloat(inp.value) || 0; });
         document.getElementById('grossTotal').value = total;
         calculateBalance();
     }
@@ -589,31 +531,21 @@
     function calculateBalance() {
         let gross = parseFloat(document.getElementById('grossTotal').value) || 0;
         let newDeposit = parseFloat(document.getElementById('newDepositInput').value) || 0;
-        
         let existingTotalDeposit = 0;
         if(editingStudentId !== null) {
             let student = studentsData.find(s => s.id === editingStudentId);
-            if(student) {
-                existingTotalDeposit = student.totalDeposit || 0;
-            }
+            if(student) existingTotalDeposit = student.totalDeposit || 0;
         }
-
         let totalPaid = existingTotalDeposit + newDeposit;
         let netDues = gross - totalPaid;
-
         document.getElementById('depositAmount').value = totalPaid;
         document.getElementById('netDues').value = netDues;
     }
 
-    // Login Function
     function login() {
         let uInput = document.getElementById("loginUsername").value;
         let pInput = document.getElementById("loginPassword").value;
-
-        let storedUser = localStorage.getItem("school_user");
-        let storedPass = localStorage.getItem("school_pass");
-
-        if (uInput === storedUser && pInput === storedPass) {
+        if (uInput === localStorage.getItem("school_user") && pInput === localStorage.getItem("school_pass")) {
             document.getElementById("loginBgWrapper").style.display = "none";
             document.getElementById("appScreen").style.display = "block";
         } else {
@@ -621,19 +553,14 @@
         }
     }
 
-    // Logout Function
     function logout() {
         document.getElementById("appScreen").style.display = "none";
         document.getElementById("loginBgWrapper").style.display = "flex";
-        document.getElementById("loginUsername").value = "";
-        document.getElementById("loginPassword").value = "";
     }
 
-    // Switch Tabs
     function showTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active-tab'));
-
         document.getElementById(tabId).classList.add('active');
         if(tabId === 'billingTab') document.getElementById('tabBtnHome').classList.add('active-tab');
         if(tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
@@ -646,34 +573,25 @@
         document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Update Credentials function
     function updateCredentials() {
         let newU = document.getElementById("newUsername").value.trim();
         let newP = document.getElementById("newPassword").value.trim();
-
-        if (!newU && !newP) {
-            alert("Please enter at least a new username or password.");
-            return;
-        }
-
+        if (!newU && !newP) { alert("Please enter new details."); return; }
         if (newU) localStorage.setItem("school_user", newU);
         if (newP) localStorage.setItem("school_pass", newP);
-
         alert("Credentials updated successfully!");
         document.getElementById("newUsername").value = "";
         document.getElementById("newPassword").value = "";
     }
 
-    // Save Student Bill
     function saveBill(e) {
         e.preventDefault();
-        
         let particulars = [];
-        const rows = document.querySelectorAll('#particularsContainer tr');
-        rows.forEach(row => {
-            let name = row.querySelector('.part-name-input').value;
-            let amount = parseFloat(row.querySelector('.part-amount-input').value) || 0;
-            particulars.push({ name, amount });
+        document.querySelectorAll('#particularsContainer tr').forEach(row => {
+            particulars.push({
+                name: row.querySelector('.part-name-input').value,
+                amount: parseFloat(row.querySelector('.part-amount-input').value) || 0
+            });
         });
 
         let newDeposit = parseFloat(document.getElementById('newDepositInput').value) || 0;
@@ -681,8 +599,7 @@
         let grossTotal = parseFloat(document.getElementById('grossTotal').value) || 0;
 
         if(editingStudentId === null) {
-            // New entry
-            let newStudent = {
+            studentsData.push({
                 id: Date.now(),
                 schoolAddress: document.getElementById('schoolAddress').value,
                 billNo: document.getElementById('billNo').value,
@@ -701,52 +618,46 @@
                 totalDeposit: newDeposit,
                 amountInWords: document.getElementById('amountInWords').value,
                 history: newDeposit > 0 ? [{ date: depositDate, amount: newDeposit, billNo: document.getElementById('billNo').value }] : []
-            };
-            studentsData.push(newStudent);
+            });
         } else {
-            // Update entry
-            let student = studentsData.find(s => s.id === editingStudentId);
-            if(student) {
-                student.schoolAddress = document.getElementById('schoolAddress').value;
-                student.billNo = document.getElementById('billNo').value;
-                student.billDate = document.getElementById('billDate').value;
-                student.studentName = document.getElementById('studentName').value;
-                student.fatherName = document.getElementById('fatherName').value;
-                student.studentClass = document.getElementById('studentClass').value;
-                student.rollNo = document.getElementById('rollNo').value;
-                student.section = document.getElementById('section').value;
-                student.contactNo = document.getElementById('contactNo').value;
-                student.billMonth = document.getElementById('billMonth').value;
-                student.billPreparedBy = document.getElementById('billPreparedBy').value;
-                student.authorizedSign = document.getElementById('authorizedSign').value;
-                student.particulars = particulars;
-                student.grossTotal = grossTotal;
-                student.amountInWords = document.getElementById('amountInWords').value;
-
+            let st = studentsData.find(s => s.id === editingStudentId);
+            if(st) {
+                st.schoolAddress = document.getElementById('schoolAddress').value;
+                st.billNo = document.getElementById('billNo').value;
+                st.billDate = document.getElementById('billDate').value;
+                st.studentName = document.getElementById('studentName').value;
+                st.fatherName = document.getElementById('fatherName').value;
+                st.studentClass = document.getElementById('studentClass').value;
+                st.rollNo = document.getElementById('rollNo').value;
+                st.section = document.getElementById('section').value;
+                st.contactNo = document.getElementById('contactNo').value;
+                st.billMonth = document.getElementById('billMonth').value;
+                st.billPreparedBy = document.getElementById('billPreparedBy').value;
+                st.authorizedSign = document.getElementById('authorizedSign').value;
+                st.particulars = particulars;
+                st.grossTotal = grossTotal;
+                st.amountInWords = document.getElementById('amountInWords').value;
                 if(newDeposit > 0) {
-                    student.totalDeposit = (student.totalDeposit || 0) + newDeposit;
-                    if(!student.history) student.history = [];
-                    student.history.push({ date: depositDate, amount: newDeposit, billNo: student.billNo });
+                    st.totalDeposit = (st.totalDeposit || 0) + newDeposit;
+                    if(!st.history) st.history = [];
+                    st.history.push({ date: depositDate, amount: newDeposit, billNo: st.billNo });
                 }
             }
         }
-
         localStorage.setItem('school_students_data', JSON.stringify(studentsData));
         resetForm();
         renderBillingTable();
         updateDashboardStats();
-        alert("Bill saved successfully!");
+        alert("Saved successfully!");
     }
 
     function renderBillingTable() {
         const tbody = document.getElementById('billingTableBody');
         tbody.innerHTML = '';
-        
         studentsData.forEach(st => {
             let total = st.grossTotal || 0;
             let paid = st.totalDeposit || 0;
             let dues = total - paid;
-
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${st.billNo}</td>
@@ -767,7 +678,6 @@
     function editStudent(id) {
         let st = studentsData.find(s => s.id === id);
         if(!st) return;
-
         editingStudentId = id;
         document.getElementById('recordId').value = st.id;
         document.getElementById('schoolAddress').value = st.schoolAddress || '';
@@ -784,9 +694,7 @@
         document.getElementById('authorizedSign').value = st.authorizedSign || '';
         document.getElementById('amountInWords').value = st.amountInWords || '';
 
-        // Fill particulars
-        const rows = document.querySelectorAll('#particularsContainer tr');
-        rows.forEach((row, idx) => {
+        document.querySelectorAll('#particularsContainer tr').forEach((row, idx) => {
             if(st.particulars && st.particulars[idx]) {
                 row.querySelector('.part-amount-input').value = st.particulars[idx].amount;
             }
@@ -800,38 +708,11 @@
         document.getElementById('formTitle').innerText = "Update Student Bill / Add Deposit";
         document.getElementById('saveBtn').innerText = "Update Bill & Add Payment";
         document.getElementById('cancelBtn').style.display = "block";
-
-        // Render student history table
-        renderStudentHistory(st);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderStudentHistory(st) {
-        const historyBox = document.getElementById('studentDepositHistoryBox');
-        const tbody = document.getElementById('studentHistoryTableBody');
-        tbody.innerHTML = '';
-
-        if(st.history && st.history.length > 0) {
-            historyBox.style.display = 'block';
-            document.getElementById('studentHistoryTitle').innerText = `📅 Deposit History: ${st.studentName}`;
-            st.history.forEach(h => {
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${h.date}</td>
-                    <td>${h.billNo}</td>
-                    <td>${st.studentName}</td>
-                    <td>${st.fatherName}</td>
-                    <td>Rs. ${h.amount}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        } else {
-            historyBox.style.display = 'none';
-        }
-    }
-
     function deleteStudent(id) {
-        if(confirm("Are you sure you want to delete this bill?")) {
+        if(confirm("Delete this bill?")) {
             studentsData = studentsData.filter(s => s.id !== id);
             localStorage.setItem('school_students_data', JSON.stringify(studentsData));
             renderBillingTable();
@@ -846,7 +727,6 @@
         document.getElementById('formTitle').innerText = "Create New Student Bill";
         document.getElementById('saveBtn').innerText = "Save / Update Entry";
         document.getElementById('cancelBtn').style.display = "none";
-        document.getElementById('studentDepositHistoryBox').style.display = 'none';
         initParticularsTable();
         setDefaultDates();
     }
@@ -858,8 +738,7 @@
 
     function updateDashboardStats() {
         document.getElementById('statTotalEntries').innerText = studentsData.length;
-        let totalColl = 0;
-        let totalDues = 0;
+        let totalColl = 0, totalDues = 0;
         studentsData.forEach(st => {
             totalColl += st.totalDeposit || 0;
             totalDues += (st.grossTotal || 0) - (st.totalDeposit || 0);
@@ -872,18 +751,8 @@
         let query = document.getElementById('searchInput').value.toLowerCase();
         const tbody = document.getElementById('billingTableBody');
         tbody.innerHTML = '';
-
-        let filtered = studentsData.filter(st => 
-            st.studentName.toLowerCase().includes(query) ||
-            st.fatherName.toLowerCase().includes(query) ||
-            st.billNo.toLowerCase().includes(query)
-        );
-
-        filtered.forEach(st => {
-            let total = st.grossTotal || 0;
-            let paid = st.totalDeposit || 0;
-            let dues = total - paid;
-
+        studentsData.filter(st => st.studentName.toLowerCase().includes(query) || st.fatherName.toLowerCase().includes(query) || st.billNo.toLowerCase().includes(query)).forEach(st => {
+            let total = st.grossTotal || 0, paid = st.totalDeposit || 0, dues = total - paid;
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${st.billNo}</td>
@@ -905,18 +774,14 @@
     function calculateTeacherSalary() {
         let total = parseFloat(document.getElementById('basicSalary').value) || 0;
         let nowPaid = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
-
         let existingPaid = 0;
         if(editingSalaryId !== null) {
             let sal = salaryData.find(s => s.id === editingSalaryId);
             if(sal) existingPaid = sal.totalPaid || 0;
         }
-
         let netPaid = existingPaid + nowPaid;
-        let dues = total - netPaid;
-
         document.getElementById('netPaidSalary').value = netPaid;
-        document.getElementById('salaryDues').value = dues;
+        document.getElementById('salaryDues').value = total - netPaid;
     }
 
     function saveSalary(e) {
@@ -926,7 +791,7 @@
         let payDate = document.getElementById('salaryDate').value;
 
         if(editingSalaryId === null) {
-            let newSal = {
+            salaryData.push({
                 id: Date.now(),
                 schoolAddress: document.getElementById('salarySchoolAddress').value,
                 receiptNo: document.getElementById('salaryReceiptNo').value,
@@ -938,12 +803,8 @@
                 totalSalary: total,
                 totalPaid: nowPaid,
                 month: document.getElementById('salaryMonth').value,
-                inWords: document.getElementById('salaryInWords').value,
-                preparedBy: document.getElementById('salaryPreparedBy').value,
-                authSign: document.getElementById('salaryAuthSign').value,
-                history: nowPaid > 0 ? [{ date: payDate, amount: nowPaid, receiptNo: document.getElementById('salaryReceiptNo').value }] : []
-            };
-            salaryData.push(newSal);
+                inWords: document.getElementById('salaryInWords').value
+            });
         } else {
             let sal = salaryData.find(s => s.id === editingSalaryId);
             if(sal) {
@@ -955,23 +816,15 @@
                 sal.contact = document.getElementById('teacherContact').value;
                 sal.designation = document.getElementById('teacherDesignation').value;
                 sal.totalSalary = total;
+                if(nowPaid > 0) sal.totalPaid = (sal.totalPaid || 0) + nowPaid;
                 sal.month = document.getElementById('salaryMonth').value;
                 sal.inWords = document.getElementById('salaryInWords').value;
-                sal.preparedBy = document.getElementById('salaryPreparedBy').value;
-                sal.authSign = document.getElementById('salaryAuthSign').value;
-
-                if(nowPaid > 0) {
-                    sal.totalPaid = (sal.totalPaid || 0) + nowPaid;
-                    if(!sal.history) sal.history = [];
-                    sal.history.push({ date: payDate, amount: nowPaid, receiptNo: sal.receiptNo });
-                }
             }
         }
-
         localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
         resetSalaryForm();
         renderSalaryTable();
-        alert("Salary record saved successfully!");
+        alert("Salary saved successfully!");
     }
 
     function renderSalaryTable() {
@@ -1001,7 +854,6 @@
         let s = salaryData.find(item => item.id === id);
         if(!s) return;
         editingSalaryId = id;
-
         document.getElementById('salaryRecordId').value = s.id;
         document.getElementById('salarySchoolAddress').value = s.schoolAddress || '';
         document.getElementById('salaryReceiptNo').value = s.receiptNo || '';
@@ -1016,16 +868,13 @@
         document.getElementById('salaryDues').value = (s.totalSalary || 0) - (s.totalPaid || 0);
         document.getElementById('salaryMonth').value = s.month || '';
         document.getElementById('salaryInWords').value = s.inWords || '';
-        document.getElementById('salaryPreparedBy').value = s.preparedBy || '';
-        document.getElementById('salaryAuthSign').value = s.authSign || '';
-
-        document.getElementById('salaryFormTitle').innerText = "Update Salary / Pay Installment";
+        document.getElementById('salaryFormTitle').innerText = "Update Salary Record";
         document.getElementById('saveSalaryBtn').innerText = "Update Salary Record";
         document.getElementById('cancelSalaryBtn').style.display = "block";
     }
 
     function deleteSalary(id) {
-        if(confirm("Delete this salary record?")) {
+        if(confirm("Delete salary record?")) {
             salaryData = salaryData.filter(item => item.id !== id);
             localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
             renderSalaryTable();
@@ -1042,7 +891,7 @@
         setDefaultDates();
     }
 
-    // Backup & Restore
+    // Improved Backup & Robust Restore
     function downloadBackup() {
         let backupObj = { students: studentsData, salary: salaryData };
         let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupObj));
@@ -1057,69 +906,38 @@
     function restoreBackup() {
         let fileInput = document.getElementById('backupFileInput');
         if(fileInput.files.length === 0) {
-            alert("Please select a JSON backup file first.");
+            alert("Pehle koi JSON backup file select karein!");
             return;
         }
         let reader = new FileReader();
         reader.onload = function(e) {
             try {
                 let parsed = JSON.parse(e.target.result);
-                if(parsed.students) {
+                
+                // Smart parsing for different formats
+                if(parsed.students && Array.isArray(parsed.students)) {
                     studentsData = parsed.students;
-                    localStorage.setItem('school_students_data', JSON.stringify(studentsData));
+                } else if(Array.isArray(parsed)) {
+                    studentsData = parsed;
                 }
-                if(parsed.salary) {
+
+                if(parsed.salary && Array.isArray(parsed.salary)) {
                     salaryData = parsed.salary;
-                    localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
                 }
+
+                localStorage.setItem('school_students_data', JSON.stringify(studentsData));
+                localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
+
                 renderBillingTable();
                 renderSalaryTable();
                 updateDashboardStats();
-                alert("Data restored successfully!");
+                
+                alert("Data Successfully Restored!");
             } catch(err) {
-                alert("Invalid JSON backup file!");
+                alert("File read karne me error aayi! Kripya valid JSON backup file select karein.");
             }
         };
         reader.readAsText(fileInput.files[0]);
-    }
-
-    // Export Excel helpers for student history
-    function exportSelectedStudentHistoryToExcel() {
-        if(editingStudentId === null) {
-            alert("Please select a student first by clicking Edit on their bill.");
-            return;
-        }
-        let st = studentsData.find(s => s.id === editingStudentId);
-        if(!st || !st.history || st.history.length === 0) {
-            alert("No history records found for this student.");
-            return;
-        }
-        let exportData = st.history.map(h => ({
-            "Deposit Date": h.date,
-            "Bill No": h.billNo,
-            "Student Name": st.studentName,
-            "Father's Name": st.fatherName,
-            "Deposited Amount (Rs.)": h.amount
-        }));
-        let worksheet = XLSX.utils.json_to_sheet(exportData);
-        let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "DepositHistory");
-        XLSX.writeFile(workbook, `${st.studentName}_History.xlsx`);
-    }
-
-    function exportSelectedStudentHistoryToJSON() {
-        if(editingStudentId === null) {
-            alert("Please select a student first.");
-            return;
-        }
-        let st = studentsData.find(s => s.id === editingStudentId);
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(st));
-        let dl = document.createElement('a');
-        dl.setAttribute("href", dataStr);
-        dl.setAttribute("download", `${st.studentName}_record.json`);
-        document.body.appendChild(dl);
-        dl.click();
-        dl.remove();
     }
 </script>
 
