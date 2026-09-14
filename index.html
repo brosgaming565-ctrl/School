@@ -76,46 +76,65 @@
         /* Hide Print Sections on Normal Screen */
         #printableArea, #salaryPrintableArea { display: none; }
 
-        /* STRICT SEPARATE PRINT CONTROLS */
+        /* PRINT STYLES FIX */
         @media print {
-            body * { display: none !important; }
-
-            /* Mode 1: Student Bill Print */
+            body * { visibility: hidden !important; }
+            
             body.print-student-mode #printableArea, 
             body.print-student-mode #printableArea * { 
-                display: block !important; 
+                visibility: visible !important; 
             }
-            body.print-student-mode #printableArea table, 
-            body.print-student-mode #printableArea tr, 
-            body.print-student-mode #printableArea td, 
-            body.print-student-mode #printableArea th { 
-                display: table-cell !important; 
+            body.print-student-mode #printableArea { 
+                display: block !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
             }
-            body.print-student-mode #printableArea table { display: table !important; }
-            body.print-student-mode #printableArea tr { display: table-row !important; }
 
-            /* Mode 2: Salary Slip Print */
             body.print-salary-mode #salaryPrintableArea, 
             body.print-salary-mode #salaryPrintableArea * { 
-                display: block !important; 
+                visibility: visible !important; 
             }
-            body.print-salary-mode #salaryPrintableArea table, 
-            body.print-salary-mode #salaryPrintableArea tr, 
-            body.print-salary-mode #salaryPrintableArea td, 
-            body.print-salary-mode #salaryPrintableArea th { 
-                display: table-cell !important; 
+            body.print-salary-mode #salaryPrintableArea { 
+                display: block !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
             }
-            body.print-salary-mode #salaryPrintableArea table { display: table !important; }
-            body.print-salary-mode #salaryPrintableArea tr { display: table-row !important; }
 
-            .bill-box { border: 2px solid #000; padding: 15px; width: 100%; max-width: 700px; margin: 0 auto; box-sizing: border-box; }
-            .bill-header { display: flex !important; align-items: center; justify-content: center; gap: 15px; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 10px; text-align: center; }
-            .bill-header img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; }
-            .bill-header h2 { font-size: 16px; margin-bottom: 2px; }
-            .bill-header p { font-size: 10px; }
-            .p-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
-            .p-table th, .p-table td { border: 1px solid #000; padding: 4px 6px; font-size: 11px; }
-            .sig-area { display: flex !important; justify-content: space-between; margin-top: 35px; font-size: 11px; }
+            .bill-box { 
+                border: 2px solid #000; 
+                padding: 15px; 
+                width: 100%; 
+                max-width: 750px; 
+                margin: 0 auto; 
+                box-sizing: border-box; 
+                background: #fff;
+            }
+            .bill-header { 
+                display: table !important; 
+                width: 100% !important; 
+                border-bottom: 2px solid #000; 
+                padding-bottom: 8px; 
+                margin-bottom: 10px; 
+            }
+            .bill-header-left { display: table-cell !important; width: 80px; vertical-align: middle; }
+            .bill-header-center { display: table-cell !important; text-align: center; vertical-align: middle; }
+            .bill-header img { width: 65px; height: 65px; object-fit: contain; }
+            .bill-header h2 { font-size: 16px; margin-bottom: 2px; font-weight: bold; }
+            .bill-header p { font-size: 11px; }
+
+            .info-table { width: 100%; font-size: 11px; margin-bottom: 8px; border-collapse: collapse; }
+            .info-table td { padding: 3px 4px; }
+
+            .p-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+            .p-table th, .p-table td { border: 1px solid #000; padding: 5px; font-size: 11px; text-align: left; }
+            .p-table th { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; }
+            
+            .sig-area { display: table !important; width: 100% !important; margin-top: 40px; font-size: 11px; }
+            .sig-box { display: table-cell !important; width: 50%; text-align: center; }
         }
     </style>
 </head>
@@ -468,18 +487,20 @@
 <div id="printableArea">
     <div class="bill-box">
         <div class="bill-header">
-            <img id="pLogoImg" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
-            <div>
+            <div class="bill-header-left">
+                <img id="pLogoImg" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
+            </div>
+            <div class="bill-header-center">
                 <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
                 <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top: 3px; text-decoration: underline; font-size:13px;">INFORMATION BILL</h3>
+                <h3 style="margin-top: 4px; text-decoration: underline; font-size:13px;">INFORMATION BILL</h3>
             </div>
         </div>
 
-        <table style="width:100%; font-size:11px; margin-bottom:8px;">
+        <table class="info-table">
             <tr>
-                <td><strong>Bill No:</strong> <span id="pBillNo"></span></td>
-                <td><strong>Date:</strong> <span id="pDate"></span></td>
+                <td style="width: 50%;"><strong>Bill No:</strong> <span id="pBillNo"></span></td>
+                <td style="width: 50%;"><strong>Date:</strong> <span id="pDate"></span></td>
             </tr>
             <tr>
                 <td><strong>Student Name:</strong> <span id="pStudentName"></span></td>
@@ -520,19 +541,19 @@
             </tfoot>
         </table>
 
-        <div style="font-size:10px; margin-top:5px; border:1px solid #000; padding:4px;">
+        <div style="font-size:10px; margin-top:6px; border:1px solid #000; padding:6px;">
             <strong>Deposit History:</strong>
             <div id="pDepositHistory"></div>
         </div>
 
-        <p style="font-size: 10px; margin-top: 5px;"><strong>In Words:</strong> <span id="pInWords"></span></p>
+        <p style="font-size: 11px; margin-top: 8px;"><strong>In Words:</strong> <span id="pInWords"></span></p>
 
         <div class="sig-area">
-            <div>
+            <div class="sig-box">
                 <p>___________________</p>
                 <p><strong>Prepared By:</strong> <span id="pPreparedBy"></span></p>
             </div>
-            <div>
+            <div class="sig-box">
                 <p>___________________</p>
                 <p><strong>Authorized Sign:</strong> <span id="pAuthSign"></span></p>
             </div>
@@ -544,18 +565,20 @@
 <div id="salaryPrintableArea">
     <div class="bill-box">
         <div class="bill-header">
-            <img id="pSalaryLogoImg" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
-            <div>
+            <div class="bill-header-left">
+                <img id="pSalaryLogoImg" src="https://via.placeholder.com/100?text=LOGO" alt="Logo">
+            </div>
+            <div class="bill-header-center">
                 <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
                 <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top: 3px; text-decoration: underline; font-size:13px;">TEACHER SALARY RECEIPT</h3>
+                <h3 style="margin-top: 4px; text-decoration: underline; font-size:13px;">TEACHER SALARY RECEIPT</h3>
             </div>
         </div>
 
-        <table style="width:100%; font-size:11px; margin-bottom:10px;">
+        <table class="info-table">
             <tr>
-                <td><strong>Teacher Name:</strong> <span id="psName"></span></td>
-                <td><strong>Designation:</strong> <span id="psDesig"></span></td>
+                <td style="width: 50%;"><strong>Teacher Name:</strong> <span id="psName"></span></td>
+                <td style="width: 50%;"><strong>Designation:</strong> <span id="psDesig"></span></td>
             </tr>
             <tr>
                 <td><strong>Basic Monthly Salary:</strong> Rs. <span id="psBasic"></span></td>
@@ -563,7 +586,7 @@
             </tr>
         </table>
 
-        <p style="font-size: 11px; font-weight: bold; margin-bottom: 5px;">Date-wise Payment History:</p>
+        <p style="font-size: 11px; font-weight: bold; margin: 8px 0 4px 0;">Date-wise Payment History:</p>
         <table class="p-table">
             <thead>
                 <tr>
@@ -582,12 +605,12 @@
             </tfoot>
         </table>
 
-        <div class="sig-area" style="margin-top: 40px;">
-            <div>
+        <div class="sig-area">
+            <div class="sig-box">
                 <p>___________________</p>
                 <p><strong>Teacher's Signature</strong></p>
             </div>
-            <div>
+            <div class="sig-box">
                 <p>___________________</p>
                 <p><strong>Accountant / Principal Sign</strong></p>
             </div>
