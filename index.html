@@ -3,26 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teacher Salary Receipt</title>
+  <title>School Management & Payroll Dashboard</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: #f4f4f9;
-      padding: 20px;
+      background: #f0f2f5;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
+    /* Sidebar Styling */
+    .sidebar {
+      width: 250px;
+      background: #1a202c;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      padding: 20px;
+      background: #2d3748;
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      border-bottom: 1px solid #4a5568;
+    }
+    .nav-links {
+      list-style: none;
+      padding: 20px 0;
+    }
+    .nav-links li a {
+      display: block;
+      padding: 12px 20px;
+      color: #cbd5e0;
+      text-decoration: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .nav-links li a:hover, .nav-links li a.active {
+      background: #3182ce;
+      color: #fff;
+    }
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 25px;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Common Card Styles */
+    .card {
       background: #fff;
-      padding: 20px;
+      padding: 25px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
     }
+    
+    /* Form Styles */
     .header-text {
       text-align: center;
       border-bottom: 2px solid #333;
@@ -65,7 +114,7 @@
       margin-bottom: 4px;
       color: #333;
     }
-    input {
+    input, select {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -92,8 +141,8 @@
       text-align: center;
       margin-top: 25px;
     }
-    .btn-print {
-      background: #28a745;
+    .btn {
+      background: #3182ce;
       color: white;
       padding: 10px 25px;
       border: none;
@@ -101,107 +150,189 @@
       font-size: 16px;
       cursor: pointer;
     }
+    .btn-print {
+      background: #28a745;
+    }
+
     @media print {
-      .btn-container { display: none; }
+      .sidebar, .btn-container { display: none !important; }
       body { background: white; padding: 0; }
-      .container { box-shadow: none; border: none; }
+      .main-content { padding: 0; }
+      .card { box-shadow: none; border: none; padding: 0; }
       input { border: none; border-bottom: 1px dotted #000; border-radius: 0; padding: 2px; }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- Header Without Logo -->
-  <div class="header-text">
-    <h1>Shree Chiranjivee Narayani Residential School</h1>
-    <p>Yamunamai, R.M.-1, Sukdev Chowk, Rautahat</p>
-    <p>Estd: 2073</p>
+  <!-- Side Navigation Bar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      SCHOOL ERP SYSTEM
+    </div>
+    <ul class="nav-links">
+      <li><a onclick="showTab('dashboard')" id="link-dashboard" class="active">Dashboard</a></li>
+      <li><a onclick="showTab('student-fee')" id="link-student-fee">Student Fee Receipt</a></li>
+      <li><a onclick="showTab('teacher-salary')" id="link-teacher-salary">Teacher Salary Receipt</a></li>
+    </ul>
   </div>
 
-  <div class="title">TEACHER SALARY RECEIPT</div>
-
-  <!-- Details Form -->
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Receipt No:</label>
-      <input type="text" placeholder="Receipt Number">
-    </div>
-    <div class="form-group">
-      <label>Date:</label>
-      <input type="date">
-    </div>
-
-    <div class="form-group">
-      <label>Teacher's Name:</label>
-      <input type="text" placeholder="Enter Teacher Name">
-    </div>
-    <div class="form-group">
-      <label>Father's Name:</label>
-      <input type="text" placeholder="Enter Father's Name">
-    </div>
-
-    <div class="form-group">
-      <label>Contact No:</label>
-      <input type="text" placeholder="Enter Phone Number">
-    </div>
-    <div class="form-group">
-      <label>Designation/Subject:</label>
-      <input type="text" placeholder="e.g. Science Teacher">
-    </div>
-
-    <div class="form-group">
-      <label>Basic Salary (NPR):</label>
-      <input type="number" id="basicSalary" oninput="calculateNet()" placeholder="0.00">
-    </div>
-    <div class="form-group">
-      <label>Deduction Amount (NPR):</label>
-      <input type="number" id="deduction" oninput="calculateNet()" placeholder="0.00">
-    </div>
-
-    <div class="form-group">
-      <label>Net Paid Amount (NPR):</label>
-      <input type="number" id="netAmount" readonly placeholder="0.00">
-    </div>
-    <div class="form-group">
-      <label>Month / Year:</label>
-      <input type="text" placeholder="e.g. Baishakh 2081">
-    </div>
-
-    <div class="form-group full">
-      <label>Amount in Words (Manual):</label>
-      <input type="text" placeholder="e.g. Twenty Thousand Five Hundred Rupees Only">
-    </div>
-  </div>
-
-  <!-- Signatures -->
-  <div class="signatures">
-    <div class="sig-box">
-      <div class="form-group" style="margin-bottom: 5px;">
-        <label>Prepared By (Name):</label>
-        <input type="text" placeholder="Staff Name" style="text-align: center;">
+  <!-- Main Content -->
+  <div class="main-content">
+    
+    <!-- Tab 1: Dashboard Overview -->
+    <div id="dashboard" class="tab-content active">
+      <div class="card">
+        <h2>Welcome to School ERP Dashboard</h2>
+        <p style="margin-top: 10px; color: #666;">Select an option from the sidebar menu to generate receipts or view records.</p>
       </div>
-      <div style="font-size: 12px; color: #555;">(Bill Prepared By)</div>
     </div>
 
-    <div class="sig-box">
-      <div class="sig-line">Authorized Signature</div>
+    <!-- Tab 2: Student Fee Receipt (Purana Module) -->
+    <div id="student-fee" class="tab-content">
+      <div class="card">
+        <div class="header-text">
+          <h1>Shree Chiranjivee Narayani Residential School</h1>
+          <p>Yamunamai, R.M.-1, Sukdev Chowk, Rautahat</p>
+          <p>Estd: 2073</p>
+        </div>
+        <div class="title">STUDENT FEE RECEIPT</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Receipt No:</label>
+            <input type="text" placeholder="Fee Receipt Number">
+          </div>
+          <div class="form-group">
+            <label>Date:</label>
+            <input type="date">
+          </div>
+          <div class="form-group">
+            <label>Student Name:</label>
+            <input type="text" placeholder="Enter Student Name">
+          </div>
+          <div class="form-group">
+            <label>Class:</label>
+            <input type="text" placeholder="e.g. Class 10">
+          </div>
+          <div class="form-group full">
+            <label>Total Fee Paid (NPR):</label>
+            <input type="number" placeholder="0.00">
+          </div>
+        </div>
+        <div class="btn-container">
+          <button class="btn btn-print" onclick="window.print()">Print Fee Receipt</button>
+        </div>
+      </div>
     </div>
+
+    <!-- Tab 3: Teacher Salary Receipt (Updated New Request) -->
+    <div id="teacher-salary" class="tab-content">
+      <div class="card">
+        <!-- Header Without Logo -->
+        <div class="header-text">
+          <h1>Shree Chiranjivee Narayani Residential School</h1>
+          <p>Yamunamai, R.M.-1, Sukdev Chowk, Rautahat</p>
+          <p>Estd: 2073</p>
+        </div>
+
+        <div class="title">TEACHER SALARY RECEIPT</div>
+
+        <!-- Details Form -->
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Receipt No:</label>
+            <input type="text" placeholder="Receipt Number">
+          </div>
+          <div class="form-group">
+            <label>Date:</label>
+            <input type="date">
+          </div>
+
+          <div class="form-group">
+            <label>Teacher's Name:</label>
+            <input type="text" placeholder="Enter Teacher Name">
+          </div>
+          <div class="form-group">
+            <label>Father's Name:</label>
+            <input type="text" placeholder="Enter Father's Name">
+          </div>
+
+          <div class="form-group">
+            <label>Contact No:</label>
+            <input type="text" placeholder="Enter Phone Number">
+          </div>
+          <div class="form-group">
+            <label>Designation/Subject:</label>
+            <input type="text" placeholder="e.g. Science Teacher">
+          </div>
+
+          <div class="form-group">
+            <label>Basic Salary (NPR):</label>
+            <input type="number" id="basicSalary" oninput="calculateNet()" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label>Deduction Amount (NPR):</label>
+            <input type="number" id="deduction" oninput="calculateNet()" placeholder="0.00">
+          </div>
+
+          <div class="form-group">
+            <label>Net Paid Amount (NPR):</label>
+            <input type="number" id="netAmount" readonly placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label>Month / Year:</label>
+            <input type="text" placeholder="e.g. Baishakh 2081">
+          </div>
+
+          <div class="form-group full">
+            <label>Amount in Words (Manual):</label>
+            <input type="text" placeholder="e.g. Twenty Thousand Five Hundred Rupees Only">
+          </div>
+        </div>
+
+        <!-- Signatures Section -->
+        <div class="signatures">
+          <div class="sig-box">
+            <div class="form-group" style="margin-bottom: 5px;">
+              <label>Prepared By (Name):</label>
+              <input type="text" placeholder="Staff Name" style="text-align: center;">
+            </div>
+            <div style="font-size: 12px; color: #555;">(Bill Prepared By)</div>
+          </div>
+
+          <div class="sig-box">
+            <div class="sig-line">Authorized Signature</div>
+          </div>
+        </div>
+
+        <div class="btn-container">
+          <button class="btn btn-print" onclick="window.print()">Print Salary Receipt</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="btn-container">
-    <button class="btn-print" onclick="window.print()">Print Receipt</button>
-  </div>
-</div>
+  <script>
+    // Tab Switching Logic
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const links = document.querySelectorAll('.nav-links a');
 
-<script>
-  function calculateNet() {
-    const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
-    const deduction = parseFloat(document.getElementById('deduction').value) || 0;
-    const net = basic - deduction;
-    document.getElementById('netAmount').value = net > 0 ? net.toFixed(2) : '0.00';
-  }
-</script>
+      tabs.forEach(tab => tab.classList.remove('active'));
+      links.forEach(link => link.classList.remove('active'));
 
+      document.getElementById(tabId).classList.add('active');
+      document.getElementById('link-' + tabId).classList.add('active');
+    }
+
+    // Salary Calculation
+    function calculateNet() {
+      const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
+      const deduction = parseFloat(document.getElementById('deduction').value) || 0;
+      const net = basic - deduction;
+      document.getElementById('netAmount').value = net > 0 ? net.toFixed(2) : '0.00';
+    }
+  </script>
 </body>
 </html>
