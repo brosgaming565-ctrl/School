@@ -353,9 +353,10 @@
                         <h3 id="studentHistoryTitle">📅 Selected Student Deposit History</h3>
                         <p style="font-size:11px; color:#666;">Is student ki pehle se le kar ab tak ki tamam payments ki history.</p>
                     </div>
-                    <div style="display:flex; gap:6px;">
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
                         <button class="btn btn-primary" onclick="printSelectedStudentHistory()">🖨️ Print History</button>
                         <button class="btn btn-success" onclick="exportSelectedStudentHistoryToExcel()">📊 Download Excel</button>
+                        <button class="btn" style="background: #37474f; color: white;" onclick="exportSelectedStudentHistoryToJSON()">📥 Download JSON</button>
                     </div>
                 </div>
                 <div style="overflow-x: auto;">
@@ -495,9 +496,10 @@
             <div class="box" id="teacherSalaryHistoryBox" style="display: none; margin-top: 15px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
                     <h3 id="teacherHistoryTitle">📅 Selected Teacher Payment History</h3>
-                    <div style="display:flex; gap:6px;">
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
                         <button class="btn btn-primary" onclick="printSelectedTeacherHistory()">🖨️ Print Teacher History</button>
                         <button class="btn btn-success" onclick="exportSelectedTeacherHistoryToExcel()">📊 Download Excel</button>
+                        <button class="btn" style="background: #37474f; color: white;" onclick="exportSelectedTeacherHistoryToJSON()">📥 Download JSON</button>
                     </div>
                 </div>
                 <div style="overflow-x: auto;">
@@ -751,7 +753,7 @@
         
         let wordsInput = document.getElementById('amountInWords');
         if(!wordsInput.value || wordsInput.dataset.auto === "true") {
-            wordsInput.value = inWords(totalDeposit > 0 ? totalDeposit : gross);
+            wordsInput.value = inWords(newPayment > 0 ? newPayment : (totalDeposit > 0 ? totalDeposit : gross));
             wordsInput.dataset.auto = "true";
         }
     }
@@ -889,6 +891,7 @@
         let id = document.getElementById('salaryRecordId').value;
         let newPaidVal = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
         let salaryDt = document.getElementById('salaryDate').value;
+        let monthVal = document.getElementById('salaryMonth').value;
 
         if (id) {
             let index = salaryData.findIndex(s => s.id === id);
@@ -897,7 +900,7 @@
                 if(!record.history) record.history = [];
 
                 if(newPaidVal > 0) {
-                    record.history.push({ amount: newPaidVal, date: salaryDt, month: document.getElementById('salaryMonth').value });
+                    record.history.push({ amount: newPaidVal, date: salaryDt, month: monthVal });
                 }
 
                 record.schoolAddress = document.getElementById('salarySchoolAddress').value;
@@ -910,7 +913,7 @@
                 record.basic = parseFloat(document.getElementById('basicSalary').value) || 0;
                 record.netPaid = parseFloat(document.getElementById('netPaidSalary').value) || 0;
                 record.dues = parseFloat(document.getElementById('salaryDues').value) || 0;
-                record.month = document.getElementById('salaryMonth').value;
+                record.month = monthVal;
                 record.inWords = document.getElementById('salaryInWords').value;
                 record.preparedBy = document.getElementById('salaryPreparedBy').value;
                 record.authSign = document.getElementById('salaryAuthSign').value;
@@ -932,11 +935,11 @@
                 basic: totalSal,
                 netPaid: newPaidVal,
                 dues: totalSal - newPaidVal,
-                month: document.getElementById('salaryMonth').value,
+                month: monthVal,
                 inWords: document.getElementById('salaryInWords').value,
                 preparedBy: document.getElementById('salaryPreparedBy').value,
                 authSign: document.getElementById('salaryAuthSign').value,
-                history: newPaidVal > 0 ? [{ amount: newPaidVal, date: salaryDt, month: document.getElementById('salaryMonth').value }] : []
+                history: newPaidVal > 0 ? [{ amount: newPaidVal, date: salaryDt, month: monthVal }] : []
             };
             salaryData.push(record);
             alert("Teacher Salary Record Saved!");
@@ -1024,6 +1027,7 @@
         
         let wordsInput = document.getElementById('amountInWords');
         wordsInput.value = item.amountInWords;
+        wordsInput.dataset.auto = "false";
 
         document.getElementById('formTitle').innerText = `Update Entry & Add Deposit for: ${item.studentName}`;
         document.getElementById('cancelBtn').style.display = 'block';
@@ -1134,6 +1138,15 @@
         XLSX.writeFile(workbook, `${activeEditingStudent.studentName}_Deposit_History.xlsx`);
     }
 
+    function exportSelectedStudentHistoryToJSON() {
+        if(!activeEditingStudent) return;
+        let blob = new Blob([JSON.stringify(activeEditingStudent, null, 2)], { type: 'application/json' });
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${activeEditingStudent.studentName}_History.json`;
+        a.click();
+    }
+
     function renderSalaryTable() {
         const tbody = document.getElementById('salaryTableBody');
         tbody.innerHTML = '';
@@ -1181,6 +1194,7 @@
         document.getElementById('salaryDues').value = item.dues || 0;
         document.getElementById('salaryMonth').value = item.month || '';
         document.getElementById('salaryInWords').value = item.inWords || '';
+        document.getElementById('salaryInWords').dataset.auto = "false";
         document.getElementById('salaryPreparedBy').value = item.preparedBy || '';
         document.getElementById('salaryAuthSign').value = item.authSign || '';
 
@@ -1298,6 +1312,15 @@
         let workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Teacher Salary History");
         XLSX.writeFile(workbook, `${teacher.teacherName}_Salary_History.xlsx`);
+    }
+
+    function exportSelectedTeacherHistoryToJSON() {
+        if(!activeEditingTeacher) return;
+        let blob = new Blob([JSON.stringify(activeEditingTeacher, null, 2)], { type: 'application/json' });
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${activeEditingTeacher.teacherName}_Salary_History.json`;
+        a.click();
     }
 
     function resetSalaryForm() {
