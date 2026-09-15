@@ -87,12 +87,18 @@
         .btn-act-print { background: #00897b; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px 12px 2px 2px; }
         .btn-act-delete { background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
 
-        #printableReceipt { display: none; }
+        #printableReceipt, #printableHistory { display: none; }
 
         @media print {
             body * { visibility: hidden !important; }
             #printableReceipt, #printableReceipt * { visibility: visible !important; }
+            #printableHistory, #printableHistory * { visibility: visible !important; }
+            
             #printableReceipt {
+                display: block !important; position: absolute; left: 0; top: 0; width: 100%;
+                background: white !important; color: black !important; padding: 20px; font-size: 14px;
+            }
+            #printableHistory {
                 display: block !important; position: absolute; left: 0; top: 0; width: 100%;
                 background: white !important; color: black !important; padding: 20px; font-size: 14px;
             }
@@ -558,6 +564,28 @@
     </div>
 </div>
 
+<!-- PRINT HISTORY TEMPLATE -->
+<div id="printableHistory">
+    <div style="text-align: center; border-bottom: 2px solid #1a237e; padding-bottom: 10px; margin-bottom: 15px;">
+        <h2 style="color: #1a237e; font-size: 20px; font-weight: bold;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+        <p style="font-size: 12px; color: #444; margin-top: 3px;">Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
+        <h3 id="pHistoricalTitlePrint" style="margin-top: 8px; font-size: 15px; background: #1a237e; color: white; display: inline-block; padding: 3px 15px; border-radius: 4px;">PAYMENT HISTORY REPORT</h3>
+    </div>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 15px;" id="pHistoryTableClone">
+        <thead>
+            <tr style="background: #f0f0f0;">
+                <th style="border: 1px solid #333; padding: 6px;">Payment Date</th>
+                <th style="border: 1px solid #333; padding: 6px;">Ref / ID</th>
+                <th style="border: 1px solid #333; padding: 6px;">Name</th>
+                <th style="border: 1px solid #333; padding: 6px;">Father's Name</th>
+                <th style="border: 1px solid #333; padding: 6px;">Paid Amount</th>
+                <th style="border: 1px solid #333; padding: 6px;">Remaining Dues</th>
+            </tr>
+        </thead>
+        <tbody id="pHistoryBodyClone"></tbody>
+    </table>
+</div>
+
 <script>
     if (!localStorage.getItem("school_user")) localStorage.setItem("school_user", "admin");
     if (!localStorage.getItem("school_pass")) localStorage.setItem("school_pass", "12345");
@@ -635,12 +663,23 @@
         if (uInput === localStorage.getItem("school_user") && pInput === localStorage.getItem("school_pass")) {
             document.getElementById("loginBgWrapper").style.display = "none";
             document.getElementById("appScreen").style.display = "block";
+            // Session active mark karenge taki bar-bar login screen na aaye
+            sessionStorage.setItem("school_logged_in", "true");
         } else {
             alert("Wrong Username or Password!");
         }
     }
 
+    // Page load hone par check karenge ki pehle se logged in hain ya nahi
+    document.addEventListener("DOMContentLoaded", function() {
+        if (sessionStorage.getItem("school_logged_in") === "true") {
+            document.getElementById("loginBgWrapper").style.display = "none";
+            document.getElementById("appScreen").style.display = "block";
+        }
+    });
+
     function logout() {
+        sessionStorage.removeItem("school_logged_in");
         document.getElementById("appScreen").style.display = "none";
         document.getElementById("loginBgWrapper").style.display = "flex";
     }
@@ -707,7 +746,6 @@
             try {
                 const parsed = JSON.parse(e.target.result);
                 
-                // Handle both standard formats (bills/salaries structure or direct localStorage key strings)
                 if(parsed.bills) {
                     studentsData = parsed.bills;
                     localStorage.setItem("school_students_data", JSON.stringify(studentsData));
@@ -727,12 +765,10 @@
                 if(parsed.school_user) localStorage.setItem("school_user", parsed.school_user);
                 if(parsed.school_pass) localStorage.setItem("school_pass", parsed.school_pass);
 
-                // Automatically update tables and statistics after restore
                 renderBillingTable();
                 renderSalaryTable();
                 updateDashboardStats();
                 
-                // Reset history view panes
                 document.getElementById('depositHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Click 'Edit' on any student record above to view their specific payment history.</td></tr>`;
                 document.getElementById('historyTitle').innerText = "📅 Student Payment History";
                 document.getElementById('teacherHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Click 'Edit' on any teacher record above to view their specific salary payment history.</td></tr>`;
@@ -1150,18 +1186,14 @@
     }
 
     function printStudentHistoryTable() {
-        let originalContent = document.body.innerHTML;
-        let historyTableHTML = document.getElementById('depositHistoryBox').innerHTML;
-        document.body.innerHTML = `
-            <div style="padding: 20px;">
-                <h2 style="text-align:center; color:#1a237e; margin-bottom:15px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <h3 style="text-align:center; margin-bottom:20px;">Student Payment History Report</h3>
-                ${historyTableHTML}
-            </div>
-        `;
-        window.print();
-        document.body.innerHTML = originalContent;
-        window.location.reload();
+        let tbodySource = document.getElementById('depositHistoryTableBody');
+        let tbodyClone = document.getElementById('pHistoryBodyClone');
+        tbodyClone.innerHTML = tbodySource.innerHTML;
+        
+        let titleText = document.getElementById('historyTitle').innerText;
+        document.getElementById('pHistoricalTitlePrint').innerText = titleText;
+
+        setTimeout(() => { window.print(); }, 150);
     }
 
     function downloadTeacherHistoryExcel() {
@@ -1194,18 +1226,14 @@
     }
 
     function printTeacherHistoryTable() {
-        let originalContent = document.body.innerHTML;
-        let historyTableHTML = document.getElementById('teacherHistoryBox').innerHTML;
-        document.body.innerHTML = `
-            <div style="padding: 20px;">
-                <h2 style="text-align:center; color:#1a237e; margin-bottom:15px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <h3 style="text-align:center; margin-bottom:20px;">Teacher Salary History Report</h3>
-                ${historyTableHTML}
-            </div>
-        `;
-        window.print();
-        document.body.innerHTML = originalContent;
-        window.location.reload();
+        let tbodySource = document.getElementById('teacherHistoryTableBody');
+        let tbodyClone = document.getElementById('pHistoryBodyClone');
+        tbodyClone.innerHTML = tbodySource.innerHTML;
+
+        let titleText = document.getElementById('teacherHistoryTitle').innerText;
+        document.getElementById('pHistoricalTitlePrint').innerText = titleText;
+
+        setTimeout(() => { window.print(); }, 150);
     }
 
     function printStudentBill(id) {
