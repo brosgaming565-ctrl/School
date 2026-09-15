@@ -45,7 +45,24 @@ nav button:hover{background:#283593}
 #loginScreen input{
     width:100%;padding:11px;margin-bottom:14px;
     border:1px solid #ccc;border-radius:6px
+}<script>
+function login() {
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    if (username === "admin" && password === "12345") {
+        document.getElementById("loginBgWrapper").style.display = "none";
+        document.getElementById("appScreen").style.display = "block";
+
+        if (typeof initApp === "function") {
+            initApp();
+        }
+    } else {
+        alert("Invalid Username or Password!");
+    }
 }
+</script>
+
 #loginScreen button{
     width:100%;padding:11px;background:#1a237e;color:#fff;
     border:0;border-radius:6px;font-weight:bold
