@@ -21,10 +21,7 @@
         .container { max-width: 1350px; margin: 15px auto; padding: 0 15px; }
 
         #loginBgWrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, rgba(26, 35, 126, 0.9), rgba(13, 71, 161, 0.85)), 
                         url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
             position: relative;
@@ -86,26 +83,18 @@
         .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
         
-        .btn-act-edit { background: #ff9800; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin: 1px; }
-        .btn-act-print { background: #00897b; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin: 1px; }
-        .btn-act-delete { background: #f44336; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin: 1px; }
+        .btn-act-edit { background: #ff9800; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
+        .btn-act-print { background: #00897b; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px 8px 2px 2px; }
+        .btn-act-delete { background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
 
-        /* PRINT RECEIPT CONTAINER */
         #printableReceipt { display: none; }
 
         @media print {
             body * { visibility: hidden !important; }
             #printableReceipt, #printableReceipt * { visibility: visible !important; }
             #printableReceipt {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                background: white !important;
-                color: black !important;
-                padding: 20px;
-                font-size: 14px;
+                display: block !important; position: absolute; left: 0; top: 0; width: 100%;
+                background: white !important; color: black !important; padding: 20px; font-size: 14px;
             }
             nav, .dev-credit, #loginBgWrapper, .container { display: none !important; }
         }
@@ -310,9 +299,10 @@
             <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
                     <h3 id="historyTitle" style="margin: 0;">📅 Student Payment History</h3>
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button onclick="downloadDepositExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
                         <button onclick="downloadDepositJSON()" class="btn btn-warning" style="font-size: 11px; padding: 5px 10px;">📥 Download JSON</button>
+                        <button onclick="printStudentHistoryTable()" class="btn btn-primary" style="font-size: 11px; padding: 5px 10px;">🖨️ Print History</button>
                     </div>
                 </div>
                 <div style="overflow-x: auto;">
@@ -441,7 +431,14 @@
 
             <!-- TEACHER SALARY PAYMENT HISTORY BOX -->
             <div class="box" id="teacherHistoryBox" style="margin-top: 15px;">
-                <h3 id="teacherHistoryTitle" style="margin-bottom: 10px;">📅 Teacher Salary History</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                    <h3 id="teacherHistoryTitle" style="margin: 0;">📅 Teacher Salary History</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="downloadTeacherHistoryExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
+                        <button onclick="downloadTeacherHistoryJSON()" class="btn btn-warning" style="font-size: 11px; padding: 5px 10px;">📥 Download JSON</button>
+                        <button onclick="printTeacherHistoryTable()" class="btn btn-primary" style="font-size: 11px; padding: 5px 10px;">🖨️ Print History</button>
+                    </div>
+                </div>
                 <div style="overflow-x: auto;">
                     <table class="data-table">
                         <thead>
@@ -1116,7 +1113,65 @@
         downloadAnchor.remove();
     }
 
-    // --- POPULATE & PRINT STUDENT BILL ---
+    function printStudentHistoryTable() {
+        let originalContent = document.body.innerHTML;
+        let historyTableHTML = document.getElementById('depositHistoryBox').innerHTML;
+        document.body.innerHTML = `
+            <div style="padding: 20px;">
+                <h2 style="text-align:center; color:#1a237e; margin-bottom:15px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+                <h3 style="text-align:center; margin-bottom:20px;">Student Payment History Report</h3>
+                ${historyTableHTML}
+            </div>
+        `;
+        window.print();
+        document.body.innerHTML = originalContent;
+        window.location.reload();
+    }
+
+    function downloadTeacherHistoryExcel() {
+        let wb = XLSX.utils.table_to_book(document.getElementById('teacherHistoryBox').querySelector('table'), {sheet: "Salary_History"});
+        XLSX.writeFile(wb, "Teacher_Salary_History.xlsx");
+    }
+
+    function downloadTeacherHistoryJSON() {
+        const tbody = document.getElementById('teacherHistoryTableBody');
+        let dataToExport = [];
+        for(let row of tbody.rows) {
+            if(row.cells.length >= 6) {
+                dataToExport.push({
+                    date: row.cells[0].innerText,
+                    refNo: row.cells[1].innerText,
+                    name: row.cells[2].innerText,
+                    fatherName: row.cells[3].innerText,
+                    paid: row.cells[4].innerText,
+                    dues: row.cells[5].innerText
+                });
+            }
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToExport, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "teacher_salary_history.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    function printTeacherHistoryTable() {
+        let originalContent = document.body.innerHTML;
+        let historyTableHTML = document.getElementById('teacherHistoryBox').innerHTML;
+        document.body.innerHTML = `
+            <div style="padding: 20px;">
+                <h2 style="text-align:center; color:#1a237e; margin-bottom:15px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+                <h3 style="text-align:center; margin-bottom:20px;">Teacher Salary History Report</h3>
+                ${historyTableHTML}
+            </div>
+        `;
+        window.print();
+        document.body.innerHTML = originalContent;
+        window.location.reload();
+    }
+
     function printStudentBill(id) {
         let item = studentsData.find(s => s.id == id);
         if(!item) return;
@@ -1159,7 +1214,6 @@
         setTimeout(() => { window.print(); }, 150);
     }
 
-    // --- POPULATE & PRINT TEACHER BILL ---
     function printTeacherBill(id) {
         let item = salaryData.find(s => s.id == id);
         if(!item) return;
