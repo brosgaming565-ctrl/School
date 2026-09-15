@@ -1483,3 +1483,198 @@
 </script>
 </body>
 </html>
+<!-- LOGIN USERNAME & PASSWORD CHANGE FEATURE -->
+<script>
+(function () {
+    const DEFAULT_EMAIL = "admin@school.com";
+    const DEFAULT_PASSWORD = "admin123";
+
+    function savedEmail() {
+        return localStorage.getItem("admin_email") || DEFAULT_EMAIL;
+    }
+
+    function savedPassword() {
+        return localStorage.getItem("admin_pass") || DEFAULT_PASSWORD;
+    }
+
+    /*
+     * Existing login function ko update karta hai
+     */
+    window.login = function () {
+        const enteredEmail =
+            document.getElementById("loginEmail").value.trim().toLowerCase();
+
+        const enteredPassword =
+            document.getElementById("loginPassword").value;
+
+        const correctEmail = savedEmail().toLowerCase();
+        const correctPassword = savedPassword();
+
+        if (
+            enteredEmail === correctEmail &&
+            enteredPassword === correctPassword
+        ) {
+            document.getElementById("loginBgWrapper").style.display = "none";
+            document.getElementById("appScreen").style.display = "block";
+
+            if (typeof loadData === "function") {
+                loadData();
+            }
+        } else {
+            alert("Incorrect username/email or password!");
+        }
+    };
+
+
+    /*
+     * Login box mein saved username/email show karega
+     */
+    function loadSavedEmail() {
+        const loginEmail = document.getElementById("loginEmail");
+
+        if (loginEmail) {
+            loginEmail.value = savedEmail();
+        }
+    }
+
+
+    /*
+     * Backup/Restore ke andar login change option add karega
+     */
+    function addLoginChangeOption() {
+        const backupTab = document.getElementById("backupTab");
+
+        if (!backupTab) {
+            return;
+        }
+
+        // Duplicate form create hone se rokta hai
+        if (document.getElementById("loginChangeBox")) {
+            return;
+        }
+
+        const box = document.createElement("div");
+
+        box.id = "loginChangeBox";
+        box.className = "box";
+        box.style.maxWidth = "500px";
+        box.style.margin = "30px auto";
+
+        box.innerHTML = `
+            <h3>3. Change Login Username & Password</h3>
+
+            <p style="font-size:12px; color:#666; margin-bottom:15px;">
+                Isi page se login username/email aur password change karein.
+            </p>
+
+            <div class="form-group">
+                <label>Current Password</label>
+                <input
+                    type="password"
+                    id="changeCurrentPassword"
+                    placeholder="Enter current password">
+            </div>
+
+            <div class="form-group">
+                <label>New Username / Email</label>
+                <input
+                    type="email"
+                    id="changeNewEmail"
+                    placeholder="Enter new email">
+            </div>
+
+            <div class="form-group">
+                <label>New Password</label>
+                <input
+                    type="password"
+                    id="changeNewPassword"
+                    placeholder="Enter new password"
+                    minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <input
+                    type="password"
+                    id="changeConfirmPassword"
+                    placeholder="Confirm new password"
+                    minlength="6">
+            </div>
+
+            <button
+                type="button"
+                class="btn btn-warning btn-block"
+                onclick="updateLoginDetails()">
+                Update Login Credentials
+            </button>
+        `;
+
+        backupTab.appendChild(box);
+
+        document.getElementById("changeNewEmail").value = savedEmail();
+    }
+
+
+    /*
+     * Username/email aur password save karega
+     */
+    window.updateLoginDetails = function () {
+        const currentPassword =
+            document.getElementById("changeCurrentPassword").value;
+
+        const newEmail =
+            document.getElementById("changeNewEmail").value
+.trim()
+.toLowerCase();
+
+        const newPassword =
+            document.getElementById("changeNewPassword").value;
+
+        const confirmPassword =
+            document.getElementById("changeConfirmPassword").value;
+
+
+        if (currentPassword!== savedPassword()) {
+            alert("Current password is incorrect!");
+            return;
+        }
+
+        if (newEmail === "") {
+            alert("Please enter a valid username/email!");
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            alert("New password must be at least 6 characters long!");
+            return;
+        }
+
+        if (newPassword!== confirmPassword) {
+            alert("New password and confirm password do not match!");
+            return;
+        }
+
+        localStorage.setItem("admin_email", newEmail);
+        localStorage.setItem("admin_pass", newPassword);
+
+        document.getElementById("loginEmail").value = newEmail;
+        document.getElementById("loginPassword").value = "";
+
+        document.getElementById("changeCurrentPassword").value = "";
+        document.getElementById("changeNewPassword").value = "";
+        document.getElementById("changeConfirmPassword").value = "";
+
+        alert("Username and password updated successfully!");
+    };
+
+
+    /*
+     * Page load hone ke baad option add karega
+     */
+    window.addEventListener("load", function () {
+        loadSavedEmail();
+        addLoginChangeOption();
+    });
+
+})();
+</script>
