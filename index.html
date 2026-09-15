@@ -84,7 +84,7 @@
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
         
         .btn-act-edit { background: #ff9800; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
-        .btn-act-print { background: #00897b; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px 8px 2px 2px; }
+        .btn-act-print { background: #00897b; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px 12px 2px 2px; }
         .btn-act-delete { background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
 
         #printableReceipt { display: none; }
@@ -713,10 +713,18 @@
                 studentsData = JSON.parse(localStorage.getItem('school_students_data')) || [];
                 salaryData = JSON.parse(localStorage.getItem('school_salary_data')) || [];
 
+                // Automatically update tables and statistics after restore
                 renderBillingTable();
                 renderSalaryTable();
                 updateDashboardStats();
-                alert("Data restored successfully!");
+                
+                // Reset history view panes
+                document.getElementById('depositHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Click 'Edit' on any student record above to view their specific payment history.</td></tr>`;
+                document.getElementById('historyTitle').innerText = "📅 Student Payment History";
+                document.getElementById('teacherHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Click 'Edit' on any teacher record above to view their specific salary payment history.</td></tr>`;
+                document.getElementById('teacherHistoryTitle').innerText = "📅 Teacher Salary History";
+
+                alert("Data restored and updated successfully!");
             } catch (err) {
                 alert("Invalid backup file format!");
             }
@@ -793,15 +801,22 @@
                     dues: gross - newDep
                 });
             }
-            studentsData.push(recordObj);
         }
 
         if(editingStudentId !== null) {
             let index = studentsData.findIndex(s => s.id == editingStudentId);
-            if(index !== -1) studentsData[index] = recordObj;
+            if(index !== -1) {
+                studentsData[index] = recordObj;
+            }
+        } else {
+            studentsData.push(recordObj);
         }
 
         localStorage.setItem('school_students_data', JSON.stringify(studentsData));
+        
+        // Auto-update history view if currently editing this student
+        showStudentHistory(recordObj);
+
         renderBillingTable();
         updateDashboardStats();
         resetForm();
@@ -874,6 +889,8 @@
             localStorage.setItem('school_students_data', JSON.stringify(studentsData));
             renderBillingTable();
             updateDashboardStats();
+            document.getElementById('depositHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Click 'Edit' on any student record above to view their specific payment history.</td></tr>`;
+            document.getElementById('historyTitle').innerText = "📅 Student Payment History";
         }
     }
 
@@ -939,15 +956,22 @@
                     dues: totalSal - newPaid
                 });
             }
-            salaryData.push(obj);
         }
 
         if(editingSalaryId !== null) {
             let idx = salaryData.findIndex(s => s.id == editingSalaryId);
-            if(idx !== -1) salaryData[idx] = obj;
+            if(idx !== -1) {
+                salaryData[idx] = obj;
+            }
+        } else {
+            salaryData.push(obj);
         }
 
         localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
+        
+        // Auto-update history view if currently editing this teacher
+        showTeacherHistory(obj);
+
         renderSalaryTable();
         resetSalaryForm();
         alert("Teacher salary record saved successfully!");
@@ -1027,6 +1051,8 @@
             salaryData = salaryData.filter(s => s.id != id);
             localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
             renderSalaryTable();
+            document.getElementById('teacherHistoryTableBody').innerHTML = `<tr><td colspan="6" style="color: #777;">Click 'Edit' on any teacher record above to view their specific salary payment history.</td></tr>`;
+            document.getElementById('teacherHistoryTitle').innerText = "📅 Teacher Salary History";
         }
     }
 
@@ -1093,7 +1119,7 @@
         const tbody = document.getElementById('depositHistoryTableBody');
         let dataToExport = [];
         for(let row of tbody.rows) {
-            if(row.cells.length >= 6) {
+            if(row.cells.length >= 6 && !row.cells[0].innerText.includes('Click')) {
                 dataToExport.push({
                     date: row.cells[0].innerText,
                     refNo: row.cells[1].innerText,
@@ -1137,7 +1163,7 @@
         const tbody = document.getElementById('teacherHistoryTableBody');
         let dataToExport = [];
         for(let row of tbody.rows) {
-            if(row.cells.length >= 6) {
+            if(row.cells.length >= 6 && !row.cells[0].innerText.includes('Click')) {
                 dataToExport.push({
                     date: row.cells[0].innerText,
                     refNo: row.cells[1].innerText,
