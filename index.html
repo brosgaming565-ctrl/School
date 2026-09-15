@@ -2,176 +2,567 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Payment History / Receipt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: #000;
-            margin: 0;
-            padding: 20px;
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f0f2f5; color: #333; font-size: 13px; }
+
+        nav { background: #1a237e; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
+        nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
+        nav .nav-btns { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        nav button { background: #3949ab; color: white; border: none; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; }
+        nav button:hover { background: #283593; }
+        nav button.active-tab { background: #283593; box-shadow: inset 0 0 4px rgba(0,0,0,0.3); }
+        nav button.new-entry-btn { background: #2e7d32; border: 1px solid #4caf50; font-weight: bold; }
+        nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
+
+        .container { max-width: 1350px; margin: 15px auto; padding: 0 15px; }
+
+        #loginBgWrapper {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.9), rgba(13, 71, 161, 0.85)), 
+                        url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            position: relative;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
+
+        #loginScreen { 
+            width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.96); 
+            padding: 35px 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
+            text-align: center; border-top: 5px solid #1a237e;
         }
-        .header h2 {
-            margin: 0;
-            font-size: 20px;
-            text-transform: uppercase;
+        #loginScreen h2 { color: #1a237e; font-size: 16px; margin-bottom: 6px; font-weight: 800; }
+        #loginScreen p { font-size: 12px; color: #555; margin-bottom: 22px; }
+        #loginScreen input { width: 100%; padding: 11px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
+        #loginScreen button { width: 100%; padding: 11px; background: #1a237e; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+        .dev-credit {
+            position: absolute; bottom: 15px; right: 20px; color: #ffffff; font-size: 12px;
+            background: rgba(0, 0, 0, 0.6); padding: 6px 12px; border-radius: 6px;
+            display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px);
         }
-        .header p {
-            margin: 5px 0 0 0;
-            font-size: 13px;
-        }
-        .title {
-            text-align: center;
-            font-weight: bold;
-            margin: 15px 0;
-            font-size: 16px;
-            text-decoration: underline;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        table, th, td {
-            border: 1px solid #000;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            font-size: 13px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .summary-section {
-            margin-top: 15px;
-            width: 100%;
-        }
-        .summary-table {
-            width: 50%;
-            float: right;
-            border-collapse: collapse;
-        }
-        .summary-table td {
-            padding: 6px 10px;
-            border: 1px solid #000;
-        }
-        .clear {
-            clear: both;
-        }
-        .amount-in-words {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .signatures {
-            margin-top: 50px;
-            display: flex;
-            justify-content: space-between;
-            page-break-inside: avoid;
-        }
-        .sig-box {
-            text-align: center;
-            width: 30%;
-            border-top: 1px solid #000;
-            padding-top: 5px;
-        }
+        .dev-credit a { color: #25D366; text-decoration: none; font-weight: bold; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .dashboard-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+        .card { background: white; padding: 15px 20px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; border-top: 3px solid #1a237e; }
+        .card.card-green { border-top-color: #2e7d32; }
+        .card.card-red { border-top-color: #c62828; }
+        .card h3 { font-size: 11px; color: #555; text-transform: uppercase; font-weight: 700; }
+        .card p { font-size: 20px; font-weight: bold; margin-top: 6px; color: #1a237e; }
+
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: start; }
+        .box { background: white; padding: 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .box h3 { margin-bottom: 12px; color: #1a237e; font-size: 14px; font-weight: 700; }
+
+        .form-group { margin-bottom: 8px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; color: #444; margin-bottom: 3px; }
+        .form-group input, .form-group select { width: 100%; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+        .part-table-container { max-height: 180px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; }
+        .part-table { width: 100%; border-collapse: collapse; }
+        .part-table th, .part-table td { border: 1px solid #e0e0e0; padding: 4px 8px; font-size: 11px; text-align: left; }
+        .part-table th { background: #f5f5f5; font-weight: 600; position: sticky; top: 0; }
+        .part-table input { width: 100%; padding: 3px 5px; border: 1px solid #ccc; border-radius: 3px; font-size: 11px; }
+
+        .summary-box { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px; margin-top: 10px; }
+
+        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; text-align: center; }
+        .btn-success { background: #2e7d32; color: white; }
+        .btn-primary { background: #1565c0; color: white; }
+        .btn-warning { background: #f57c00; color: white; }
+        .btn-danger { background: #b71c1c; color: white; }
+        .btn-block { width: 100%; margin-top: 8px; }
+
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
+        .data-table th { background: #1a237e; color: white; font-weight: 600; }
+        
+        .btn-act-edit { background: #ff9800; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
+        .btn-act-print { background: #00897b; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px 12px 2px 2px; }
+        .btn-act-delete { background: #f44336; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; }
+
+        #printableReceipt, #printableHistory { display: none; }
+
         @media print {
-            body {
-                padding: 0;
+            body * { visibility: hidden !important; }
+            #printableReceipt, #printableReceipt * { visibility: visible !important; }
+            #printableHistory, #printableHistory * { visibility: visible !important; }
+            
+            #printableReceipt {
+                display: block !important; position: absolute; left: 0; top: 0; width: 100%;
+                background: white !important; color: black !important; padding: 20px; font-size: 14px;
             }
+            #printableHistory {
+                display: block !important; position: absolute; left: 0; top: 0; width: 100%;
+                background: white !important; color: black !important; padding: 20px; font-size: 14px;
+            }
+            nav, .dev-credit, #loginBgWrapper, .container { display: none !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- School Header -->
-    <div class="header">
-        <h2>Shree Chiranjivi Narayani Residential School</h2>
-        <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
+<!-- LOGIN SCREEN -->
+<div id="loginBgWrapper">
+    <div id="loginScreen">
+        <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+        <p>Management System Login</p>
+        <input type="text" id="loginUsername" placeholder="Username" value="admin">
+        <input type="password" id="loginPassword" placeholder="Password" value="12345">
+        <button onclick="login()">Login to Dashboard</button>
+    </div>
+    <div class="dev-credit">
+        <span>Prepared by <strong>Niranjan Kumar Shah</strong></span>
+        <a href="https://wa.me/9779826216576" target="_blank">+9779826216576</a>
+    </div>
+</div>
+
+<!-- MAIN SYSTEM -->
+<div id="appScreen" style="display: none;">
+    <nav>
+        <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+        <div class="nav-btns">
+            <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">🏠 Student Billing</button>
+            <button class="new-entry-btn" onclick="startNewStudentEntry()">➕ New Student Entry</button>
+            <button id="tabBtnSalary" onclick="showTab('salaryTab')">Teacher Salary</button>
+            <button id="tabBtnSettings" onclick="showTab('settingsTab')" style="background: #0277bd;">⚙️ Settings</button>
+            <button id="tabBtnBackup" onclick="showTab('backupTab')" style="background: #2e7d32;">Backup / Restore</button>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- BILLING TAB -->
+        <div id="billingTab" class="tab-content active">
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>TOTAL STUDENT BILLS</h3>
+                    <p id="statTotalEntries">0</p>
+                </div>
+                <div class="card card-green">
+                    <h3>TOTAL FEES COLLECTED</h3>
+                    <p id="statTotalCollection">Rs. 0</p>
+                </div>
+                <div class="card card-red">
+                    <h3>TOTAL OUTSTANDING DUES</h3>
+                    <p id="statTotalDues">Rs. 0</p>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                <div class="box" id="studentFormBox">
+                    <h3 id="formTitle">Create New Student Bill</h3>
+                    <form id="billingForm" onsubmit="saveBill(event)">
+                        <input type="hidden" id="recordId">
+                        
+                        <div class="form-group">
+                            <label>School Address</label>
+                            <input type="text" id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Bill No</label>
+                                <input type="text" id="billNo" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Bill Creation Date</label>
+                                <input type="date" id="billDate" required>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Student Name</label>
+                                <input type="text" id="studentName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Father's Name</label>
+                                <input type="text" id="fatherName" required>
+                            </div>
+                        </div>
+
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <input type="text" id="studentClass">
+                            </div>
+                            <div class="form-group">
+                                <label>Roll No</label>
+                                <input type="text" id="rollNo">
+                            </div>
+                            <div class="form-group">
+                                <label>Section</label>
+                                <input type="text" id="section">
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Contact Number</label>
+                                <input type="text" id="contactNo" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Bill Period / Month</label>
+                                <input type="text" id="billMonth" placeholder="e.g. Baishakh to Jesth">
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Bill Prepared By</label>
+                                <input type="text" id="billPreparedBy" required>
+                            </div>
+                            <div class="form-group" style="display:none;">
+                                <label>Authorized Signatory</label>
+                                <input type="text" id="authorizedSign" value="">
+                            </div>
+                        </div>
+
+                        <label style="font-size: 11px; font-weight: 600; display: block; margin-top: 6px;">Fee Particulars:</label>
+                        <div class="part-table-container">
+                            <table class="part-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30px;">#</th>
+                                        <th>Particular Name</th>
+                                        <th style="width: 120px;">Amount (Rs.)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="particularsContainer"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="summary-box">
+                            <div class="form-group">
+                                <label>Gross Total Fee Amount:</label>
+                                <input type="number" id="grossTotal" readonly style="font-weight: bold; background:#eef;">
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Make Deposit Payment:</label>
+                                    <input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter amount">
+                                </div>
+                                <div class="form-group">
+                                    <label>Deposit Date:</label>
+                                    <input type="date" id="depositDate">
+                                </div>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Total Deposit Till Date (-):</label>
+                                    <input type="number" id="depositAmount" value="0" readonly style="font-weight: bold; background:#efe;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Remaining Dues Balance:</label>
+                                    <input type="number" id="netDues" readonly style="font-weight: bold; color: red; background:#fee;">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amount In Words (Manual):</label>
+                                <input type="text" id="amountInWords" placeholder="e.g. FIVE THOUSAND RUPEES ONLY">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-block" id="saveBtn">Save / Update Entry</button>
+                        <button type="button" class="btn btn-warning btn-block" id="cancelBtn" onclick="resetForm()" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+
+                <div class="box" id="findReportBox">
+                    <h3>🔍 Find Reports & All Student Bills</h3>
+                    <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search Student Name, Father Name, Bill No..." style="width:100%; padding: 7px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
+
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Bill No</th>
+                                    <th>Student Name</th>
+                                    <th>Father Name</th>
+                                    <th>Total</th>
+                                    <th>Paid</th>
+                                    <th>Dues</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="billingTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDENT PAYMENT HISTORY BOX -->
+            <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                    <h3 id="historyTitle" style="margin: 0;">📅 Student Payment History</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="downloadDepositExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
+                        <button onclick="downloadDepositJSON()" class="btn btn-warning" style="font-size: 11px; padding: 5px 10px;">📥 Download JSON</button>
+                        <button onclick="printStudentHistoryTable()" class="btn btn-primary" style="font-size: 11px; padding: 5px 10px;">🖨️ Print History</button>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Payment Date</th>
+                                <th>Ref / Bill No</th>
+                                <th>Student Name</th>
+                                <th>Father's Name</th>
+                                <th>Paid Amount (Rs.)</th>
+                                <th>Remaining Dues (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositHistoryTableBody">
+                            <tr><td colspan="6" style="color: #777;">Click 'Edit' on any student record above to view their specific payment history.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEACHER SALARY TAB -->
+        <div id="salaryTab" class="tab-content">
+            <div class="grid-layout">
+                <div class="box" id="salaryFormBox">
+                    <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
+                    <form id="salaryForm" onsubmit="saveSalary(event)">
+                        <input type="hidden" id="salaryRecordId">
+                        
+                        <div class="form-group">
+                            <label>School Address</label>
+                            <input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Receipt No</label>
+                                <input type="text" id="salaryReceiptNo" required placeholder="Receipt No">
+                            </div>
+                            <div class="form-group">
+                                <label>Salary Payment Date</label>
+                                <input type="date" id="salaryDate" required>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Teacher's Name</label>
+                                <input type="text" id="teacherName" required placeholder="Teacher Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Father's Name</label>
+                                <input type="text" id="teacherFatherName" required placeholder="Father Name">
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Contact No</label>
+                                <input type="text" id="teacherContact" required placeholder="Contact Number">
+                            </div>
+                            <div class="form-group">
+                                <label>Designation / Subject</label>
+                                <input type="text" id="teacherDesignation" required placeholder="e.g. Science Teacher">
+                            </div>
+                        </div>
+
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Total Salary (NPR)</label>
+                                <input type="number" id="basicSalary" oninput="calculateTeacherSalary()" required placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Now Paid (NPR)</label>
+                                <input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Remaining Dues</label>
+                                <input type="number" id="salaryDues" readonly placeholder="0.00" style="font-weight: bold; color: red; background:#fee;">
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Total Paid Till Date</label>
+                                <input type="number" id="netPaidSalary" value="0" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
+                            </div>
+                            <div class="form-group">
+                                <label>Salary Month / Year</label>
+                                <input type="text" id="salaryMonth" placeholder="e.g. Baishakh 2081" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Amount in Words</label>
+                            <input type="text" id="salaryInWords" placeholder="e.g. TEN THOUSAND RUPEES ONLY" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" id="saveSalaryBtn">Save / Update Salary Record</button>
+                        <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+
+                <div class="box">
+                    <h3>Teacher Salary Records</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Receipt</th>
+                                    <th>Teacher Name</th>
+                                    <th>Month</th>
+                                    <th>Total Sal.</th>
+                                    <th>Paid</th>
+                                    <th>Dues</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salaryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEACHER SALARY PAYMENT HISTORY BOX -->
+            <div class="box" id="teacherHistoryBox" style="margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                    <h3 id="teacherHistoryTitle" style="margin: 0;">📅 Teacher Salary History</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="downloadTeacherHistoryExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
+                        <button onclick="downloadTeacherHistoryJSON()" class="btn btn-warning" style="font-size: 11px; padding: 5px 10px;">📥 Download JSON</button>
+                        <button onclick="printTeacherHistoryTable()" class="btn btn-primary" style="font-size: 11px; padding: 5px 10px;">🖨️ Print History</button>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Payment Date</th>
+                                <th>Ref / Receipt No</th>
+                                <th>Teacher Name</th>
+                                <th>Father's Name</th>
+                                <th>Paid Amount (Rs.)</th>
+                                <th>Remaining Dues (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teacherHistoryTableBody">
+                            <tr><td colspan="6" style="color: #777;">Click 'Edit' on any teacher record above to view their specific salary payment history.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div id="settingsTab" class="tab-content">
+            <div class="box" style="max-width: 500px; margin: 30px auto;">
+                <h3>⚙️ Change Login Username & Password</h3>
+                <div class="form-group">
+                    <label>Old Username:</label>
+                    <input type="text" id="oldUsername" placeholder="Enter current username">
+                </div>
+                <div class="form-group">
+                    <label>Old Password:</label>
+                    <input type="password" id="oldPassword" placeholder="Enter current password">
+                </div>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
+                <div class="form-group">
+                    <label>New Username:</label>
+                    <input type="text" id="newUsername" placeholder="Enter new username">
+                </div>
+                <div class="form-group">
+                    <label>New Password:</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password">
+                </div>
+                <button onclick="updateCredentials()" class="btn btn-success btn-block" style="margin-top: 10px;">Save New Credentials</button>
+            </div>
+        </div>
+
+        <!-- BACKUP & RESTORE TAB -->
+        <div id="backupTab" class="tab-content">
+            <div class="box" style="max-width: 500px; margin: 30px auto;">
+                <h3>1. Download Data Backup</h3>
+                <button onclick="downloadBackup()" class="btn btn-success btn-block">Download JSON Backup</button>
+            </div>
+            <div class="box" style="max-width: 500px; margin: 30px auto;">
+                <h3>2. Restore Data Backup</h3>
+                <div class="form-group">
+                    <input type="file" id="backupFileInput" accept=".json">
+                </div>
+                <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PRINT RECEIPT TEMPLATE -->
+<div id="printableReceipt">
+    <div style="text-align: center; border-bottom: 2px solid #1a237e; padding-bottom: 10px; margin-bottom: 15px;">
+        <h2 style="color: #1a237e; font-size: 20px; font-weight: bold;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+        <p id="pSchoolAddress" style="font-size: 12px; color: #444; margin-top: 3px;">Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
+        <h3 id="pReceiptTitle" style="margin-top: 8px; font-size: 15px; background: #1a237e; color: white; display: inline-block; padding: 3px 15px; border-radius: 4px;">STUDENT FEE INVOICE / RECEIPT</h3>
     </div>
 
-    <div class="title">Student Payment History: Smrity Sah</div>
+    <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
+        <div>
+            <p><strong>Bill / Receipt No:</strong> <span id="pBillNo">---</span></p>
+            <p><strong>Name:</strong> <span id="pStudentName">---</span></p>
+            <p><strong>Father's Name:</strong> <span id="pFatherName">---</span></p>
+            <p><strong>Class / Roll / Sec:</strong> <span id="pClassDetails">---</span></p>
+        </div>
+        <div style="text-align: right;">
+            <p><strong>Date:</strong> <span id="pBillDate">---</span></p>
+            <p><strong>Contact No:</strong> <span id="pContactNo">---</span></p>
+            <p><strong>Period / Month:</strong> <span id="pBillMonth">---</span></p>
+        </div>
+    </div>
 
-    <!-- Main Data Table -->
-    <table>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px;">
         <thead>
-            <tr>
-                <th>Payment Date</th>
-                <th>Ref / ID</th>
-                <th>Name</th>
-                <th>Father's Name</th>
-                <th>Paid Amount</th>
-                <th>Remaining Dues</th>
+            <tr style="background: #f0f0f0;">
+                <th style="border: 1px solid #333; padding: 6px; text-align: left; width: 40px;">#</th>
+                <th style="border: 1px solid #333; padding: 6px; text-align: left;">Fee / Salary Particular Description</th>
+                <th style="border: 1px solid #333; padding: 6px; text-align: right; width: 120px;">Amount (Rs.)</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>2026-09-15</td>
-                <td>3</td>
-                <td>Smrity Sah</td>
-                <td>Abc</td>
-                <td>Rs. 5255</td>
-                <td>Rs. 0</td>
-            </tr>
-            <tr>
-                <td>2026-09-15</td>
-                <td>3</td>
-                <td>Smrity Sah</td>
-                <td>Abc</td>
-                <td>Rs. 25000</td>
-                <td>Rs. 25000</td>
-            </tr>
-        </tbody>
+        <tbody id="pParticularsBody"></tbody>
     </table>
 
-    <!-- Additional Items Table (if any) -->
-    <table>
-        <tr>
-            <td>4</td>
-            <td>Bus</td>
-            <td>Rs. 800</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Dues</td>
-            <td>Rs. 42655</td>
-        </tr>
-    </table>
-
-    <!-- Amount in Words -->
-    <div class="amount-in-words">
-        Amount in Words: FIFTY THOUSAND ONLY
+    <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px;">
+        <div style="width: 60%;">
+            <p><strong>Amount in Words:</strong> <span id="pAmountWords" style="text-transform: uppercase;">---</span></p>
+            <p style="margin-top: 15px;"><strong>Prepared By:</strong> <span id="pPreparedBy">---</span></p>
+        </div>
+        <div style="width: 35%; border: 1px solid #333; padding: 8px; background: #fafafa;">
+            <p><strong>Gross Total:</strong> Rs. <span id="pGrossTotal">0</span></p>
+            <p><strong>Total Paid:</strong> Rs. <span id="pPaidAmount">0</span></p>
+            <p style="color: red; font-weight: bold; margin-top: 4px; border-top: 1px dashed #999; padding-top: 4px;"><strong>Remaining Dues:</strong> Rs. <span id="pDuesAmount">0</span></p>
+        </div>
     </div>
 
-    <!-- Totals Section -->
-    <div class="summary-section">
-        <table class="summary-table">
-            <tr>
-                <td><strong>Gross Total:</strong></td>
-                <td>Rs. 55255</td>
-            </tr>
-            <tr>
-                <td><strong>Total Paid:</strong></td>
-                <td>Rs. 30255</td>
-            </tr>
-            <tr>
-                <td><strong>Remaining Dues:</strong></td>
-                <td>Rs. 25000</td>
-            </tr>
-        </table>
-        <div class="clear"></div>
+    <div style="display: flex; justify-content: space-between; margin-top: 50px; font-size: 13px;">
+        <div>
+            <p>----------------------------------------</p>
+            <p style="text-align: center; font-weight: bold;">Receiver's Signature</p>
+        </div>
+        <div>
+            <p>----------------------------------------</p>
+            <p style="text-align: center; font-weight: bold;">Authorized Signature</p>
+        </div>
     </div>
-
-    <!-- Signatures Section (Always at the bottom) -->
-    <div class="signatures">
-        <div class="sig-box">Prepared By: Niranjan</div>
-        <div class="sig-box">Receiver's Signature</div>
-        <div class="sig-box">Authorized Signatory / Accountant</div>
-    </div>
+</div>
 
 </body>
 </html>
