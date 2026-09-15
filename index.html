@@ -682,13 +682,14 @@
         const backupData = {
             school_user: localStorage.getItem("school_user"),
             school_pass: localStorage.getItem("school_pass"),
-            school_students_data: localStorage.getItem("school_students_data"),
-            school_salary_data: localStorage.getItem("school_salary_data")
+            school_students_data: localStorage.getItem("school_students_data") || JSON.stringify(studentsData),
+            school_salary_data: localStorage.getItem("school_salary_data") || JSON.stringify(salaryData)
         };
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
         const downloadAnchor = document.createElement('a');
         downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "school_management_backup.json");
+        let todayStr = new Date().toISOString().split('T')[0];
+        downloadAnchor.setAttribute("download", "School_Data_Backup_" + todayStr + ".json");
         document.body.appendChild(downloadAnchor);
         downloadAnchor.click();
         downloadAnchor.remove();
@@ -705,13 +706,26 @@
         reader.onload = function(e) {
             try {
                 const parsed = JSON.parse(e.target.result);
-                if(parsed.school_students_data) localStorage.setItem("school_students_data", parsed.school_students_data);
-                if(parsed.school_salary_data) localStorage.setItem("school_salary_data", parsed.school_salary_data);
+                
+                // Handle both standard formats (bills/salaries structure or direct localStorage key strings)
+                if(parsed.bills) {
+                    studentsData = parsed.bills;
+                    localStorage.setItem("school_students_data", JSON.stringify(studentsData));
+                } else if(parsed.school_students_data) {
+                    localStorage.setItem("school_students_data", typeof parsed.school_students_data === 'string' ? parsed.school_students_data : JSON.stringify(parsed.school_students_data));
+                    studentsData = JSON.parse(localStorage.getItem('school_students_data')) || [];
+                }
+
+                if(parsed.salaries) {
+                    salaryData = parsed.salaries;
+                    localStorage.setItem("school_salary_data", JSON.stringify(salaryData));
+                } else if(parsed.school_salary_data) {
+                    localStorage.setItem("school_salary_data", typeof parsed.school_salary_data === 'string' ? parsed.school_salary_data : JSON.stringify(parsed.school_salary_data));
+                    salaryData = JSON.parse(localStorage.getItem('school_salary_data')) || [];
+                }
+
                 if(parsed.school_user) localStorage.setItem("school_user", parsed.school_user);
                 if(parsed.school_pass) localStorage.setItem("school_pass", parsed.school_pass);
-
-                studentsData = JSON.parse(localStorage.getItem('school_students_data')) || [];
-                salaryData = JSON.parse(localStorage.getItem('school_salary_data')) || [];
 
                 // Automatically update tables and statistics after restore
                 renderBillingTable();
@@ -726,6 +740,7 @@
 
                 alert("Data restored and updated successfully!");
             } catch (err) {
+                console.error(err);
                 alert("Invalid backup file format!");
             }
         };
@@ -814,9 +829,7 @@
 
         localStorage.setItem('school_students_data', JSON.stringify(studentsData));
         
-        // Auto-update history view if currently editing this student
         showStudentHistory(recordObj);
-
         renderBillingTable();
         updateDashboardStats();
         resetForm();
@@ -968,10 +981,7 @@
         }
 
         localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
-        
-        // Auto-update history view if currently editing this teacher
         showTeacherHistory(obj);
-
         renderSalaryTable();
         resetSalaryForm();
         alert("Teacher salary record saved successfully!");
@@ -1000,14 +1010,14 @@
         }
         salaryData.forEach(item => {
             let paid = item.netPaid || 0;
-            let dues = item.totalSalary - paid;
+            let dues = (item.totalSalary || item.basic || 0) - paid;
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${item.date}</td>
                 <td>${item.receiptNo}</td>
                 <td>${item.teacherName}</td>
                 <td>${item.month}</td>
-                <td>Rs. ${item.totalSalary}</td>
+                <td>Rs. ${item.totalSalary || item.basic || 0}</td>
                 <td>Rs. ${paid}</td>
                 <td style="color: ${dues > 0 ? 'red' : 'green'};">Rs. ${dues}</td>
                 <td>
@@ -1032,10 +1042,10 @@
         document.getElementById('teacherFatherName').value = item.fatherName || '';
         document.getElementById('teacherContact').value = item.contact || '';
         document.getElementById('teacherDesignation').value = item.designation || '';
-        document.getElementById('basicSalary').value = item.totalSalary || 0;
+        document.getElementById('basicSalary').value = item.totalSalary || item.basic || 0;
         document.getElementById('newSalaryPaidInput').value = 0;
         document.getElementById('netPaidSalary').value = item.netPaid || 0;
-        document.getElementById('salaryDues').value = (item.totalSalary || 0) - (item.netPaid || 0);
+        document.getElementById('salaryDues').value = (item.totalSalary || item.basic || 0) - (item.netPaid || 0);
         document.getElementById('salaryMonth').value = item.month || '';
         document.getElementById('salaryInWords').value = item.inWords || '';
 
@@ -1078,11 +1088,11 @@
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${h.date}</td>
-                <td>${h.refNo}</td>
-                <td>${h.name}</td>
-                <td>${h.fatherName}</td>
-                <td>Rs. ${h.paid}</td>
-                <td>Rs. ${h.dues}</td>
+                <td>${h.refNo || student.billNo}</td>
+                <td>${h.name || student.studentName}</td>
+                <td>${h.fatherName || student.fatherName}</td>
+                <td>Rs. ${h.paid || h.amount || 0}</td>
+                <td>Rs. ${h.dues || 0}</td>
             `;
             tbody.appendChild(tr);
         });
@@ -1100,11 +1110,11 @@
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${h.date}</td>
-                <td>${h.refNo}</td>
-                <td>${h.name}</td>
-                <td>${h.fatherName}</td>
-                <td>Rs. ${h.paid}</td>
-                <td>Rs. ${h.dues}</td>
+                <td>${h.refNo || teacher.receiptNo}</td>
+                <td>${h.name || teacher.teacherName}</td>
+                <td>${h.fatherName || teacher.fatherName}</td>
+                <td>Rs. ${h.paid || h.amount || 0}</td>
+                <td>Rs. ${h.dues || 0}</td>
             `;
             tbody.appendChild(tr);
         });
@@ -1254,12 +1264,13 @@
         document.getElementById('pContactNo').innerText = item.contact || '';
         document.getElementById('pBillMonth').innerText = item.month || '-';
         document.getElementById('pAmountWords').innerText = item.inWords || '---';
-        document.getElementById('pPreparedBy').innerText = localStorage.getItem("school_user") || 'Admin';
-        document.getElementById('pSignTitle').innerText = "Principal / Accountant";
+        document.getElementById('pPreparedBy').innerText = item.preparedBy || localStorage.getItem("school_user") || 'Admin';
+        document.getElementById('pSignTitle').innerText = item.authSign || "Principal / Accountant";
 
+        let salTotal = item.totalSalary || item.basic || 0;
         let paid = item.netPaid || 0;
-        let dues = item.totalSalary - paid;
-        document.getElementById('pGrossTotal').innerText = item.totalSalary || 0;
+        let dues = salTotal - paid;
+        document.getElementById('pGrossTotal').innerText = salTotal;
         document.getElementById('pPaidAmount').innerText = paid;
         document.getElementById('pDuesAmount').innerText = dues;
 
@@ -1268,7 +1279,7 @@
             <tr>
                 <td style="border: 1px solid #333; padding: 5px;">1</td>
                 <td style="border: 1px solid #333; padding: 5px;">Teacher Salary for Month: ${item.month} (${item.designation})</td>
-                <td style="border: 1px solid #333; padding: 5px; text-align: right;">Rs. ${item.totalSalary}</td>
+                <td style="border: 1px solid #333; padding: 5px; text-align: right;">Rs. ${salTotal}</td>
             </tr>
         `;
 
