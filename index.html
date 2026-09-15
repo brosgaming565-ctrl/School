@@ -219,9 +219,9 @@
                                 <label>Bill Prepared By</label>
                                 <input type="text" id="billPreparedBy" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="display:none;">
                                 <label>Authorized Signatory</label>
-                                <input type="text" id="authorizedSign" value="Accountant">
+                                <input type="text" id="authorizedSign" value="">
                             </div>
                         </div>
 
@@ -559,7 +559,7 @@
         </div>
         <div>
             <p>----------------------------------------</p>
-            <p style="text-align: center; font-weight: bold;" id="pSignTitle">Authorized Signatory</p>
+            <p style="text-align: center; font-weight: bold; visibility: hidden;">Authorized Signatory</p>
         </div>
     </div>
 </div>
@@ -589,17 +589,17 @@
     <div style="display: flex; justify-content: space-between; margin-top: 60px; font-size: 13px;">
         <div>
             <p>----------------------------------------</p>
-            <p style="text-align: center; font-weight: bold;">Prepared By</p>
+            <p style="text-align: center; font-weight: bold;" id="pHistoryPreparedBy">Prepared By</p>
         </div>
         <div>
             <p>----------------------------------------</p>
-            <p style="text-align: center; font-weight: bold;">Authorized Signatory</p>
+            <p style="text-align: center; font-weight: bold; visibility: hidden;">Authorized Signatory</p>
         </div>
     </div>
 </div>
 
 <script>
-    if (!localStorage.getItem("school_user")) localStorage.setItem("school_user", "admin");
+    if (!localStorage.getItem("school_user")) localStorage.setItem("school_user", "Niranjan Kumar Shah");
     if (!localStorage.getItem("school_pass")) localStorage.setItem("school_pass", "12345");
 
     const defaultParticularNames = [
@@ -797,7 +797,7 @@
         showTab('billingTab');
         resetForm();
         document.getElementById('billNo').value = 'BILL-' + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('billPreparedBy').value = localStorage.getItem("school_user") || "admin";
+        document.getElementById('billPreparedBy').value = localStorage.getItem("school_user") || "Niranjan Kumar Shah";
         document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -963,7 +963,7 @@
         document.getElementById('saveBtn').innerText = "Save / Update Entry";
         document.getElementById('cancelBtn').style.display = 'none';
         document.getElementById('billNo').value = 'BILL-' + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('billPreparedBy').value = localStorage.getItem("school_user") || "admin";
+        document.getElementById('billPreparedBy').value = localStorage.getItem("school_user") || "Niranjan Kumar Shah";
     }
 
     function saveSalary(e) {
@@ -1218,8 +1218,15 @@
         
         let titleText = document.getElementById('historyTitle').innerText;
         document.getElementById('pHistoricalTitlePrint').innerText = titleText;
+        document.getElementById('pHistoryPreparedBy').innerText = "Prepared By: " + (document.getElementById('billPreparedBy').value || "Niranjan Kumar Shah");
 
-        setTimeout(() => { window.print(); }, 150);
+        document.getElementById('printableReceipt').style.display = 'none';
+        document.getElementById('printableHistory').style.display = 'block';
+
+        setTimeout(() => { 
+            window.print(); 
+            document.getElementById('printableHistory').style.display = 'none';
+        }, 150);
     }
 
     function downloadTeacherHistoryExcel() {
@@ -1274,8 +1281,15 @@
 
         let titleText = document.getElementById('teacherHistoryTitle').innerText;
         document.getElementById('pHistoricalTitlePrint').innerText = titleText;
+        document.getElementById('pHistoryPreparedBy').innerText = "Prepared By: " + (localStorage.getItem("school_user") || "Niranjan Kumar Shah");
 
-        setTimeout(() => { window.print(); }, 150);
+        document.getElementById('printableReceipt').style.display = 'none';
+        document.getElementById('printableHistory').style.display = 'block';
+
+        setTimeout(() => { 
+            window.print(); 
+            document.getElementById('printableHistory').style.display = 'none';
+        }, 150);
     }
 
     function printStudentBill(id) {
@@ -1292,8 +1306,7 @@
         document.getElementById('pContactNo').innerText = item.contactNo || '';
         document.getElementById('pBillMonth').innerText = item.billMonth || '-';
         document.getElementById('pAmountWords').innerText = item.amountInWords || '---';
-        document.getElementById('pPreparedBy').innerText = item.billPreparedBy || 'Admin';
-        document.getElementById('pSignTitle').innerText = item.authorizedSign || 'Accountant';
+        document.getElementById('pPreparedBy').innerText = item.billPreparedBy || 'Niranjan Kumar Shah';
 
         let paid = item.depositAmount || 0;
         let dues = item.grossTotal - paid;
@@ -1317,7 +1330,14 @@
                 }
             });
         }
-        setTimeout(() => { window.print(); }, 150);
+        
+        document.getElementById('printableHistory').style.display = 'none';
+        document.getElementById('printableReceipt').style.display = 'block';
+
+        setTimeout(() => { 
+            window.print(); 
+            document.getElementById('printableReceipt').style.display = 'none';
+        }, 150);
     }
 
     function printTeacherBill(id) {
@@ -1334,8 +1354,7 @@
         document.getElementById('pContactNo').innerText = item.contact || '';
         document.getElementById('pBillMonth').innerText = item.month || '-';
         document.getElementById('pAmountWords').innerText = item.inWords || '---';
-        document.getElementById('pPreparedBy').innerText = item.preparedBy || localStorage.getItem("school_user") || 'Admin';
-        document.getElementById('pSignTitle').innerText = item.authSign || "Principal / Accountant";
+        document.getElementById('pPreparedBy').innerText = localStorage.getItem("school_user") || 'Niranjan Kumar Shah';
 
         let salTotal = item.totalSalary || item.basic || 0;
         let paid = item.netPaid || 0;
@@ -1353,7 +1372,13 @@
             </tr>
         `;
 
-        setTimeout(() => { window.print(); }, 150);
+        document.getElementById('printableHistory').style.display = 'none';
+        document.getElementById('printableReceipt').style.display = 'block';
+
+        setTimeout(() => { 
+            window.print(); 
+            document.getElementById('printableReceipt').style.display = 'none';
+        }, 150);
     }
 
     function searchRecords() {
