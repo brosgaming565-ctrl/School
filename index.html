@@ -85,21 +85,17 @@
         .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
-        .btn-act-edit { background: #ff9800; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; }
-        .btn-act-delete { background: #f44336; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin-left: 4px; }
-        .btn-act-print { background: #00897b; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin-left: 4px; }
+        
+        .btn-act-edit { background: #ff9800; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin: 1px; }
+        .btn-act-print { background: #00897b; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin: 1px; }
+        .btn-act-delete { background: #f44336; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin: 1px; }
 
-        /* PRINT RECEIPT CONTAINER (Hidden on Screen, Visible on Print) */
+        /* PRINT RECEIPT CONTAINER */
         #printableReceipt { display: none; }
 
-        /* DEDICATED PRINT STYLES - SIRF BILL PRINT HOGA */
         @media print {
-            body * {
-                visibility: hidden !important;
-            }
-            #printableReceipt, #printableReceipt * {
-                visibility: visible !important;
-            }
+            body * { visibility: hidden !important; }
+            #printableReceipt, #printableReceipt * { visibility: visible !important; }
             #printableReceipt {
                 display: block !important;
                 position: absolute;
@@ -111,9 +107,7 @@
                 padding: 20px;
                 font-size: 14px;
             }
-            nav, .dev-credit, #loginBgWrapper, .container {
-                display: none !important;
-            }
+            nav, .dev-credit, #loginBgWrapper, .container { display: none !important; }
         }
     </style>
 </head>
@@ -139,9 +133,8 @@
     <nav>
         <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
         <div class="nav-btns">
-            <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">🏠 Home Dashboard</button>
-            <button class="new-entry-btn" onclick="startNewStudentEntry()">➕ New Entry</button>
-            <button id="tabBtnFind" onclick="scrollToReportSection()">🔍 Find Report</button>
+            <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">🏠 Student Billing</button>
+            <button class="new-entry-btn" onclick="startNewStudentEntry()">➕ New Student Entry</button>
             <button id="tabBtnSalary" onclick="showTab('salaryTab')">Teacher Salary</button>
             <button id="tabBtnSettings" onclick="showTab('settingsTab')" style="background: #0277bd;">⚙️ Settings</button>
             <button id="tabBtnBackup" onclick="showTab('backupTab')" style="background: #2e7d32;">Backup / Restore</button>
@@ -313,9 +306,10 @@
                 </div>
             </div>
 
+            <!-- STUDENT PAYMENT HISTORY BOX -->
             <div class="box" id="depositHistoryBox" style="margin-top: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
-                    <h3 id="historyTitle" style="margin: 0;">📅 Payment / Deposit History</h3>
+                    <h3 id="historyTitle" style="margin: 0;">📅 Student Payment History</h3>
                     <div style="display: flex; gap: 8px;">
                         <button onclick="downloadDepositExcel()" class="btn btn-success" style="font-size: 11px; padding: 5px 10px;">📊 Download Excel</button>
                         <button onclick="downloadDepositJSON()" class="btn btn-warning" style="font-size: 11px; padding: 5px 10px;">📥 Download JSON</button>
@@ -327,14 +321,14 @@
                             <tr>
                                 <th>Payment Date</th>
                                 <th>Ref / Bill No</th>
-                                <th>Name</th>
+                                <th>Student Name</th>
                                 <th>Father's Name</th>
                                 <th>Paid Amount (Rs.)</th>
                                 <th>Remaining Dues (Rs.)</th>
                             </tr>
                         </thead>
                         <tbody id="depositHistoryTableBody">
-                            <tr><td colspan="6" style="color: #777;">Select or edit a student record to view history.</td></tr>
+                            <tr><td colspan="6" style="color: #777;">Click 'Edit' on any student record above to view their specific payment history.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -444,6 +438,28 @@
                     </div>
                 </div>
             </div>
+
+            <!-- TEACHER SALARY PAYMENT HISTORY BOX -->
+            <div class="box" id="teacherHistoryBox" style="margin-top: 15px;">
+                <h3 id="teacherHistoryTitle" style="margin-bottom: 10px;">📅 Teacher Salary History</h3>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Payment Date</th>
+                                <th>Ref / Receipt No</th>
+                                <th>Teacher Name</th>
+                                <th>Father's Name</th>
+                                <th>Paid Amount (Rs.)</th>
+                                <th>Remaining Dues (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teacherHistoryTableBody">
+                            <tr><td colspan="6" style="color: #777;">Click 'Edit' on any teacher record above to view their specific salary payment history.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <!-- SETTINGS TAB -->
@@ -488,7 +504,7 @@
     </div>
 </div>
 
-<!-- PROFESSIONAL CLEAN PRINT RECEIPT TEMPLATE (Sirf yeh print hoga) -->
+<!-- PRINT RECEIPT TEMPLATE -->
 <div id="printableReceipt">
     <div style="text-align: center; border-bottom: 2px solid #1a237e; padding-bottom: 10px; margin-bottom: 15px;">
         <h2 style="color: #1a237e; font-size: 20px; font-weight: bold;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
@@ -499,7 +515,7 @@
     <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px;">
         <div>
             <p><strong>Bill / Receipt No:</strong> <span id="pBillNo">---</span></p>
-            <p><strong>Student Name:</strong> <span id="pStudentName">---</span></p>
+            <p><strong>Name:</strong> <span id="pStudentName">---</span></p>
             <p><strong>Father's Name:</strong> <span id="pFatherName">---</span></p>
             <p><strong>Class / Roll / Sec:</strong> <span id="pClassDetails">---</span></p>
         </div>
@@ -514,13 +530,11 @@
         <thead>
             <tr style="background: #f0f0f0;">
                 <th style="border: 1px solid #333; padding: 6px; text-align: left; width: 40px;">#</th>
-                <th style="border: 1px solid #333; padding: 6px; text-align: left;">Fee Particular Description</th>
+                <th style="border: 1px solid #333; padding: 6px; text-align: left;">Fee / Salary Particular Description</th>
                 <th style="border: 1px solid #333; padding: 6px; text-align: right; width: 120px;">Amount (Rs.)</th>
             </tr>
         </thead>
-        <tbody id="pParticularsBody">
-            <!-- Dynamic particulars rows -->
-        </tbody>
+        <tbody id="pParticularsBody"></tbody>
     </table>
 
     <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px;">
@@ -642,11 +656,6 @@
         if(tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
         if(tabId === 'settingsTab') document.getElementById('tabBtnSettings').classList.add('active-tab');
         if(tabId === 'backupTab') document.getElementById('tabBtnBackup').classList.add('active-tab');
-    }
-
-    function scrollToReportSection() {
-        showTab('billingTab');
-        document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' });
     }
 
     function updateCredentials() {
@@ -1035,7 +1044,7 @@
     }
 
     function showStudentHistory(student) {
-        document.getElementById('historyTitle').innerText = "📅 Payment History: " + student.studentName;
+        document.getElementById('historyTitle').innerText = "📅 Student Payment History: " + student.studentName;
         const tbody = document.getElementById('depositHistoryTableBody');
         tbody.innerHTML = '';
         if(!student.history || student.history.length === 0) {
@@ -1057,11 +1066,11 @@
     }
 
     function showTeacherHistory(teacher) {
-        document.getElementById('historyTitle').innerText = "📅 Salary History: " + teacher.teacherName;
-        const tbody = document.getElementById('depositHistoryTableBody');
+        document.getElementById('teacherHistoryTitle').innerText = "📅 Teacher Salary History: " + teacher.teacherName;
+        const tbody = document.getElementById('teacherHistoryTableBody');
         tbody.innerHTML = '';
         if(!teacher.history || teacher.history.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" style="color:#777;">No history recorded yet.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="color:#777;">No history recorded yet for this teacher.</td></tr>`;
             return;
         }
         teacher.history.forEach(h => {
@@ -1080,7 +1089,7 @@
 
     function downloadDepositExcel() {
         let wb = XLSX.utils.table_to_book(document.getElementById('depositHistoryBox').querySelector('table'), {sheet: "History"});
-        XLSX.writeFile(wb, "Payment_History.xlsx");
+        XLSX.writeFile(wb, "Student_Payment_History.xlsx");
     }
 
     function downloadDepositJSON() {
@@ -1101,7 +1110,7 @@
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToExport, null, 2));
         const downloadAnchor = document.createElement('a');
         downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "payment_history.json");
+        downloadAnchor.setAttribute("download", "student_payment_history.json");
         document.body.appendChild(downloadAnchor);
         downloadAnchor.click();
         downloadAnchor.remove();
