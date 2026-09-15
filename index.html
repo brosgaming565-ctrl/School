@@ -564,5 +564,72 @@
     </div>
 </div>
 
+<script>
+    // Login Credentials Storage
+    let appCredentials = JSON.parse(localStorage.getItem('scnr_credentials')) || { username: 'admin', password: '12345' };
+
+    function login() {
+        let u = document.getElementById('loginUsername').value.trim();
+        let p = document.getElementById('loginPassword').value.trim();
+        if(u === appCredentials.username && p === appCredentials.password) {
+            document.getElementById('loginBgWrapper').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            initApp();
+        } else {
+            alert('Invalid Username or Password! Default is admin / 12345');
+        }
+    }
+
+    function logout() {
+        document.getElementById('appScreen').style.display = 'none';
+        document.getElementById('loginBgWrapper').style.display = 'flex';
+    }
+
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        
+        document.querySelectorAll('nav .nav-btns button').forEach(btn => {
+            if(!btn.classList.contains('new-entry-btn') && !btn.classList.contains('logout-btn')) {
+                btn.classList.remove('active-tab');
+            }
+        });
+        if(tabId === 'billingTab') document.getElementById('tabBtnHome').classList.add('active-tab');
+        if(tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
+        if(tabId === 'settingsTab') document.getElementById('tabBtnSettings').classList.add('active-tab');
+        if(tabId === 'backupTab') document.getElementById('tabBtnBackup').classList.add('active-tab');
+    }
+
+    function initApp() {
+        // Basic app initialization placeholder
+        let today = new Date().toISOString().split('T')[0];
+        if(document.getElementById('billDate')) document.getElementById('billDate').value = today;
+        if(document.getElementById('salaryDate')) document.getElementById('salaryDate').value = today;
+    }
+
+    function updateCredentials() {
+        let oldU = document.getElementById('oldUsername').value.trim();
+        let oldP = document.getElementById('oldPassword').value.trim();
+        let newU = document.getElementById('newUsername').value.trim();
+        let newP = document.getElementById('newPassword').value.trim();
+
+        if(oldU === appCredentials.username && oldP === appCredentials.password) {
+            if(newU && newP) {
+                appCredentials.username = newU;
+                appCredentials.password = newP;
+                localStorage.setItem('scnr_credentials', JSON.stringify(appCredentials));
+                alert('Credentials updated successfully!');
+                document.getElementById('oldUsername').value = '';
+                document.getElementById('oldPassword').value = '';
+                document.getElementById('newUsername').value = '';
+                document.getElementById('newPassword').value = '';
+            } else {
+                alert('Please enter new username and password.');
+            }
+        } else {
+            alert('Old username or password is incorrect.');
+        }
+    }
+</script>
 </body>
 </html>
