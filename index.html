@@ -111,10 +111,11 @@
         .data-table th { background: #1a237e; color: white; font-weight: 600; }
         .btn-act-edit { background: #ff9800; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; }
         .btn-act-delete { background: #f44336; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin-left: 4px; }
+        .btn-act-print { background: #00897b; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; margin-left: 4px; }
 
         /* PRINT STYLES */
         @media print {
-            nav, .dev-credit, #loginBgWrapper, .btn, button, input[type="file"], .dashboard-cards, .grid-layout > div:first-child, #findReportBox input {
+            nav, .dev-credit, #loginBgWrapper, .btn, button, input[type="file"], .dashboard-cards, .grid-layout > div:first-child, #findReportBox input, #depositHistoryBox button, #salaryTab .grid-layout > div:first-child {
                 display: none !important;
             }
             body {
@@ -269,7 +270,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="particularsContainer"></tbody>
-                              </table>
+                            </table>
                         </div>
 
                         <div class="summary-box">
@@ -360,155 +361,157 @@
                         <tbody id="depositHistoryTableBody">
                             <tr><td colspan="6" style="color: #777;">Select or edit a student or teacher record to view their payment history.</td></tr>
                         </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- TEACHER SALARY -->
-    <div id="salaryTab" class="tab-content">
-        <div class="grid-layout">
-            <div class="box" id="salaryFormBox">
-                <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
-                <form id="salaryForm" onsubmit="saveSalary(event)">
-                    <input type="hidden" id="salaryRecordId">
-                    
-                    <div class="form-group">
-                        <label>School Address</label>
-                        <input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
+        <!-- TEACHER SALARY -->
+        <div id="salaryTab" class="tab-content">
+            <div class="grid-layout">
+                <div class="box" id="salaryFormBox">
+                    <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
+                    <form id="salaryForm" onsubmit="saveSalary(event)">
+                        <input type="hidden" id="salaryRecordId">
+                        
+                        <div class="form-group">
+                            <label>School Address</label>
+                            <input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Receipt No</label>
+                                <input type="text" id="salaryReceiptNo" required placeholder="Receipt No">
+                            </div>
+                            <div class="form-group">
+                                <label>Salary Payment Date</label>
+                                <input type="date" id="salaryDate" required>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Teacher's Name</label>
+                                <input type="text" id="teacherName" required placeholder="Teacher Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Father's Name</label>
+                                <input type="text" id="teacherFatherName" required placeholder="Father Name">
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Contact No</label>
+                                <input type="text" id="teacherContact" required placeholder="Contact Number">
+                            </div>
+                            <div class="form-group">
+                                <label>Designation / Subject</label>
+                                <input type="text" id="teacherDesignation" required placeholder="e.g. Science Teacher">
+                            </div>
+                        </div>
+
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Total Salary (NPR)</label>
+                                <input type="number" id="basicSalary" oninput="calculateTeacherSalary()" required placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Now Paid (NPR)</label>
+                                <input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Remaining Dues</label>
+                                <input type="number" id="salaryDues" readonly placeholder="0.00" style="font-weight: bold; color: red; background:#fee;">
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Total Paid Till Date</label>
+                                <input type="number" id="netPaidSalary" value="0" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
+                            </div>
+                            <div class="form-group">
+                                <label>Salary Month / Year</label>
+                                <input type="text" id="salaryMonth" placeholder="e.g. Baishakh 2081" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Amount in Words</label>
+                            <input type="text" id="salaryInWords" placeholder="e.g. TEN THOUSAND RUPEES ONLY" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" id="saveSalaryBtn">Save / Update Salary Record</button>
+                        <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+
+                <div class="box">
+                    <h3>Teacher Salary Records</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Receipt</th>
+                                    <th>Teacher Name</th>
+                                    <th>Month</th>
+                                    <th>Total Sal.</th>
+                                    <th>Paid</th>
+                                    <th>Dues</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salaryTableBody"></tbody>
+                        </table>
                     </div>
-
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Receipt No</label>
-                            <input type="text" id="salaryReceiptNo" required placeholder="Receipt No">
-                        </div>
-                        <div class="form-group">
-                            <label>Salary Payment Date</label>
-                            <input type="date" id="salaryDate" required>
-                        </div>
-                    </div>
-
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Teacher's Name</label>
-                            <input type="text" id="teacherName" required placeholder="Teacher Name">
-                        </div>
-                        <div class="form-group">
-                            <label>Father's Name</label>
-                            <input type="text" id="teacherFatherName" required placeholder="Father Name">
-                        </div>
-                    </div>
-
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Contact No</label>
-                            <input type="text" id="teacherContact" required placeholder="Contact Number">
-                        </div>
-                        <div class="form-group">
-                            <label>Designation / Subject</label>
-                            <input type="text" id="teacherDesignation" required placeholder="e.g. Science Teacher">
-                        </div>
-                    </div>
-
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>Total Salary (NPR)</label>
-                            <input type="number" id="basicSalary" oninput="calculateTeacherSalary()" required placeholder="0.00">
-                        </div>
-                        <div class="form-group">
-                            <label>Now Paid (NPR)</label>
-                            <input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required placeholder="0.00">
-                        </div>
-                        <div class="form-group">
-                            <label>Remaining Dues</label>
-                            <input type="number" id="salaryDues" readonly placeholder="0.00" style="font-weight: bold; color: red; background:#fee;">
-                        </div>
-                    </div>
-
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Total Paid Till Date</label>
-                            <input type="number" id="netPaidSalary" value="0" readonly placeholder="0.00" style="font-weight: bold; color: green; background:#efe;">
-                        </div>
-                        <div class="form-group">
-                            <label>Salary Month / Year</label>
-                            <input type="text" id="salaryMonth" placeholder="e.g. Baishakh 2081" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Amount in Words</label>
-                        <input type="text" id="salaryInWords" placeholder="e.g. TEN THOUSAND RUPEES ONLY" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block" id="saveSalaryBtn">Save / Update Salary Record</button>
-                    <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
-                </form>
-            </div>
-
-            <div class="box">
-                <h3>Teacher Salary Records</h3>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Receipt</th>
-                                <th>Teacher Name</th>
-                                <th>Month</th>
-                                <th>Total Sal.</th>
-                                <th>Paid</th>
-                                <th>Dues</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="salaryTableBody"></tbody>
-                </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- SETTINGS TAB -->
-    <div id="settingsTab" class="tab-content">
-        <div class="box" style="max-width: 500px; margin: 30px auto;">
-            <h3>⚙️ Change Login Username & Password</h3>
-            <div class="form-group">
-                <label>Old Username:</label>
-                <input type="text" id="oldUsername" placeholder="Enter current username">
+        <!-- SETTINGS TAB -->
+        <div id="settingsTab" class="tab-content">
+            <div class="box" style="max-width: 500px; margin: 30px auto;">
+                <h3>⚙️ Change Login Username & Password</h3>
+                <div class="form-group">
+                    <label>Old Username:</label>
+                    <input type="text" id="oldUsername" placeholder="Enter current username">
+                </div>
+                <div class="form-group">
+                    <label>Old Password:</label>
+                    <input type="password" id="oldPassword" placeholder="Enter current password">
+                </div>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
+                <div class="form-group">
+                    <label>New Username:</label>
+                    <input type="text" id="newUsername" placeholder="Enter new username">
+                </div>
+                <div class="form-group">
+                    <label>New Password:</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password">
+                </div>
+                <button onclick="updateCredentials()" class="btn btn-success btn-block" style="margin-top: 10px;">Save New Credentials</button>
             </div>
-            <div class="form-group">
-                <label>Old Password:</label>
-                <input type="password" id="oldPassword" placeholder="Enter current password">
-            </div>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
-            <div class="form-group">
-                <label>New Username:</label>
-                <input type="text" id="newUsername" placeholder="Enter new username">
-            </div>
-            <div class="form-group">
-                <label>New Password:</label>
-                <input type="password" id="newPassword" placeholder="Enter new password">
-            </div>
-            <button onclick="updateCredentials()" class="btn btn-success btn-block" style="margin-top: 10px;">Save New Credentials</button>
-        </div>
-    </div>
-
-    <!-- BACKUP & RESTORE -->
-    <div id="backupTab" class="tab-content">
-        <div class="box" style="max-width: 500px; margin: 30px auto;">
-            <h3>1. Download Data Backup</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Save complete database locally on your device.</p>
-            <button onclick="downloadBackup()" class="btn btn-success btn-block">Download JSON Backup</button>
         </div>
 
-        <div class="box" style="max-width: 500px; margin: 30px auto;">
-            <h3>2. Restore Data Backup</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Select your exported .json backup file to load data.</p>
-            <div class="form-group">
-                <input type="file" id="backupFileInput" accept=".json">
+        <!-- BACKUP & RESTORE -->
+        <div id="backupTab" class="tab-content">
+            <div class="box" style="max-width: 500px; margin: 30px auto;">
+                <h3>1. Download Data Backup</h3>
+                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Save complete database locally on your device.</p>
+                <button onclick="downloadBackup()" class="btn btn-success btn-block">Download JSON Backup</button>
             </div>
-            <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
+
+            <div class="box" style="max-width: 500px; margin: 30px auto;">
+                <h3>2. Restore Data Backup</h3>
+                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Select your exported .json backup file to load data.</p>
+                <div class="form-group">
+                    <input type="file" id="backupFileInput" accept=".json">
+                </div>
+                <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
+            </div>
         </div>
     </div>
 </div>
@@ -529,7 +532,7 @@
     let salaryData = JSON.parse(localStorage.getItem('school_salary_data')) || [];
     let editingStudentId = null;
     let editingSalaryId = null;
-    let activeHistoryType = null; // 'student' or 'salary'
+    let activeHistoryType = null;
 
     window.onload = function() {
         initParticularsTable();
@@ -623,7 +626,542 @@
         let oldP = document.getElementById("oldPassword").value.trim();
         let newU = document.getElementById("newUsername").value.trim();
         let newP = document.getElementById("newPassword").value.trim();
-        // (बाकी का कोड जस का तस)
+
+        if (oldU === localStorage.getItem("school_user") && oldP === localStorage.getItem("school_pass")) {
+            if (newU && newP) {
+                localStorage.setItem("school_user", newU);
+                localStorage.setItem("school_pass", newP);
+                alert("Username and Password updated successfully!");
+                document.getElementById("oldUsername").value = "";
+                document.getElementById("oldPassword").value = "";
+                document.getElementById("newUsername").value = "";
+                document.getElementById("newPassword").value = "";
+            } else {
+                alert("Please enter new username and password.");
+            }
+        } else {
+            alert("Current username or password is incorrect!");
+        }
+    }
+
+    // --- BACKUP & RESTORE FIX ---
+    function downloadBackup() {
+        const backupData = {
+            school_user: localStorage.getItem("school_user"),
+            school_pass: localStorage.getItem("school_pass"),
+            school_students_data: localStorage.getItem("school_students_data"),
+            school_salary_data: localStorage.getItem("school_salary_data")
+        };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "school_management_backup.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    function restoreBackup() {
+        const fileInput = document.getElementById('backupFileInput');
+        if(fileInput.files.length === 0) {
+            alert("Please select a JSON backup file first.");
+            return;
+        }
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const parsed = JSON.parse(e.target.result);
+                if(parsed.school_students_data) {
+                    localStorage.setItem("school_students_data", parsed.school_students_data);
+                }
+                if(parsed.school_salary_data) {
+                    localStorage.setItem("school_salary_data", parsed.school_salary_data);
+                }
+                if(parsed.school_user) localStorage.setItem("school_user", parsed.school_user);
+                if(parsed.school_pass) localStorage.setItem("school_pass", parsed.school_pass);
+
+                studentsData = JSON.parse(localStorage.getItem('school_students_data')) || [];
+                salaryData = JSON.parse(localStorage.getItem('school_salary_data')) || [];
+
+                renderBillingTable();
+                renderSalaryTable();
+                updateDashboardStats();
+                alert("Data restored successfully!");
+            } catch (err) {
+                alert("Invalid backup file format!");
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // --- STUDENT BILLING LOGIC ---
+    function startNewStudentEntry() {
+        showTab('billingTab');
+        resetForm();
+        document.getElementById('billNo').value = 'BILL-' + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('billPreparedBy').value = localStorage.getItem("school_user") || "admin";
+        document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function saveBill(e) {
+        e.preventDefault();
+        let particulars = [];
+        document.querySelectorAll('#particularsContainer tr').forEach(tr => {
+            let name = tr.querySelector('.part-name-input').value;
+            let amount = parseFloat(tr.querySelector('.part-amount-input').value) || 0;
+            particulars.push({ name, amount });
+        });
+
+        let gross = parseFloat(document.getElementById('grossTotal').value) || 0;
+        let newDep = parseFloat(document.getElementById('newDepositInput').value) || 0;
+        let depDate = document.getElementById('depositDate').value;
+
+        let recordObj = {
+            id: editingStudentId !== null ? editingStudentId : Date.now(),
+            schoolAddress: document.getElementById('schoolAddress').value,
+            billNo: document.getElementById('billNo').value,
+            billDate: document.getElementById('billDate').value,
+            studentName: document.getElementById('studentName').value,
+            fatherName: document.getElementById('fatherName').value,
+            studentClass: document.getElementById('studentClass').value,
+            rollNo: document.getElementById('rollNo').value,
+            section: document.getElementById('section').value,
+            contactNo: document.getElementById('contactNo').value,
+            billMonth: document.getElementById('billMonth').value,
+            billPreparedBy: document.getElementById('billPreparedBy').value,
+            authorizedSign: document.getElementById('authorizedSign').value,
+            particulars: particulars,
+            grossTotal: gross,
+            amountInWords: document.getElementById('amountInWords').value,
+            history: []
+        };
+
+        if(editingStudentId !== null) {
+            let existing = studentsData.find(s => s.id == editingStudentId);
+            if(existing) {
+                recordObj.depositAmount = (existing.depositAmount || 0) + newDep;
+                recordObj.history = existing.history || [];
+                if(newDep > 0) {
+                    recordObj.history.push({
+                        date: depDate || new Date().toISOString().split('T')[0],
+                        refNo: recordObj.billNo,
+                        name: recordObj.studentName,
+                        fatherName: recordObj.fatherName,
+                        paid: newDep,
+                        dues: gross - recordObj.depositAmount
+                    });
+                }
+            }
+        } else {
+            recordObj.depositAmount = newDep;
+            if(newDep > 0) {
+                recordObj.history.push({
+                    date: depDate || new Date().toISOString().split('T')[0],
+                    refNo: recordObj.billNo,
+                    name: recordObj.studentName,
+                    fatherName: recordObj.fatherName,
+                    paid: newDep,
+                    dues: gross - newDep
+                });
+            }
+            studentsData.push(recordObj);
+        }
+
+        if(editingStudentId !== null) {
+            let index = studentsData.findIndex(s => s.id == editingStudentId);
+            if(index !== -1) studentsData[index] = recordObj;
+        }
+
+        localStorage.setItem('school_students_data', JSON.stringify(studentsData));
+        renderBillingTable();
+        updateDashboardStats();
+        resetForm();
+        alert("Student bill saved successfully!");
+    }
+
+    function renderBillingTable() {
+        const tbody = document.getElementById('billingTableBody');
+        tbody.innerHTML = '';
+        if(studentsData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:#777;">No student bills found.</td></tr>`;
+            return;
+        }
+        studentsData.forEach(item => {
+            let paid = item.depositAmount || 0;
+            let dues = item.grossTotal - paid;
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.billNo}</td>
+                <td>${item.studentName}</td>
+                <td>${item.fatherName}</td>
+                <td>Rs. ${item.grossTotal}</td>
+                <td>Rs. ${paid}</td>
+                <td style="color: ${dues > 0 ? 'red' : 'green'};">Rs. ${dues}</td>
+                <td>
+                    <button class="btn-act-edit" onclick="editStudent(${item.id})">Edit</button>
+                    <button class="btn-act-print" onclick="printStudentBill(${item.id})">Print Bill</button>
+                    <button class="btn-act-delete" onclick="deleteStudent(${item.id})">Del</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function editStudent(id) {
+        let item = studentsData.find(s => s.id == id);
+        if(!item) return;
+        editingStudentId = item.id;
+        document.getElementById('recordId').value = item.id;
+        document.getElementById('schoolAddress').value = item.schoolAddress || '';
+        document.getElementById('billNo').value = item.billNo || '';
+        document.getElementById('billDate').value = item.billDate || '';
+        document.getElementById('studentName').value = item.studentName || '';
+        document.getElementById('fatherName').value = item.fatherName || '';
+        document.getElementById('studentClass').value = item.studentClass || '';
+        document.getElementById('rollNo').value = item.rollNo || '';
+        document.getElementById('section').value = item.section || '';
+        document.getElementById('contactNo').value = item.contactNo || '';
+        document.getElementById('billMonth').value = item.billMonth || '';
+        document.getElementById('billPreparedBy').value = item.billPreparedBy || '';
+        document.getElementById('authorizedSign').value = item.authorizedSign || '';
+        document.getElementById('amountInWords').value = item.amountInWords || '';
+
+        initParticularsTable(item.particulars);
+        document.getElementById('grossTotal').value = item.grossTotal;
+        document.getElementById('depositAmount').value = item.depositAmount || 0;
+        document.getElementById('newDepositInput').value = 0;
+        calculateBalance();
+
+        document.getElementById('formTitle').innerText = "Edit Student Bill: " + item.studentName;
+        document.getElementById('saveBtn').innerText = "Update Student Bill";
+        document.getElementById('cancelBtn').style.display = 'block';
+
+        showStudentHistory(item);
+        document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function deleteStudent(id) {
+        if(confirm("Are you sure you want to delete this student record?")) {
+            studentsData = studentsData.filter(s => s.id != id);
+            localStorage.setItem('school_students_data', JSON.stringify(studentsData));
+            renderBillingTable();
+            updateDashboardStats();
+        }
+    }
+
+    function resetForm() {
+        editingStudentId = null;
+        document.getElementById('billingForm').reset();
+        document.getElementById('recordId').value = '';
+        initParticularsTable();
+        setDefaultDates();
+        document.getElementById('formTitle').innerText = "Create New Student Bill";
+        document.getElementById('saveBtn').innerText = "Save / Update Entry";
+        document.getElementById('cancelBtn').style.display = 'none';
+        document.getElementById('billNo').value = 'BILL-' + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('billPreparedBy').value = localStorage.getItem("school_user") || "admin";
+    }
+
+    // --- TEACHER SALARY LOGIC ---
+    function saveSalary(e) {
+        e.preventDefault();
+        let totalSal = parseFloat(document.getElementById('basicSalary').value) || 0;
+        let newPaid = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
+        let salDate = document.getElementById('salaryDate').value;
+
+        let obj = {
+            id: editingSalaryId !== null ? editingSalaryId : Date.now(),
+            schoolAddress: document.getElementById('salarySchoolAddress').value,
+            receiptNo: document.getElementById('salaryReceiptNo').value,
+            date: salDate,
+            teacherName: document.getElementById('teacherName').value,
+            fatherName: document.getElementById('teacherFatherName').value,
+            contact: document.getElementById('teacherContact').value,
+            designation: document.getElementById('teacherDesignation').value,
+            totalSalary: totalSal,
+            month: document.getElementById('salaryMonth').value,
+            inWords: document.getElementById('salaryInWords').value,
+            history: []
+        };
+
+        if(editingSalaryId !== null) {
+            let existing = salaryData.find(s => s.id == editingSalaryId);
+            if(existing) {
+                obj.netPaid = (existing.netPaid || 0) + newPaid;
+                obj.history = existing.history || [];
+                if(newPaid > 0) {
+                    obj.history.push({
+                        date: salDate,
+                        refNo: obj.receiptNo,
+                        name: obj.teacherName,
+                        fatherName: obj.fatherName,
+                        paid: newPaid,
+                        dues: totalSal - obj.netPaid
+                    });
+                }
+            }
+        } else {
+            obj.netPaid = newPaid;
+            if(newPaid > 0) {
+                obj.history.push({
+                    date: salDate,
+                    refNo: obj.receiptNo,
+                    name: obj.teacherName,
+                    fatherName: obj.fatherName,
+                    paid: newPaid,
+                    dues: totalSal - newPaid
+                });
+            }
+            salaryData.push(obj);
+        }
+
+        if(editingSalaryId !== null) {
+            let idx = salaryData.findIndex(s => s.id == editingSalaryId);
+            if(idx !== -1) salaryData[idx] = obj;
+        }
+
+        localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
+        renderSalaryTable();
+        resetSalaryForm();
+        alert("Teacher salary record saved successfully!");
+    }
+
+    function calculateTeacherSalary() {
+        let total = parseFloat(document.getElementById('basicSalary').value) || 0;
+        let nowPaid = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
+        let existingPaid = 0;
+        if(editingSalaryId !== null) {
+            let s = salaryData.find(item => item.id == editingSalaryId);
+            if(s) existingPaid = s.netPaid || 0;
+        }
+        let totalPaid = existingPaid + nowPaid;
+        let dues = total - totalPaid;
+        document.getElementById('netPaidSalary').value = totalPaid;
+        document.getElementById('salaryDues').value = dues;
+    }
+
+    function renderSalaryTable() {
+        const tbody = document.getElementById('salaryTableBody');
+        tbody.innerHTML = '';
+        if(salaryData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" style="color:#777;">No salary records found.</td></tr>`;
+            return;
+        }
+        salaryData.forEach(item => {
+            let paid = item.netPaid || 0;
+            let dues = item.totalSalary - paid;
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.date}</td>
+                <td>${item.receiptNo}</td>
+                <td>${item.teacherName}</td>
+                <td>${item.month}</td>
+                <td>Rs. ${item.totalSalary}</td>
+                <td>Rs. ${paid}</td>
+                <td style="color: ${dues > 0 ? 'red' : 'green'};">Rs. ${dues}</td>
+                <td>
+                    <button class="btn-act-edit" onclick="editSalary(${item.id})">Edit</button>
+                    <button class="btn-act-print" onclick="printTeacherBill(${item.id})">Print Bill</button>
+                    <button class="btn-act-delete" onclick="deleteSalary(${item.id})">Del</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function editSalary(id) {
+        let item = salaryData.find(s => s.id == id);
+        if(!item) return;
+        editingSalaryId = item.id;
+        document.getElementById('salaryRecordId').value = item.id;
+        document.getElementById('salarySchoolAddress').value = item.schoolAddress || '';
+        document.getElementById('salaryReceiptNo').value = item.receiptNo || '';
+        document.getElementById('salaryDate').value = item.date || '';
+        document.getElementById('teacherName').value = item.teacherName || '';
+        document.getElementById('teacherFatherName').value = item.fatherName || '';
+        document.getElementById('teacherContact').value = item.contact || '';
+        document.getElementById('teacherDesignation').value = item.designation || '';
+        document.getElementById('basicSalary').value = item.totalSalary || 0;
+        document.getElementById('newSalaryPaidInput').value = 0;
+        document.getElementById('netPaidSalary').value = item.netPaid || 0;
+        document.getElementById('salaryDues').value = (item.totalSalary || 0) - (item.netPaid || 0);
+        document.getElementById('salaryMonth').value = item.month || '';
+        document.getElementById('salaryInWords').value = item.inWords || '';
+
+        document.getElementById('salaryFormTitle').innerText = "Edit Salary Record: " + item.teacherName;
+        document.getElementById('saveSalaryBtn').innerText = "Update Salary Record";
+        document.getElementById('cancelSalaryBtn').style.display = 'block';
+
+        showTeacherHistory(item);
+    }
+
+    function deleteSalary(id) {
+        if(confirm("Delete this salary record?")) {
+            salaryData = salaryData.filter(s => s.id != id);
+            localStorage.setItem('school_salary_data', JSON.stringify(salaryData));
+            renderSalaryTable();
+        }
+    }
+
+    function resetSalaryForm() {
+        editingSalaryId = null;
+        document.getElementById('salaryForm').reset();
+        document.getElementById('salaryRecordId').value = '';
+        setDefaultDates();
+        document.getElementById('salaryFormTitle').innerText = "Teacher Salary Payment Form";
+        document.getElementById('saveSalaryBtn').innerText = "Save / Update Salary Record";
+        document.getElementById('cancelSalaryBtn').style.display = 'none';
+        document.getElementById('salaryReceiptNo.value') || '';
+    }
+
+    // --- PAYMENT HISTORY & PRINTING ---
+    function showStudentHistory(student) {
+        activeHistoryType = 'student';
+        document.getElementById('historyTitle').innerText = "📅 Payment History: " + student.studentName;
+        const tbody = document.getElementById('depositHistoryTableBody');
+        tbody.innerHTML = '';
+        if(!student.history || student.history.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="color:#777;">No payment history recorded yet for this student.</td></tr>`;
+            return;
+        }
+        student.history.forEach(h => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${h.date}</td>
+                <td>${h.refNo}</td>
+                <td>${h.name}</td>
+                <td>${h.fatherName}</td>
+                <td>Rs. ${h.paid}</td>
+                <td>Rs. ${h.dues}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function showTeacherHistory(teacher) {
+        activeHistoryType = 'teacher';
+        document.getElementById('historyTitle').innerText = "📅 Salary Payment History: " + teacher.teacherName;
+        const tbody = document.getElementById('depositHistoryTableBody');
+        tbody.innerHTML = '';
+        if(!teacher.history || teacher.history.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="color:#777;">No payment history recorded yet for this teacher.</td></tr>`;
+            return;
+        }
+        teacher.history.forEach(h => {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${h.date}</td>
+                <td>${h.refNo}</td>
+                <td>${h.name}</td>
+                <td>${h.fatherName}</td>
+                <td>Rs. ${h.paid}</td>
+                <td>Rs. ${h.dues}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function printDepositHistory() {
+        window.print();
+    }
+
+    function downloadDepositExcel() {
+        const tbody = document.getElementById('depositHistoryTableBody');
+        if(tbody.rows.length === 0 || tbody.rows[0].cells.length < 6) {
+            alert("No history data to export.");
+            return;
+        }
+        let wb = XLSX.utils.table_to_book(document.getElementById('depositHistoryBox').querySelector('table'), {sheet: "History"});
+        XLSX.writeFile(wb, "Payment_History.xlsx");
+    }
+
+    function downloadDepositJSON() {
+        const tbody = document.getElementById('depositHistoryTableBody');
+        let dataToExport = [];
+        for(let row of tbody.rows) {
+            if(row.cells.length >= 6) {
+                dataToExport.push({
+                    date: row.cells[0].innerText,
+                    refNo: row.cells[1].innerText,
+                    name: row.cells[2].innerText,
+                    fatherName: row.cells[3].innerText,
+                    paid: row.cells[4].innerText,
+                    dues: row.cells[5].innerText
+                });
+            }
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToExport, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "payment_history.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    // --- SPECIFIC PRINT BILL FUNCTIONS ---
+    function printStudentBill(id) {
+        editStudent(id);
+        setTimeout(() => {
+            window.print();
+        }, 200);
+    }
+
+    function printTeacherBill(id) {
+        editSalary(id);
+        showTab('salaryTab');
+        setTimeout(() => {
+            window.print();
+        }, 200);
+    }
+
+    function searchRecords() {
+        let q = document.getElementById('searchInput').value.toLowerCase();
+        const tbody = document.getElementById('billingTableBody');
+        tbody.innerHTML = '';
+        let filtered = studentsData.filter(s => 
+            s.studentName.toLowerCase().includes(q) || 
+            s.fatherName.toLowerCase().includes(q) || 
+            s.billNo.toLowerCase().includes(q)
+        );
+        if(filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:#777;">No matching records found.</td></tr>`;
+            return;
+        }
+        filtered.forEach(item => {
+            let paid = item.depositAmount || 0;
+            let dues = item.grossTotal - paid;
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.billNo}</td>
+                <td>${item.studentName}</td>
+                <td>${item.fatherName}</td>
+                <td>Rs. ${item.grossTotal}</td>
+                <td>Rs. ${paid}</td>
+                <td style="color: ${dues > 0 ? 'red' : 'green'};">Rs. ${dues}</td>
+                <td>
+                    <button class="btn-act-edit" onclick="editStudent(${item.id})">Edit</button>
+                    <button class="btn-act-print" onclick="printStudentBill(${item.id})">Print Bill</button>
+                    <button class="btn-act-delete" onclick="deleteStudent(${item.id})">Del</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function updateDashboardStats() {
+        let totalEntries = studentsData.length;
+        let totalCollection = 0;
+        let totalDues = 0;
+        studentsData.forEach(s => {
+            let paid = s.depositAmount || 0;
+            totalCollection += paid;
+            totalDues += (s.grossTotal - paid);
+        });
+        document.getElementById('statTotalEntries').innerText = totalEntries;
+        document.getElementById('statTotalCollection').innerText = "Rs. " + totalCollection;
+        document.getElementById('statTotalDues').innerText = "Rs. " + totalDues;
     }
 </script>
 </body>
