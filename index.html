@@ -601,7 +601,6 @@
     }
 
     function initApp() {
-        // Basic app initialization placeholder
         let today = new Date().toISOString().split('T')[0];
         if(document.getElementById('billDate')) document.getElementById('billDate').value = today;
         if(document.getElementById('salaryDate')) document.getElementById('salaryDate').value = today;
@@ -629,6 +628,47 @@
         } else {
             alert('Old username or password is incorrect.');
         }
+    }
+
+    // BACKUP FUNCTION
+    function downloadBackup() {
+        let data = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            data[key] = localStorage.getItem(key);
+        }
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        let downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "SCNR_School_Backup_" + new Date().toISOString().split('T')[0] + ".json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    // RESTORE FUNCTION
+    function restoreBackup() {
+        let fileInput = document.getElementById('backupFileInput');
+        if (fileInput.files.length === 0) {
+            alert('Please select a JSON backup file first!');
+            return;
+        }
+        let file = fileInput.files[0];
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                let data = JSON.parse(e.target.result);
+                localStorage.clear();
+                for (let key in data) {
+                    localStorage.setItem(key, data[key]);
+                }
+                alert('Data restored successfully! The page will now reload.');
+                location.reload();
+            } catch (err) {
+                alert('Invalid backup file format!');
+            }
+        };
+        reader.readAsText(file);
     }
 </script>
 </body>
