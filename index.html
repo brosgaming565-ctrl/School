@@ -2,91 +2,195 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI,Tahoma,sans-serif}
 body{background:#f0f2f5;color:#333;font-size:13px}
-nav{background:#1a237e;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-nav h1{font-size:15px}
-.nav-btns{display:flex;gap:5px;flex-wrap:wrap}
 button{cursor:pointer}
-nav button{background:#3949ab;color:white;border:0;padding:7px 12px;border-radius:4px;font-weight:bold;font-size:12px}
+nav{
+ background:#1a237e;color:#fff;padding:12px 20px;
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;flex-wrap:wrap;box-shadow:0 2px 5px #0002
+}
+nav h1{font-size:15px}
+.nav-btns{display:flex;gap:6px;flex-wrap:wrap}
+nav button{
+ border:0;background:#3949ab;color:#fff;padding:7px 12px;
+ border-radius:4px;font-weight:600;font-size:12px
+}
 nav button:hover{background:#283593}
-.new-btn{background:#2e7d32!important}
-.logout{background:#c62828!important}
-.container{max-width:1350px;margin:15px auto;padding:0 15px}
-#loginBg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(26,35,126,.92),rgba(13,71,161,.88)),url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1350&q=80') center/cover}
-#login{width:95%;max-width:400px;background:#fff;padding:35px 30px;border-radius:12px;box-shadow:0 8px 30px #0006;text-align:center;border-top:5px solid #1a237e}
-#login h2{color:#1a237e;font-size:16px;margin-bottom:8px}
-#login p{color:#555;margin-bottom:20px}
-input,select{width:100%;padding:7px 8px;border:1px solid #ccc;border-radius:4px;font-size:12px}
-#login input{margin-bottom:12px;padding:11px}
-#login button{width:100%;padding:11px;background:#1a237e;color:#fff;border:0;border-radius:5px;font-weight:bold}
-.credit{position:fixed;bottom:12px;right:15px;background:#000a;color:#fff;padding:6px 10px;border-radius:5px;font-size:11px}
-.credit a{color:#25d366}
-.tab{display:none}.tab.active{display:block}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:15px}
-.card,.box{background:#fff;border-radius:6px;box-shadow:0 1px 4px #0002}
-.card{text-align:center;padding:15px;border-top:3px solid #1a237e}
-.card.green{border-color:#2e7d32}.card.red{border-color:#c62828}
-.card h3{font-size:11px;color:#555}.card p{font-size:20px;font-weight:bold;color:#1a237e;margin-top:5px}
-.box{padding:15px;margin-bottom:15px}
+nav .new-entry{background:#2e7d32}
+nav .logout{background:#d32f2f}
+
+.container{max-width:1400px;margin:15px auto;padding:0 15px}
+
+#loginWrapper{
+ min-height:100vh;display:flex;justify-content:center;align-items:center;
+ background:linear-gradient(135deg,#1a237eee,#0d47a1dd),
+ url("https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1400&q=80")
+ center/cover no-repeat;
+}
+#loginBox{
+ width:94%;max-width:400px;background:#fff;padding:35px 30px;
+ border-radius:12px;box-shadow:0 8px 30px #0005;text-align:center;
+ border-top:5px solid #1a237e
+}
+#loginBox h2{font-size:16px;color:#1a237e;margin-bottom:7px}
+#loginBox p{font-size:12px;color:#666;margin-bottom:20px}
+#loginBox input{
+ width:100%;padding:11px;margin-bottom:12px;
+ border:1px solid #ccc;border-radius:6px
+}
+#loginBtn{
+ width:100%;padding:11px;border:0;border-radius:6px;
+ background:#1a237e;color:white;font-weight:bold;font-size:13px
+}
+#loginBtn:hover{background:#283593}
+
+.dev-credit{
+ position:fixed;bottom:12px;right:15px;background:#0009;color:#fff;
+ padding:6px 10px;border-radius:5px;font-size:11px
+}
+.dev-credit a{color:#25d366;text-decoration:none}
+
+.tab{display:none}
+.tab.active{display:block}
+
+.cards{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:15px;margin-bottom:15px
+}
+.card{
+ background:#fff;padding:15px;text-align:center;border-radius:6px;
+ box-shadow:0 1px 4px #0002;border-top:3px solid #1a237e
+}
+.card.green{border-color:#2e7d32}
+.card.red{border-color:#c62828}
+.card h3{font-size:11px;color:#555}
+.card p{font-size:20px;font-weight:bold;color:#1a237e;margin-top:5px}
+
+.layout{
+ display:grid;grid-template-columns:1fr 1fr;gap:15px;align-items:start
+}
+.box{
+ background:#fff;padding:15px;border-radius:6px;
+ box-shadow:0 1px 4px #0002;margin-bottom:15px
+}
 .box h3{color:#1a237e;font-size:14px;margin-bottom:12px}
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.fg{margin-bottom:8px}.fg label{display:block;font-size:11px;font-weight:bold;margin-bottom:3px}
-.part-wrap{max-height:210px;overflow:auto;border:1px solid #ccc}
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #ddd;padding:6px 7px;font-size:11px;text-align:center}
-th{background:#1a237e;color:#fff}
-.part-table th{position:sticky;top:0;background:#f5f5f5;color:#333}
+
+.form-group{margin-bottom:8px}
+.form-group label{
+ display:block;font-size:11px;font-weight:600;margin-bottom:3px
+}
+input,select{
+ width:100%;padding:7px 8px;border:1px solid #ccc;
+ border-radius:4px;font-size:12px
+}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+.part-box{
+ max-height:190px;overflow:auto;border:1px solid #ccc;border-radius:4px
+}
+.part-table{width:100%;border-collapse:collapse}
+.part-table th,.part-table td{
+ border:1px solid #ddd;padding:5px;font-size:11px
+}
+.part-table th{background:#f5f5f5;position:sticky;top:0}
 .part-table input{padding:4px}
-.summary{background:#f8f9fa;border:1px solid #ddd;padding:10px;border-radius:4px;margin-top:10px}
-.btn{border:0;border-radius:4px;padding:8px 12px;font-size:12px;font-weight:bold}
+
+.summary{
+ background:#f8f9fa;border:1px solid #ddd;padding:10px;
+ border-radius:4px;margin-top:10px
+}
+
+.btn{
+ padding:8px 12px;border:0;border-radius:4px;
+ color:#fff;font-weight:600;font-size:12px
+}
+.success{background:#2e7d32}
+.primary{background:#1565c0}
+.warning{background:#f57c00}
+.danger{background:#b71c1c}
 .block{width:100%;margin-top:8px}
-.green-btn{background:#2e7d32;color:#fff}.blue-btn{background:#1565c0;color:#fff}
-.orange-btn{background:#f57c00;color:#fff}.red-btn{background:#c62828;color:#fff}
+
+.table-wrap{overflow-x:auto}
+.data-table{
+ width:100%;border-collapse:collapse;margin-top:8px
+}
+.data-table th,.data-table td{
+ border:1px solid #ddd;padding:6px;font-size:11px;text-align:center
+}
+.data-table th{background:#1a237e;color:#fff}
+
 .edit{background:#ff9800;color:#fff;border:0;padding:4px 7px;border-radius:3px}
 .print{background:#00897b;color:#fff;border:0;padding:4px 7px;border-radius:3px}
 .del{background:#f44336;color:#fff;border:0;padding:4px 7px;border-radius:3px}
-.actions{white-space:nowrap}
-.search{padding:8px!important;margin-bottom:10px}
-.history-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.history-buttons{display:flex;gap:5px;flex-wrap:wrap}
-.small{font-size:11px;padding:5px 9px}
-hr{border:0;border-top:1px solid #ddd;margin:15px 0}
 
-/* PRINT AREA */
-.print-page{display:none}
+.history-head{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;flex-wrap:wrap
+}
+
+#studentPrint,#studentHistoryPrint,#teacherPrint,#teacherHistoryPrint{
+ display:none
+}
 
 @media(max-width:900px){
- .layout{grid-template-columns:1fr}.cards{grid-template-columns:1fr}
+ .layout{grid-template-columns:1fr}
+ .cards{grid-template-columns:1fr}
 }
 @media(max-width:600px){
- .g2,.g3{grid-template-columns:1fr}
+ .grid2,.grid3{grid-template-columns:1fr}
  nav h1{width:100%}
 }
 
+/* PRINT */
 @media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff!important}
  body>*{display:none!important}
- #printArea{display:block!important;position:static!important}
- .print-page{display:block!important;width:100%;padding:15mm;background:white;color:#000}
- .print-page *{color:#000!important}
+ .print-area{
+  display:block!important;
+  position:static!important;
+  width:100%!important;
+  color:#000!important;
+  background:#fff!important;
+  font-size:12px!important
+ }
+ .print-area *{
+  visibility:visible!important;
+  color:#000!important
+ }
  .print-header{text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px}
- .print-header h1{font-size:20px}
- .print-header h2{font-size:14px;margin-top:6px}
- .print-info{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:12px;font-size:12px}
- .print-info div:last-child{text-align:right}
- .print-table{width:100%;border-collapse:collapse;margin:10px 0}
- .print-table th,.print-table td{border:1px solid #000!important;padding:6px;font-size:11px}
+ .print-header h1{font-size:19px!important;color:#000!important}
+ .print-title{
+  display:inline-block;margin-top:7px;padding:4px 14px;
+  border:1px solid #000;font-weight:bold
+ }
+ .print-info{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:15px;margin-bottom:12px
+ }
+ .print-info p{margin:4px 0}
+ .print-table{width:100%;border-collapse:collapse;margin-top:10px}
+ .print-table th,.print-table td{
+  border:1px solid #000;padding:6px;text-align:left
+ }
  .print-table th{background:#eee!important}
- .print-total{margin-left:auto;width:280px;border:1px solid #000;padding:8px;font-size:12px}
- .signatures{display:flex;justify-content:space-between;margin-top:55px;font-size:12px}
- .signature{text-align:center;width:220px}
+ .print-total{
+  margin-left:auto;width:300px;border:1px solid #000;
+  padding:8px;margin-top:12px
+ }
+ .signature{
+  display:flex;justify-content:space-between;
+  margin-top:55px
+ }
+ .signature div{text-align:center;width:220px}
 }
 </style>
 </head>
@@ -94,29 +198,39 @@ hr{border:0;border-top:1px solid #ddd;margin:15px 0}
 <body>
 
 <!-- LOGIN -->
-<div id="loginBg">
- <div id="login">
+<div id="loginWrapper">
+ <div id="loginBox">
   <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
   <p>Management System Login</p>
-  <input id="loginUser" value="admin" placeholder="Username">
-  <input id="loginPass" value="12345" type="password" placeholder="Password">
-  <button onclick="login()">Login to Dashboard</button>
+
+  <input id="username" type="text" value="admin" placeholder="Username">
+  <input id="password" type="password" value="12345" placeholder="Password">
+
+  <button id="loginBtn" type="button">Login to Dashboard</button>
+
+  <div style="margin-top:12px;font-size:11px;color:#777">
+   Default: admin / 12345
+  </div>
  </div>
- <div class="credit">Prepared by <b>Niranjan Kumar Shah</b> |
+
+ <div class="dev-credit">
+  Prepared by <strong>Niranjan Kumar Shah</strong> |
   <a href="https://wa.me/9779826216576" target="_blank">+9779826216576</a>
  </div>
 </div>
 
-<!-- APP -->
+<!-- APPLICATION -->
 <div id="app" style="display:none">
+
 <nav>
  <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+
  <div class="nav-btns">
-  <button onclick="showTab('billing')" id="navBilling">🏠 Student Billing</button>
-  <button class="new-btn" onclick="newStudent()">➕ New Student</button>
-  <button onclick="showTab('salary')" id="navSalary">Teacher Salary</button>
-  <button onclick="showTab('settings')" id="navSettings">⚙️ Settings</button>
-  <button onclick="showTab('backup')" id="navBackup">💾 Backup / Restore</button>
+  <button id="navBilling" onclick="showTab('billing')">🏠 Student Billing</button>
+  <button class="new-entry" onclick="newStudent()">➕ New Student</button>
+  <button id="navSalary" onclick="showTab('salary')">Teacher Salary</button>
+  <button onclick="showTab('settings')">⚙️ Settings</button>
+  <button onclick="showTab('backup')">💾 Backup / Restore</button>
   <button class="logout" onclick="logout()">Logout</button>
  </div>
 </nav>
@@ -124,470 +238,685 @@ hr{border:0;border-top:1px solid #ddd;margin:15px 0}
 <div class="container">
 
 <!-- BILLING -->
-<div id="billing" class="tab active">
- <div class="cards">
-  <div class="card"><h3>TOTAL STUDENT BILLS</h3><p id="statBills">0</p></div>
-  <div class="card green"><h3>TOTAL FEES COLLECTED</h3><p id="statCollected">Rs. 0</p></div>
-  <div class="card red"><h3>TOTAL OUTSTANDING DUES</h3><p id="statDues">Rs. 0</p></div>
+<section id="billing" class="tab active">
+
+<div class="cards">
+ <div class="card">
+  <h3>TOTAL STUDENT BILLS</h3>
+  <p id="totalBills">0</p>
  </div>
-
- <div class="layout">
-  <div class="box">
-   <h3 id="studentFormTitle">Create New Student Bill</h3>
-   <form id="studentForm" onsubmit="saveStudent(event)">
-    <input type="hidden" id="studentId">
-
-    <div class="fg"><label>School Address</label>
-     <input id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
-    </div>
-
-    <div class="g2">
-     <div class="fg"><label>Bill No</label><input id="billNo" required></div>
-     <div class="fg"><label>Bill Date</label><input id="billDate" type="date" required></div>
-    </div>
-
-    <div class="g2">
-     <div class="fg"><label>Student Name</label><input id="studentName" required></div>
-     <div class="fg"><label>Father's Name</label><input id="fatherName" required></div>
-    </div>
-
-    <div class="g3">
-     <div class="fg"><label>Class</label><input id="studentClass"></div>
-     <div class="fg"><label>Roll No</label><input id="rollNo"></div>
-     <div class="fg"><label>Section</label><input id="section"></div>
-    </div>
-
-    <div class="g2">
-     <div class="fg"><label>Contact Number</label><input id="contactNo" required></div>
-     <div class="fg"><label>Bill Period / Month</label><input id="billMonth" placeholder="e.g. Baishakh to Jesth"></div>
-    </div>
-
-    <div class="fg"><label>Bill Prepared By</label><input id="preparedBy" required></div>
-
-    <label style="font-size:11px;font-weight:bold">Fee Particulars</label>
-    <div class="part-wrap">
-     <table class="part-table">
-      <thead><tr><th>#</th><th>Particular Name</th><th>Amount (Rs.)</th></tr></thead>
-      <tbody id="particulars"></tbody>
-     </table>
-    </div>
-
-    <div class="summary">
-     <div class="fg"><label>Gross Total</label><input id="grossTotal" type="number" readonly></div>
-     <div class="g2">
-      <div class="fg"><label>New Deposit Payment</label><input id="newDeposit" type="number" value="0" min="0" oninput="calcStudent()"></div>
-      <div class="fg"><label>Deposit Date</label><input id="depositDate" type="date"></div>
-     </div>
-     <div class="g2">
-      <div class="fg"><label>Total Deposit Till Date</label><input id="depositTotal" type="number" readonly></div>
-      <div class="fg"><label>Remaining Dues</label><input id="studentDues" type="number" readonly style="color:red;font-weight:bold"></div>
-     </div>
-     <div class="fg"><label>Amount in Words</label><input id="amountWords"></div>
-    </div>
-
-    <button class="btn green-btn block" type="submit" id="studentSave">Save Student Bill</button>
-    <button class="btn orange-btn block" type="button" id="studentCancel" onclick="newStudent()" style="display:none">Cancel Edit</button>
-   </form>
-  </div>
-
-  <div class="box">
-   <h3>🔍 Student Bills</h3>
-   <input class="search" id="studentSearch" oninput="renderStudents()" placeholder="Search student, father, bill no...">
-   <div style="overflow:auto">
-    <table>
-     <thead><tr><th>Bill</th><th>Student</th><th>Father</th><th>Total</th><th>Paid</th><th>Dues</th><th>Actions</th></tr></thead>
-     <tbody id="studentTable"></tbody>
-    </table>
-   </div>
-  </div>
+ <div class="card green">
+  <h3>TOTAL FEES COLLECTED</h3>
+  <p id="totalCollected">Rs. 0</p>
  </div>
-
- <div class="box">
-  <div class="history-head">
-   <h3>📅 Student Payment History</h3>
-   <div class="history-buttons">
-    <button class="btn green-btn small" onclick="studentHistoryExcel()">📊 Excel</button>
-    <button class="btn orange-btn small" onclick="studentHistoryJSON()">📥 JSON</button>
-    <button class="btn blue-btn small" onclick="printStudentHistory()">🖨️ Print History</button>
-   </div>
-  </div>
-  <div style="overflow:auto">
-   <table>
-    <thead><tr><th>Date</th><th>Bill</th><th>Student</th><th>Father</th><th>Paid</th><th>Dues</th></tr></thead>
-    <tbody id="studentHistory"><tr><td colspan="6">Select Edit/History from a student record.</td></tr></tbody>
-   </table>
-  </div>
+ <div class="card red">
+  <h3>TOTAL OUTSTANDING DUES</h3>
+  <p id="totalDues">Rs. 0</p>
  </div>
 </div>
+
+<div class="layout">
+
+<div class="box">
+<h3 id="studentFormTitle">Create New Student Bill</h3>
+
+<form id="studentForm">
+
+<input type="hidden" id="studentId">
+
+<div class="form-group">
+<label>School Address</label>
+<input id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Bill No</label>
+<input id="billNo" required>
+</div>
+<div class="form-group">
+<label>Bill Date</label>
+<input id="billDate" type="date" required>
+</div>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Student Name</label>
+<input id="studentName" required>
+</div>
+<div class="form-group">
+<label>Father's Name</label>
+<input id="fatherName" required>
+</div>
+</div>
+
+<div class="grid3">
+<div class="form-group">
+<label>Class</label>
+<input id="studentClass">
+</div>
+<div class="form-group">
+<label>Roll No</label>
+<input id="rollNo">
+</div>
+<div class="form-group">
+<label>Section</label>
+<input id="section">
+</div>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Contact Number</label>
+<input id="contactNo" required>
+</div>
+<div class="form-group">
+<label>Bill Period / Month</label>
+<input id="billMonth" placeholder="Baishakh to Jesth">
+</div>
+</div>
+
+<div class="form-group">
+<label>Bill Prepared By</label>
+<input id="preparedBy" required>
+</div>
+
+<label style="font-weight:bold;font-size:11px">Fee Particulars</label>
+
+<div class="part-box">
+<table class="part-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Particular</th>
+<th>Amount (Rs.)</th>
+</tr>
+</thead>
+<tbody id="particulars"></tbody>
+</table>
+</div>
+
+<div class="summary">
+
+<div class="form-group">
+<label>Gross Total</label>
+<input id="grossTotal" readonly style="font-weight:bold;background:#eef">
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>New Deposit</label>
+<input id="newDeposit" type="number" value="0">
+</div>
+<div class="form-group">
+<label>Deposit Date</label>
+<input id="depositDate" type="date">
+</div>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Total Paid Till Date</label>
+<input id="totalPaid" readonly style="font-weight:bold;background:#efe">
+</div>
+<div class="form-group">
+<label>Remaining Dues</label>
+<input id="dues" readonly style="font-weight:bold;color:red;background:#fee">
+</div>
+</div>
+
+<div class="form-group">
+<label>Amount in Words</label>
+<input id="amountWords">
+</div>
+
+</div>
+
+<button class="btn success block" type="submit">Save / Update Entry</button>
+<button class="btn warning block" type="button" onclick="newStudent()">Cancel / New Entry</button>
+
+</form>
+</div>
+
+<div class="box">
+<h3>🔍 Student Bills</h3>
+
+<input id="studentSearch"
+ placeholder="Search student, father, bill no..."
+ style="margin-bottom:10px">
+
+<div class="table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th>Bill</th>
+<th>Student</th>
+<th>Father</th>
+<th>Total</th>
+<th>Paid</th>
+<th>Dues</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="studentTable"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<div class="box">
+<div class="history-head">
+<h3 id="studentHistoryTitle">📅 Student Payment History</h3>
+<div>
+<button class="btn success" onclick="exportStudentHistory()">📊 Excel</button>
+<button class="btn warning" onclick="downloadStudentHistoryJSON()">📥 JSON</button>
+<button class="btn primary" onclick="printStudentHistory()">🖨️ Print</button>
+</div>
+</div>
+
+<div class="table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Bill No</th>
+<th>Student</th>
+<th>Father</th>
+<th>Paid</th>
+<th>Dues</th>
+</tr>
+</thead>
+<tbody id="studentHistory"></tbody>
+</table>
+</div>
+</div>
+
+</section>
 
 <!-- SALARY -->
-<div id="salary" class="tab">
- <div class="layout">
-  <div class="box">
-   <h3 id="salaryTitle">Teacher Salary Payment</h3>
-   <form onsubmit="saveSalary(event)" id="salaryForm">
-    <input type="hidden" id="salaryId">
+<section id="salary" class="tab">
 
-    <div class="fg"><label>School Address</label><input id="salaryAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
-    <div class="g2">
-     <div class="fg"><label>Receipt No</label><input id="receiptNo" required></div>
-     <div class="fg"><label>Payment Date</label><input id="salaryDate" type="date" required></div>
-    </div>
-    <div class="g2">
-     <div class="fg"><label>Teacher Name</label><input id="teacherName" required></div>
-     <div class="fg"><label>Father's Name</label><input id="teacherFather" required></div>
-    </div>
-    <div class="g2">
-     <div class="fg"><label>Contact</label><input id="teacherContact" required></div>
-     <div class="fg"><label>Designation / Subject</label><input id="designation" required></div>
-    </div>
-    <div class="g3">
-     <div class="fg"><label>Total Salary</label><input id="basicSalary" type="number" min="0" oninput="calcSalary()" required></div>
-     <div class="fg"><label>Now Paid</label><input id="salaryPayment" type="number" min="0" value="0" oninput="calcSalary()" required></div>
-     <div class="fg"><label>Remaining Dues</label><input id="salaryDues" type="number" readonly style="color:red;font-weight:bold"></div>
-    </div>
-    <div class="g2">
-     <div class="fg"><label>Total Paid Till Date</label><input id="salaryPaidTotal" type="number" readonly style="color:green;font-weight:bold"></div>
-     <div class="fg"><label>Salary Month / Year</label><input id="salaryMonth" placeholder="e.g. Baishakh 2081" required></div>
-    </div>
-    <div class="fg"><label>Amount in Words</label><input id="salaryWords" required></div>
+<div class="layout">
 
-    <button class="btn blue-btn block" type="submit">Save Salary Record</button>
-    <button class="btn orange-btn block" type="button" id="salaryCancel" onclick="newSalary()" style="display:none">Cancel Edit</button>
-   </form>
-  </div>
+<div class="box">
+<h3>Teacher Salary Payment</h3>
 
-  <div class="box">
-   <h3>Teacher Salary Records</h3>
-   <input class="search" id="salarySearch" oninput="renderSalary()" placeholder="Search teacher, receipt, month...">
-   <div style="overflow:auto">
-    <table>
-     <thead><tr><th>Date</th><th>Receipt</th><th>Teacher</th><th>Month</th><th>Total</th><th>Paid</th><th>Dues</th><th>Action</th></tr></thead>
-     <tbody id="salaryTable"></tbody>
-    </table>
-   </div>
-  </div>
- </div>
+<form id="salaryForm">
 
- <div class="box">
-  <div class="history-head">
-   <h3>📅 Teacher Salary History</h3>
-   <div class="history-buttons">
-    <button class="btn green-btn small" onclick="teacherHistoryExcel()">📊 Excel</button>
-    <button class="btn orange-btn small" onclick="teacherHistoryJSON()">📥 JSON</button>
-    <button class="btn blue-btn small" onclick="printTeacherHistory()">🖨️ Print History</button>
-   </div>
-  </div>
-  <div style="overflow:auto">
-   <table>
-    <thead><tr><th>Date</th><th>Receipt</th><th>Teacher</th><th>Father</th><th>Paid</th><th>Dues</th></tr></thead>
-    <tbody id="teacherHistory"><tr><td colspan="6">Select a teacher record.</td></tr></tbody>
-   </table>
-  </div>
- </div>
+<input type="hidden" id="salaryId">
+
+<div class="form-group">
+<label>School Address</label>
+<input id="salaryAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
 </div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Receipt No</label>
+<input id="receiptNo" required>
+</div>
+<div class="form-group">
+<label>Payment Date</label>
+<input id="salaryDate" type="date" required>
+</div>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Teacher Name</label>
+<input id="teacherName" required>
+</div>
+<div class="form-group">
+<label>Father's Name</label>
+<input id="teacherFather" required>
+</div>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Contact</label>
+<input id="teacherContact" required>
+</div>
+<div class="form-group">
+<label>Designation / Subject</label>
+<input id="designation" required>
+</div>
+</div>
+
+<div class="grid3">
+<div class="form-group">
+<label>Total Salary</label>
+<input id="salaryTotal" type="number" min="0" required>
+</div>
+<div class="form-group">
+<label>New Payment</label>
+<input id="salaryNewPaid" type="number" min="0" value="0">
+</div>
+<div class="form-group">
+<label>Total Paid</label>
+<input id="salaryPaid" readonly style="background:#efe">
+</div>
+</div>
+
+<div class="grid2">
+<div class="form-group">
+<label>Remaining Dues</label>
+<input id="salaryDues" readonly style="background:#fee;color:red">
+</div>
+<div class="form-group">
+<label>Salary Month / Year</label>
+<input id="salaryMonth" placeholder="Baishakh 2081" required>
+</div>
+</div>
+
+<div class="form-group">
+<label>Amount in Words</label>
+<input id="salaryWords" required>
+</div>
+
+<button class="btn primary block" type="submit">Save / Update Salary</button>
+<button class="btn warning block" type="button" onclick="newSalary()">New Salary Entry</button>
+
+</form>
+</div>
+
+<div class="box">
+<h3>Teacher Salary Records</h3>
+
+<div class="table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Receipt</th>
+<th>Teacher</th>
+<th>Month</th>
+<th>Total</th>
+<th>Paid</th>
+<th>Dues</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="salaryTable"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<div class="box">
+<div class="history-head">
+<h3 id="teacherHistoryTitle">📅 Teacher Salary History</h3>
+<div>
+<button class="btn success" onclick="exportTeacherHistory()">📊 Excel</button>
+<button class="btn warning" onclick="downloadTeacherHistoryJSON()">📥 JSON</button>
+<button class="btn primary" onclick="printTeacherHistory()">🖨️ Print</button>
+</div>
+</div>
+
+<div class="table-wrap">
+<table class="data-table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Receipt</th>
+<th>Teacher</th>
+<th>Father</th>
+<th>Paid</th>
+<th>Dues</th>
+</tr>
+</thead>
+<tbody id="teacherHistory"></tbody>
+</table>
+</div>
+</div>
+
+</section>
 
 <!-- SETTINGS -->
-<div id="settings" class="tab">
- <div class="box" style="max-width:500px;margin:30px auto">
-  <h3>⚙️ Change Login Username & Password</h3>
-  <div class="fg"><label>Old Username</label><input id="oldUser"></div>
-  <div class="fg"><label>Old Password</label><input id="oldPass" type="password"></div>
-  <hr>
-  <div class="fg"><label>New Username</label><input id="newUser"></div>
-  <div class="fg"><label>New Password</label><input id="newPass" type="password"></div>
-  <button class="btn green-btn block" onclick="changeCredentials()">Save New Credentials</button>
- </div>
+<section id="settings" class="tab">
+<div class="box" style="max-width:500px;margin:30px auto">
+<h3>⚙️ Change Login Credentials</h3>
+
+<div class="form-group">
+<label>Old Username</label>
+<input id="oldUser">
 </div>
+
+<div class="form-group">
+<label>Old Password</label>
+<input id="oldPass" type="password">
+</div>
+
+<hr style="margin:15px 0;border:0;border-top:1px solid #ddd">
+
+<div class="form-group">
+<label>New Username</label>
+<input id="newUser">
+</div>
+
+<div class="form-group">
+<label>New Password</label>
+<input id="newPass" type="password">
+</div>
+
+<button class="btn success block" onclick="changeCredentials()">
+Save New Credentials
+</button>
+</div>
+</section>
 
 <!-- BACKUP -->
-<div id="backup" class="tab">
- <div class="box" style="max-width:600px;margin:30px auto">
-  <h3>💾 Download Complete Backup</h3>
-  <p style="margin-bottom:10px">Student records, payment histories, teacher salary records and settings will be saved.</p>
-  <button class="btn green-btn block" onclick="downloadBackup()">Download Complete JSON Backup</button>
- </div>
+<section id="backup" class="tab">
 
- <div class="box" style="max-width:600px;margin:30px auto">
-  <h3>♻️ Restore Backup</h3>
-  <div class="fg"><input type="file" id="backupFile" accept=".json"></div>
-  <button class="btn blue-btn block" onclick="restoreBackup()">Upload & Restore</button>
-  <p id="restoreStatus" style="margin-top:10px;font-weight:bold"></p>
- </div>
+<div class="box" style="max-width:550px;margin:30px auto">
+<h3>💾 Download Complete Backup</h3>
+<p style="font-size:12px;color:#666;margin-bottom:10px">
+Backup includes students, payments, teachers, salary history and login settings.
+</p>
+<button class="btn success block" onclick="downloadBackup()">
+Download JSON Backup
+</button>
+</div>
+
+<div class="box" style="max-width:550px;margin:30px auto">
+<h3>📤 Restore Backup</h3>
+
+<div class="form-group">
+<input type="file" id="backupFile" accept=".json">
+</div>
+
+<button class="btn primary block" onclick="restoreBackup()">
+Upload & Restore Data
+</button>
+</div>
+
+</section>
+
+</div>
+</div>
+
+<!-- STUDENT BILL PRINT -->
+<div id="studentPrint" class="print-area">
+
+<div class="print-header">
+<h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+<p id="spAddress"></p>
+<div class="print-title">STUDENT FEE INVOICE / RECEIPT</div>
+</div>
+
+<div class="print-info">
+<div>
+<p><b>Bill No:</b> <span id="spBill"></span></p>
+<p><b>Student:</b> <span id="spStudent"></span></p>
+<p><b>Father:</b> <span id="spFather"></span></p>
+<p><b>Class / Roll / Section:</b> <span id="spClass"></span></p>
+</div>
+<div>
+<p><b>Date:</b> <span id="spDate"></span></p>
+<p><b>Contact:</b> <span id="spContact"></span></p>
+<p><b>Period:</b> <span id="spMonth"></span></p>
+</div>
+</div>
+
+<table class="print-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Fee Particular</th>
+<th style="text-align:right">Amount (Rs.)</th>
+</tr>
+</thead>
+<tbody id="spParts"></tbody>
+</table>
+
+<div class="print-total">
+<p><b>Gross Total:</b> Rs. <span id="spGross"></span></p>
+<p><b>Total Paid:</b> Rs. <span id="spPaid"></span></p>
+<p><b>Remaining Dues:</b> Rs. <span id="spDues"></span></p>
+</div>
+
+<p style="margin-top:12px"><b>Amount in Words:</b> <span id="spWords"></span></p>
+<p style="margin-top:8px"><b>Prepared By:</b> <span id="spPrepared"></span></p>
+
+<div class="signature">
+<div>
+<p>________________________</p>
+<p>Receiver's Signature</p>
+</div>
+<div>
+<p>________________________</p>
+<p>Authorized Signature</p>
+</div>
 </div>
 
 </div>
+
+<!-- STUDENT HISTORY PRINT -->
+<div id="studentHistoryPrint" class="print-area">
+
+<div class="print-header">
+<h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+<p id="shpAddress"></p>
+<div class="print-title">STUDENT PAYMENT HISTORY</div>
 </div>
 
-<!-- PRINT AREA -->
-<div id="printArea">
-
-<!-- STUDENT BILL -->
-<div id="printStudentBill" class="print-page">
- <div class="print-header">
-  <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-  <div id="pbAddress"></div>
-  <h2>STUDENT FEE INVOICE / RECEIPT</h2>
- </div>
- <div class="print-info">
-  <div>
-   <p><b>Bill No:</b> <span id="pbBill"></span></p>
-   <p><b>Student:</b> <span id="pbStudent"></span></p>
-   <p><b>Father:</b> <span id="pbFather"></span></p>
-   <p><b>Class / Roll / Section:</b> <span id="pbClass"></span></p>
-  </div>
-  <div>
-   <p><b>Date:</b> <span id="pbDate"></span></p>
-   <p><b>Contact:</b> <span id="pbContact"></span></p>
-   <p><b>Period:</b> <span id="pbMonth"></span></p>
-  </div>
- </div>
- <table class="print-table">
-  <thead><tr><th>#</th><th>Fee Particular</th><th>Amount (Rs.)</th></tr></thead>
-  <tbody id="pbParts"></tbody>
- </table>
- <div class="print-total">
-  <p><b>Gross Total:</b> Rs. <span id="pbGross"></span></p>
-  <p><b>Total Paid:</b> Rs. <span id="pbPaid"></span></p>
-  <p><b>Remaining Dues:</b> Rs. <span id="pbDues"></span></p>
- </div>
- <p style="margin-top:12px"><b>Amount in Words:</b> <span id="pbWords"></span></p>
- <p style="margin-top:10px"><b>Prepared By:</b> <span id="pbPrepared"></span></p>
- <div class="signatures">
-  <div class="signature">________________________<br><b>Receiver's Signature</b></div>
-  <div class="signature">________________________<br><b>Authorized Signature</b></div>
- </div>
+<div class="print-info">
+<div>
+<p><b>Student:</b> <span id="shpStudent"></span></p>
+<p><b>Father:</b> <span id="shpFather"></span></p>
+</div>
+<div>
+<p><b>Bill No:</b> <span id="shpBill"></span></p>
+<p><b>Printed Date:</b> <span id="shpDate"></span></p>
+</div>
 </div>
 
-<!-- STUDENT HISTORY -->
-<div id="printStudentHist" class="print-page">
- <div class="print-header">
-  <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-  <div>Student Payment History</div>
- </div>
- <div id="pshInfo" style="margin-bottom:12px;font-size:13px"></div>
- <table class="print-table">
-  <thead><tr><th>#</th><th>Payment Date</th><th>Bill No</th><th>Student</th><th>Father</th><th>Paid</th><th>Remaining Dues</th></tr></thead>
-  <tbody id="pshRows"></tbody>
- </table>
- <div class="print-total">
-  <p><b>Total Paid:</b> Rs. <span id="pshTotal"></span></p>
- </div>
- <div class="signatures">
-  <div class="signature">________________________<br><b>Prepared By</b></div>
-  <div class="signature">________________________<br><b>Authorized Signature</b></div>
- </div>
+<table class="print-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Payment Date</th>
+<th>Bill No</th>
+<th>Student</th>
+<th>Paid Amount</th>
+<th>Remaining Dues</th>
+</tr>
+</thead>
+<tbody id="shpRows"></tbody>
+</table>
+
+<div class="print-total">
+<p><b>Total Paid:</b> Rs. <span id="shpTotal"></span></p>
 </div>
 
-<!-- TEACHER SALARY RECEIPT -->
-<div id="printSalaryReceipt" class="print-page">
- <div class="print-header">
-  <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-  <div id="psAddress"></div>
-  <h2>TEACHER SALARY PAYMENT RECEIPT</h2>
- </div>
- <div class="print-info">
-  <div>
-   <p><b>Receipt No:</b> <span id="psReceipt"></span></p>
-   <p><b>Teacher:</b> <span id="psTeacher"></span></p>
-   <p><b>Father:</b> <span id="psFather"></span></p>
-   <p><b>Designation:</b> <span id="psDesignation"></span></p>
-  </div>
-  <div>
-   <p><b>Date:</b> <span id="psDate"></span></p>
-   <p><b>Contact:</b> <span id="psContact"></span></p>
-   <p><b>Month:</b> <span id="psMonth"></span></p>
-  </div>
- </div>
- <table class="print-table">
-  <thead><tr><th>Description</th><th>Amount (Rs.)</th></tr></thead>
-  <tbody>
-   <tr><td>Total Salary</td><td id="psTotalSalary"></td></tr>
-   <tr><td>Paid Now</td><td id="psPaid"></td></tr>
-   <tr><td>Remaining Dues</td><td id="psDues"></td></tr>
-  </tbody>
- </table>
- <p><b>Amount in Words:</b> <span id="psWords"></span></p>
- <div class="signatures">
-  <div class="signature">________________________<br><b>Teacher's Signature</b></div>
-  <div class="signature">________________________<br><b>Authorized Signature</b></div>
- </div>
+<div class="signature">
+<div>
+<p>________________________</p>
+<p>Prepared By</p>
+</div>
+<div>
+<p>________________________</p>
+<p>Authorized Signature</p>
+</div>
 </div>
 
-<!-- TEACHER HISTORY -->
-<div id="printTeacherHist" class="print-page">
- <div class="print-header">
-  <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-  <div>Teacher Salary Payment History</div>
- </div>
- <div id="pthInfo" style="margin-bottom:12px;font-size:13px"></div>
- <table class="print-table">
-  <thead><tr><th>#</th><th>Date</th><th>Receipt</th><th>Teacher</th><th>Father</th><th>Paid</th><th>Dues</th></tr></thead>
-  <tbody id="pthRows"></tbody>
- </table>
- <div class="print-total">
-  <p><b>Total Paid:</b> Rs. <span id="pthTotal"></span></p>
- </div>
- <div class="signatures">
-  <div class="signature">________________________<br><b>Prepared By</b></div>
-  <div class="signature">________________________<br><b>Authorized Signature</b></div>
- </div>
+</div>
+
+<!-- TEACHER PRINT -->
+<div id="teacherPrint" class="print-area">
+
+<div class="print-header">
+<h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+<p id="tpAddress"></p>
+<div class="print-title">TEACHER SALARY PAYMENT RECEIPT</div>
+</div>
+
+<div class="print-info">
+<div>
+<p><b>Receipt No:</b> <span id="tpReceipt"></span></p>
+<p><b>Teacher:</b> <span id="tpTeacher"></span></p>
+<p><b>Father:</b> <span id="tpFather"></span></p>
+<p><b>Designation:</b> <span id="tpDesignation"></span></p>
+</div>
+<div>
+<p><b>Date:</b> <span id="tpDate"></span></p>
+<p><b>Contact:</b> <span id="tpContact"></span></p>
+<p><b>Salary Month:</b> <span id="tpMonth"></span></p>
+</div>
+</div>
+
+<table class="print-table">
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align:right">Amount (Rs.)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Total Salary</td><td style="text-align:right" id="tpTotal"></td></tr>
+<tr><td>Total Paid Till Date</td><td style="text-align:right" id="tpPaid"></td></tr>
+<tr><td>Remaining Dues</td><td style="text-align:right" id="tpDues"></td></tr>
+</tbody>
+</table>
+
+<p style="margin-top:12px"><b>Amount in Words:</b> <span id="tpWords"></span></p>
+
+<div class="signature">
+<div>
+<p>________________________</p>
+<p>Teacher's Signature</p>
+</div>
+<div>
+<p>________________________</p>
+<p>Authorized Signature</p>
+</div>
+</div>
+
+</div>
+
+<!-- TEACHER HISTORY PRINT -->
+<div id="teacherHistoryPrint" class="print-area">
+
+<div class="print-header">
+<h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+<p id="thpAddress"></p>
+<div class="print-title">TEACHER SALARY PAYMENT HISTORY</div>
+</div>
+
+<div class="print-info">
+<div>
+<p><b>Teacher:</b> <span id="thpTeacher"></span></p>
+<p><b>Father:</b> <span id="thpFather"></span></p>
+</div>
+<div>
+<p><b>Receipt No:</b> <span id="thpReceipt"></span></p>
+<p><b>Printed Date:</b> <span id="thpDate"></span></p>
+</div>
+</div>
+
+<table class="print-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Payment Date</th>
+<th>Receipt No</th>
+<th>Teacher</th>
+<th>Paid Amount</th>
+<th>Remaining Dues</th>
+</tr>
+</thead>
+<tbody id="thpRows"></tbody>
+</table>
+
+<div class="print-total">
+<p><b>Total Paid:</b> Rs. <span id="thpTotal"></span></p>
+</div>
+
+<div class="signature">
+<div>
+<p>________________________</p>
+<p>Prepared By</p>
+</div>
+<div>
+<p>________________________</p>
+<p>Authorized Signature</p>
+</div>
 </div>
 
 </div>
 
 <script>
-/* =========================
-   DATA STORAGE
-========================= */
-const KEY="SCNR_SCHOOL_DATA_V3";
+/* =========================================================
+   SAFE STORAGE
+========================================================= */
 
-let data={
- credentials:{username:"admin",password:"12345"},
- students:[],
- salaries:[],
- selectedStudent:null,
- selectedTeacher:null
-};
+const KEY_STUDENTS="scnr_students_v2";
+const KEY_TEACHERS="scnr_teachers_v2";
+const KEY_CREDENTIALS="scnr_credentials_v2";
+
+let students=[];
+let teachers=[];
+let credentials={username:"admin",password:"12345"};
+
+let selectedStudentId=null;
+let selectedTeacherId=null;
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+document.addEventListener("DOMContentLoaded",()=>{
+ loadData();
+ setupEvents();
+ setToday();
+ renderAll();
+
+ document.getElementById("loginBtn").addEventListener("click",login);
+
+ document.getElementById("password").addEventListener("keydown",e=>{
+   if(e.key==="Enter") login();
+ });
+});
 
 function loadData(){
  try{
-  const saved=localStorage.getItem(KEY);
-  if(saved){
-   const parsed=JSON.parse(saved);
-   data={...data,...parsed};
-   if(!Array.isArray(data.students))data.students=[];
-   if(!Array.isArray(data.salaries))data.salaries=[];
+  students=JSON.parse(localStorage.getItem(KEY_STUDENTS)||"[]");
+  teachers=JSON.parse(localStorage.getItem(KEY_TEACHERS)||"[]");
+
+  const c=JSON.parse(localStorage.getItem(KEY_CREDENTIALS)||"null");
+
+  if(c && c.username && c.password){
+   credentials=c;
+  }else{
+   credentials={username:"admin",password:"12345"};
+   saveCredentials();
   }
+
+  if(!Array.isArray(students)) students=[];
+  if(!Array.isArray(teachers)) teachers=[];
+
  }catch(e){
   console.error(e);
+  students=[];
+  teachers=[];
+  credentials={username:"admin",password:"12345"};
  }
 }
 
 function saveData(){
- localStorage.setItem(KEY,JSON.stringify(data));
+ localStorage.setItem(KEY_STUDENTS,JSON.stringify(students));
+ localStorage.setItem(KEY_TEACHERS,JSON.stringify(teachers));
 }
 
-/* =========================
-   LOGIN
-========================= */
-function login(){
- const u=document.getElementById("loginUser").value.trim();
- const p=document.getElementById("loginPass").value.trim();
-
- if(u===data.credentials.username && p===data.credentials.password){
-  document.getElementById("loginBg").style.display="none";
-  document.getElementById("app").style.display="block";
-  init();
- }else{
-  alert("Invalid Username or Password!");
- }
+function saveCredentials(){
+ localStorage.setItem(KEY_CREDENTIALS,JSON.stringify(credentials));
 }
 
-function logout(){
- document.getElementById("app").style.display="none";
- document.getElementById("loginBg").style.display="flex";
-}
-
-function init(){
+function setToday(){
  const today=new Date().toISOString().split("T")[0];
+
  document.getElementById("billDate").value=today;
- document.getElementById("depositDate").value=today;
- document.getElementById("salaryDate").value=today;
- createParticularRows();
- renderAll();
- showTab("billing");
-}
-
-function showTab(id){
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
- document.getElementById(id).classList.add("active");
-}
-
-/* =========================
-   PARTICULARS
-========================= */
-function createParticularRows(){
- const names=[
-  "Admission Fee",
-  "Tuition Fee",
-  "Monthly Fee",
-  "Hostel Fee",
-  "Food / Mess Fee",
-  "Transport Fee",
-  "Exam Fee",
-  "Computer Fee",
-  "Library Fee",
-  "Uniform Fee",
-  "Other Fee"
- ];
- const tbody=document.getElementById("particulars");
- tbody.innerHTML="";
- names.forEach((n,i)=>{
-  tbody.innerHTML+=`
-   <tr>
-    <td>${i+1}</td>
-    <td><input class="partName" value="${n}"></td>
-    <td><input class="partAmount" type="number" min="0" value="0" oninput="calcStudent()"></td>
-   </tr>`;
- });
-}
-
-/* =========================
-   STUDENT
-========================= */
-function getParts(){
- return [...document.querySelectorAll("#particulars tr")].map(r=>({
-  name:r.querySelector(".partName").value.trim(),
-  amount:Number(r.querySelector(".partAmount").value)||0
- })).filter(x=>x.name||x.amount);
-}
-
-function calcStudent(){
- const gross=getParts().reduce((a,b)=>a+b.amount,0);
- document.getElementById("grossTotal").value=gross;
-
- const id=document.getElementById("studentId").value;
- const old=data.students.find(x=>x.id===id);
- const previous=old?Number(old.depositTotal)||0:0;
- const now=Number(document.getElementById("newDeposit").value)||0;
- const totalPaid=previous+now;
-
- document.getElementById("depositTotal").value=totalPaid;
- document.getElementById("studentDues").value=Math.max(0,gross-totalPaid);
-}
-
-function saveStudent(e){
- e.preventDefault();
-
- const id=document.getElementById("studentId").value||uid();
- const existing=data.students.find(x=>x.id===id);
-
- const gross=getParts().reduce((a,b)=>a+b.amount,0);
- const newPayment=Number(document.getElementById("newDeposit").value)||0;
- const previous=existing?Number(existing.depositTotal)||0:0;
- const totalPaid=previous+newPayment;
-
- const record={
-  id,
-  schoolAddress:val("schoolAddress"),
-  billNo:val("billNo"),
-  billDate:val("billDate"),
-  studentName:val("studentName"),
-  fatherName:val("fatherName"),
-  studentClass:val("studentClass"),
-  rollNo:val("rollNo"),
-  section:val("section"),
-  contactNo:val("contactNo"),
-  billMonth:val("billMonth"),
-  preparedBy:val("preparedBy"),
-  particulars:getParts(),
-  grossTotal:gross,
-  depositTotal:totalPaid,
-  dues:Math.max(0,gross-totalPaid),
-  amountWords:val("amountWords"),
-  payments:existing?existing.payments||[]:[]
- };
-
- if(newPayment>0){
-  record
+ document.getElementById("depositDate").value=today
