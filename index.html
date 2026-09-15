@@ -1,945 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-<style>
-*{box-sizing:border-box;font-family:Segoe UI,Tahoma,sans-serif;margin:0;padding:0}
-body{background:#f0f2f5;color:#333;font-size:13px}
-button{cursor:pointer}
-nav{
-    background:#1a237e;color:#fff;padding:12px 20px;
-    display:flex;justify-content:space-between;align-items:center;
-    flex-wrap:wrap;gap:10px;box-shadow:0 2px 4px #0002
-}
-nav h1{font-size:15px}
-.nav-btns{display:flex;gap:6px;flex-wrap:wrap}
-nav button{
-    background:#3949ab;color:#fff;border:0;padding:7px 12px;
-    border-radius:4px;font-weight:600;font-size:12px
-}
-nav button:hover{background:#283593}
-.active-tab{background:#283593!important}
-.new-entry-btn{background:#2e7d32!important}
-.logout-btn{background:#d32f2f!important}
-
-.container{max-width:1350px;margin:15px auto;padding:0 15px}
-
-#loginBgWrapper{
-    min-height:100vh;display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#1a237ee8,#0d47a1dd),
-    url("https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1350&q=80") center/cover;
-    position:relative
-}
-#loginScreen{
-    width:95%;max-width:400px;background:#fffffff5;padding:35px 30px;
-    border-radius:12px;box-shadow:0 8px 24px #0005;
-    text-align:center;border-top:5px solid #1a237e
-}
-#loginScreen h2{color:#1a237e;font-size:16px;margin-bottom:6px}
-#loginScreen p{font-size:12px;color:#555;margin-bottom:22px}
-#loginScreen input{
-    width:100%;padding:11px;margin-bottom:14px;
-    border:1px solid #ccc;border-radius:6px
-}<script>
-function login() {
-    const username = document.getElementById("loginUsername").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
-
-    if (username === "admin" && password === "12345") {
-        document.getElementById("loginBgWrapper").style.display = "none";
-        document.getElementById("appScreen").style.display = "block";
-
-        if (typeof initApp === "function") {
-            initApp();
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Payment History - Shree Chiranjivi Narayani Residential School</title>
+    <!-- SheetJS Library for Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f6f9;
+            color: #000;
         }
-    } else {
-        alert("Invalid Username or Password!");
-    }
-}
-</script>
-
-#loginScreen button{
-    width:100%;padding:11px;background:#1a237e;color:#fff;
-    border:0;border-radius:6px;font-weight:bold
-}
-.dev-credit{
-    position:absolute;bottom:15px;right:20px;color:white;font-size:12px;
-    background:#0009;padding:6px 12px;border-radius:6px
-}
-.dev-credit a{color:#25d366;text-decoration:none;font-weight:bold}
-
-.tab-content{display:none}
-.tab-content.active{display:block}
-
-.dashboard-cards{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:15px
-}
-.card{
-    background:#fff;padding:15px 20px;border-radius:6px;
-    box-shadow:0 1px 3px #0002;text-align:center;border-top:3px solid #1a237e
-}
-.card-green{border-top-color:#2e7d32}
-.card-red{border-top-color:#c62828}
-.card h3{font-size:11px;color:#555}
-.card p{font-size:20px;font-weight:bold;margin-top:6px;color:#1a237e}
-
-.grid-layout{
-    display:grid;grid-template-columns:1fr 1fr;gap:15px;align-items:start
-}
-.box{
-    background:#fff;padding:15px;border-radius:6px;
-    box-shadow:0 1px 3px #0002;margin-bottom:15px
-}
-.box h3{margin-bottom:12px;color:#1a237e;font-size:14px}
-
-.form-group{margin-bottom:8px}
-.form-group label{
-    display:block;font-size:11px;font-weight:600;color:#444;margin-bottom:3px
-}
-.form-group input,.form-group select{
-    width:100%;padding:7px 8px;border:1px solid #ccc;
-    border-radius:4px;font-size:12px
-}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-
-.part-table-container{
-    max-height:210px;overflow:auto;border:1px solid #ccc;border-radius:4px
-}
-.part-table{width:100%;border-collapse:collapse}
-.part-table th,.part-table td{
-    border:1px solid #e0e0e0;padding:4px 8px;font-size:11px
-}
-.part-table th{background:#f5f5f5;position:sticky;top:0;z-index:2}
-.part-table input{width:100%;padding:4px;border:1px solid #ccc}
-
-.summary-box{
-    background:#f8f9fa;border:1px solid #e0e0e0;
-    border-radius:4px;padding:10px;margin-top:10px
-}
-
-.btn{
-    padding:8px 12px;border:0;border-radius:4px;
-    font-size:12px;font-weight:600
-}
-.btn-success{background:#2e7d32;color:white}
-.btn-primary{background:#1565c0;color:white}
-.btn-warning{background:#f57c00;color:white}
-.btn-danger{background:#b71c1c;color:white}
-.btn-block{width:100%;margin-top:8px}
-
-.data-table{
-    width:100%;border-collapse:collapse;margin-top:8px
-}
-.data-table th,.data-table td{
-    border:1px solid #ddd;padding:6px 8px;font-size:11px;text-align:center
-}
-.data-table th{background:#1a237e;color:white}
-
-.action-btn{
-    border:0;color:white;padding:4px 7px;border-radius:3px;
-    font-size:10px;margin:2px
-}
-.edit{background:#ff9800}
-.print{background:#00897b}
-.delete{background:#f44336}
-.history{background:#1565c0}
-
-@media(max-width:850px){
-    .grid-layout,.dashboard-cards{grid-template-columns:1fr}
-    .grid-3{grid-template-columns:1fr}
-    nav{align-items:flex-start}
-}
-
-@media print{
-    body{background:white!important}
-    body>*{display:none!important}
-    .print-page{
-        display:block!important;
-        position:absolute!important;
-        left:0!important;
-        top:0!important;
-        width:100%!important;
-        padding:18mm!important;
-        background:#fff!important;
-        color:#000!important
-    }
-    @page{size:A4;margin:0}
-}
-</style>
-</head>
-
-<body>
-
-<!-- LOGIN -->
-<div id="loginBgWrapper">
-    <div id="loginScreen">
-        <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-        <p>Management System Login</p>
-
-        <input id="loginUsername" type="text" value="admin" placeholder="Username">
-        <input id="loginPassword" type="password" value="12345" placeholder="Password">
-
-        <button type="button" id="loginBtn">Login to Dashboard</button>
-
-        <div id="loginError" style="color:#d32f2f;margin-top:10px;font-size:12px"></div>
-    </div>
-
-    <div class="dev-credit">
-        Prepared by <strong>Niranjan Kumar Shah</strong>
-        <a href="https://wa.me/9779826216576" target="_blank">+9779826216576</a>
-    </div>
-</div>
-
-<!-- APP -->
-<div id="appScreen" style="display:none">
-
-<nav>
-<h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-
-<div class="nav-btns">
-<button id="homeBtn" onclick="showTab('billingTab')">🏠 Student Billing</button>
-<button class="new-entry-btn" onclick="newStudent()">➕ New Student</button>
-<button id="salaryBtn" onclick="showTab('salaryTab')">👨‍🏫 Teacher Salary</button>
-<button id="settingsBtn" onclick="showTab('settingsTab')">⚙️ Settings</button>
-<button id="backupBtn" onclick="showTab('backupTab')">💾 Backup</button>
-<button class="logout-btn" onclick="logout()">Logout</button>
-</div>
-</nav>
-
-<div class="container">
-
-<!-- STUDENT -->
-<div id="billingTab" class="tab-content active">
-
-<div class="dashboard-cards">
-<div class="card">
-<h3>TOTAL STUDENT BILLS</h3>
-<p id="statEntries">0</p>
-</div>
-<div class="card card-green">
-<h3>TOTAL FEES COLLECTED</h3>
-<p id="statCollection">Rs. 0</p>
-</div>
-<div class="card card-red">
-<h3>TOTAL OUTSTANDING</h3>
-<p id="statDues">Rs. 0</p>
-</div>
-</div>
-
-<div class="grid-layout">
-
-<div class="box">
-<h3 id="studentFormTitle">Create New Student Bill</h3>
-
-<form id="studentForm">
-
-<input type="hidden" id="studentId">
-
-<div class="form-group">
-<label>School Address</label>
-<input id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Bill No</label>
-<input id="billNo" required>
-</div>
-<div class="form-group">
-<label>Bill Date</label>
-<input id="billDate" type="date" required>
-</div>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Student Name</label>
-<input id="studentName" required>
-</div>
-<div class="form-group">
-<label>Father's Name</label>
-<input id="fatherName" required>
-</div>
-</div>
-
-<div class="grid-3">
-<div class="form-group">
-<label>Class</label>
-<input id="studentClass">
-</div>
-<div class="form-group">
-<label>Roll No</label>
-<input id="rollNo">
-</div>
-<div class="form-group">
-<label>Section</label>
-<input id="section">
-</div>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Contact Number</label>
-<input id="contactNo" required>
-</div>
-<div class="form-group">
-<label>Bill Period / Month</label>
-<input id="billMonth" placeholder="Baishakh to Jesth">
-</div>
-</div>
-
-<div class="form-group">
-<label>Bill Prepared By</label>
-<input id="billPreparedBy" required>
-</div>
-
-<label style="font-weight:bold;font-size:11px">Fee Particulars</label>
-
-<div class="part-table-container">
-<table class="part-table">
-<thead>
-<tr>
-<th>#</th>
-<th>Particular</th>
-<th>Amount</th>
-</tr>
-</thead>
-<tbody id="studentParts"></tbody>
-</table>
-</div>
-
-<div class="summary-box">
-
-<div class="form-group">
-<label>Gross Total</label>
-<input id="grossTotal" readonly>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>New Deposit</label>
-<input id="newDeposit" type="number" value="0" min="0">
-</div>
-<div class="form-group">
-<label>Deposit Date</label>
-<input id="depositDate" type="date">
-</div>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Total Paid Till Date</label>
-<input id="studentPaid" readonly>
-</div>
-<div class="form-group">
-<label>Remaining Dues</label>
-<input id="studentDues" readonly style="color:red">
-</div>
-</div>
-
-<div class="form-group">
-<label>Amount in Words</label>
-<input id="amountWords">
-</div>
-
-</div>
-
-<button class="btn btn-success btn-block" type="submit">Save / Update Entry</button>
-<button class="btn btn-warning btn-block" type="button" id="cancelStudent" onclick="newStudent()" style="display:none">Cancel Edit</button>
-
-</form>
-</div>
-
-<!-- STUDENT RECORDS -->
-<div class="box">
-<h3>🔍 Student Bills</h3>
-
-<input id="studentSearch"
-placeholder="Search student, father, bill no..."
-style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px">
-
-<div style="overflow-x:auto">
-<table class="data-table">
-<thead>
-<tr>
-<th>Bill</th>
-<th>Student</th>
-<th>Father</th>
-<th>Total</th>
-<th>Paid</th>
-<th>Dues</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody id="studentTable"></tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-<div class="box">
-<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
-<h3>📅 Student Payment History</h3>
-
-<div>
-<button class="btn btn-success" onclick="exportStudentHistory()">Excel</button>
-<button class="btn btn-warning" onclick="downloadStudentHistoryJSON()">JSON</button>
-<button class="btn btn-primary" onclick="printStudentHistory()">Print</button>
-</div>
-</div>
-
-<div style="overflow-x:auto">
-<table class="data-table">
-<thead>
-<tr>
-<th>Date</th>
-<th>Bill</th>
-<th>Student</th>
-<th>Father</th>
-<th>Paid</th>
-<th>Dues</th>
-</tr>
-</thead>
-<tbody id="studentHistoryTable">
-<tr><td colspan="6">Edit/History par click karke student select karein.</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-<!-- SALARY -->
-<div id="salaryTab" class="tab-content">
-
-<div class="grid-layout">
-
-<div class="box">
-<h3 id="salaryTitle">Teacher Salary Payment</h3>
-
-<form id="salaryForm">
-
-<input type="hidden" id="salaryId">
-
-<div class="form-group">
-<label>School Address</label>
-<input id="salaryAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Receipt No</label>
-<input id="receiptNo" required>
-</div>
-<div class="form-group">
-<label>Payment Date</label>
-<input id="salaryDate" type="date" required>
-</div>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Teacher Name</label>
-<input id="teacherName" required>
-</div>
-<div class="form-group">
-<label>Father's Name</label>
-<input id="teacherFather" required>
-</div>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Contact</label>
-<input id="teacherContact">
-</div>
-<div class="form-group">
-<label>Designation / Subject</label>
-<input id="designation" required>
-</div>
-</div>
-
-<div class="grid-3">
-<div class="form-group">
-<label>Total Salary</label>
-<input id="totalSalary" type="number" min="0" required>
-</div>
-<div class="form-group">
-<label>Now Paid</label>
-<input id="nowPaid" type="number" min="0" value="0" required>
-</div>
-<div class="form-group">
-<label>Remaining Dues</label>
-<input id="salaryDues" readonly style="color:red">
-</div>
-</div>
-
-<div class="grid-2">
-<div class="form-group">
-<label>Total Paid Till Date</label>
-<input id="salaryPaid" readonly style="color:green">
-</div>
-<div class="form-group">
-<label>Salary Month / Year</label>
-<input id="salaryMonth" placeholder="Baishakh 2083" required>
-</div>
-</div>
-
-<div class="form-group">
-<label>Amount in Words</label>
-<input id="salaryWords">
-</div>
-
-<button class="btn btn-primary btn-block" type="submit">Save / Update Salary</button>
-<button class="btn btn-warning btn-block" type="button" id="cancelSalary" onclick="newSalary()" style="display:none">Cancel Edit</button>
-
-</form>
-</div>
-
-<div class="box">
-<h3>Teacher Salary Records</h3>
-
-<div style="overflow-x:auto">
-<table class="data-table">
-<thead>
-<tr>
-<th>Date</th>
-<th>Receipt</th>
-<th>Teacher</th>
-<th>Month</th>
-<th>Total</th>
-<th>Paid</th>
-<th>Dues</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody id="salaryTable"></tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-<div class="box">
-<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
-<h3>📅 Teacher Salary History</h3>
-<div>
-<button class="btn btn-success" onclick="exportTeacherHistory()">Excel</button>
-<button class="btn btn-warning" onclick="downloadTeacherHistoryJSON()">JSON</button>
-<button class="btn btn-primary" onclick="printTeacherHistory()">Print</button>
-</div>
-</div>
-
-<div style="overflow-x:auto">
-<table class="data-table">
-<thead>
-<tr>
-<th>Date</th>
-<th>Receipt</th>
-<th>Teacher</th>
-<th>Father</th>
-<th>Paid</th>
-<th>Dues</th>
-</tr>
-</thead>
-<tbody id="teacherHistoryTable">
-<tr><td colspan="6">Edit/History par click karke teacher select karein.</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-<!-- SETTINGS -->
-<div id="settingsTab" class="tab-content">
-
-<div class="box" style="max-width:500px;margin:30px auto">
-<h3>⚙️ Change Login Credentials</h3>
-
-<div class="form-group">
-<label>Old Username</label>
-<input id="oldUser">
-</div>
-
-<div class="form-group">
-<label>Old Password</label>
-<input id="oldPass" type="password">
-</div>
-
-<hr style="margin:15px 0">
-
-<div class="form-group">
-<label>New Username</label>
-<input id="newUser">
-</div>
-
-<div class="form-group">
-<label>New Password</label>
-<input id="newPass" type="password">
-</div>
-
-<button class="btn btn-success btn-block" onclick="changeCredentials()">Save Credentials</button>
-</div>
-
-</div>
-
-<!-- BACKUP -->
-<div id="backupTab" class="tab-content">
-
-<div class="box" style="max-width:600px;margin:30px auto">
-<h3>💾 Download Complete Backup</h3>
-
-<p style="font-size:12px;color:#666;margin-bottom:10px">
-Backup mein student records, student payment history, teacher salary records,
-teacher payment history aur login credentials save honge.
-</p>
-
-<button class="btn btn-success btn-block" onclick="downloadBackup()">
-Download Complete JSON Backup
-</button>
-</div>
-
-<div class="box" style="max-width:600px;margin:30px auto">
-<h3>♻️ Restore Backup</h3>
-
-<input type="file" id="backupFile" accept=".json" style="width:100%;margin-bottom:10px">
-
-<button class="btn btn-primary btn-block" onclick="restoreBackup()">
-Upload & Restore Backup
-</button>
-
-<div id="restoreStatus" style="margin-top:10px;font-size:12px"></div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-<!-- PRINT AREA -->
-<div id="printArea" class="print-page" style="display:none"></div>
-
-<script>
-"use strict";
-
-/* =========================
-   STORAGE
-========================= */
-
-const STORAGE_KEY="SCNR_COMPLETE_DATA";
-
-let db={
-    credentials:{username:"admin",password:"12345"},
-    students:[],
-    salaries:[]
-};
-
-let selectedStudentId=null;
-let selectedTeacherId=null;
-
-/* =========================
-   HELPERS
-========================= */
-
-function $(id){return document.getElementById(id)}
-
-function today(){
-    return new Date().toISOString().slice(0,10);
-}
-
-function money(v){
-    return Number(v||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
-}
-
-function uid(prefix){
-    return prefix+"_"+Date.now()+"_"+Math.random().toString(36).slice(2,8);
-}
-
-function saveDB(){
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
-}
-
-function loadDB(){
-    try{
-        const raw=localStorage.getItem(STORAGE_KEY);
-        if(raw){
-            const x=JSON.parse(raw);
-            if(x && typeof x==="object"){
-                db={
-                    credentials:x.credentials||{username:"admin",password:"12345"},
-                    students:Array.isArray(x.students)?x.students:[],
-                    salaries:Array.isArray(x.salaries)?x.salaries:[]
-                };
+        .receipt-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .school-header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .school-header h2 {
+            margin: 0;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+        .school-header p {
+            margin: 4px 0 0 0;
+            font-size: 13px;
+        }
+        .report-title {
+            text-align: center;
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 15px;
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 7px 10px;
+            text-align: left;
+            font-size: 12px;
+        }
+        th {
+            background-color: #eaeaea;
+        }
+        .amount-in-words {
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 13px;
+            background: #f9f9f9;
+            padding: 8px;
+            border-left: 3px solid #000;
+        }
+        .bottom-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+        .extra-items {
+            width: 48%;
+        }
+        .summary-table {
+            width: 48%;
+            border-collapse: collapse;
+        }
+        .summary-table td {
+            padding: 6px 10px;
+            border: 1px solid #000;
+            font-size: 12px;
+        }
+        .signatures {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            page-break-inside: avoid;
+        }
+        .sig-box {
+            text-align: center;
+            width: 30%;
+            border-top: 1px solid #000;
+            padding-top: 6px;
+            font-size: 11px;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .btn {
+            padding: 9px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Print Settings */
+        @media print {
+            body {
+                background-color: #fff;
+                padding: 0;
+            }
+            .receipt-container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .btn-container {
+                display: none;
             }
         }
-    }catch(e){
-        console.error(e);
-    }
-}
+    </style>
+</head>
+<body>
 
-/* =========================
-   LOGIN
-========================= */
+    <div class="receipt-container" id="printableArea">
+        
+        <!-- School Header -->
+        <div class="school-header">
+            <h2>Shree Chiranjivi Narayani Residential School</h2>
+            <p>Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
+        </div>
 
-function login(){
-    const u=$("loginUsername").value.trim();
-    const p=$("loginPassword").value;
+        <div class="report-title">Student Payment History: Smrity Sah</div>
 
-    if(u===db.credentials.username && p===db.credentials.password){
-        $("loginError").textContent="";
-        $("loginBgWrapper").style.display="none";
-        $("appScreen").style.display="block";
-        initialize();
-    }else{
-        $("loginError").textContent="Invalid username or password.";
-    }
-}
+        <!-- Main Transaction Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment Date</th>
+                    <th>Ref / ID</th>
+                    <th>Name</th>
+                    <th>Father's Name</th>
+                    <th>Paid Amount</th>
+                    <th>Remaining Dues</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2026-09-15</td>
+                    <td>3</td>
+                    <td>Smrity Sah</td>
+                    <td>Abc</td>
+                    <td>Rs. 5255</td>
+                    <td>Rs. 0</td>
+                </tr>
+                <tr>
+                    <td>2026-09-15</td>
+                    <td>3</td>
+                    <td>Smrity Sah</td>
+                    <td>Abc</td>
+                    <td>Rs. 25000</td>
+                    <td>Rs. 25000</td>
+                </tr>
+            </tbody>
+        </table>
 
-function logout(){
-    $("appScreen").style.display="none";
-    $("loginBgWrapper").style.display="flex";
-    $("loginPassword").value="";
-}
+        <!-- Additional Items and Totals Side-by-Side Layout -->
+        <div class="bottom-section">
+            <!-- Left Side: Additional Entries (Bus / Dues) -->
+            <div class="extra-items">
+                <table>
+                    <tr>
+                        <td style="width: 20%;">4</td>
+                        <td style="width: 50%;">Bus</td>
+                        <td style="width: 30%;">Rs. 800</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Dues</td>
+                        <td>Rs. 42655</td>
+                    </tr>
+                </table>
+            </div>
 
-$("loginBtn").addEventListener("click",login);
+            <!-- Right Side: Summary Totals Table -->
+            <table class="summary-table">
+                <tr>
+                    <td><strong>Gross Total:</strong></td>
+                    <td><strong>Rs. 55255</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Total Paid:</strong></td>
+                    <td><strong>Rs. 30255</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Remaining Dues:</strong></td>
+                    <td><strong>Rs. 25000</strong></td>
+                </tr>
+            </table>
+        </div>
 
-$("loginPassword").addEventListener("keydown",function(e){
-    if(e.key==="Enter") login();
-});
+        <!-- Amount in Words -->
+        <div class="amount-in-words">
+            Amount in Words: FIFTY THOUSAND ONLY
+        </div>
 
-/* =========================
-   INITIALIZE
-========================= */
+        <!-- Signatures Section -->
+        <div class="signatures">
+            <div class="sig-box">Prepared By: Niranjan</div>
+            <div class="sig-box">Receiver's Signature</div>
+            <div class="sig-box">Authorized Signatory / Accountant</div>
+        </div>
 
-function initialize(){
+    </div>
 
-    $("billDate").value=today();
-    $("depositDate").value=today();
-    $("salaryDate").value=today();
+    <!-- Action Buttons -->
+    <div class="btn-container">
+        <button class="btn" onclick="window.print()">Print / Save PDF</button>
+        <button class="btn" onclick="exportToExcel()" style="background-color: #28a745;">Export to Excel</button>
+    </div>
 
-    createStudentParticularRows();
-
-    renderStudents();
-    renderSalaries();
-
-    calculateStudent();
-    calculateSalary();
-
-    showTab("billingTab");
-}
-
-/* =========================
-   TABS
-========================= */
-
-function showTab(id){
-
-    document.querySelectorAll(".tab-content").forEach(x=>x.classList.remove("active"));
-    $(id).classList.add("active");
-
-    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active-tab"));
-
-    if(id==="billingTab")$("homeBtn").classList.add("active-tab");
-    if(id==="salaryTab")$("salaryBtn").classList.add("active-tab");
-    if(id==="settingsTab")$("settingsBtn").classList.add("active-tab");
-    if(id==="backupTab")$("backupBtn").classList.add("active-tab");
-}
-
-/* =========================
-   STUDENT PARTICULARS
-========================= */
-
-const defaultParts=[
-"Admission Fee",
-"Tuition Fee",
-"Hostel Fee",
-"Food / Mess Fee",
-"Computer Fee",
-"Library Fee",
-"Examination Fee",
-"Transport Fee",
-"Uniform Fee",
-"Other Fee"
-];
-
-function createStudentParticularRows(values=[]){
-
-    $("studentParts").innerHTML="";
-
-    defaultParts.forEach((name,i)=>{
-
-        const value=values[i]?.amount ?? "";
-
-        const tr=document.createElement("tr");
-
-        tr.innerHTML=`
-        <td>${i+1}</td>
-        <td><input class="partName" value="${values[i]?.name||name}"></td>
-        <td><input class="partAmount" type="number" min="0" value="${value}"></td>
-        `;
-
-        $("studentParts").appendChild(tr);
-    });
-
-    document.querySelectorAll(".partAmount").forEach(x=>{
-        x.addEventListener("input",calculateStudent);
-    });
-}
-
-function getParts(){
-
-    const names=document.querySelectorAll(".partName");
-    const amounts=document.querySelectorAll(".partAmount");
-
-    const arr=[];
-
-    names.forEach((x,i)=>{
-        const amount=Number(amounts[i].value||0);
-
-        if(x.value.trim() || amount){
-            arr.push({
-                name:x.value.trim(),
-                amount:amount
-            });
+    <script>
+        // Optional Excel Export Function using SheetJS
+        function exportToExcel() {
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.table_to_sheet(document.getElementById('printableArea'));
+            XLSX.utils.book_append_sheet(wb, ws, "Payment History");
+            XLSX.writeFile(wb, "Student_Payment_History_Smrity_Sah.xlsx");
         }
-    });
+    </script>
 
-    return arr;
-}
-
-function calculateStudent(){
-
-    const total=getParts().reduce((s,x)=>s+Number(x.amount||0),0);
-
-    $("grossTotal").value=total;
-
-    let oldPaid=0;
-
-    if($("studentId").value){
-        const st=db.students.find(x=>x.id===$("studentId").value);
-        if(st){
-            oldPaid=(st.history||[]).reduce((s,x)=>s+Number(x.paid||0),0);
-        }
-    }
-
-    const newPay=Math.max(0,Number($("newDeposit").value||0));
-
-    $("studentPaid").value=oldPaid+newPay;
-    $("studentDues").value=Math.max(0,total-oldPaid-newPay);
-}
-
-$("newDeposit").addEventListener("input",calculateStudent);
-
-/* =========================
-   NEW STUDENT
-========================= */
-
-function newStudent(){
-
-    $("studentForm").reset();
-
-    $("studentId").value="";
-    $("billDate").value=today();
-    $("depositDate").value=today();
-    $("newDeposit").value=0;
-
-    $("studentFormTitle").textContent="Create New Student Bill";
-    $("cancelStudent").style.display="none";
-
-    createStudentParticularRows();
-    calculateStudent();
-}
-
-/* =========================
-   SAVE STUDENT
-========================= */
-
-$("studentForm").addEventListener("submit",function(e){
-
-    e.preventDefault();
-
-    const id=$("studentId").value;
-
-    const total=Number($("grossTotal").value||0);
-
-    if(total<0)return;
-
-    let record=id ? db.students.find(x=>x.id===id) : null;
-
-    if(!record){
-
-        record={
-            id:uid("STU"),
-            history:[]
-        };
-
-        db.students.push(record);
-    }
-
-    const oldPaid=(record.history||[]).reduce((s,x)=>s+Number(x.paid||0),0);
-    const newPaid=Math.max(0,Number($("newDeposit").value||0));
-
-    record.schoolAddress=$("schoolAddress").value;
-    record.billNo=$("billNo").value;
-    record.billDate=$("billDate").value;
-    record.studentName=$("studentName").value;
-    record.fatherName=$("fatherName").value;
-    record.studentClass=$("studentClass").value;
-    record.rollNo=$("rollNo").value;
-    record.section=$("section").value;
-    record.contactNo=$("contactNo").value;
-    record.billMonth=$("billMonth").value;
-    record.billPreparedBy=$("billPreparedBy").value;
-    record.parts=getParts();
-    record.total=total;
-
-    if(newPaid>0){
-
-        record.history.push({
-            id:uid("SPAY"),
-            date:$("depositDate").value||today(),
-            billNo:record.billNo,
-            studentName:record.studentName,
-            fatherName:record.fatherName,
-            paid:newPaid,
-            dues:Math.max(0,total-oldPaid-newPaid)
-        });
-    }
-
-    saveDB();
-
-    alert(id ? "Student record updated successfully." : "Student bill saved successfully.");
-
-    renderStudents();
-
-    editStudent(record.id);
-});
-
-/* =========================
-   RENDER STUDENTS
-========================= */
-
-function renderStudents(){
-
-    const q=($("studentSearch")?.value||"").toLowerCase();
-
-    $("studentTable").innerHTML="";
-
-    db.students
-    .filter(x=>
-        !q ||
-        (x.studentName||"").toLowerCase().includes(q) ||
-        (x.fatherName||"").toLowerCase().includes(q) ||
-        (x.billNo||"").toLowerCase().includes(q)
-    )
-    .forEach(x=>{
-
-        const paid=(
+</body>
+</html>
