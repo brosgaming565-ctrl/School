@@ -76,8 +76,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .btn-act-edit { background: #ff9800; color: #fff; border: 1px solid #e65100; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor:pointer; }
 .btn-act-delete { background: #d32f2f; color: #ffffff; border: 1px solid #8e0000; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor:pointer; }
 .btn-act-tc { background: #7b1fa2; color: #fff; border: 1px solid #4a148c; border-radius: 3px; padding: 3px 6px; font-size: 9px; font-weight: bold; cursor:pointer; }
-.btn-act-cc { background: #00838f; color: #fff; border: 1px solid #005662; border-radius: 3px; padding: 3px 6px; font-size: 9px; font-weight: bold; cursor:pointer; }
-.btn-act-slc { background: #5d4037; color: #fff; border: 1px solid #3e2723; border-radius: 3px; padding: 3px 6px; font-size: 9px; font-weight: bold; cursor:pointer; }
 
 .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
 .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
@@ -107,7 +105,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .history-table th { background: #283593; color: white; font-weight: 600; }
 .history-table tfoot th { background: #e8eaf6; color: #1a237e; }
 
-#printableArea, #printableSalaryArea, #printableMarksheetArea, #printableTCArea, #printableCCArea, #printableSLCArea, #printableStudentHistoryArea, #printableTeacherHistoryArea { display: none; }
+#printableArea, #printableSalaryArea, #printableMarksheetArea, #printableTCArea, #printableStudentHistoryArea, #printableTeacherHistoryArea { display: none; }
 
 .tiles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px; }
 .tile { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 4px solid #1a237e; display: flex; flex-direction: column; }
@@ -188,8 +186,8 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .gs-signatures-bottom .sig-line { border-top: 1.5px solid #000; margin-bottom: 4px; }
 .gs-signatures-bottom .sig-label { font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10.5px; }
 
-/* ============ CERTIFICATES (LETTER SIZE + SAME DESIGN) ============ */
-.certificate-page-new { width: 8.5in; min-height: 11in; padding: 12mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 5px double #c62828; line-height: 1.8; }
+/* ============ CERTIFICATES (BORDER CONTENT KE HISAAB SE) ============ */
+.certificate-page-new { width: 8.5in; height: auto; display: inline-block; padding: 12mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 5px double #c62828; line-height: 1.8; }
 .cert-new-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 10px; margin-bottom: 8px; }
 .cert-new-header .cert-logo-left { width: 85px; height: 85px; object-fit: contain; flex-shrink: 0; }
 .cert-new-header .cert-center-block { flex: 1; text-align: center; padding-top: 5px; }
@@ -197,7 +195,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .cert-new-header .cert-center-block h1 { font-size: 20px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #000; margin-bottom: 3px; line-height: 1.2; }
 .cert-new-header .cert-center-block .cert-affil { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
 .cert-new-header .cert-center-block .cert-addr { font-size: 11px; font-weight: 700; }
-.cert-new-header .cert-center-block .cert-estd-heading { font-size: 11px; font-weight: 700; color: #c62828; margin-top: 2px; } /* Estd Heading */
+.cert-new-header .cert-center-block .cert-estd-heading { font-size: 11px; font-weight: 700; color: #c62828; margin-top: 2px; } 
 .cert-new-header .cert-photo-right { width: 90px; height: 115px; flex-shrink: 0; border: 2px solid #000; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .cert-new-header .cert-photo-right img { width: 100%; height: 100%; object-fit: cover; }
 .cert-new-header .cert-photo-right .cert-photo-ph { font-size: 9px; font-weight: 700; color: #888; text-align: center; text-transform: uppercase; }
@@ -214,8 +212,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .cert-body-new .cert-field-new { display: inline-block; border-bottom: 1px dotted #000; padding: 0 8px; font-weight: 700; min-width: 130px; text-align: center; font-style: italic; }
 
 .cert-footer-new { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 60px; padding: 0 20px; }
-.cert-footer-new .cert-footer-left { text-align: left; font-size: 11px; }
-.cert-footer-new .cert-footer-left .estd-box { border: 2px solid #c62828; border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #c62828; }
 .cert-footer-new .cert-footer-right { text-align: center; font-size: 12px; }
 .cert-footer-new .cert-footer-right .cert-sig-space { height: 40px; }
 .cert-footer-new .cert-footer-right .cert-sig-line-new { border-top: 1.5px solid #000; width: 180px; margin: 0 auto 6px auto; }
@@ -243,10 +239,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     body.print-marksheet .grade-sheet { width: 100%; min-height: 100vh; margin: 0; }
     body.print-tc #printableTCArea, body.print-tc #printableTCArea * { visibility: visible; }
     body.print-tc #printableTCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-    body.print-cc #printableCCArea, body.print-cc #printableCCArea * { visibility: visible; }
-    body.print-cc #printableCCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-    body.print-slc #printableSLCArea, body.print-slc #printableSLCArea * { visibility: visible; }
-    body.print-slc #printableSLCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-student-history #printableStudentHistoryArea, body.print-student-history #printableStudentHistoryArea * { visibility: visible; }
     body.print-student-history #printableStudentHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-teacher-history #printableTeacherHistoryArea, body.print-teacher-history #printableTeacherHistoryArea * { visibility: visible; }
@@ -832,7 +824,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: TRANSFER CERTIFICATE (ESTD IN HEADING) -->
+<!-- PRINTABLE: TRANSFER CERTIFICATE (BORDER CONTENT KE HISAAB SE, ESTD CIRCLE REMOVED) -->
 <div id="printableTCArea">
     <div class="certificate-page-new">
         <div class="cert-new-header">
@@ -860,75 +852,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
             <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
         </div>
         <div class="cert-footer-new">
-            <div class="cert-footer-left"><div class="estd-box">Estd.<br>2054</div></div>
-            <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
-        </div>
-    </div>
-</div>
-
-<!-- PRINTABLE: CHARACTER CERTIFICATE (ESTD IN HEADING) -->
-<div id="printableCCArea">
-    <div class="certificate-page-new">
-        <div class="cert-new-header">
-            <img class="cert-logo-left" id="ccLogo" src="" alt="Logo">
-            <div class="cert-center-block">
-                <div class="cert-quote">"EDUCATION FOR CULTURE AND DIGNITY"</div>
-                <h1 id="ccSchoolName">SCHOOL NAME</h1>
-                <div class="cert-affil">Affiliated to HSEB</div>
-                <div class="cert-addr" id="ccSchoolAddress">Address</div>
-                <div class="cert-estd-heading">[Estd. 2054]</div> <!-- ESTD DATE HEADING -->
-            </div>
-            <div class="cert-photo-right">
-                <img id="ccPhotoImg" src="" alt="" style="display:none;">
-                <span class="cert-photo-ph" id="ccPhotoPlaceholder">PHOTO</span>
-            </div>
-        </div>
-        <div class="cert-date-line">Date: <span id="ccIssueDate">—</span></div>
-        <div class="cert-title-badge-wrap">
-            <div class="ribbon-shape ribbon-left"></div>
-            <div class="cert-title-badge">CHARACTER CERTIFICATE</div>
-            <div class="ribbon-shape ribbon-right"></div>
-        </div>
-        <div class="cert-body-new">
-            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="ccStudentName">—</span> son/daughter of Mr. <span class="cert-field-new" id="ccFatherName">—</span> a resident of <span class="cert-field-new" id="ccResident">—</span> studied in this school from <span class="cert-field-new" id="ccFromYear">—</span> to <span class="cert-field-new" id="ccToYear">—</span> in Class <span class="cert-field-new" id="ccClass">—</span>. His/Her conduct and character during the entire period of study in this school remained <span class="cert-field-new" id="ccConduct">Good</span>.</p>
-            <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
-        </div>
-        <div class="cert-footer-new">
-            <div class="cert-footer-left"><div class="estd-box">Estd.<br>2054</div></div>
-            <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
-        </div>
-    </div>
-</div>
-
-<!-- PRINTABLE: SCHOOL LEAVING CERTIFICATE (ESTD IN HEADING) -->
-<div id="printableSLCArea">
-    <div class="certificate-page-new">
-        <div class="cert-new-header">
-            <img class="cert-logo-left" id="slcLogo" src="" alt="Logo">
-            <div class="cert-center-block">
-                <div class="cert-quote">"EDUCATION FOR CULTURE AND DIGNITY"</div>
-                <h1 id="slcSchoolName">SCHOOL NAME</h1>
-                <div class="cert-affil">Affiliated to HSEB</div>
-                <div class="cert-addr" id="slcSchoolAddress">Address</div>
-                <div class="cert-estd-heading">[Estd. 2054]</div> <!-- ESTD DATE HEADING -->
-            </div>
-            <div class="cert-photo-right">
-                <img id="slcPhotoImg" src="" alt="" style="display:none;">
-                <span class="cert-photo-ph" id="slcPhotoPlaceholder">PHOTO</span>
-            </div>
-        </div>
-        <div class="cert-date-line">Date: <span id="slcIssueDate">—</span></div>
-        <div class="cert-title-badge-wrap">
-            <div class="ribbon-shape ribbon-left"></div>
-            <div class="cert-title-badge">SCHOOL LEAVING CERTIFICATE</div>
-            <div class="ribbon-shape ribbon-right"></div>
-        </div>
-        <div class="cert-body-new">
-            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="slcStudentName">—</span> son/daughter of Mr. <span class="cert-field-new" id="slcFatherName">—</span> a resident of <span class="cert-field-new" id="slcResident">—</span> studied in this school from <span class="cert-field-new" id="slcFromYear">—</span> to <span class="cert-field-new" id="slcToYear">—</span> in Class <span class="cert-field-new" id="slcClass">—</span>. He/She left the school after completing the course. Reason for leaving: <span class="cert-field-new" id="slcReason">—</span>.</p>
-            <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
-        </div>
-        <div class="cert-footer-new">
-            <div class="cert-footer-left"><div class="estd-box">Estd.<br>2054</div></div>
             <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
         </div>
     </div>
@@ -1048,8 +971,8 @@ function applySchoolBranding() {
     document.getElementById('loginSchoolName').innerText = name;
     document.getElementById('sidebarSchoolName').innerText = name;
     document.getElementById('topbarSchoolInfo').innerText = addr;
-    ['pSchoolName','psSchoolName','gsSchoolName','tcSchoolName','ccSchoolName','slcSchoolName','phSchoolName','pthSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
-    ['pAddress','psAddress','gsSchoolAddress','tcSchoolAddress','ccSchoolAddress','slcSchoolAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = addr; });
+    ['pSchoolName','psSchoolName','gsSchoolName','tcSchoolName','phSchoolName','pthSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
+    ['pAddress','psAddress','gsSchoolAddress','tcSchoolAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = addr; });
     const sa = document.getElementById('schoolAddress'); if (sa) sa.value = addr;
     const ssa = document.getElementById('salarySchoolAddress'); if (ssa) ssa.value = addr;
     const sAddr = document.getElementById('settingsSchoolAddress'); if (sAddr) sAddr.value = addr;
@@ -1430,8 +1353,6 @@ function renderStudentsTable() {
                 <button class="btn-act-edit" onclick="editStudent('${item.id}')" title="Edit">✏️</button>
                 <button class="btn-act-delete" onclick="deleteStudent('${item.id}')" title="Delete">🗑️</button>
                 <button class="btn-act-tc" onclick="printTC('${item.id}')" title="Transfer Certificate">TC</button>
-                <button class="btn-act-cc" onclick="printCC('${item.id}')" title="Character Certificate">CC</button>
-                <button class="btn-act-slc" onclick="printSLC('${item.id}')" title="School Leaving Certificate">SLC</button>
             </div></td>`;
         tbody.appendChild(tr);
     });
@@ -1799,7 +1720,7 @@ function printMarksheet(id) {
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
 }
 
-/* ============ PRINT TC / CC / SLC ============ */
+/* ============ PRINT TC ============ */
 function printTC(id) {
     const s = studentsData.find(x => x.id === id);
     if (!s) { alert("Student not found!"); return; }
@@ -1820,42 +1741,6 @@ function printTC(id) {
     document.getElementById('tcIssueDate').innerText = todayBsNumeric();
     applySchoolBranding();
     document.body.className = 'print-tc';
-    setTimeout(() => { window.print(); document.body.className = ''; }, 300);
-}
-function printCC(id) {
-    const s = studentsData.find(x => x.id === id);
-    if (!s) { alert("Student not found!"); return; }
-    document.getElementById('ccStudentName').innerText = s.studentName;
-    document.getElementById('ccFatherName').innerText = s.fatherName;
-    document.getElementById('ccResident').innerText = s.address || '—';
-    document.getElementById('ccFromYear').innerText = s.admissionDate ? new Date(s.admissionDate).getFullYear() : '—';
-    document.getElementById('ccToYear').innerText = new Date().getFullYear();
-    document.getElementById('ccClass').innerText = s.studentClass || '—';
-    document.getElementById('ccConduct').innerText = 'Good';
-    const pImg = document.getElementById('ccPhotoImg'); const pPh = document.getElementById('ccPhotoPlaceholder');
-    if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
-    else { pImg.style.display='none'; pPh.style.display='block'; }
-    document.getElementById('ccIssueDate').innerText = todayBsNumeric();
-    applySchoolBranding();
-    document.body.className = 'print-cc';
-    setTimeout(() => { window.print(); document.body.className = ''; }, 300);
-}
-function printSLC(id) {
-    const s = studentsData.find(x => x.id === id);
-    if (!s) { alert("Student not found!"); return; }
-    document.getElementById('slcStudentName').innerText = s.studentName;
-    document.getElementById('slcFatherName').innerText = s.fatherName;
-    document.getElementById('slcResident').innerText = s.address || '—';
-    document.getElementById('slcFromYear').innerText = s.admissionDate ? new Date(s.admissionDate).getFullYear() : '—';
-    document.getElementById('slcToYear').innerText = new Date().getFullYear();
-    document.getElementById('slcClass').innerText = s.studentClass || '—';
-    document.getElementById('slcReason').innerText = 'Passed / Completed';
-    const pImg = document.getElementById('slcPhotoImg'); const pPh = document.getElementById('slcPhotoPlaceholder');
-    if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
-    else { pImg.style.display='none'; pPh.style.display='block'; }
-    document.getElementById('slcIssueDate').innerText = todayBsNumeric();
-    applySchoolBranding();
-    document.body.className = 'print-slc';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
 }
 
