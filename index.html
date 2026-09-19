@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</title>
+<title>School Management System</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
 body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
-/* ===== LAYOUT WITH LEFT SIDEBAR ===== */
+/* LAYOUT */
 .app-layout { display: flex; min-height: 100vh; }
-
 .sidebar {
     width: 230px; background: #1a237e; color: white;
     position: fixed; top: 0; left: 0; bottom: 0;
@@ -19,7 +18,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     box-shadow: 2px 0 8px rgba(0,0,0,0.15);
 }
 .sidebar-header { padding: 18px 15px; border-bottom: 1px solid #3949ab; background: #0d1457; }
-.sidebar-header h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; line-height: 1.4; color: #fff; }
+.sidebar-header h2 { font-size: 12px; font-weight: 800; line-height: 1.4; color: #fff; }
 .sidebar-header .sub { font-size: 10px; color: #9fa8da; margin-top: 4px; }
 .sidebar-menu { padding: 8px 0; }
 .sidebar-menu button {
@@ -37,19 +36,18 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
 .main-content { margin-left: 230px; padding: 20px; flex: 1; width: calc(100% - 230px); }
 
-/* Topbar — SKY BLUE */
+/* TOPBAR SKY BLUE */
 .topbar {
     background: linear-gradient(135deg, #4FC3F7, #29B6F6);
     padding: 14px 22px; border-radius: 6px;
     box-shadow: 0 3px 10px rgba(41,182,246,0.35);
     margin-bottom: 15px;
-    display: flex; justify-content: space-between; align-items: center;
-    color: #fff;
+    display: flex; justify-content: space-between; align-items: center; color: #fff;
 }
-.topbar h1 { font-size: 17px; color: #fff; font-weight: 800; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+.topbar h1 { font-size: 17px; color: #fff; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,0.15); }
 .topbar .school-info { font-size: 11.5px; color: #fff; font-weight: 600; opacity: 0.95; }
 
-/* Login */
+/* LOGIN */
 #loginBgWrapper {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     background: linear-gradient(135deg, rgba(26,35,126,0.9), rgba(13,71,161,0.85)),
@@ -61,17 +59,23 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     padding: 35px 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     text-align: center; border-top: 5px solid #1a237e;
 }
-#loginScreen h2 { color: #1a237e; font-size: 16px; margin-bottom: 6px; font-weight: 800; }
+#loginScreen h2 { color: #1a237e; font-size: 15px; margin-bottom: 6px; font-weight: 800; line-height: 1.3; }
 #loginScreen p { font-size: 12px; color: #555; margin-bottom: 22px; }
 #loginScreen input { width: 100%; padding: 11px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
 #loginScreen button { width: 100%; padding: 11px; background: #1a237e; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
 
-.dev-credit { position: absolute; bottom: 15px; right: 20px; color: #fff; font-size: 12px; background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
-.dev-credit a { color: #25D366; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; }
+.dev-credit {
+    position: absolute; bottom: 15px; right: 20px; color: #fff; font-size: 12px;
+    background: rgba(0,0,0,0.6); padding: 8px 14px; border-radius: 6px;
+    display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px);
+}
+.dev-credit .wa-link { color: #25D366; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
+.dev-credit .wa-link svg { width: 16px; height: 16px; }
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
+/* DASHBOARD */
 .dashboard-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; margin-bottom: 15px; }
 .card { background: white; padding: 15px 20px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; border-top: 3px solid #1a237e; }
 .card.card-green { border-top-color: #2e7d32; }
@@ -89,7 +93,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
-.part-table-container { max-height: 180px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; }
+.part-table-container { max-height: 220px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; }
 .part-table { width: 100%; border-collapse: collapse; }
 .part-table th, .part-table td { border: 1px solid #e0e0e0; padding: 4px 8px; font-size: 11px; text-align: left; }
 .part-table th { background: #f5f5f5; font-weight: 600; position: sticky; top: 0; }
@@ -97,14 +101,14 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
 .summary-box { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 10px; margin-top: 10px; }
 
-.btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; text-align: center; }
+.btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
 .btn-success { background: #2e7d32; color: white; }
 .btn-primary { background: #1565c0; color: white; }
 .btn-warning { background: #f57c00; color: white; }
 .btn-danger { background: #b71c1c; color: white; }
 .btn-block { width: 100%; margin-top: 8px; }
 
-.action-btns { display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.action-btns { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
 .btn-act-print { background: #1565c0; color: white; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; border:none; cursor:pointer; }
 .btn-act-edit { background: #ff9800; color: #fff; border: 1px solid #e65100; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor:pointer; }
 .btn-act-delete { background: #d32f2f; color: #ffffff; border: 1px solid #8e0000; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor:pointer; }
@@ -115,94 +119,127 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
 #printableArea, #printableSalaryArea, #printableHistoryArea, #printableTeacherHistoryArea, #printableMarksheetArea { display: none; }
 
-.logo-preview-box { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e0e0e0; }
-.logo-preview-box img { width: 60px; height: 60px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+/* SETTINGS TILES — 3 UPAR 3 NICHE */
+.tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+.tile {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-top: 4px solid #1a237e;
+    display: flex;
+    flex-direction: column;
+}
+.tile.tile-logo { border-top-color: #2e7d32; }
+.tile.tile-name { border-top-color: #1976d2; }
+.tile.tile-address { border-top-color: #f57c00; }
+.tile.tile-login { border-top-color: #c62828; }
+.tile.tile-backup { border-top-color: #6a1b9a; }
+.tile.tile-restore { border-top-color: #00838f; }
+.tile-icon { font-size: 26px; margin-bottom: 8px; }
+.tile h3 { color: #1a237e; font-size: 12px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+.tile p.tile-desc { font-size: 11px; color: #666; margin-bottom: 10px; line-height: 1.4; flex-grow: 1; }
+.tile .form-group { margin-bottom: 8px; }
+.tile .form-group label { font-size: 10.5px; }
+.tile .form-group input { font-size: 12px; padding: 6px 8px; }
+.tile-logo-preview {
+    width: 100%; height: 100px; object-fit: contain;
+    background: #f8f9fa; border: 1px dashed #ccc;
+    border-radius: 6px; margin-bottom: 8px;
+    display: block;
+}
 
-/* ============================================
-   UNIVERSITY-STYLE MARKSHEET (Cream Background)
-   ============================================ */
-.uni-marksheet {
+/* GRADE SHEET — Moon Light Academy Style */
+.grade-sheet {
     width: 210mm; min-height: 297mm;
-    padding: 8mm; background: #FAF6EC; margin: 0 auto;
-    border: 3px double #1a237e;
+    padding: 8mm 10mm; background: #FFFFFF;
+    margin: 0 auto;
     font-family: 'Times New Roman', Times, serif;
     color: #000; font-size: 11px;
+    position: relative; overflow: hidden;
+    border: 2px solid #000;
 }
-.uni-inner { border: 1px solid #1a237e; background: #FAF6EC; }
-.uni-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 6px 10px; border-bottom: 2px solid #1a237e; position: relative;
+.grade-sheet .watermark {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%; opacity: 0.06;
+    z-index: 0; pointer-events: none;
 }
-.uni-header-left { display: flex; align-items: center; gap: 10px; flex: 0 0 90px; }
-.uni-header-left img { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
-.uni-header-center { flex: 1; text-align: center; padding: 0 10px; }
-.uni-header-center h1 {
-    font-size: 17px; font-weight: 800; letter-spacing: 1px;
-    color: #003366; margin-bottom: 2px;
-}
-.uni-header-center .subtitle { font-size: 10.5px; font-weight: 600; }
-.uni-header-center .exam-line {
-    font-size: 11px; font-weight: 800; margin-top: 3px;
-    text-decoration: underline; color: #003366;
-}
-.uni-header-right { flex: 0 0 105px; text-align: right; font-size: 10px; }
-.uni-header-right .sno { margin-bottom: 3px; }
-.uni-header-right .sno strong { font-size: 11px; }
-.uni-header-right .photo-box {
-    width: 78px; height: 92px; border: 1px solid #000;
-    margin-left: auto; margin-top: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; color: #666; background: #fff; overflow: hidden;
-}
-.uni-header-right .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+.grade-sheet .content { position: relative; z-index: 1; }
 
-.uni-info-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.uni-info-table td { border: 1px solid #1a237e; padding: 3px 6px; vertical-align: top; }
-.uni-info-table .lbl { font-weight: 700; background: #f0ece0; width: 90px; }
-.uni-info-table .val { font-weight: 600; }
-
-.uni-subject-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-.uni-subject-table th, .uni-subject-table td {
-    border: 1px solid #1a237e; padding: 3px 5px;
-    text-align: center; vertical-align: middle;
+.gs-header {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 6px; border-bottom: 2px solid #000; margin-bottom: 6px;
 }
-.uni-subject-table th { background: #f0ece0; font-weight: 700; font-size: 10px; }
-.uni-subject-table td.sub-name { text-align: left; padding-left: 8px; }
-.uni-subject-table .fail-row td { color: #c62828; font-weight: 700; background: #ffe5e5; }
-.uni-subject-table .pass-row td.obtained { color: #1b5e20; font-weight: 700; }
-.uni-subject-table .section-label {
-    text-align: left; font-weight: 700; font-style: italic;
-    padding-left: 8px; background: #f5f0e0;
+.gs-header .gs-logo { width: 80px; height: 80px; object-fit: contain; flex-shrink: 0; }
+.gs-header .gs-center { flex: 1; text-align: center; }
+.gs-header .gs-center h1 {
+    font-size: 22px; font-weight: 900; letter-spacing: 0.8px;
+    color: #000; margin-bottom: 2px; text-transform: uppercase;
+}
+.gs-header .gs-center .gs-sub { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+.gs-header .gs-right { width: 80px; flex-shrink: 0; }
+
+.gs-exam-title {
+    text-align: center; font-size: 14px; font-weight: 800;
+    letter-spacing: 2px; margin: 6px 0 2px 0; text-transform: uppercase;
+}
+.gs-grade-sheet-title {
+    text-align: center; font-size: 18px; font-weight: 900;
+    letter-spacing: 4px; margin-bottom: 8px; text-transform: uppercase; text-decoration: underline;
 }
 
-.uni-total-row {
-    display: flex; justify-content: space-between;
-    padding: 5px 10px; border-top: 1px solid #1a237e;
-    border-bottom: 1px solid #1a237e; font-size: 11px; font-weight: 700;
-    background: #f5f0e0;
+.gs-info { font-size: 11px; line-height: 1.9; margin-bottom: 8px; }
+.gs-info .gs-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px; margin-bottom: 2px; }
+.gs-info .gs-label { font-weight: 700; min-width: 195px; }
+.gs-info .gs-dotted {
+    flex: 1; border-bottom: 1px dotted #000;
+    padding: 0 5px; font-weight: 700; min-width: 90px;
 }
-.uni-yearwise-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.uni-yearwise-table th, .uni-yearwise-table td {
-    border: 1px solid #1a237e; padding: 4px 6px; text-align: center;
-}
-.uni-yearwise-table th { background: #f0ece0; font-weight: 700; }
-.uni-legend { padding: 5px 10px; font-size: 10px; border-bottom: 1px solid #1a237e; background: #FAF6EC; }
+.gs-info .gs-bs-label { font-size: 9px; font-weight: 700; vertical-align: sub; color: #000; }
+.gs-info .gs-inline { display: inline-flex; align-items: baseline; gap: 4px; margin-right: 15px; }
 
-.uni-footer {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    padding: 20px 20px 10px 20px; font-size: 11px; background: #FAF6EC;
+.gs-table { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-top: 4px; }
+.gs-table th, .gs-table td { border: 1px solid #000; padding: 4px 5px; vertical-align: top; }
+.gs-table th {
+    background: #f0f0f0; font-weight: 800; font-size: 10px;
+    text-align: center; text-transform: uppercase; letter-spacing: 0.3px; padding: 5px 3px;
 }
-.uni-footer .footer-left { text-align: left; line-height: 1.7; }
-.uni-footer .footer-right { text-align: center; min-width: 150px; }
-.uni-footer .sig-line {
-    border-top: 2px solid #000;
-    margin-bottom: 5px;
-    height: 40px;
-    width: 140px;
-    margin-left: auto;
-    margin-right: auto;
+.gs-table td.center { text-align: center; }
+.gs-table td.subject-name { text-align: left; padding-left: 8px; font-weight: 600; }
+.gs-table td.subject-code { text-align: center; font-weight: 700; }
+.gs-table td.grade-letter { text-align: center; font-weight: 800; font-size: 12px; }
+.gs-table td.grade-letter.f-grade { color: #c62828; font-weight: 900; }
+
+.gs-gpa-row {
+    width: 100%; border: 1px solid #000; border-top: none;
+    text-align: center; font-weight: 800; padding: 5px;
+    font-size: 12px; letter-spacing: 0.5px; background: #fafafa;
 }
-.uni-footer .controller { font-weight: 700; font-size: 11px; }
+
+.gs-signatures {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px; margin-top: 30px; padding-top: 10px; font-size: 11px;
+}
+.gs-sig-block { text-align: center; }
+.gs-sig-space { height: 45px; }
+.gs-sig-line { border-top: 1.5px solid #000; margin: 0 auto 4px auto; width: 150px; }
+.gs-sig-label { font-weight: 800; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.5px; }
+
+.gs-issue-date { font-size: 11px; font-weight: 700; margin-top: 12px; }
+.gs-issue-date .gs-dotted {
+    display: inline-block; border-bottom: 1px dotted #000;
+    min-width: 130px; padding: 0 6px; font-weight: 700;
+}
+
+.gs-notes { margin-top: 12px; font-size: 10px; line-height: 1.7; border-top: 1px solid #000; padding-top: 6px; }
+.gs-notes .gs-note-title { font-weight: 800; }
+.gs-notes .gs-bottom-row { display: flex; justify-content: space-between; margin-top: 6px; font-weight: 700; }
 
 @media print {
     body * { visibility: hidden; }
@@ -216,8 +253,8 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     body.print-teacher-history #printableTeacherHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-marksheet #printableMarksheetArea, body.print-marksheet #printableMarksheetArea * { visibility: visible; }
     body.print-marksheet #printableMarksheetArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-    body.print-marksheet .uni-marksheet { width: 100%; min-height: 100vh; margin: 0; padding: 6mm; border: none; background: #FAF6EC; }
-    @page { size: A4; margin: 6mm; }
+    body.print-marksheet .grade-sheet { width: 100%; min-height: 100vh; margin: 0; padding: 6mm; border: none; }
+    @page { size: A4; margin: 5mm; }
     .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
     .bill-header h2 { font-size: 15px; margin-bottom: 2px; }
     .bill-header p { font-size: 11px; font-weight: 600; }
@@ -226,13 +263,14 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     .sig-area { display: flex; justify-content: space-between; margin-top: 40px; font-size: 10px; }
     .print-logo { width: 75px; height: 75px; object-fit: contain; }
 }
-
+@media (max-width: 1100px) { .tiles-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 900px) {
     .sidebar { width: 60px; }
     .sidebar-header h2, .sidebar-header .sub, .sidebar-menu button span.label { display: none; }
     .sidebar-menu button { justify-content: center; padding: 14px 0; }
     .main-content { margin-left: 60px; width: calc(100% - 60px); }
     .grid-layout { grid-template-columns: 1fr; }
+    .tiles-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -242,16 +280,18 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 <div id="loginBgWrapper">
     <div id="loginScreen">
         <img id="loginLogo" src="" alt="School Logo" style="width:110px; height:auto; margin-bottom:12px; display:block; margin-left:auto; margin-right:auto;">
-        <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+        <h2 id="loginSchoolName">SCHOOL MANAGEMENT SYSTEM</h2>
         <p>Management System Login</p>
         <input type="email" id="loginEmail" placeholder="Admin Email" value="admin@school.com">
         <input type="password" id="loginPassword" placeholder="Password" value="admin123">
         <button onclick="login()">Login to Dashboard</button>
     </div>
     <div class="dev-credit">
-        <span>Prepared by <strong>Niranjan Kumar Shah</strong></span>
-        <a href="https://wa.me/9779826216576" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg>
+        <span>This software is created by <strong>Niranjan Kumar Shah</strong></span>
+        <a class="wa-link" href="https://wa.me/9779826216576" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
             +9779826216576
         </a>
     </div>
@@ -262,7 +302,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     <div class="app-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+                <h2 id="sidebarSchoolName">SCHOOL MANAGEMENT SYSTEM</h2>
                 <div class="sub">Management System</div>
             </div>
             <div class="sidebar-menu">
@@ -274,9 +314,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 </button>
                 <button id="tabBtnMarksheet" onclick="showTab('marksheetTab')">
                     <span class="menu-icon">📄</span><span class="label">Marksheet</span>
-                </button>
-                <button id="tabBtnFind" onclick="scrollToReportSection()">
-                    <span class="menu-icon">🔍</span><span class="label">Find Report</span>
                 </button>
                 <button id="tabBtnSalary" onclick="showTab('salaryTab')">
                     <span class="menu-icon">💰</span><span class="label">Teacher Salary</span>
@@ -293,7 +330,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
         <main class="main-content">
             <div class="topbar">
                 <h1 id="pageTitle">🏠 Dashboard</h1>
-                <div class="school-info">Yamuna Mai-1, Suckdev Chowk (Rautahat)</div>
+                <div class="school-info" id="topbarSchoolInfo">School Address</div>
             </div>
 
             <!-- BILLING TAB -->
@@ -309,7 +346,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         <h3 id="formTitle">Create New Student Bill</h3>
                         <form id="billingForm" onsubmit="saveBill(event)">
                             <input type="hidden" id="recordId">
-                            <div class="form-group"><label>School Address</label><input type="text" id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
+                            <div class="form-group"><label>School Address</label><input type="text" id="schoolAddress" required></div>
                             <div class="grid-2">
                                 <div class="form-group"><label>Bill No</label><input type="text" id="billNo" required></div>
                                 <div class="form-group"><label>Bill Creation Date</label><input type="date" id="billDate" required></div>
@@ -347,12 +384,12 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                             <div class="summary-box">
                                 <div class="form-group"><label>Gross Total Fee Amount:</label><input type="number" id="grossTotal" readonly style="font-weight:bold; background:#eef;"></div>
                                 <div class="grid-2">
-                                    <div class="form-group"><label>Make Deposit Payment:</label><input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter payment amount"></div>
+                                    <div class="form-group"><label>Make Deposit Payment:</label><input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter amount"></div>
                                     <div class="form-group"><label>Deposit Date:</label><input type="date" id="depositDate"></div>
                                 </div>
                                 <div class="grid-2">
-                                    <div class="form-group"><label>Total Deposit Till Date (-):</label><input type="number" id="depositAmount" value="0" readonly style="font-weight:bold; background:#efe;"></div>
-                                    <div class="form-group"><label>Remaining Dues Balance:</label><input type="number" id="netDues" readonly style="font-weight:bold; color:red; background:#fee;"></div>
+                                    <div class="form-group"><label>Total Deposit Till Date:</label><input type="number" id="depositAmount" value="0" readonly style="font-weight:bold; background:#efe;"></div>
+                                    <div class="form-group"><label>Remaining Dues:</label><input type="number" id="netDues" readonly style="font-weight:bold; color:red; background:#fee;"></div>
                                 </div>
                                 <div class="form-group"><label>Amount In Words:</label><input type="text" id="amountInWords" placeholder="e.g. FIVE THOUSAND RUPEES ONLY"></div>
                             </div>
@@ -363,30 +400,13 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
                     <div class="box" id="findReportBox">
                         <h3>🔍 Find Reports & All Student Bills</h3>
-                        <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search Student Name, Father Name, Bill No..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                        <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
                         <div style="overflow-x:auto;">
                             <table class="data-table">
-                                <thead><tr><th>Bill No</th><th>Student Name</th><th>Father Name</th><th>Total</th><th>Paid</th><th>Dues</th><th>Actions</th></tr></thead>
+                                <thead><tr><th>Bill No</th><th>Student</th><th>Father</th><th>Total</th><th>Paid</th><th>Dues</th><th>Actions</th></tr></thead>
                                 <tbody id="billingTableBody"></tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-
-                <div class="box" id="studentDepositHistoryBox" style="display:none; margin-top:15px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                        <h3 id="studentHistoryTitle">📅 Deposit History</h3>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button class="btn btn-primary" onclick="printSelectedStudentHistory()">🖨️ Print</button>
-                            <button class="btn btn-success" onclick="exportSelectedStudentHistoryToExcel()">📊 Excel</button>
-                            <button class="btn" style="background:#37474f; color:white;" onclick="exportSelectedStudentHistoryToJSON()">📥 JSON</button>
-                        </div>
-                    </div>
-                    <div style="overflow-x:auto;">
-                        <table class="data-table">
-                            <thead><tr style="background:#283593;"><th>Deposit Date</th><th>Bill No</th><th>Student Name</th><th>Father's Name</th><th>Amount (Rs.)</th></tr></thead>
-                            <tbody id="studentHistoryTableBody"></tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -407,9 +427,9 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                                 <div class="form-group"><label>Father's Name *</label><input type="text" id="smFatherName" required></div>
                             </div>
                             <div class="grid-3">
-                                <div class="form-group"><label>Class *</label><input type="text" id="smClass" required placeholder="e.g. 5"></div>
+                                <div class="form-group"><label>Class *</label><input type="text" id="smClass" required></div>
                                 <div class="form-group"><label>Roll No</label><input type="text" id="smRollNo"></div>
-                                <div class="form-group"><label>Section</label><input type="text" id="smSection" placeholder="e.g. A"></div>
+                                <div class="form-group"><label>Section</label><input type="text" id="smSection"></div>
                             </div>
                             <div class="grid-2">
                                 <div class="form-group"><label>Contact *</label><input type="text" id="smContact" required></div>
@@ -450,19 +470,21 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
             <div id="marksheetTab" class="tab-content">
                 <div class="grid-layout">
                     <div class="box" id="marksheetFormBox">
-                        <h3 id="marksheetFormTitle">📄 Create Marksheet</h3>
+                        <h3 id="marksheetFormTitle">📄 Create Grade Sheet</h3>
                         <form id="marksheetForm" onsubmit="saveMarksheet(event)">
                             <input type="hidden" id="marksheetId">
-                            <div class="form-group"><label>School Address</label><input type="text" id="msSchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
                             <div class="grid-2">
-                                <div class="form-group"><label>Exam Name *</label><input type="text" id="msExamName" required placeholder="e.g. First Terminal Examination"></div>
-                                <div class="form-group"><label>Exam Date</label><input type="date" id="msExamDate"></div>
+                                <div class="form-group"><label>Exam Name *</label><input type="text" id="msExamName" required placeholder="e.g. Annual Examination"></div>
+                                <div class="form-group"><label>Academic Year (AD)</label><input type="text" id="msAcademicYear" placeholder="e.g. 2024"></div>
                             </div>
                             <div class="grid-2">
-                                <div class="form-group"><label>Academic Year</label><input type="text" id="msAcademicYear" placeholder="e.g. 2024-25"></div>
-                                <div class="form-group"><label>Serial No.</label><input type="text" id="msSerialNo" placeholder="e.g. 1039111"></div>
+                                <div class="form-group"><label>Registration No.</label><input type="text" id="msRegNo"></div>
+                                <div class="form-group"><label>Symbol No.</label><input type="text" id="msSymbolNo"></div>
                             </div>
-
+                            <div class="grid-2">
+                                <div class="form-group"><label>Grade (Class)</label><input type="text" id="msGradeLevel" placeholder="e.g. ELEVEN(H.M)"></div>
+                                <div class="form-group"><label>Date of Birth (AD)</label><input type="date" id="msDOB"></div>
+                            </div>
                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                                 <div class="form-group">
                                     <label>Filter Class</label>
@@ -477,44 +499,34 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group" style="background:#e8f5e9; padding:10px; border-radius:6px; border:1px solid #a5d6a7;">
                                 <label style="color:#2e7d32; font-weight:700;">👨‍🎓 Select Student (Auto Fill)</label>
                                 <select id="marksheetStudentSelect" onchange="fillMarksheetFromStudent()" style="width:100%; padding:7px; font-size:12px; border-radius:4px; border:1px solid #81c784;">
                                     <option value="">-- Select Student --</option>
                                 </select>
                             </div>
-
                             <div class="grid-2">
                                 <div class="form-group"><label>Student Name *</label><input type="text" id="msStudentName" required></div>
                                 <div class="form-group"><label>Father's Name *</label><input type="text" id="msFatherName" required></div>
                             </div>
-                            <div class="form-group"><label>Mother's Name</label><input type="text" id="msMotherName"></div>
                             <div class="grid-3">
                                 <div class="form-group"><label>Class *</label><input type="text" id="msClass" required></div>
                                 <div class="form-group"><label>Roll No</label><input type="text" id="msRollNo"></div>
                                 <div class="form-group"><label>Section</label><input type="text" id="msSection"></div>
                             </div>
-                            <div class="grid-2">
-                                <div class="form-group"><label>Category</label><input type="text" id="msCategory" placeholder="e.g. REGULAR"></div>
-                                <div class="form-group"><label>Medium</label><input type="text" id="msMedium" placeholder="e.g. ENGLISH"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Student Photo (Upload)</label>
-                                <input type="file" id="msPhotoInput" accept="image/*" onchange="previewMarksheetPhoto(event)">
-                            </div>
 
                             <label style="font-size:11px; font-weight:600; display:block; margin-top:6px;">📚 Subjects (Manual Entry):</label>
-                            <div class="part-table-container" style="max-height:320px;">
+                            <div class="part-table-container" style="max-height:340px;">
                                 <table class="part-table">
                                     <thead><tr>
-                                        <th style="width:30px;">#</th>
+                                        <th style="width:28px;">#</th>
+                                        <th style="width:65px;">Code</th>
                                         <th>Subject Name</th>
-                                        <th style="width:60px;">Max</th>
-                                        <th style="width:55px;">Min</th>
-                                        <th style="width:70px;">Obtained</th>
-                                        <th style="width:50px;">Del</th>
+                                        <th style="width:55px;">CR</th>
+                                        <th style="width:55px;">GP</th>
+                                        <th style="width:55px;">Grade</th>
+                                        <th style="width:55px;">FG</th>
+                                        <th style="width:40px;">Del</th>
                                     </tr></thead>
                                     <tbody id="marksheetSubjectsBody"></tbody>
                                 </table>
@@ -523,28 +535,24 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
                             <div class="summary-box">
                                 <div class="grid-3">
-                                    <div class="form-group"><label>Total Full:</label><input type="number" id="msTotalFullMarks" readonly style="font-weight:bold; background:#eef;"></div>
-                                    <div class="form-group"><label>Total Obtained:</label><input type="number" id="msTotalObtained" readonly style="font-weight:bold; background:#efe;"></div>
-                                    <div class="form-group"><label>Percentage:</label><input type="text" id="msPercentage" readonly style="font-weight:bold; background:#eef;"></div>
+                                    <div class="form-group"><label>Total CR:</label><input type="number" id="msTotalCR" readonly style="font-weight:bold; background:#eef;" step="0.01"></div>
+                                    <div class="form-group"><label>Total GP:</label><input type="number" id="msTotalGP" readonly style="font-weight:bold; background:#efe;" step="0.01"></div>
+                                    <div class="form-group"><label>GPA:</label><input type="text" id="msGPA" readonly style="font-weight:bold; background:#eef;"></div>
                                 </div>
-                                <div class="grid-2">
-                                    <div class="form-group"><label>Result (Auto @ 40%):</label><input type="text" id="msResult" readonly style="font-weight:bold; background:#eef;"></div>
-                                    <div class="form-group"><label>Grade:</label><input type="text" id="msGrade" readonly style="font-weight:bold; background:#eef;"></div>
-                                </div>
-                                <div class="form-group"><label>Remarks:</label><input type="text" id="msRemarks" placeholder="e.g. Excellent performance"></div>
+                                <div class="form-group"><label>Remarks:</label><input type="text" id="msRemarks" placeholder="e.g. Good performance"></div>
                             </div>
 
-                            <button type="submit" class="btn btn-success btn-block">Save Marksheet</button>
+                            <button type="submit" class="btn btn-success btn-block">Save Grade Sheet</button>
                             <button type="button" class="btn btn-warning btn-block" id="cancelMarksheetBtn" onclick="resetMarksheetForm()" style="display:none;">Cancel Edit</button>
                         </form>
                     </div>
 
                     <div class="box">
-                        <h3>📋 Saved Marksheets</h3>
+                        <h3>📋 Saved Grade Sheets</h3>
                         <input type="text" id="marksheetSearchInput" onkeyup="searchMarksheets()" placeholder="Search..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
                         <div style="overflow-x:auto; max-height:500px;">
                             <table class="data-table">
-                                <thead><tr><th>Student</th><th>Class</th><th>Exam</th><th>%</th><th>Result</th><th>Action</th></tr></thead>
+                                <thead><tr><th>Student</th><th>Class</th><th>Exam</th><th>GPA</th><th>Result</th><th>Action</th></tr></thead>
                                 <tbody id="marksheetTableBody"></tbody>
                             </table>
                         </div>
@@ -559,7 +567,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
                         <form id="salaryForm" onsubmit="saveSalary(event)">
                             <input type="hidden" id="salaryRecordId">
-                            <div class="form-group"><label>School Address</label><input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
+                            <div class="form-group"><label>School Address</label><input type="text" id="salarySchoolAddress" required></div>
                             <div class="grid-2">
                                 <div class="form-group"><label>Receipt No</label><input type="text" id="salaryReceiptNo" required></div>
                                 <div class="form-group"><label>Payment Date</label><input type="date" id="salaryDate" required></div>
@@ -601,308 +609,162 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         </div>
                     </div>
                 </div>
-
-                <div class="box" id="teacherSalaryHistoryBox" style="display:none; margin-top:15px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                        <h3 id="teacherHistoryTitle">📅 Teacher Payment History</h3>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button class="btn btn-primary" onclick="printSelectedTeacherHistory()">🖨️ Print</button>
-                            <button class="btn btn-success" onclick="exportSelectedTeacherHistoryToExcel()">📊 Excel</button>
-                            <button class="btn" style="background:#37474f; color:white;" onclick="exportSelectedTeacherHistoryToJSON()">📥 JSON</button>
-                        </div>
-                    </div>
-                    <div style="overflow-x:auto;">
-                        <table class="data-table">
-                            <thead><tr style="background:#283593;"><th>Date</th><th>Receipt</th><th>Month</th><th>Total</th><th>Paid</th><th>Dues</th></tr></thead>
-                            <tbody id="teacherHistoryTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
 
-            <!-- BACKUP TAB -->
+            <!-- BACKUP / SETTINGS TAB (3x2 TILES) -->
             <div id="backupTab" class="tab-content">
-                <div class="box" style="max-width:600px; margin:20px auto;">
-                    <h3>🖼️ School Logo Upload</h3>
-                    <p style="font-size:12px; color:#666; margin-bottom:12px;">Yahan se school logo upload karein. Ye logo bill, marksheet, salary receipt — sabhi print views me use hoga.</p>
-                    <div class="logo-preview-box">
-                        <img id="settingsLogoPreview" src="" alt="Logo Preview">
-                        <div>
-                            <input type="file" id="settingsLogoInput" accept="image/*" onchange="uploadSchoolLogo(event)" style="font-size:12px;">
-                            <div style="font-size:11px; color:#555; margin-top:4px;">PNG / JPG recommended. Max size 500 KB.</div>
-                        </div>
+                <div class="tiles-grid">
+                    <div class="tile tile-logo">
+                        <div class="tile-icon">🖼️</div>
+                        <h3>School Logo</h3>
+                        <img id="settingsLogoPreview" class="tile-logo-preview" src="" alt="Logo Preview">
+                        <input type="file" id="settingsLogoInput" accept="image/*" onchange="uploadSchoolLogo(event)" style="font-size:11px; margin-bottom:8px;">
+                        <button class="btn btn-warning btn-block" onclick="resetSchoolLogo()">🔄 Reset Logo</button>
                     </div>
-                    <button class="btn btn-warning btn-block" onclick="resetSchoolLogo()">🔄 Reset to Default Logo</button>
-                </div>
 
-                <div class="box" style="max-width:600px; margin:20px auto;">
-                    <h3>🔐 Change Login Username & Password</h3>
-                    <p style="font-size:12px; color:#666; margin-bottom:12px;">Login email aur password yahan se change karein.</p>
-                    <div class="form-group"><label>Current Password</label><input type="password" id="changeCurrentPassword" placeholder="Enter current password"></div>
-                    <div class="form-group"><label>New Username / Email</label><input type="email" id="changeNewEmail" placeholder="Enter new email"></div>
-                    <div class="form-group"><label>New Password (min 6 chars)</label><input type="password" id="changeNewPassword" placeholder="Enter new password"></div>
-                    <div class="form-group"><label>Confirm New Password</label><input type="password" id="changeConfirmPassword" placeholder="Confirm new password"></div>
-                    <button type="button" class="btn btn-warning btn-block" onclick="updateLoginDetails()">Update Login Credentials</button>
-                </div>
+                    <div class="tile tile-name">
+                        <div class="tile-icon">🏫</div>
+                        <h3>School Name</h3>
+                        <div class="form-group">
+                            <label>Enter School Name</label>
+                            <input type="text" id="settingsSchoolName" placeholder="e.g. SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="saveSchoolName()">💾 Save Name</button>
+                    </div>
 
-                <div class="box" style="max-width:600px; margin:20px auto;">
-                    <h3>1. Download Data Backup</h3>
-                    <p style="font-size:12px; color:#666; margin-bottom:15px;">Save complete database locally on your device.</p>
-                    <button onclick="downloadBackup()" class="btn btn-success btn-block">Download JSON Backup</button>
-                </div>
+                    <div class="tile tile-address">
+                        <div class="tile-icon">📍</div>
+                        <h3>School Address</h3>
+                        <div class="form-group">
+                            <label>Enter School Address</label>
+                            <input type="text" id="settingsSchoolAddress" placeholder="e.g. Yamuna Mai-1, Suckdev Chowk (Rautahat)">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="saveSchoolAddress()">💾 Save Address</button>
+                    </div>
 
-                <div class="box" style="max-width:600px; margin:20px auto;">
-                    <h3>2. Restore Data Backup</h3>
-                    <p style="font-size:12px; color:#666; margin-bottom:15px;">Restore system database using exported .json file.</p>
-                    <div class="form-group"><input type="file" id="backupFileInput" accept=".json"></div>
-                    <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
+                    <div class="tile tile-login">
+                        <div class="tile-icon">🔐</div>
+                        <h3>Change Login</h3>
+                        <div class="form-group"><label>Current Password</label><input type="password" id="changeCurrentPassword" placeholder="Current password"></div>
+                        <div class="form-group"><label>New Email</label><input type="email" id="changeNewEmail" placeholder="new@email.com"></div>
+                        <div class="form-group"><label>New Password</label><input type="password" id="changeNewPassword" placeholder="min 6 chars"></div>
+                        <div class="form-group"><label>Confirm Password</label><input type="password" id="changeConfirmPassword" placeholder="Confirm"></div>
+                        <button class="btn btn-warning btn-block" onclick="updateLoginDetails()">🔐 Update Login</button>
+                    </div>
+
+                    <div class="tile tile-backup">
+                        <div class="tile-icon">💾</div>
+                        <h3>Backup Data</h3>
+                        <p class="tile-desc">Save complete database locally on your device.</p>
+                        <button onclick="downloadBackup()" class="btn btn-success btn-block">📥 Download JSON Backup</button>
+                    </div>
+
+                    <div class="tile tile-restore">
+                        <div class="tile-icon">📥</div>
+                        <h3>Restore Data</h3>
+                        <p class="tile-desc">Restore system database using exported JSON file.</p>
+                        <div class="form-group"><input type="file" id="backupFileInput" accept=".json" style="font-size:11px;"></div>
+                        <button onclick="restoreBackup()" class="btn btn-primary btn-block">📤 Upload & Restore</button>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 </div>
 
-<!-- PRINTABLE: BILL -->
-<div id="printableArea">
-    <div class="bill-box">
-        <div class="bill-header" style="display:flex; align-items:center; justify-content:center; gap:15px; text-align:left; border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:10px;">
-            <img class="print-logo" src="" alt="School Logo" style="width:75px; height:75px; object-fit:contain;">
-            <div>
-                <h2 style="font-size:16px; margin-bottom:3px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <p id="pAddress" style="font-size:11px; font-weight:600;">Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top:4px; font-size:13px;">INFORMATION BILL</h3>
-            </div>
-        </div>
-        <table style="width:100%; font-size:10px; margin-bottom:8px;">
-            <tr><td><strong>Bill No:</strong> <span id="pBillNo"></span></td><td><strong>Date:</strong> <span id="pDate"></span></td></tr>
-            <tr><td><strong>Student Name:</strong> <span id="pStudentName"></span></td><td><strong>Father's Name:</strong> <span id="pFatherName"></span></td></tr>
-            <tr><td><strong>Class/Sec:</strong> <span id="pClass"></span> / <span id="pSec"></span></td><td><strong>Roll No:</strong> <span id="pRoll"></span></td></tr>
-            <tr><td><strong>Contact:</strong> <span id="pContact"></span></td><td><strong>Period:</strong> <span id="pMonth"></span></td></tr>
-        </table>
-        <table class="p-table">
-            <thead><tr><th style="width:30px;">#</th><th>Particulars</th><th style="width:90px;">Amount (Rs.)</th></tr></thead>
-            <tbody id="pRows"></tbody>
-            <tfoot>
-                <tr><th colspan="2" style="text-align:right;">Gross Total:</th><th id="pGross"></th></tr>
-                <tr><th colspan="2" style="text-align:right;">Total Paid / Deposited:</th><th id="pPaid"></th></tr>
-                <tr><th colspan="2" style="text-align:right;">Remaining Dues:</th><th id="pDues"></th></tr>
-            </tfoot>
-        </table>
-        <p style="font-size:10px; margin-top:4px;"><strong>In Words:</strong> <span id="pInWords"></span></p>
-        <div class="sig-area">
-            <div><p>___________________</p><p><strong>Prepared By:</strong> <span id="pPreparedBy"></span></p></div>
-            <div><p>___________________</p><p><strong>Authorized Sign:</strong> <span id="pAuthSign"></span></p></div>
-        </div>
-    </div>
-</div>
-
-<!-- PRINTABLE: SALARY -->
-<div id="printableSalaryArea">
-    <div class="bill-box">
-        <div class="bill-header" style="display:flex; align-items:center; justify-content:center; gap:15px; text-align:left; border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:10px;">
-            <img class="print-logo" src="" alt="School Logo" style="width:75px; height:75px; object-fit:contain;">
-            <div>
-                <h2 style="font-size:16px; margin-bottom:3px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <p id="psAddress" style="font-size:11px; font-weight:600;">Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top:4px; font-size:13px;">TEACHER SALARY RECEIPT</h3>
-            </div>
-        </div>
-        <table style="width:100%; font-size:10px; margin-bottom:10px; line-height:1.6;">
-            <tr><td><strong>Receipt No:</strong> <span id="psReceiptNo"></span></td><td><strong>Paid Date:</strong> <span id="psDate"></span></td></tr>
-            <tr><td><strong>Teacher's Name:</strong> <span id="psTeacherName"></span></td><td><strong>Father's Name:</strong> <span id="psFatherName"></span></td></tr>
-            <tr><td><strong>Contact No:</strong> <span id="psContact"></span></td><td><strong>Designation:</strong> <span id="psDesignation"></span></td></tr>
-            <tr><td><strong>Total Salary:</strong> Rs. <span id="psBasic"></span></td><td><strong>Paid Amount:</strong> Rs. <span id="psNetPaid"></span></td></tr>
-            <tr><td><strong>Remaining Dues:</strong> Rs. <span id="psDues"></span></td><td><strong>Month/Year:</strong> <span id="psMonth"></span></td></tr>
-        </table>
-        <p style="font-size:10px; margin-top:6px;"><strong>Amount in Words:</strong> <span id="psInWords"></span></p>
-        <div class="sig-area">
-            <div><p>___________________</p><p><strong>Prepared By:</strong> <span id="psPreparedBy"></span></p></div>
-            <div><p>___________________</p><p><strong>Authorized Signature:</strong> <span id="psAuthSign"></span></p></div>
-        </div>
-    </div>
-</div>
-
-<!-- PRINTABLE: STUDENT HISTORY -->
-<div id="printableHistoryArea">
-    <div class="bill-box">
-        <div class="bill-header" style="display:flex; align-items:center; justify-content:center; gap:15px; text-align:left; border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:10px;">
-            <img class="print-logo" src="" alt="School Logo" style="width:75px; height:75px; object-fit:contain;">
-            <div>
-                <h2 style="font-size:16px; margin-bottom:3px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <p style="font-size:11px; font-weight:600;">Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top:4px; font-size:13px;">STUDENT DEPOSIT PAYMENT HISTORY</h3>
-            </div>
-        </div>
-        <table style="width:100%; font-size:10px; margin-bottom:10px;">
-            <tr><td><strong>Student Name:</strong> <span id="phStudentName"></span></td><td><strong>Father's Name:</strong> <span id="phFatherName"></span></td></tr>
-            <tr><td><strong>Class:</strong> <span id="phClass"></span></td><td><strong>Contact No:</strong> <span id="phContact"></span></td></tr>
-        </table>
-        <table class="p-table">
-            <thead><tr><th style="width:30px;">#</th><th>Deposit Date</th><th>Bill No</th><th>Paid Amount (Rs.)</th></tr></thead>
-            <tbody id="phRows"></tbody>
-            <tfoot><tr><th colspan="3" style="text-align:right;">Total Cumulative Paid:</th><th id="phTotalPaid"></th></tr></tfoot>
-        </table>
-        <div class="sig-area">
-            <div><p>___________________</p><p><strong>Accountant Signature</strong></p></div>
-            <div><p>___________________</p><p><strong>Principal / Authority</strong></p></div>
-        </div>
-    </div>
-</div>
-
-<!-- PRINTABLE: TEACHER HISTORY -->
-<div id="printableTeacherHistoryArea">
-    <div class="bill-box">
-        <div class="bill-header" style="display:flex; align-items:center; justify-content:center; gap:15px; text-align:left; border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:10px;">
-            <img class="print-logo" src="" alt="School Logo" style="width:75px; height:75px; object-fit:contain;">
-            <div>
-                <h2 style="font-size:16px; margin-bottom:3px;">SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                <p style="font-size:11px; font-weight:600;">Yamuna Mai-1, Suckdev Chowk (Rautahat)</p>
-                <h3 style="margin-top:4px; font-size:13px;">TEACHER SALARY PAYMENT HISTORY</h3>
-            </div>
-        </div>
-        <table style="width:100%; font-size:10px; margin-bottom:10px;">
-            <tr><td><strong>Teacher Name:</strong> <span id="pthTeacherName"></span></td><td><strong>Designation:</strong> <span id="pthDesignation"></span></td></tr>
-            <tr><td><strong>Father's Name:</strong> <span id="pthFatherName"></span></td><td><strong>Contact No:</strong> <span id="pthContact"></span></td></tr>
-        </table>
-        <table class="p-table">
-            <thead><tr><th style="width:30px;">#</th><th>Payment Date</th><th>Receipt No</th><th>Month</th><th>Total Sal.</th><th>Paid</th><th>Dues</th></tr></thead>
-            <tbody id="pthRows"></tbody>
-            <tfoot><tr><th colspan="5" style="text-align:right;">Total Cumulative Paid:</th><th id="pthTotalPaid" colspan="2"></th></tr></tfoot>
-        </table>
-        <div class="sig-area">
-            <div><p>___________________</p><p><strong>Accountant Signature</strong></p></div>
-            <div><p>___________________</p><p><strong>Principal / Authority</strong></p></div>
-        </div>
-    </div>
-</div>
-
-<!-- PRINTABLE: UNIVERSITY-STYLE MARKSHEET (Full A4 Page) -->
+<!-- PRINTABLE: GRADE SHEET -->
 <div id="printableMarksheetArea">
-    <div class="uni-marksheet">
-        <div class="uni-inner">
-            <!-- HEADER -->
-            <div class="uni-header">
-                <div class="uni-header-left">
-                    <img class="school-logo" src="" alt="School Logo">
+    <div class="grade-sheet">
+        <img class="watermark" id="gsWatermark" src="" alt="">
+        <div class="content">
+            <div class="gs-header">
+                <img class="gs-logo" id="gsLogo" src="" alt="School Logo">
+                <div class="gs-center">
+                    <h1 id="gsSchoolName">SCHOOL NAME</h1>
+                    <div class="gs-sub" id="gsSchoolAddress">Address</div>
                 </div>
-                <div class="uni-header-center">
-                    <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-                    <div class="subtitle">Copy of Marks Obtained at the</div>
-                    <div class="exam-line" id="pmsExamTitle">ANNUAL EXAMINATION</div>
+                <div class="gs-right"></div>
+            </div>
+
+            <div class="gs-exam-title" id="gsExamTitle">ANNUAL EXAMINATION</div>
+            <div class="gs-grade-sheet-title">GRADE SHEET</div>
+
+            <div class="gs-info">
+                <div class="gs-row">
+                    <span class="gs-label">THE GRADE(S) SECURED BY:</span>
+                    <span class="gs-dotted" id="gsStudentName">&nbsp;</span>
                 </div>
-                <div class="uni-header-right">
-                    <div class="sno">S.No. <strong id="pmsSerialNo">—</strong></div>
-                    <div class="photo-box" id="pmsPhotoBox">
-                        <span id="pmsPhotoPlaceholder">PHOTO</span>
-                        <img id="pmsPhotoImg" src="" alt="Student Photo" style="display:none;">
-                    </div>
+                <div class="gs-row">
+                    <span class="gs-label">DATE OF BIRTH:</span>
+                    <span class="gs-dotted" style="max-width:150px;" id="gsDOB_AD">&nbsp;</span>
+                    <span class="gs-bs-label">B.S.</span>
+                    <span style="font-weight:700;">(</span>
+                    <span class="gs-dotted" style="max-width:150px;" id="gsDOB_BS">&nbsp;</span>
+                    <span class="gs-bs-label">A.D.</span>
+                    <span style="font-weight:700;">)</span>
+                </div>
+                <div class="gs-row">
+                    <span class="gs-inline"><span class="gs-label" style="min-width:auto;">REGISTRATION NO.:</span><span class="gs-dotted" style="min-width:110px;" id="gsRegNo">&nbsp;</span></span>
+                    <span class="gs-inline"><span class="gs-label" style="min-width:auto;">SYMBOL NO.:</span><span class="gs-dotted" style="min-width:110px;" id="gsSymbolNo">&nbsp;</span></span>
+                    <span class="gs-inline"><span class="gs-label" style="min-width:auto;">GRADE:</span><span class="gs-dotted" style="min-width:110px;" id="gsGradeLevel">&nbsp;</span></span>
+                </div>
+                <div class="gs-row">
+                    <span class="gs-label" style="min-width:auto;">IN THE ANNUAL EXAMINATION CONDUCTED IN</span>
+                    <span class="gs-dotted" style="min-width:80px;" id="gsExamYear_BS">&nbsp;</span>
+                    <span class="gs-bs-label">B.S.</span>
+                    <span style="font-weight:700;">(</span>
+                    <span class="gs-dotted" style="min-width:80px;" id="gsExamYear_AD">&nbsp;</span>
+                    <span class="gs-bs-label">A.D.</span>
+                    <span style="font-weight:700;">)</span>
+                    <span style="font-weight:700;">ARE GIVEN BELOW.</span>
                 </div>
             </div>
 
-            <!-- INFO TABLE -->
-            <table class="uni-info-table">
-                <tr>
-                    <td class="lbl">Roll No.</td>
-                    <td class="val" id="pmsRollNo">—</td>
-                    <td class="lbl">Enroll No.</td>
-                    <td class="val" id="pmsEnrollNo">—</td>
-                </tr>
-                <tr>
-                    <td class="lbl">Name</td>
-                    <td class="val" id="pmsStudentName">—</td>
-                    <td class="lbl">Category</td>
-                    <td class="val" id="pmsCategory">—</td>
-                </tr>
-                <tr>
-                    <td class="lbl">Father's Name</td>
-                    <td class="val" id="pmsFatherName">—</td>
-                    <td class="lbl">Medium</td>
-                    <td class="val" id="pmsMedium">—</td>
-                </tr>
-                <tr>
-                    <td class="lbl">Mother's Name</td>
-                    <td class="val" id="pmsMotherName">—</td>
-                    <td class="lbl">Class / Section</td>
-                    <td class="val"><span id="pmsClass">—</span> / <span id="pmsSection">—</span></td>
-                </tr>
-                <tr>
-                    <td class="lbl">Exam Date</td>
-                    <td class="val" colspan="3" id="pmsExamDate">—</td>
-                </tr>
-            </table>
-
-            <!-- SUBJECT TABLE -->
-            <table class="uni-subject-table">
+            <table class="gs-table">
                 <thead>
                     <tr>
-                        <th rowspan="2" style="width: 42%;">Subject (s) Offered</th>
-                        <th rowspan="2" style="width: 8%;">Max. Marks</th>
-                        <th rowspan="2" style="width: 8%;">Min. Marks</th>
-                        <th colspan="2">Marks Obtained</th>
-                        <th rowspan="2" style="width: 10%;">Subject Total</th>
-                        <th rowspan="2" style="width: 8%;">Remarks</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 9%;">I</th>
-                        <th style="width: 9%;">II</th>
+                        <th style="width:60px;">Subject Code</th>
+                        <th>Subject</th>
+                        <th style="width:60px;">Credit Hour (CR)</th>
+                        <th style="width:60px;">Grade Point (GP)</th>
+                        <th style="width:55px;">Grade</th>
+                        <th style="width:60px;">Final Grade (FG)</th>
+                        <th style="width:70px;">Remarks</th>
                     </tr>
                 </thead>
-                <tbody id="pmsRows"></tbody>
+                <tbody id="gsSubjectRows"></tbody>
             </table>
+            <div class="gs-gpa-row" id="gsGPARow">GRADE POINT AVERAGE(GPA) = 0.00</div>
 
-            <!-- TOTAL ROW -->
-            <div class="uni-total-row">
-                <span>Total Marks obtained excluding compulsory and back log paper / subject (s) marks</span>
-                <span id="pmsTotalObtainedBig">0</span>
+            <div class="gs-signatures">
+                <div class="gs-sig-block">
+                    <div class="gs-sig-space"></div>
+                    <div class="gs-sig-line"></div>
+                    <div class="gs-sig-label">PREPARED BY</div>
+                </div>
+                <div class="gs-sig-block">
+                    <div class="gs-sig-space"></div>
+                    <div class="gs-sig-line"></div>
+                    <div class="gs-sig-label">CHECKED BY</div>
+                </div>
+                <div class="gs-sig-block">
+                    <div class="gs-sig-space"></div>
+                    <div class="gs-sig-line"></div>
+                    <div class="gs-sig-label">PRINCIPAL</div>
+                </div>
             </div>
 
-            <!-- YEARWISE TABLE -->
-            <table class="uni-yearwise-table">
-                <thead>
-                    <tr>
-                        <th colspan="3">YEARWISE TOTAL MARKS OBTAINED</th>
-                        <th rowspan="2">GRAND TOTAL</th>
-                        <th rowspan="2">RESULT / CLASS / DIVISION</th>
-                    </tr>
-                    <tr>
-                        <th>Part - I</th>
-                        <th>Part - II</th>
-                        <th>Part - III</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="pmsPartI">—</td>
-                        <td id="pmsPartII">—</td>
-                        <td id="pmsPartIII">—</td>
-                        <td><strong id="pmsGrandTotal">—</strong></td>
-                        <td>
-                            <strong id="pmsResult" style="font-size: 13px;">—</strong><br>
-                            <span style="font-size: 10px;">(<span id="pmsPercentageSmall">0%</span>)</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- LEGEND -->
-            <div class="uni-legend">
-                <strong>G</strong> - Passed by Grace ; <strong>P</strong> - Passed ; <strong>S</strong> - Eligible for Supplementary ; <strong>F</strong> - Failed, <strong>A</strong> - Absent
+            <div class="gs-issue-date">
+                DATE OF ISSUE : <span class="gs-dotted" id="gsIssueDate">&nbsp;</span>
             </div>
 
-            <!-- FOOTER with signature lines -->
-            <div class="uni-footer">
-                <div class="footer-left">
-                    <div>Result declared on <strong id="pmsResultDate">—</strong></div>
-                    <div>ISSUE DATE : <span id="pmsIssueDate">—</span></div>
-                    <div style="margin-top: 4px;">RAUTAHAT</div>
-                </div>
-                <div class="footer-right">
-                    <div class="sig-line"></div>
-                    <div class="controller">Class Teacher</div>
-                </div>
-                <div class="footer-right">
-                    <div class="sig-line"></div>
-                    <div class="controller">Principal</div>
+            <div class="gs-notes">
+                <div><span class="gs-note-title">NOTE :</span> ONE CREDIT HOUR EQUALS TO 32 WORKING HOURS</div>
+                <div><span class="gs-note-title">INTERNAL(IN) :</span> THIS COVERS THE PARTICIPATION, PRACTICAL/PROJECT WORKS, COMMUNITY WORKS, INTERNSHIP, PRESENTATIONS, TERMINAL EXAMINATIONS.</div>
+                <div><span class="gs-note-title">THEORY(TH) :</span> THIS COVERS WRITTEN EXTERNAL EXAMINATION</div>
+                <div class="gs-bottom-row">
+                    <span>ABS = ABSENT</span>
+                    <span>W = WITHHELD</span>
                 </div>
             </div>
         </div>
@@ -910,61 +772,36 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 </div>
 
 <script>
-/* ============ NEPALI DATE CONVERTER (AD -> BS) ============ */
-/* Nepali calendar data (2080–2090 BS) for accurate conversion */
+/* ============ NEPALI DATE CONVERTER ============ */
 const NP_MONTHS = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
 const NP_DATA = {
-    // [bsYear]: [days in each of 12 months]
-    2080: [31,32,31,32,31,30,30,30,29,30,29,31],
-    2081: [31,31,32,31,31,31,30,29,30,29,30,30],
-    2082: [31,31,32,31,31,31,30,29,30,29,30,30],
-    2083: [31,31,32,31,31,30,30,30,29,30,29,31],
-    2084: [31,31,32,31,31,30,30,30,29,30,29,31],
-    2085: [31,32,31,32,31,30,30,30,29,30,29,31],
-    2086: [30,32,31,32,31,30,30,30,29,30,29,31],
-    2087: [31,31,32,31,31,31,30,30,29,30,29,31],
-    2088: [31,31,32,31,31,31,30,30,29,30,29,31],
-    2089: [31,31,32,31,31,31,30,30,29,30,29,31],
-    2090: [31,32,31,32,31,30,30,30,29,30,29,31]
+    2080:[31,32,31,32,31,30,30,30,29,30,29,31], 2081:[31,31,32,31,31,31,30,29,30,29,30,30],
+    2082:[31,31,32,31,31,31,30,29,30,29,30,30], 2083:[31,31,32,31,31,30,30,30,29,30,29,31],
+    2084:[31,31,32,31,31,30,30,30,29,30,29,31], 2085:[31,32,31,32,31,30,30,30,29,30,29,31],
+    2086:[30,32,31,32,31,30,30,30,29,30,29,31], 2087:[31,31,32,31,31,31,30,30,29,30,29,31],
+    2088:[31,31,32,31,31,31,30,30,29,30,29,31], 2089:[31,31,32,31,31,31,30,30,29,30,29,31],
+    2090:[31,32,31,32,31,30,30,30,29,30,29,31]
 };
-
 function adToBs(adDateStr) {
-    if (!adDateStr) return '';
+    if (!adDateStr) return null;
     const d = new Date(adDateStr);
-    if (isNaN(d.getTime())) return '';
-    // Reference: 2000-01-01 AD = 2056-09-17 BS (approx)
+    if (isNaN(d.getTime())) return null;
     const refAD = new Date(2000, 0, 1);
-    const refBS = { y: 2056, m: 8, d: 17 }; // 0-based month index (8 = Ashwin)
+    const refBS = { y: 2056, m: 8, d: 17 };
     const diffDays = Math.floor((d - refAD) / 86400000);
-    let y = refBS.y, m = refBS.m, day = refBS.d;
-    let rem = diffDays;
+    let y = refBS.y, m = refBS.m, day = refBS.d, rem = diffDays;
     while (rem > 0) {
         const dim = NP_DATA[y] ? NP_DATA[y][m] : 30;
         const leftInMonth = dim - day;
         if (rem <= leftInMonth) { day += rem; rem = 0; }
-        else {
-            rem -= (leftInMonth + 1);
-            day = 1;
-            m++;
-            if (m > 11) { m = 0; y++; }
-        }
+        else { rem -= (leftInMonth + 1); day = 1; m++; if (m > 11) { m = 0; y++; } }
     }
     while (rem < 0) {
         if (day > 1) { day--; rem++; }
-        else {
-            m--;
-            if (m < 0) { m = 11; y--; }
-            day = NP_DATA[y] ? NP_DATA[y][m] : 30;
-            rem++;
-        }
+        else { m--; if (m < 0) { m = 11; y--; } day = NP_DATA[y] ? NP_DATA[y][m] : 30; rem++; }
     }
-    return {
-        y, m, d: day,
-        numeric: `${y}/${String(m+1).padStart(2,'0')}/${String(day).padStart(2,'0')}`,
-        withMonth: `${day} ${NP_MONTHS[m]} ${y}`
-    };
+    return { y, m, d: day, numeric: `${y}/${String(m+1).padStart(2,'0')}/${String(day).padStart(2,'0')}` };
 }
-
 function formatDateWithNepali(adDateStr) {
     if (!adDateStr) return '';
     const bs = adToBs(adDateStr);
@@ -972,54 +809,101 @@ function formatDateWithNepali(adDateStr) {
     return `${adDateStr} (${bs.numeric})`;
 }
 
-/* ============ SCHOOL LOGO ============ */
-const DEFAULT_LOGO_BASE64 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/7S3GUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAccAgAAAgAAADhCSU0EJQAAAAAAEOjxXPMvwRihontnrcVk1bo4QklNBDoAAAAAAOUAAAAQAAAAAQAAAAAAC3ByaW50T3V0cHV0AAAABQAAAABQc3RTYm9vbAEAAAAASW50ZWVudW0AAAAASW50ZQAAAABDbHJtAAAAD3ByaW50U2l4dGVlbkJpdGJvb2wAAAAAC3ByaW50ZXJOYW1lVEVYVAAAAAEAAAAAAA9wcmludFByb29mU2V0dXBPYmpjAAAADABQAHIAbwBvAGYAIABTAGUAdAB1AHAAAAAAAApwcm9vZlNldHVwAAAAAQAAAABCbHRuZW51bQAAAAxidWlsdGluUHJvb2YAAAAJcHJvb2ZDTVlLADhCSU0EOwAAAAACLQAAABAAAAABAAAAAAAScHJpbnRPdXRwdXRPcHRpb25zAAAAFwAAAABDcHRuYm9vbAAAAAAAQ2xicmJvb2wAAAAAAFJnc01ib29sAAAAAABDcm5DYm9vbAAAAAAAQ250Q2Jvb2wAAAAAAExibHNib29sAAAAAABOZ3R2Ym9vbAAAAAAARW1sRGJvb2wAAAAAAEludHJib29sAAAAAABCY2tnT2JqYwAAAAEAAAAAAABSR0JDAAAAAwAAAABSZCAgZG91YkBv4AAAAAAAAAAAAEdybiBkb3ViQG/gAAAAAAAAAAAAQmwgIGRvdWJAb+AAAAAAAAAAAABCcmRUVW50RiNSbHQAAAAAAAAAAAAAAABCbGQgVW50RiNSbHQAAAAAAAAAAAAAAABSc2x0VW50RiNQeGxAWAAAAAAAAAAAAAp2ZWN0b3JEYXRhYm9vbAEAAAAAUGdQc2VudW0AAAAAUGdQcwAAAABQZ1BDAAAAAExlZnRVbnRGI1JsdAAAAAAAAAAAAAAAAFRvcCBVbnRGI1JsdAAAAAAAAAAAAAAAAFNjbCBVbnRGI1ByY0BZAAAAAAAAAAAAEGNyb3BXaGVuUHJpbnRpbmdib29sAAAAAA5jcm9wUmVjdEJvdHRvbWxvbmcAAAAAAAAADGNyb3BSZWN0TGVmdGxvbmcAAAAAAAAADWNyb3BSZWN0UmlnaHRsb25nAAAAAAAAAAtjcm9wUmVjdFRvcGxvbmcAAAAAADhCSU0D7QAAAAAAEABgAAAAAQABAGAAAAABAAE4QklNBCYAAAAAAA4AAAAAAAAAAAAAP4AAADhCSU0EDQAAAAAABAAAAB44QklNBBkAAAAAAAQAAAAeOEJJTQPzAAAAAAAJAAAAAAAAAAABADhCSU0nEAAAAAAACgABAAAAAAAAAAE4QklNA/UAAAAAAEgAL2ZmAAEAbGZmAAYAAAAAAAEAL2ZmAAEAoZmaAAYAAAAAAAEAMgAAAAEAWgAAAAYAAAAAAAEANQAAAAEALQAAAAYAAAAAAAE4QklNA/gAAAAAAHAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAOEJJTQQAAAAAAAACAAA4QklNBAIAAAAAAAIAADhCSU0EMAAAAAAAAQEAOEJJTQQtAAAAAAAGAAEAAAACOEJJTQQIAAAAAAAQAAAAAQAAAkAAAAJAAAAAADhCSU0EHgAAAAAABAAAAAA4QklNBBoAAAAAAz0AAAAGAAAAAAAAAAAAAAWaAAAESQAAAAQAbABvAGcAbwAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAESQAABZoAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAG51bGwAAAACAAAABmJvdW5kc09iamMAAAABAAAAAAAAUmN0MQAAAAQAAAAAVG9wIGxvbmcAAAAAAAAAAExlZnRsb25nAAAAAAAAAABCdG9tbG9uZwAABZoAAAAAUmdodGxvbmcAAARJAAAABnNsaWNlc1ZsTHMAAAABT2JqYwAAAAEAAAAAAAVzbGljZQAAABIAAAAHc2xpY2VJRGxvbmcAAAAAAAAAB2dyb3VwSURsb25nAAAAAAAAAAZvcmlnaW5lbnVtAAAADEVTbGljZU9yaWdpbgAAAA1hdXRvR2VuZXJhdGVkAAAAAFR5cGVlbnVtAAAACkVTbGljZVR5cGUAAAAASW1nIAAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJjdDEAAAAEAAAAAFRvcCBsb25nAAAAAAAAAABMZWZ0bG9uZwAAAAAA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';
+/* ============ SCHOOL DATA (LocalStorage) ============ */
+const DEFAULT_SCHOOL_NAME = 'SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL';
+const DEFAULT_SCHOOL_ADDRESS = 'Yamuna Mai-1, Suckdev Chowk (Rautahat)';
+const DEFAULT_LOGO_BASE64 = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%231a237e"/><text x="50" y="60" font-size="40" font-family="Arial" fill="white" text-anchor="middle" font-weight="bold">S</text></svg>';
 
-let schoolLogoData = localStorage.getItem('school_logo') || DEFAULT_LOGO_BASE64;
+function getSchoolLogo() { return localStorage.getItem('school_logo') || DEFAULT_LOGO_BASE64; }
+function getSchoolName() { return localStorage.getItem('school_name') || DEFAULT_SCHOOL_NAME; }
+function getSchoolAddress() { return localStorage.getItem('school_address') || DEFAULT_SCHOOL_ADDRESS; }
 
-function applySchoolLogo() {
-    document.querySelectorAll('.print-logo, .school-logo').forEach(img => { img.src = schoolLogoData; });
-    const l = document.getElementById('loginLogo'); if (l) l.src = schoolLogoData;
-    const p = document.getElementById('settingsLogoPreview'); if (p) p.src = schoolLogoData;
+function applySchoolBranding() {
+    const logo = getSchoolLogo();
+    const name = getSchoolName();
+    const addr = getSchoolAddress();
+    document.querySelectorAll('.print-logo, .school-logo, .gs-logo, #gsLogo, #loginLogo, #settingsLogoPreview').forEach(img => { img.src = logo; });
+    const wm = document.getElementById('gsWatermark'); if (wm) wm.src = logo;
+    document.getElementById('loginSchoolName').innerText = name;
+    document.getElementById('sidebarSchoolName').innerText = name;
+    document.getElementById('topbarSchoolInfo').innerText = addr;
+    ['pSchoolName','psSchoolName','phSchoolName','pthSchoolName','gsSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
+    ['pAddress','psAddress','gsSchoolAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = addr; });
+    document.getElementById('schoolAddress').value = addr;
+    document.getElementById('salarySchoolAddress').value = addr;
+    const sAddr = document.getElementById('settingsSchoolAddress'); if (sAddr) sAddr.value = addr;
+    const sName = document.getElementById('settingsSchoolName'); if (sName) sName.value = name;
+}
+
+function saveSchoolName() {
+    const v = document.getElementById('settingsSchoolName').value.trim();
+    if (!v) { alert("Please enter school name!"); return; }
+    localStorage.setItem('school_name', v);
+    applySchoolBranding();
+    alert("School name saved!");
+}
+function saveSchoolAddress() {
+    const v = document.getElementById('settingsSchoolAddress').value.trim();
+    if (!v) { alert("Please enter school address!"); return; }
+    localStorage.setItem('school_address', v);
+    applySchoolBranding();
+    alert("School address saved!");
 }
 function uploadSchoolLogo(event) {
     const file = event.target.files[0]; if (!file) return;
-    if (file.size > 500 * 1024) { alert("File too large. Max 500 KB allowed."); return; }
+    if (file.size > 500 * 1024) { alert("File too large. Max 500 KB."); return; }
     const r = new FileReader();
-    r.onload = function(e) {
-        schoolLogoData = e.target.result;
-        localStorage.setItem('school_logo', schoolLogoData);
-        applySchoolLogo();
-        alert("School logo updated successfully!");
-    };
+    r.onload = e => { localStorage.setItem('school_logo', e.target.result); applySchoolBranding(); alert("Logo updated!"); };
     r.readAsDataURL(file);
 }
 function resetSchoolLogo() {
-    if (confirm("Reset to default school logo?")) {
-        schoolLogoData = DEFAULT_LOGO_BASE64;
-        localStorage.setItem('school_logo', schoolLogoData);
-        applySchoolLogo();
+    if (confirm("Reset logo to default?")) {
+        localStorage.setItem('school_logo', DEFAULT_LOGO_BASE64);
+        applySchoolBranding();
     }
 }
 
-const standardParticulars = ["Annual Fee","Admission Fee","Monthly School Fee","Exam Fee 1,2,3","Ext. Tuation Fee","Tie, Belt, Badge","Stationary","Dairy, ID Card","Games/Science/Library","Library","Form/Entrance/Exam","Medical","Character Certificate","Computer Fee","Hostel Fee","Bus","Dress","Disposit","Dues"];
-
+/* ============ DATA STORAGE ============ */
 let billsData = JSON.parse(localStorage.getItem('sch_bills')) || [];
 let salaryData = JSON.parse(localStorage.getItem('sch_salaries')) || [];
 let studentsData = JSON.parse(localStorage.getItem('sch_students')) || [];
 let marksheetsData = JSON.parse(localStorage.getItem('sch_marksheets')) || [];
-let activeEditingStudent = null;
-let activeEditingTeacher = null;
-let marksheetPhotoData = null;
 
+function saveToLocalStorage() {
+    localStorage.setItem('sch_bills', JSON.stringify(billsData));
+    localStorage.setItem('sch_salaries', JSON.stringify(salaryData));
+    localStorage.setItem('sch_students', JSON.stringify(studentsData));
+    localStorage.setItem('sch_marksheets', JSON.stringify(marksheetsData));
+}
+
+/* ============ STANDARD FEE PARTICULARS ============ */
+const standardParticulars = ["Annual Fee","Admission Fee","Monthly School Fee","Exam Fee 1,2,3","Ext. Tuation Fee","Tie, Belt, Badge","Stationary","Dairy, ID Card","Games/Science/Library","Library","Form/Entrance/Exam","Medical","Character Certificate","Computer Fee","Hostel Fee","Bus","Dress","Disposit","Dues"];
+
+/* ============ UTILITIES ============ */
+function inWords(num) {
+    let a = ['','one ','two ','three ','four ','five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+    let b = ['', '', 'twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+    if ((num = num.toString()).length > 9) return 'overflow';
+    let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return '';
+    let s = '';
+    s += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    s += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    s += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    s += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    s += (n[5] != 0) ? ((s != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'rupees only ' : 'rupees only';
+    return s.toUpperCase();
+}
+
+/* ============ INITIALIZATION ============ */
 window.onload = function() {
-    applySchoolLogo();
+    applySchoolBranding();
     renderParticulars();
     document.getElementById('billDate').valueAsDate = new Date();
     document.getElementById('depositDate').valueAsDate = new Date();
     document.getElementById('salaryDate').valueAsDate = new Date();
     if (document.getElementById('smAdmissionDate')) document.getElementById('smAdmissionDate').valueAsDate = new Date();
-    if (document.getElementById('msExamDate')) document.getElementById('msExamDate').valueAsDate = new Date();
+    if (document.getElementById('msDOB')) document.getElementById('msDOB').valueAsDate = new Date();
     const li = document.getElementById('loginEmail');
     if (li) li.value = localStorage.getItem('admin_email') || 'admin@school.com';
     const ce = document.getElementById('changeNewEmail');
@@ -1035,42 +919,8 @@ function renderParticulars() {
         c.appendChild(row);
     });
 }
-function inWords(num) {
-    let a = ['','one ','two ','three ','four ','five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
-    let b = ['', '', 'twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
-    if ((num = num.toString()).length > 9) return 'overflow';
-    let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-    if (!n) return '';
-    let s = '';
-    s += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-    s += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-    s += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-    s += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-    s += (n[5] != 0) ? ((s != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'rupees only ' : 'rupees only';
-    return s.toUpperCase();
-}
-function calculateGross() {
-    let t = 0; document.querySelectorAll('.part-amt').forEach(i => t += parseFloat(i.value) || 0);
-    document.getElementById('grossTotal').value = t; calculateBalance();
-}
-function calculateBalance() {
-    let g = parseFloat(document.getElementById('grossTotal').value) || 0;
-    let p = parseFloat(document.getElementById('depositAmount').dataset.base) || 0;
-    let n = parseFloat(document.getElementById('newDepositInput').value) || 0;
-    let td = p + n; document.getElementById('depositAmount').value = td;
-    let nd = g - td; document.getElementById('netDues').value = nd >= 0 ? nd : 0;
-    let w = document.getElementById('amountInWords');
-    if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : (td > 0 ? td : g)); w.dataset.auto = "true"; }
-}
-function calculateTeacherSalary() {
-    let t = parseFloat(document.getElementById('basicSalary').value) || 0;
-    let p = parseFloat(document.getElementById('netPaidSalary').dataset.base) || 0;
-    let n = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
-    let tp = p + n; document.getElementById('netPaidSalary').value = tp;
-    let d = t - tp; document.getElementById('salaryDues').value = d >= 0 ? d : 0;
-    let w = document.getElementById('salaryInWords');
-    if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : t); w.dataset.auto = "true"; }
-}
+
+/* ============ LOGIN ============ */
 function login() {
     const e = document.getElementById('loginEmail').value.trim().toLowerCase();
     const p = document.getElementById('loginPassword').value;
@@ -1102,8 +952,10 @@ function updateLoginDetails() {
     document.getElementById('changeCurrentPassword').value = '';
     document.getElementById('changeNewPassword').value = '';
     document.getElementById('changeConfirmPassword').value = '';
-    alert("Login credentials updated successfully!");
+    alert("Login credentials updated!");
 }
+
+/* ============ TAB NAVIGATION ============ */
 function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.sidebar-menu button').forEach(b => b.classList.remove('active-tab'));
@@ -1114,11 +966,34 @@ function showTab(tabId) {
     if (tabId === 'studentsTab') { document.getElementById('tabBtnStudents').classList.add('active-tab'); renderStudentsTable(); updateStudentStats(); updateClassFilter(); updateSectionFilter(); }
     if (tabId === 'marksheetTab') { document.getElementById('tabBtnMarksheet').classList.add('active-tab'); populateMarksheetStudentSelect(); updateMarksheetFilterDropdowns(); renderMarksheetsTable(); }
     if (tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
-    if (tabId === 'backupTab') { document.getElementById('tabBtnBackup').classList.add('active-tab'); applySchoolLogo(); }
+    if (tabId === 'backupTab') { document.getElementById('tabBtnBackup').classList.add('active-tab'); applySchoolBranding(); }
 }
-function scrollToReportSection() { showTab('billingTab'); document.getElementById('tabBtnFind').classList.add('active-tab'); setTimeout(() => document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' }), 100); }
-function startNewStudentEntry() { showTab('billingTab'); resetForm(); document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' }); }
 
+/* ============ BILL CALCULATIONS ============ */
+function calculateGross() {
+    let t = 0; document.querySelectorAll('.part-amt').forEach(i => t += parseFloat(i.value) || 0);
+    document.getElementById('grossTotal').value = t; calculateBalance();
+}
+function calculateBalance() {
+    let g = parseFloat(document.getElementById('grossTotal').value) || 0;
+    let p = parseFloat(document.getElementById('depositAmount').dataset.base) || 0;
+    let n = parseFloat(document.getElementById('newDepositInput').value) || 0;
+    let td = p + n; document.getElementById('depositAmount').value = td;
+    let nd = g - td; document.getElementById('netDues').value = nd >= 0 ? nd : 0;
+    let w = document.getElementById('amountInWords');
+    if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : (td > 0 ? td : g)); w.dataset.auto = "true"; }
+}
+function calculateTeacherSalary() {
+    let t = parseFloat(document.getElementById('basicSalary').value) || 0;
+    let p = parseFloat(document.getElementById('netPaidSalary').dataset.base) || 0;
+    let n = parseFloat(document.getElementById('newSalaryPaidInput').value) || 0;
+    let tp = p + n; document.getElementById('netPaidSalary').value = tp;
+    let d = t - tp; document.getElementById('salaryDues').value = d >= 0 ? d : 0;
+    let w = document.getElementById('salaryInWords');
+    if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : t); w.dataset.auto = "true"; }
+}
+
+/* ============ SAVE BILL ============ */
 function saveBill(e) {
     e.preventDefault();
     let id = document.getElementById('recordId').value;
@@ -1150,7 +1025,7 @@ function saveBill(e) {
             r.netDues = parseFloat(document.getElementById('netDues').value) || 0;
             r.amountInWords = document.getElementById('amountInWords').value;
             billsData[idx] = r;
-            alert("Student Record Updated Successfully!");
+            alert("Student Record Updated!");
         }
     } else {
         let r = {
@@ -1180,6 +1055,7 @@ function saveBill(e) {
     saveToLocalStorage(); resetForm(); loadData();
 }
 
+/* ============ SAVE SALARY ============ */
 function saveSalary(e) {
     e.preventDefault();
     let id = document.getElementById('salaryRecordId').value;
@@ -1207,7 +1083,7 @@ function saveSalary(e) {
             r.preparedBy = document.getElementById('salaryPreparedBy').value;
             r.authSign = document.getElementById('salaryAuthSign').value;
             salaryData[idx] = r;
-            alert("Teacher Salary Record Updated!");
+            alert("Teacher Salary Updated!");
         }
     } else {
         let ts = parseFloat(document.getElementById('basicSalary').value) || 0;
@@ -1215,32 +1091,23 @@ function saveSalary(e) {
             id: Date.now().toString(),
             schoolAddress: document.getElementById('salarySchoolAddress').value,
             receiptNo: document.getElementById('salaryReceiptNo').value,
-            date: sd,
-            teacherName: document.getElementById('teacherName').value,
+            date: sd, teacherName: document.getElementById('teacherName').value,
             fatherName: document.getElementById('teacherFatherName').value,
             contact: document.getElementById('teacherContact').value,
             designation: document.getElementById('teacherDesignation').value,
-            basic: ts,
-            netPaid: np,
-            dues: ts - np,
-            month: mv,
+            basic: ts, netPaid: np, dues: ts - np, month: mv,
             inWords: document.getElementById('salaryInWords').value,
             preparedBy: document.getElementById('salaryPreparedBy').value,
             authSign: document.getElementById('salaryAuthSign').value,
             history: np > 0 ? [{ amount: np, date: sd, month: mv }] : []
         };
         salaryData.push(r);
-        alert("Teacher Salary Record Saved!");
+        alert("Teacher Salary Saved!");
     }
     saveToLocalStorage(); resetSalaryForm(); renderSalaryTable();
 }
 
-function saveToLocalStorage() {
-    localStorage.setItem('sch_bills', JSON.stringify(billsData));
-    localStorage.setItem('sch_salaries', JSON.stringify(salaryData));
-    localStorage.setItem('sch_students', JSON.stringify(studentsData));
-    localStorage.setItem('sch_marksheets', JSON.stringify(marksheetsData));
-}
+/* ============ LOAD DATA ============ */
 function loadData() {
     renderBillingTable(); renderSalaryTable(); renderStudentsTable(); renderMarksheetsTable();
     updateDashboard(); updateStudentStats(); populateStudentSelect(); populateMarksheetStudentSelect();
@@ -1254,7 +1121,7 @@ function updateDashboard() {
     document.getElementById('statTotalDues').innerText = 'Rs. ' + td;
 }
 
-// ===== STUDENTS =====
+/* ============ STUDENTS ============ */
 function updateStudentStats() {
     document.getElementById('statTotalStudents').innerText = studentsData.length;
     document.getElementById('statActiveStudents').innerText = studentsData.filter(s => s.status === 'Active').length;
@@ -1262,7 +1129,7 @@ function updateStudentStats() {
 function updateClassFilter() {
     const sel = document.getElementById('classFilterSelect'); if (!sel) return;
     const cur = sel.value;
-    const cls = [...new Set(studentsData.map(s => s.studentClass).filter(Boolean))].sort((a, b) => { const na = parseInt(a), nb = parseInt(b); if (!isNaN(na) && !isNaN(nb)) return na - nb; return a.localeCompare(b); });
+    const cls = [...new Set(studentsData.map(s => s.studentClass).filter(Boolean))].sort((a,b) => { const na = parseInt(a), nb = parseInt(b); if (!isNaN(na) && !isNaN(nb)) return na - nb; return a.localeCompare(b); });
     sel.innerHTML = '<option value="">All Classes</option>';
     cls.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = 'Class ' + c; sel.appendChild(o); });
     if (cur) sel.value = cur;
@@ -1280,7 +1147,7 @@ function updateMarksheetFilterDropdowns() {
     const s = document.getElementById('msFilterSection');
     if (c) {
         const cur = c.value;
-        const cls = [...new Set(studentsData.map(x => x.studentClass).filter(Boolean))].sort((a, b) => { const na = parseInt(a), nb = parseInt(b); if (!isNaN(na) && !isNaN(nb)) return na - nb; return a.localeCompare(b); });
+        const cls = [...new Set(studentsData.map(x => x.studentClass).filter(Boolean))].sort((a,b) => { const na = parseInt(a), nb = parseInt(b); if (!isNaN(na) && !isNaN(nb)) return na - nb; return a.localeCompare(b); });
         c.innerHTML = '<option value="">All Classes</option>';
         cls.forEach(x => { const o = document.createElement('option'); o.value = x; o.textContent = 'Class ' + x; c.appendChild(o); });
         if (cur) c.value = cur;
@@ -1311,13 +1178,13 @@ function saveStudent(e) {
     if (id) {
         let idx = studentsData.findIndex(s => s.id === id);
         if (idx !== -1) studentsData[idx] = { ...studentsData[idx], ...o };
-        alert("Student Updated Successfully!");
+        alert("Student Updated!");
     } else {
         const dup = studentsData.some(s => s.studentName.toLowerCase() === o.studentName.toLowerCase() && s.fatherName.toLowerCase() === o.fatherName.toLowerCase() && s.studentClass.toLowerCase() === o.studentClass.toLowerCase());
-        if (dup && !confirm("Similar student already exists. Still want to add?")) return;
+        if (dup && !confirm("Similar student already exists. Add anyway?")) return;
         o.id = Date.now().toString();
         studentsData.push(o);
-        alert("New Student Added Successfully!");
+        alert("Student Added!");
     }
     saveToLocalStorage(); resetStudentForm(); renderStudentsTable(); updateStudentStats();
     populateStudentSelect(); populateMarksheetStudentSelect();
@@ -1332,9 +1199,9 @@ function renderStudentsTable() {
     let list = [...studentsData];
     if (fc) list = list.filter(s => s.studentClass === fc);
     if (fs) list = list.filter(s => s.section === fs);
-    if (q) list = list.filter(s => (s.studentName || '').toLowerCase().includes(q) || (s.fatherName || '').toLowerCase().includes(q) || (s.contactNo || '').toLowerCase().includes(q) || (s.rollNo || '').toLowerCase().includes(q));
+    if (q) list = list.filter(s => (s.studentName||'').toLowerCase().includes(q) || (s.fatherName||'').toLowerCase().includes(q) || (s.contactNo||'').toLowerCase().includes(q) || (s.rollNo||'').toLowerCase().includes(q));
     if (list.length === 0) { tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#666;">No students found.</td></tr>`; return; }
-    list.sort((a, b) => a.studentName.localeCompare(b.studentName)).forEach(item => {
+    list.sort((a,b) => a.studentName.localeCompare(b.studentName)).forEach(item => {
         const sc = item.status === 'Active' ? '#2e7d32' : '#c62828';
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -1388,9 +1255,9 @@ function populateStudentSelect() {
     const sel = document.getElementById('existingStudentSelect'); if (!sel) return;
     const cur = sel.value;
     sel.innerHTML = `<option value="">-- Select Existing Student --</option>`;
-    studentsData.filter(s => s.status !== 'Inactive').sort((a, b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
+    studentsData.filter(s => s.status !== 'Inactive').sort((a,b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
         const o = document.createElement('option');
-        o.value = s.id; o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass || '-'}`;
+        o.value = s.id; o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass||'-'}`;
         sel.appendChild(o);
     });
     if (cur) sel.value = cur;
@@ -1406,7 +1273,7 @@ function fillFromExistingStudent() {
     document.getElementById('contactNo').value = s.contactNo || '';
 }
 
-// ===== MARKSHEET =====
+/* ============ MARKSHEET (GRADE SHEET) ============ */
 function populateMarksheetStudentSelect() {
     const sel = document.getElementById('marksheetStudentSelect'); if (!sel) return;
     const cur = sel.value;
@@ -1416,10 +1283,10 @@ function populateMarksheetStudentSelect() {
     let list = studentsData.filter(s => s.status !== 'Inactive');
     if (fc) list = list.filter(s => s.studentClass === fc);
     if (fs) list = list.filter(s => s.section === fs);
-    list.sort((a, b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
+    list.sort((a,b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
         const o = document.createElement('option');
         o.value = s.id;
-        o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass || '-'}${s.section ? ' Sec ' + s.section : ''}`;
+        o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass||'-'}${s.section?' Sec '+s.section:''}`;
         sel.appendChild(o);
     });
     if (cur) sel.value = cur;
@@ -1433,152 +1300,103 @@ function fillMarksheetFromStudent() {
     document.getElementById('msRollNo').value = s.rollNo || '';
     document.getElementById('msSection').value = s.section || '';
 }
-function addMarksheetSubject(name = '', full = '', pass = '', obt = '') {
+function addMarksheetSubject(code='', name='', cr='', gp='', grade='', fg='') {
     const tb = document.getElementById('marksheetSubjectsBody');
     const n = tb.rows.length + 1;
     const tr = document.createElement('tr');
     tr.innerHTML = `
         <td style="text-align:center;">${n}</td>
-        <td><input type="text" class="ms-subject-name" value="${name}" placeholder="Subject Name"></td>
-        <td><input type="number" class="ms-full-marks" value="${full}" oninput="calculateMarksheetTotals()" placeholder="100"></td>
-        <td><input type="number" class="ms-pass-marks" value="${pass}" placeholder="40"></td>
-        <td><input type="number" class="ms-obtained" value="${obt}" oninput="calculateMarksheetTotals()" placeholder="0"></td>
+        <td><input type="text" class="ms-sub-code" value="${code}" placeholder="0031" style="text-align:center;"></td>
+        <td><input type="text" class="ms-sub-name" value="${name}" placeholder="Subject Name"></td>
+        <td><input type="number" class="ms-sub-cr" value="${cr}" step="0.25" oninput="calculateMarksheetGPA()" placeholder="3" style="text-align:center;"></td>
+        <td><input type="number" class="ms-sub-gp" value="${gp}" step="0.01" oninput="calculateMarksheetGPA()" placeholder="2.4" style="text-align:center;"></td>
+        <td><input type="text" class="ms-sub-grade" value="${grade}" placeholder="C+" style="text-align:center;"></td>
+        <td><input type="text" class="ms-sub-fg" value="${fg}" placeholder="B" style="text-align:center;"></td>
         <td style="text-align:center;"><button type="button" class="btn-act-delete" onclick="removeMarksheetSubject(this)" style="padding:2px 6px; font-size:10px;">✖</button></td>
     `;
     tb.appendChild(tr);
     renumberMarksheetSubjects();
-    calculateMarksheetTotals();
+    calculateMarksheetGPA();
 }
-function removeMarksheetSubject(b) { b.closest('tr').remove(); renumberMarksheetSubjects(); calculateMarksheetTotals(); }
+function removeMarksheetSubject(b) { b.closest('tr').remove(); renumberMarksheetSubjects(); calculateMarksheetGPA(); }
 function renumberMarksheetSubjects() {
     document.querySelectorAll('#marksheetSubjectsBody tr').forEach((r, i) => r.cells[0].textContent = i + 1);
 }
-function calculateMarksheetTotals() {
-    let tf = 0, to = 0;
-    document.querySelectorAll('.ms-full-marks').forEach(i => tf += parseFloat(i.value) || 0);
-    document.querySelectorAll('.ms-obtained').forEach(i => to += parseFloat(i.value) || 0);
-    document.getElementById('msTotalFullMarks').value = tf;
-    document.getElementById('msTotalObtained').value = to;
-
+function calculateMarksheetGPA() {
+    let totalCR = 0, totalGP = 0;
     document.querySelectorAll('#marksheetSubjectsBody tr').forEach(row => {
-        const f = parseFloat(row.querySelector('.ms-full-marks').value) || 0;
-        const o = parseFloat(row.querySelector('.ms-obtained').value) || 0;
-        const obtInp = row.querySelector('.ms-obtained');
-        if (f > 0) {
-            const sp = (o / f) * 100;
-            if (sp < 40) {
-                obtInp.style.background = '#ffe5e5';
-                obtInp.style.color = '#c62828';
-                obtInp.style.fontWeight = 'bold';
-                row.style.background = '#fff5f5';
-            } else {
-                obtInp.style.background = '';
-                obtInp.style.color = '#2e7d32';
-                obtInp.style.fontWeight = 'bold';
-                row.style.background = '';
-            }
-        }
+        const cr = parseFloat(row.querySelector('.ms-sub-cr').value) || 0;
+        const gp = parseFloat(row.querySelector('.ms-sub-gp').value) || 0;
+        const grade = (row.querySelector('.ms-sub-grade').value || '').trim().toUpperCase();
+        totalCR += cr;
+        totalGP += cr * gp;
+        // Red F letter if grade is F
+        const gradeInput = row.querySelector('.ms-sub-grade');
+        if (grade === 'F') { gradeInput.style.color = '#c62828'; gradeInput.style.fontWeight = '900'; }
+        else { gradeInput.style.color = ''; gradeInput.style.fontWeight = ''; }
     });
-
-    if (tf > 0) {
-        const pct = ((to / tf) * 100).toFixed(2);
-        const pctInp = document.getElementById('msPercentage');
-        const resInp = document.getElementById('msResult');
-        pctInp.value = pct + '%';
-        let g = '';
-        if (pct >= 90) g = 'A+';
-        else if (pct >= 80) g = 'A';
-        else if (pct >= 70) g = 'B+';
-        else if (pct >= 60) g = 'B';
-        else if (pct >= 50) g = 'C+';
-        else if (pct >= 40) g = 'C';
-        else g = 'D';
-        document.getElementById('msGrade').value = g;
-
-        if (pct >= 40) {
-            resInp.value = 'PASS';
-            resInp.style.color = '#2e7d32';
-            resInp.style.background = '#e8f5e9';
-            pctInp.style.color = '#2e7d32';
-            pctInp.style.background = '#e8f5e9';
-        } else {
-            resInp.value = 'FAIL';
-            resInp.style.color = '#c62828';
-            resInp.style.background = '#ffe5e5';
-            pctInp.style.color = '#c62828';
-            pctInp.style.background = '#ffe5e5';
-        }
-    } else {
-        document.getElementById('msPercentage').value = '0%';
-        document.getElementById('msGrade').value = '-';
-        const r = document.getElementById('msResult');
-        r.value = '-'; r.style.color = ''; r.style.background = '';
-    }
-}
-function previewMarksheetPhoto(event) {
-    const f = event.target.files[0]; if (!f) return;
-    const r = new FileReader();
-    r.onload = e => { marksheetPhotoData = e.target.result; };
-    r.readAsDataURL(f);
+    document.getElementById('msTotalCR').value = totalCR.toFixed(2);
+    document.getElementById('msTotalGP').value = totalGP.toFixed(2);
+    const gpa = totalCR > 0 ? (totalGP / totalCR) : 0;
+    document.getElementById('msGPA').value = gpa.toFixed(2);
 }
 function saveMarksheet(e) {
     e.preventDefault();
     const id = document.getElementById('marksheetId').value;
     const subs = [];
     document.querySelectorAll('#marksheetSubjectsBody tr').forEach(row => {
-        const n = row.querySelector('.ms-subject-name').value.trim();
-        const f = parseFloat(row.querySelector('.ms-full-marks').value) || 0;
-        const p = parseFloat(row.querySelector('.ms-pass-marks').value) || 0;
-        const o = parseFloat(row.querySelector('.ms-obtained').value) || 0;
-        if (n) subs.push({ name: n, full: f, pass: p, obtained: o });
+        const code = row.querySelector('.ms-sub-code').value.trim();
+        const name = row.querySelector('.ms-sub-name').value.trim();
+        const cr = parseFloat(row.querySelector('.ms-sub-cr').value) || 0;
+        const gp = parseFloat(row.querySelector('.ms-sub-gp').value) || 0;
+        const grade = row.querySelector('.ms-sub-grade').value.trim();
+        const fg = row.querySelector('.ms-sub-fg').value.trim();
+        if (name) subs.push({ code, name, cr, gp, grade, fg });
     });
     if (subs.length === 0) { alert("Please add at least one subject!"); return; }
     const rec = {
         id: id || Date.now().toString(),
-        schoolAddress: document.getElementById('msSchoolAddress').value,
         examName: document.getElementById('msExamName').value,
-        examDate: document.getElementById('msExamDate').value,
         academicYear: document.getElementById('msAcademicYear').value,
-        serialNo: document.getElementById('msSerialNo').value,
+        regNo: document.getElementById('msRegNo').value,
+        symbolNo: document.getElementById('msSymbolNo').value,
+        gradeLevel: document.getElementById('msGradeLevel').value,
+        dob: document.getElementById('msDOB').value,
         studentName: document.getElementById('msStudentName').value,
         fatherName: document.getElementById('msFatherName').value,
-        motherName: document.getElementById('msMotherName').value,
         studentClass: document.getElementById('msClass').value,
         rollNo: document.getElementById('msRollNo').value,
         section: document.getElementById('msSection').value,
-        category: document.getElementById('msCategory').value,
-        medium: document.getElementById('msMedium').value,
         subjects: subs,
-        totalFullMarks: parseFloat(document.getElementById('msTotalFullMarks').value) || 0,
-        totalObtained: parseFloat(document.getElementById('msTotalObtained').value) || 0,
-        percentage: document.getElementById('msPercentage').value,
-        result: document.getElementById('msResult').value,
-        grade: document.getElementById('msGrade').value,
-        remarks: document.getElementById('msRemarks').value,
-        photo: marksheetPhotoData || null
+        totalCR: parseFloat(document.getElementById('msTotalCR').value) || 0,
+        totalGP: parseFloat(document.getElementById('msTotalGP').value) || 0,
+        gpa: document.getElementById('msGPA').value,
+        remarks: document.getElementById('msRemarks').value
     };
     if (id) {
         const i = marksheetsData.findIndex(m => m.id === id);
         if (i !== -1) marksheetsData[i] = rec;
-        alert("Marksheet Updated!");
+        alert("Grade Sheet Updated!");
     } else {
         marksheetsData.push(rec);
-        alert("Marksheet Saved!");
+        alert("Grade Sheet Saved!");
     }
     saveToLocalStorage(); resetMarksheetForm(); renderMarksheetsTable();
 }
 function renderMarksheetsTable() {
     const tb = document.getElementById('marksheetTableBody'); if (!tb) return;
     tb.innerHTML = '';
-    if (marksheetsData.length === 0) { tb.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#666;">No marksheets saved yet.</td></tr>`; return; }
+    if (marksheetsData.length === 0) { tb.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#666;">No grade sheets saved yet.</td></tr>`; return; }
     marksheetsData.forEach(item => {
+        const hasF = item.subjects.some(s => (s.grade || '').toUpperCase() === 'F');
+        const result = hasF ? 'FAIL' : 'PASS';
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td style="text-align:left; font-weight:600;">${item.studentName}</td>
             <td>${item.studentClass || '-'}${item.section ? ' / ' + item.section : ''}</td>
             <td>${item.examName || '-'}</td>
-            <td>${item.percentage || '-'}</td>
-            <td style="color:${item.result === 'PASS' ? '#2e7d32' : '#c62828'}; font-weight:bold;">${item.result || '-'}</td>
+            <td>${item.gpa || '-'}</td>
+            <td style="color:${hasF ? '#c62828' : '#2e7d32'}; font-weight:bold;">${result}</td>
             <td><div class="action-btns">
                 <button class="btn-act-print" onclick="printMarksheet('${item.id}')">🖨️</button>
                 <button class="btn-act-edit" onclick="editMarksheet('${item.id}')">✏️</button>
@@ -1591,16 +1409,18 @@ function searchMarksheets() {
     const q = document.getElementById('marksheetSearchInput').value.toLowerCase();
     const tb = document.getElementById('marksheetTableBody');
     tb.innerHTML = '';
-    const f = marksheetsData.filter(m => (m.studentName || '').toLowerCase().includes(q) || (m.examName || '').toLowerCase().includes(q) || (m.studentClass || '').toLowerCase().includes(q));
-    if (f.length === 0) { tb.innerHTML = `<tr><td colspan="6" style="text-align:center;">No matching marksheets found.</td></tr>`; return; }
+    const f = marksheetsData.filter(m => (m.studentName||'').toLowerCase().includes(q) || (m.examName||'').toLowerCase().includes(q) || (m.studentClass||'').toLowerCase().includes(q));
+    if (f.length === 0) { tb.innerHTML = `<tr><td colspan="6" style="text-align:center;">No matching grade sheets.</td></tr>`; return; }
     f.forEach(item => {
+        const hasF = item.subjects.some(s => (s.grade || '').toUpperCase() === 'F');
+        const result = hasF ? 'FAIL' : 'PASS';
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td style="text-align:left; font-weight:600;">${item.studentName}</td>
             <td>${item.studentClass || '-'}${item.section ? ' / ' + item.section : ''}</td>
             <td>${item.examName || '-'}</td>
-            <td>${item.percentage || '-'}</td>
-            <td style="color:${item.result === 'PASS' ? '#2e7d32' : '#c62828'}; font-weight:bold;">${item.result || '-'}</td>
+            <td>${item.gpa || '-'}</td>
+            <td style="color:${hasF ? '#c62828' : '#2e7d32'}; font-weight:bold;">${result}</td>
             <td><div class="action-btns">
                 <button class="btn-act-print" onclick="printMarksheet('${item.id}')">🖨️</button>
                 <button class="btn-act-edit" onclick="editMarksheet('${item.id}')">✏️</button>
@@ -1612,121 +1432,93 @@ function searchMarksheets() {
 function editMarksheet(id) {
     const item = marksheetsData.find(m => m.id === id); if (!item) return;
     document.getElementById('marksheetId').value = item.id;
-    document.getElementById('msSchoolAddress').value = item.schoolAddress || '';
     document.getElementById('msExamName').value = item.examName || '';
-    document.getElementById('msExamDate').value = item.examDate || '';
     document.getElementById('msAcademicYear').value = item.academicYear || '';
-    document.getElementById('msSerialNo').value = item.serialNo || '';
+    document.getElementById('msRegNo').value = item.regNo || '';
+    document.getElementById('msSymbolNo').value = item.symbolNo || '';
+    document.getElementById('msGradeLevel').value = item.gradeLevel || '';
+    document.getElementById('msDOB').value = item.dob || '';
     document.getElementById('msStudentName').value = item.studentName || '';
     document.getElementById('msFatherName').value = item.fatherName || '';
-    document.getElementById('msMotherName').value = item.motherName || '';
     document.getElementById('msClass').value = item.studentClass || '';
     document.getElementById('msRollNo').value = item.rollNo || '';
     document.getElementById('msSection').value = item.section || '';
-    document.getElementById('msCategory').value = item.category || '';
-    document.getElementById('msMedium').value = item.medium || '';
     document.getElementById('msRemarks').value = item.remarks || '';
-    marksheetPhotoData = item.photo || null;
     const tb = document.getElementById('marksheetSubjectsBody');
     tb.innerHTML = '';
-    item.subjects.forEach(s => addMarksheetSubject(s.name, s.full, s.pass, s.obtained));
-    calculateMarksheetTotals();
-    document.getElementById('marksheetFormTitle').innerText = `✏️ Edit Marksheet: ${item.studentName}`;
+    item.subjects.forEach(s => addMarksheetSubject(s.code, s.name, s.cr, s.gp, s.grade, s.fg));
+    calculateMarksheetGPA();
+    document.getElementById('marksheetFormTitle').innerText = `✏️ Edit Grade Sheet: ${item.studentName}`;
     document.getElementById('cancelMarksheetBtn').style.display = 'block';
     document.getElementById('marksheetFormBox').scrollIntoView({ behavior: 'smooth' });
 }
 function deleteMarksheet(id) {
-    if (confirm("Delete this marksheet?")) {
+    if (confirm("Delete this grade sheet?")) {
         marksheetsData = marksheetsData.filter(m => m.id !== id);
         saveToLocalStorage(); renderMarksheetsTable();
     }
 }
 function resetMarksheetForm() {
-    marksheetPhotoData = null;
     document.getElementById('marksheetId').value = '';
     document.getElementById('marksheetForm').reset();
     document.getElementById('marksheetSubjectsBody').innerHTML = '';
     document.getElementById('cancelMarksheetBtn').style.display = 'none';
-    calculateMarksheetTotals();
-    if (document.getElementById('msExamDate')) document.getElementById('msExamDate').valueAsDate = new Date();
+    calculateMarksheetGPA();
+    if (document.getElementById('msDOB')) document.getElementById('msDOB').valueAsDate = new Date();
 }
 function printMarksheet(id) {
     const item = marksheetsData.find(m => m.id === id); if (!item) return;
-    document.getElementById('pmsExamTitle').innerText = (item.examName || 'MARKSHEET').toUpperCase();
-    document.getElementById('pmsSerialNo').innerText = item.serialNo || '—';
-    document.getElementById('pmsStudentName').innerText = item.studentName;
-    document.getElementById('pmsFatherName').innerText = item.fatherName;
-    document.getElementById('pmsMotherName').innerText = item.motherName || '—';
-    document.getElementById('pmsClass').innerText = item.studentClass;
-    document.getElementById('pmsSection').innerText = item.section || '—';
-    document.getElementById('pmsRollNo').innerText = item.rollNo || '—';
-    document.getElementById('pmsEnrollNo').innerText = item.rollNo || '—';
-    document.getElementById('pmsCategory').innerText = item.category || 'REGULAR';
-    document.getElementById('pmsMedium').innerText = item.medium || 'ENGLISH';
 
-    // Exam date with Nepali conversion
-    const examDateStr = item.examDate ? formatDateWithNepali(item.examDate) : '—';
-    document.getElementById('pmsExamDate').innerText = examDateStr;
+    document.getElementById('gsExamTitle').innerText = (item.examName || 'ANNUAL EXAMINATION').toUpperCase();
+    document.getElementById('gsStudentName').innerText = item.studentName;
+    document.getElementById('gsRegNo').innerText = item.regNo || '—';
+    document.getElementById('gsSymbolNo').innerText = item.symbolNo || '—';
+    document.getElementById('gsGradeLevel').innerText = item.gradeLevel || (item.studentClass || '—');
 
-    const tb = document.getElementById('pmsRows');
+    // DOB - AD and BS
+    const dobAD = item.dob || '';
+    const dobBS = dobAD ? adToBs(dobAD) : null;
+    document.getElementById('gsDOB_AD').innerText = dobAD || '—';
+    document.getElementById('gsDOB_BS').innerText = dobBS ? dobBS.numeric : '—';
+
+    // Academic year
+    const acYear = item.academicYear || (dobAD ? new Date(dobAD).getFullYear() : new Date().getFullYear());
+    const acBs = adToBs(`${acYear}-01-01`);
+    document.getElementById('gsExamYear_AD').innerText = acYear;
+    document.getElementById('gsExamYear_BS').innerText = acBs ? acBs.y : '—';
+
+    // Subject rows
+    const tb = document.getElementById('gsSubjectRows');
     tb.innerHTML = '';
-    item.subjects.forEach((s, i) => {
-        let g = 'P';
-        const p = s.full > 0 ? (s.obtained / s.full) * 100 : 0;
-        if (p >= 40) g = 'P';
-        else g = 'F';
-        const isFail = p < 40;
-        const rowStyle = isFail ? 'background:#ffe5e5; color:#c62828; font-weight:bold;' : '';
-        const obtStyle = isFail ? 'color:#c62828; font-weight:bold;' : 'color:#1b5e20; font-weight:bold;';
-        tb.innerHTML += `<tr style="${rowStyle}">
-            <td class="sub-name">${String(i + 1).padStart(4, '0')}-${s.name.toUpperCase()}</td>
-            <td>${s.full}</td>
-            <td>${s.pass}</td>
-            <td>${s.obtained}</td>
-            <td></td>
-            <td style="${obtStyle}">${s.obtained}</td>
-            <td>${g}</td>
+    item.subjects.forEach(s => {
+        const grade = (s.grade || '').trim().toUpperCase();
+        const isF = grade === 'F';
+        const gradeClass = isF ? 'grade-letter f-grade' : 'grade-letter';
+        tb.innerHTML += `<tr>
+            <td class="subject-code">${s.code || ''}</td>
+            <td class="subject-name">${s.name.toUpperCase()}</td>
+            <td class="center">${s.cr || ''}</td>
+            <td class="center">${s.gp || ''}</td>
+            <td class="${gradeClass}">${s.grade || ''}</td>
+            <td class="center" style="font-weight:800;">${s.fg || ''}</td>
+            <td class="center"></td>
         </tr>`;
     });
 
-    document.getElementById('pmsTotalObtainedBig').innerText = item.totalObtained;
-    document.getElementById('pmsPartI').innerText = item.totalObtained;
-    document.getElementById('pmsPartII').innerText = '****';
-    document.getElementById('pmsPartIII').innerText = '****';
-    document.getElementById('pmsGrandTotal').innerText = `${item.totalObtained} / ${item.totalFullMarks}`;
+    document.getElementById('gsGPARow').innerText = `GRADE POINT AVERAGE(GPA) = ${item.gpa || '0.00'}`;
 
-    const resEl = document.getElementById('pmsResult');
-    const pctV = parseFloat(item.percentage) || 0;
-    if (pctV >= 40) {
-        resEl.innerText = 'PASS';
-        resEl.style.color = '#1b5e20';
-    } else {
-        resEl.innerText = 'FAIL';
-        resEl.style.color = '#c62828';
-    }
-    document.getElementById('pmsPercentageSmall').innerText = item.percentage;
-
-    const pi = document.getElementById('pmsPhotoImg');
-    const pp = document.getElementById('pmsPhotoPlaceholder');
-    if (item.photo) { pi.src = item.photo; pi.style.display = 'block'; pp.style.display = 'none'; }
-    else { pi.style.display = 'none'; pp.style.display = 'block'; pp.textContent = 'PHOTO'; }
-
-    // Today's date with Nepali conversion
+    // Issue date - today BS + AD
     const today = new Date();
-    const todayStr = today.getFullYear() + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + String(today.getDate()).padStart(2, '0');
-    const todayNepali = formatDateWithNepali(todayStr);
+    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
+    const todayBs = adToBs(todayStr);
+    document.getElementById('gsIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
 
-    // Result declared date — use exam date or today
-    const resultDateStr = item.examDate ? formatDateWithNepali(item.examDate) : todayNepali;
-    document.getElementById('pmsResultDate').innerText = resultDateStr;
-    document.getElementById('pmsIssueDate').innerText = todayNepali;
-
-    applySchoolLogo();
+    applySchoolBranding();
     document.body.className = 'print-marksheet';
     setTimeout(() => { window.print(); document.body.className = ''; }, 250);
 }
 
-// ===== BILLING TABLE =====
+/* ============ BILLS TABLE ============ */
 function renderBillingTable() {
     const tb = document.getElementById('billingTableBody'); tb.innerHTML = '';
     billsData.forEach(item => {
@@ -1745,9 +1537,8 @@ function renderBillingTable() {
 }
 function editBill(id) {
     let item = billsData.find(b => b.id === id); if (!item) return;
-    activeEditingStudent = item;
     document.getElementById('recordId').value = item.id;
-    document.getElementById('schoolAddress').value = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
+    document.getElementById('schoolAddress').value = item.schoolAddress || getSchoolAddress();
     document.getElementById('billNo').value = item.billNo;
     document.getElementById('billDate').value = item.billDate;
     document.getElementById('studentName').value = item.studentName;
@@ -1770,59 +1561,71 @@ function editBill(id) {
     w.value = item.amountInWords; w.dataset.auto = "false";
     document.getElementById('formTitle').innerText = `Update Entry: ${item.studentName}`;
     document.getElementById('cancelBtn').style.display = 'block';
-    renderSelectedStudentHistory(item);
     document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' });
 }
-function renderSelectedStudentHistory(s) {
-    const c = document.getElementById('studentDepositHistoryBox');
-    const tb = document.getElementById('studentHistoryTableBody');
-    document.getElementById('studentHistoryTitle').innerText = `📅 Deposit History: ${s.studentName}`;
-    tb.innerHTML = ''; c.style.display = 'block';
-    if (s.history && s.history.length > 0) {
-        s.history.forEach(h => { tb.innerHTML += `<tr><td>${formatDateWithNepali(h.date)}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td></tr>`; });
-    } else if (s.depositAmount > 0) {
-        tb.innerHTML = `<tr><td>${formatDateWithNepali(s.billDate)}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${s.depositAmount}</td></tr>`;
-    } else {
-        tb.innerHTML = `<tr><td colspan="5">No deposit history.</td></tr>`;
+function deleteBill(id) {
+    if (confirm("DELETE this bill?")) {
+        billsData = billsData.filter(b => b.id !== id);
+        saveToLocalStorage(); loadData();
     }
 }
-function printSelectedStudentHistory() {
-    if (!activeEditingStudent) return;
-    let s = activeEditingStudent;
-    document.getElementById('phStudentName').innerText = s.studentName;
-    document.getElementById('phFatherName').innerText = s.fatherName;
-    document.getElementById('phClass').innerText = s.studentClass || 'N/A';
-    document.getElementById('phContact').innerText = s.contactNo || 'N/A';
-    let rows = document.getElementById('phRows'); rows.innerHTML = ''; let t = 0;
-    if (s.history && s.history.length > 0) {
-        s.history.forEach((h, i) => { t += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${formatDateWithNepali(h.date)}</td><td>${s.billNo}</td><td>Rs. ${h.amount}</td></tr>`; });
-    } else if (s.depositAmount > 0) {
-        t = Number(s.depositAmount) || 0;
-        rows.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(s.billDate)}</td><td>${s.billNo}</td><td>Rs. ${s.depositAmount}</td></tr>`;
-    }
-    document.getElementById('phTotalPaid').innerText = "Rs. " + t;
-    applySchoolLogo();
-    document.body.className = 'print-history'; window.print(); document.body.className = '';
+function resetForm() {
+    document.getElementById('recordId').value = '';
+    document.getElementById('billingForm').reset();
+    document.querySelectorAll('.part-amt').forEach(i => i.value = 0);
+    document.getElementById('depositAmount').dataset.base = 0;
+    document.getElementById('formTitle').innerText = "Create New Student Bill";
+    document.getElementById('cancelBtn').style.display = 'none';
+    document.getElementById('billDate').valueAsDate = new Date();
+    document.getElementById('depositDate').valueAsDate = new Date();
+    const s = document.getElementById('existingStudentSelect'); if (s) s.value = '';
 }
-function exportSelectedStudentHistoryToExcel() {
-    if (!activeEditingStudent) return;
-    let d = [];
-    if (activeEditingStudent.history && activeEditingStudent.history.length > 0) {
-        activeEditingStudent.history.forEach(h => d.push({ Date: formatDateWithNepali(h.date), BillNo: activeEditingStudent.billNo, Student: activeEditingStudent.studentName, Father: activeEditingStudent.fatherName, Amount: h.amount }));
-    } else if (activeEditingStudent.depositAmount > 0) {
-        d.push({ Date: formatDateWithNepali(activeEditingStudent.billDate), BillNo: activeEditingStudent.billNo, Student: activeEditingStudent.studentName, Father: activeEditingStudent.fatherName, Amount: activeEditingStudent.depositAmount });
-    }
-    if (d.length === 0) { alert("No history!"); return; }
-    let ws = XLSX.utils.json_to_sheet(d);
-    let wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Deposit History");
-    XLSX.writeFile(wb, `${activeEditingStudent.studentName}_Deposit_History.xlsx`);
+function searchRecords() {
+    let q = document.getElementById('searchInput').value.toLowerCase();
+    let f = billsData.filter(b => b.studentName.toLowerCase().includes(q) || b.fatherName.toLowerCase().includes(q) || b.billNo.toLowerCase().includes(q));
+    const tb = document.getElementById('billingTableBody'); tb.innerHTML = '';
+    f.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.billNo}</td><td>${item.studentName}</td><td>${item.fatherName}</td>
+            <td>Rs. ${item.grossTotal}</td><td>Rs. ${item.depositAmount}</td>
+            <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.netDues}</td>
+            <td><div class="action-btns">
+                <button class="btn-act-print" onclick="printBill('${item.id}')">🖨️</button>
+                <button class="btn-act-edit" onclick="editBill('${item.id}')">✏️</button>
+                <button class="btn-act-delete" onclick="deleteBill('${item.id}')">🗑️</button>
+            </div></td>`;
+        tb.appendChild(tr);
+    });
 }
-function exportSelectedStudentHistoryToJSON() {
-    if (!activeEditingStudent) return;
-    let b = new Blob([JSON.stringify(activeEditingStudent, null, 2)], { type: 'application/json' });
-    let a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${activeEditingStudent.studentName}_History.json`; a.click();
+function printBill(id) {
+    let item = billsData.find(b => b.id === id); if (!item) return;
+    const name = getSchoolName();
+    const addr = getSchoolAddress();
+    document.getElementById('pSchoolName').innerText = name;
+    document.getElementById('pAddress').innerText = addr;
+    document.getElementById('pBillNo').innerText = item.billNo;
+    document.getElementById('pDate').innerText = formatDateWithNepali(item.billDate);
+    document.getElementById('pStudentName').innerText = item.studentName;
+    document.getElementById('pFatherName').innerText = item.fatherName;
+    document.getElementById('pClass').innerText = item.studentClass;
+    document.getElementById('pSec').innerText = item.section;
+    document.getElementById('pRoll').innerText = item.rollNo;
+    document.getElementById('pContact').innerText = item.contactNo;
+    document.getElementById('pMonth').innerText = item.billMonth;
+    document.getElementById('pGross').innerText = "Rs. " + item.grossTotal;
+    document.getElementById('pPaid').innerText = "Rs. " + item.depositAmount;
+    document.getElementById('pDues').innerText = "Rs. " + item.netDues;
+    document.getElementById('pInWords').innerText = item.amountInWords;
+    document.getElementById('pPreparedBy').innerText = item.billPreparedBy;
+    document.getElementById('pAuthSign').innerText = item.authorizedSign;
+    let rows = document.getElementById('pRows'); rows.innerHTML = '';
+    item.particulars.forEach((p, i) => { if (p.amount > 0) rows.innerHTML += `<tr><td style="text-align:center;">${i+1}</td><td>${p.name}</td><td>Rs. ${p.amount}</td></tr>`; });
+    applySchoolBranding();
+    document.body.className = 'print-billing'; window.print(); document.body.className = '';
 }
+
+/* ============ SALARY TABLE ============ */
 function renderSalaryTable() {
     const tb = document.getElementById('salaryTableBody'); tb.innerHTML = '';
     salaryData.forEach(item => {
@@ -1843,9 +1646,8 @@ function renderSalaryTable() {
 }
 function editSalary(id) {
     let item = salaryData.find(s => s.id === id); if (!item) return;
-    activeEditingTeacher = item;
     document.getElementById('salaryRecordId').value = item.id;
-    document.getElementById('salarySchoolAddress').value = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
+    document.getElementById('salarySchoolAddress').value = item.schoolAddress || getSchoolAddress();
     document.getElementById('salaryReceiptNo').value = item.receiptNo || '';
     document.getElementById('salaryDate').value = item.date || '';
     document.getElementById('teacherName').value = item.teacherName || '';
@@ -1864,95 +1666,28 @@ function editSalary(id) {
     document.getElementById('salaryAuthSign').value = item.authSign || '';
     document.getElementById('salaryFormTitle').innerText = `Edit Salary: ${item.teacherName}`;
     document.getElementById('cancelSalaryBtn').style.display = 'block';
-    renderSelectedTeacherHistory(item);
-    document.getElementById('salaryFormBox').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('salaryFormBox') && document.getElementById('salaryFormBox').scrollIntoView({ behavior: 'smooth' });
 }
-function renderSelectedTeacherHistory(t) {
-    const c = document.getElementById('teacherSalaryHistoryBox');
-    const tb = document.getElementById('teacherHistoryTableBody');
-    document.getElementById('teacherHistoryTitle').innerText = `📅 Salary History: ${t.teacherName}`;
-    tb.innerHTML = ''; c.style.display = 'block';
-    if (t.history && t.history.length > 0) {
-        t.history.forEach(h => { tb.innerHTML += `<tr><td>${formatDateWithNepali(h.date)}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues || 0}</td></tr>`; });
-    } else if (t.netPaid > 0) {
-        tb.innerHTML = `<tr><td>${formatDateWithNepali(t.date)}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td style="color:green; font-weight:bold;">Rs. ${t.netPaid}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues}</td></tr>`;
-    } else {
-        tb.innerHTML = `<tr><td colspan="6">No payment record.</td></tr>`;
+function deleteSalary(id) {
+    if (confirm("DELETE this salary record?")) {
+        salaryData = salaryData.filter(s => s.id !== id);
+        saveToLocalStorage(); renderSalaryTable();
     }
-}
-function printSelectedTeacherHistory() {
-    if (!activeEditingTeacher) return;
-    let t = activeEditingTeacher;
-    document.getElementById('pthTeacherName').innerText = t.teacherName;
-    document.getElementById('pthDesignation').innerText = t.designation || 'N/A';
-    document.getElementById('pthFatherName').innerText = t.fatherName || 'N/A';
-    document.getElementById('pthContact').innerText = t.contact || 'N/A';
-    let rows = document.getElementById('pthRows'); rows.innerHTML = ''; let tot = 0;
-    if (t.history && t.history.length > 0) {
-        t.history.forEach((h, i) => { tot += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${formatDateWithNepali(h.date)}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td>Rs. ${h.amount}</td><td>Rs. ${t.dues || 0}</td></tr>`; });
-    } else if (t.netPaid > 0) {
-        tot = Number(t.netPaid) || 0;
-        rows.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(t.date)}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td>Rs. ${t.netPaid}</td><td>Rs. ${t.dues}</td></tr>`;
-    }
-    document.getElementById('pthTotalPaid').innerText = "Rs. " + tot;
-    applySchoolLogo();
-    document.body.className = 'print-teacher-history'; window.print(); document.body.className = '';
-}
-function exportSelectedTeacherHistoryToExcel() {
-    if (!activeEditingTeacher) return;
-    let t = activeEditingTeacher, d = [];
-    if (t.history && t.history.length > 0) {
-        t.history.forEach(h => d.push({ Date: formatDateWithNepali(h.date), ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: h.month || t.month, Total: t.basic, Paid: h.amount, Dues: t.dues }));
-    } else if (t.netPaid > 0) {
-        d.push({ Date: formatDateWithNepali(t.date), ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: t.month, Total: t.basic, Paid: t.netPaid, Dues: t.dues });
-    }
-    if (d.length === 0) { alert("No history!"); return; }
-    let ws = XLSX.utils.json_to_sheet(d);
-    let wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Salary History");
-    XLSX.writeFile(wb, `${t.teacherName}_Salary_History.xlsx`);
-}
-function exportSelectedTeacherHistoryToJSON() {
-    if (!activeEditingTeacher) return;
-    let b = new Blob([JSON.stringify(activeEditingTeacher, null, 2)], { type: 'application/json' });
-    let a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${activeEditingTeacher.teacherName}_Salary_History.json`; a.click();
 }
 function resetSalaryForm() {
-    activeEditingTeacher = null;
     document.getElementById('salaryRecordId').value = '';
     document.getElementById('salaryForm').reset();
     document.getElementById('netPaidSalary').dataset.base = 0;
     document.getElementById('salaryFormTitle').innerText = "Teacher Salary Payment Form";
     document.getElementById('cancelSalaryBtn').style.display = 'none';
-    document.getElementById('teacherSalaryHistoryBox').style.display = 'none';
     document.getElementById('salaryDate').valueAsDate = new Date();
-}
-function printBill(id) {
-    let item = billsData.find(b => b.id === id); if (!item) return;
-    document.getElementById('pAddress').innerText = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
-    document.getElementById('pBillNo').innerText = item.billNo;
-    document.getElementById('pDate').innerText = formatDateWithNepali(item.billDate);
-    document.getElementById('pStudentName').innerText = item.studentName;
-    document.getElementById('pFatherName').innerText = item.fatherName;
-    document.getElementById('pClass').innerText = item.studentClass;
-    document.getElementById('pSec').innerText = item.section;
-    document.getElementById('pRoll').innerText = item.rollNo;
-    document.getElementById('pContact').innerText = item.contactNo;
-    document.getElementById('pMonth').innerText = item.billMonth;
-    document.getElementById('pGross').innerText = "Rs. " + item.grossTotal;
-    document.getElementById('pPaid').innerText = "Rs. " + item.depositAmount;
-    document.getElementById('pDues').innerText = "Rs. " + item.netDues;
-    document.getElementById('pInWords').innerText = item.amountInWords;
-    document.getElementById('pPreparedBy').innerText = item.billPreparedBy;
-    document.getElementById('pAuthSign').innerText = item.authorizedSign;
-    let rows = document.getElementById('pRows'); rows.innerHTML = '';
-    item.particulars.forEach((p, i) => { if (p.amount > 0) rows.innerHTML += `<tr><td style="text-align:center;">${i + 1}</td><td>${p.name}</td><td>Rs. ${p.amount}</td></tr>`; });
-    applySchoolLogo();
-    document.body.className = 'print-billing'; window.print(); document.body.className = '';
 }
 function printSalary(id) {
     let item = salaryData.find(s => s.id === id); if (!item) return;
-    document.getElementById('psAddress').innerText = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
+    const name = getSchoolName();
+    const addr = getSchoolAddress();
+    document.getElementById('psSchoolName').innerText = name;
+    document.getElementById('psAddress').innerText = addr;
     document.getElementById('psReceiptNo').innerText = item.receiptNo || '';
     document.getElementById('psDate').innerText = formatDateWithNepali(item.date) || '';
     document.getElementById('psTeacherName').innerText = item.teacherName || '';
@@ -1966,54 +1701,13 @@ function printSalary(id) {
     document.getElementById('psInWords').innerText = item.inWords || '';
     document.getElementById('psPreparedBy').innerText = item.preparedBy || '';
     document.getElementById('psAuthSign').innerText = item.authSign || '';
-    applySchoolLogo();
+    applySchoolBranding();
     document.body.className = 'print-salary'; window.print(); document.body.className = '';
 }
-function deleteSalary(id) {
-    if (confirm("DELETE this salary record?")) {
-        salaryData = salaryData.filter(s => s.id !== id);
-        saveToLocalStorage(); renderSalaryTable();
-    }
-}
-function searchRecords() {
-    let q = document.getElementById('searchInput').value.toLowerCase();
-    let f = billsData.filter(b => b.studentName.toLowerCase().includes(q) || b.fatherName.toLowerCase().includes(q) || b.billNo.toLowerCase().includes(q));
-    const tb = document.getElementById('billingTableBody'); tb.innerHTML = '';
-    f.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${item.billNo}</td><td>${item.studentName}</td><td>${item.fatherName}</td>
-            <td>Rs. ${item.grossTotal}</td><td>Rs. ${item.depositAmount}</td>
-            <td style="color:${item.netDues > 0 ? '#c62828' : '#2e7d32'}; font-weight:bold;">Rs. ${item.netDues}</td>
-            <td><div class="action-btns">
-                <button class="btn-act-print" onclick="printBill('${item.id}')">🖨️</button>
-                <button class="btn-act-edit" onclick="editBill('${item.id}')">✏️</button>
-                <button class="btn-act-delete" onclick="deleteBill('${item.id}')">🗑️</button>
-            </div></td>`;
-        tb.appendChild(tr);
-    });
-}
-function deleteBill(id) {
-    if (confirm("DELETE this bill?")) {
-        billsData = billsData.filter(b => b.id !== id);
-        saveToLocalStorage(); loadData();
-    }
-}
-function resetForm() {
-    activeEditingStudent = null;
-    document.getElementById('recordId').value = '';
-    document.getElementById('billingForm').reset();
-    document.querySelectorAll('.part-amt').forEach(i => i.value = 0);
-    document.getElementById('depositAmount').dataset.base = 0;
-    document.getElementById('formTitle').innerText = "Create New Student Bill";
-    document.getElementById('cancelBtn').style.display = 'none';
-    document.getElementById('studentDepositHistoryBox').style.display = 'none';
-    document.getElementById('billDate').valueAsDate = new Date();
-    document.getElementById('depositDate').valueAsDate = new Date();
-    const s = document.getElementById('existingStudentSelect'); if (s) s.value = '';
-}
+
+/* ============ BACKUP & RESTORE ============ */
 function downloadBackup() {
-    let b = { bills: billsData, salaries: salaryData, students: studentsData, marksheets: marksheetsData, logo: schoolLogoData };
+    let b = { bills: billsData, salaries: salaryData, students: studentsData, marksheets: marksheetsData, logo: getSchoolLogo(), schoolName: getSchoolName(), schoolAddress: getSchoolAddress() };
     let blob = new Blob([JSON.stringify(b, null, 2)], { type: 'application/json' });
     let a = document.createElement('a'); a.href = URL.createObjectURL(blob);
     a.download = `School_Backup_${new Date().toISOString().slice(0, 10)}.json`; a.click();
@@ -2028,8 +1722,10 @@ function restoreBackup() {
             if (d.bills && d.salaries) {
                 billsData = d.bills; salaryData = d.salaries;
                 studentsData = d.students || []; marksheetsData = d.marksheets || [];
-                if (d.logo) { schoolLogoData = d.logo; localStorage.setItem('school_logo', schoolLogoData); }
-                saveToLocalStorage(); applySchoolLogo(); loadData();
+                if (d.logo) localStorage.setItem('school_logo', d.logo);
+                if (d.schoolName) localStorage.setItem('school_name', d.schoolName);
+                if (d.schoolAddress) localStorage.setItem('school_address', d.schoolAddress);
+                saveToLocalStorage(); applySchoolBranding(); loadData();
                 alert("Data Restored Successfully!");
             } else alert("Invalid backup format!");
         } catch (err) { alert("Error reading file!"); }
