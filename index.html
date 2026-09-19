@@ -9,18 +9,43 @@
 * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
 body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
-nav { background: #1a237e; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 8px; }
-nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
-nav .nav-btns { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-nav button { background: #3949ab; color: white; border: none; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; }
-nav button:hover { background: #283593; }
-nav button.active-tab { background: #283593; box-shadow: inset 0 0 4px rgba(0,0,0,0.3); }
-nav button.new-entry-btn { background: #2e7d32; border: 1px solid #4caf50; font-weight: bold; }
-nav button.new-entry-btn:hover { background: #1b5e20; }
-nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
+/* ===== LAYOUT WITH LEFT SIDEBAR ===== */
+.app-layout { display: flex; min-height: 100vh; }
 
-.container { max-width: 1350px; margin: 15px auto; padding: 0 15px; }
+.sidebar {
+    width: 230px; background: #1a237e; color: white;
+    position: fixed; top: 0; left: 0; bottom: 0;
+    overflow-y: auto; z-index: 100;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+}
+.sidebar-header { padding: 18px 15px; border-bottom: 1px solid #3949ab; background: #0d1457; }
+.sidebar-header h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; line-height: 1.4; color: #fff; }
+.sidebar-header .sub { font-size: 10px; color: #9fa8da; margin-top: 4px; }
+.sidebar-menu { padding: 8px 0; }
+.sidebar-menu button {
+    display: flex; align-items: center; width: 100%;
+    padding: 11px 18px; background: transparent; color: #c5cae9;
+    border: none; text-align: left; font-size: 13px; font-weight: 600;
+    cursor: pointer; border-left: 4px solid transparent;
+    transition: all 0.15s; gap: 10px;
+}
+.sidebar-menu button:hover { background: #283593; color: #fff; }
+.sidebar-menu button.active-tab { background: #283593; color: #fff; border-left: 4px solid #ffb300; }
+.sidebar-menu button.logout-btn { margin-top: 15px; border-top: 1px solid #3949ab; color: #ff8a80; padding-top: 14px; }
+.sidebar-menu button.logout-btn:hover { background: #b71c1c; color: #fff; }
+.sidebar-menu .menu-icon { font-size: 16px; width: 20px; text-align: center; }
 
+.main-content { margin-left: 230px; padding: 20px; flex: 1; width: calc(100% - 230px); }
+
+.topbar {
+    background: #fff; padding: 12px 20px; border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 15px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.topbar h1 { font-size: 15px; color: #1a237e; font-weight: 700; }
+.topbar .school-info { font-size: 11px; color: #666; }
+
+/* Login */
 #loginBgWrapper {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     background: linear-gradient(135deg, rgba(26,35,126,0.9), rgba(13,71,161,0.85)),
@@ -89,79 +114,86 @@ nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
 .logo-preview-box { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e0e0e0; }
 .logo-preview-box img { width: 60px; height: 60px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
 
-/* ============ MARKSHEET FULL PAGE ============ */
-.marksheet-page {
-    width: 210mm;
-    min-height: 297mm;
-    padding: 12mm 15mm;
-    background: #fff;
-    margin: 0 auto;
-    position: relative;
-    border: 6px double #1a237e;
-    border-radius: 4px;
+/* ============================================
+   UNIVERSITY-STYLE MARKSHEET (Full A4 Page)
+   ============================================ */
+.uni-marksheet {
+    width: 210mm; min-height: 297mm;
+    padding: 6mm; background: #fff; margin: 0 auto;
+    border: 2px solid #000;
+    font-family: 'Times New Roman', Times, serif;
+    color: #000; font-size: 11px;
 }
-.marksheet-inner-frame {
-    border: 2px solid #c62828;
-    padding: 8mm;
-    min-height: 265mm;
-    position: relative;
+.uni-inner { border: 1px solid #000; }
+.uni-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 10px; border-bottom: 1px solid #000; position: relative;
 }
-.marksheet-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding-bottom: 10px;
-    border-bottom: 3px double #1a237e;
-    margin-bottom: 12px;
+.uni-header-left { display: flex; align-items: center; gap: 10px; flex: 0 0 90px; }
+.uni-header-left img { width: 70px; height: 70px; object-fit: contain; flex-shrink: 0; }
+.uni-header-center { flex: 1; text-align: center; padding: 0 10px; }
+.uni-header-center h1 {
+    font-size: 17px; font-weight: 800; letter-spacing: 1px;
+    color: #003366; margin-bottom: 2px;
 }
-.marksheet-header img.school-logo {
-    width: 85px; height: 85px; object-fit: contain; flex-shrink: 0;
+.uni-header-center .subtitle { font-size: 10.5px; font-weight: 600; }
+.uni-header-center .exam-line {
+    font-size: 10.5px; font-weight: 700; margin-top: 3px;
+    text-decoration: underline;
 }
-.marksheet-header .header-text { flex: 1; text-align: center; }
-.marksheet-header h2 { font-size: 20px; color: #1a237e; letter-spacing: 0.5px; margin-bottom: 3px; font-weight: 800; }
-.marksheet-header .sub-address { font-size: 11px; color: #444; font-weight: 600; }
-.marksheet-header .exam-title { font-size: 14px; color: #c62828; margin-top: 6px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-
-.marksheet-top-info { display: grid; grid-template-columns: 1fr 130px; gap: 15px; margin-bottom: 15px; }
-.marksheet-info-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px;
-    font-size: 12px; padding: 10px 12px; background: #f8f9fa; border-radius: 4px;
-    border-left: 4px solid #1a237e;
-}
-.marksheet-info-grid .info-row { display: flex; align-items: baseline; gap: 6px; }
-.marksheet-info-grid .info-label { font-weight: 700; color: #1a237e; min-width: 85px; font-size: 11px; }
-.marksheet-info-grid .info-value { font-weight: 600; color: #222; border-bottom: 1px dotted #999; flex: 1; padding: 1px 4px; min-height: 16px; }
-.marksheet-photo-frame {
-    width: 130px; height: 155px; border: 2px solid #1a237e; border-radius: 4px;
+.uni-header-right { flex: 0 0 100px; text-align: right; font-size: 10px; }
+.uni-header-right .sno { margin-bottom: 3px; }
+.uni-header-right .sno strong { font-size: 11px; }
+.uni-header-right .photo-box {
+    width: 75px; height: 90px; border: 1px solid #000;
+    margin-left: auto; margin-top: 4px;
     display: flex; align-items: center; justify-content: center;
-    background: #f0f2f5; color: #888; font-size: 11px; font-weight: 600; overflow: hidden;
+    font-size: 9px; color: #666; background: #f5f5f5; overflow: hidden;
 }
-.marksheet-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+.uni-header-right .photo-box img { width: 100%; height: 100%; object-fit: cover; }
 
-.marksheet-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-.marksheet-table th, .marksheet-table td { border: 1px solid #333; padding: 7px 8px; font-size: 12px; text-align: center; }
-.marksheet-table th { background: #1a237e; color: #fff; font-weight: 700; letter-spacing: 0.5px; }
-.marksheet-table .subject-col { text-align: left; font-weight: 600; }
-.marksheet-table tbody tr:nth-child(even) { background: #f8f9fa; }
+.uni-info-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.uni-info-table td { border: 1px solid #000; padding: 3px 6px; vertical-align: top; }
+.uni-info-table .lbl { font-weight: 700; background: #f0f0f0; width: 90px; }
+.uni-info-table .val { font-weight: 600; }
 
-.marksheet-summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
-.marksheet-summary-grid .summary-item {
-    border: 2px solid #1a237e; border-radius: 4px; padding: 8px; text-align: center; background: #e8eaf6;
+.uni-subject-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+.uni-subject-table th, .uni-subject-table td {
+    border: 1px solid #000; padding: 3px 5px;
+    text-align: center; vertical-align: middle;
 }
-.marksheet-summary-grid .summary-item .lbl { font-size: 10px; color: #555; font-weight: 700; text-transform: uppercase; }
-.marksheet-summary-grid .summary-item .val { font-size: 16px; color: #1a237e; font-weight: 800; margin-top: 3px; }
-
-#pmsResult { font-weight: 800; font-size: 18px; letter-spacing: 1px; }
-
-.marksheet-remarks {
-    padding: 8px 12px; border: 1px dashed #c62828; border-radius: 4px;
-    font-size: 12px; margin-bottom: 15px; background: #fff8f8;
+.uni-subject-table th { background: #e8e8e8; font-weight: 700; font-size: 10px; }
+.uni-subject-table td.sub-name { text-align: left; padding-left: 8px; }
+.uni-subject-table .fail-row td { color: #c62828; font-weight: 700; background: #ffe5e5; }
+.uni-subject-table .pass-row td.obtained { color: #1b5e20; font-weight: 700; }
+.uni-subject-table .section-label {
+    text-align: left; font-weight: 700; font-style: italic;
+    padding-left: 8px; background: #f9f9f9;
 }
-.marksheet-remarks strong { color: #c62828; }
 
-.marksheet-signatures { display: flex; justify-content: space-between; gap: 40px; margin-top: 40px; padding-top: 10px; }
-.marksheet-signatures .sig-block { flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: #1a237e; }
-.marksheet-signatures .sig-line { border-top: 2px solid #333; margin-bottom: 6px; height: 45px; }
+.uni-total-row {
+    display: flex; justify-content: space-between;
+    padding: 5px 10px; border-top: 1px solid #000;
+    border-bottom: 1px solid #000; font-size: 11px; font-weight: 700;
+}
+.uni-yearwise-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.uni-yearwise-table th, .uni-yearwise-table td {
+    border: 1px solid #000; padding: 4px 6px; text-align: center;
+}
+.uni-yearwise-table th { background: #e8e8e8; font-weight: 700; }
+.uni-legend { padding: 4px 10px; font-size: 10px; border-bottom: 1px solid #000; }
+
+.uni-footer {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 15px 15px 8px 15px; font-size: 10.5px;
+}
+.uni-footer .footer-left { text-align: left; }
+.uni-footer .footer-right { text-align: right; }
+.uni-footer .signature {
+    font-family: 'Brush Script MT', cursive; font-size: 15px;
+    color: #000080; margin-bottom: 3px;
+}
+.uni-footer .controller { font-weight: 700; }
 
 @media print {
     body * { visibility: hidden; }
@@ -175,17 +207,23 @@ nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
     body.print-teacher-history #printableTeacherHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-marksheet #printableMarksheetArea, body.print-marksheet #printableMarksheetArea * { visibility: visible; }
     body.print-marksheet #printableMarksheetArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-    body.print-marksheet .marksheet-page { width: 100%; min-height: 100vh; margin: 0; padding: 10mm; border: none; }
-    body.print-marksheet .marksheet-inner-frame { min-height: auto; }
-    @page { size: A4; margin: 8mm; }
+    body.print-marksheet .uni-marksheet { width: 100%; min-height: 100vh; margin: 0; padding: 5mm; border: none; }
+    @page { size: A4; margin: 5mm; }
     .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
-    .bill-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 8px; }
-    .bill-header .print-logo { width: 90px; height: auto; }
     .bill-header h2 { font-size: 15px; margin-bottom: 2px; }
     .bill-header p { font-size: 11px; font-weight: 600; }
     .p-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
     .p-table th, .p-table td { border: 1px solid #000; padding: 4px; font-size: 10px; }
     .sig-area { display: flex; justify-content: space-between; margin-top: 40px; font-size: 10px; }
+    .print-logo { width: 75px; height: 75px; object-fit: contain; }
+}
+
+@media (max-width: 900px) {
+    .sidebar { width: 60px; }
+    .sidebar-header h2, .sidebar-header .sub, .sidebar-menu button span.label { display: none; }
+    .sidebar-menu button { justify-content: center; padding: 14px 0; }
+    .main-content { margin-left: 60px; width: calc(100% - 60px); }
+    .grid-layout { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -202,377 +240,416 @@ nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
         <button onclick="login()">Login to Dashboard</button>
     </div>
     <div class="dev-credit">
-        <span>This software prepared by <strong>Niranjan Kumar Shah</strong></span>
+        <span>Prepared by <strong>Niranjan Kumar Shah</strong></span>
         <a href="https://wa.me/9779826216576" target="_blank">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg>
             +9779826216576
         </a>
     </div>
 </div>
 
-<!-- MAIN SYSTEM -->
+<!-- MAIN APP -->
 <div id="appScreen" style="display: none;">
-    <nav>
-        <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
-        <div class="nav-btns">
-            <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">🏠 Home</button>
-            <button id="tabBtnStudents" onclick="showTab('studentsTab')">👨‍🎓 Students</button>
-            <button class="new-entry-btn" onclick="startNewStudentEntry()">➕ New Bill</button>
-            <button id="tabBtnMarksheet" onclick="showTab('marksheetTab')">📄 Marksheet</button>
-            <button id="tabBtnFind" onclick="scrollToReportSection()">🔍 Find Report</button>
-            <button id="tabBtnSalary" onclick="showTab('salaryTab')">💰 Teacher Salary</button>
-            <button id="tabBtnBackup" onclick="showTab('backupTab')" style="background: #2e7d32;">⚙️ Backup / Settings</button>
-            <button onclick="logout()" class="logout-btn">Logout</button>
-        </div>
-    </nav>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
+                <div class="sub">Management System</div>
+            </div>
+            <div class="sidebar-menu">
+                <button id="tabBtnHome" class="active-tab" onclick="showTab('billingTab')">
+                    <span class="menu-icon">🏠</span><span class="label">Dashboard</span>
+                </button>
+                <button id="tabBtnStudents" onclick="showTab('studentsTab')">
+                    <span class="menu-icon">👨‍🎓</span><span class="label">Students</span>
+                </button>
+                <button id="tabBtnMarksheet" onclick="showTab('marksheetTab')">
+                    <span class="menu-icon">📄</span><span class="label">Marksheet</span>
+                </button>
+                <button id="tabBtnFind" onclick="scrollToReportSection()">
+                    <span class="menu-icon">🔍</span><span class="label">Find Report</span>
+                </button>
+                <button id="tabBtnSalary" onclick="showTab('salaryTab')">
+                    <span class="menu-icon">💰</span><span class="label">Teacher Salary</span>
+                </button>
+                <button id="tabBtnBackup" onclick="showTab('backupTab')">
+                    <span class="menu-icon">⚙️</span><span class="label">Backup / Settings</span>
+                </button>
+                <button class="logout-btn" onclick="logout()">
+                    <span class="menu-icon">🚪</span><span class="label">Logout</span>
+                </button>
+            </div>
+        </aside>
 
-    <div class="container">
-        <!-- BILLING TAB -->
-        <div id="billingTab" class="tab-content active">
-            <div class="dashboard-cards">
-                <div class="card"><h3>TOTAL STUDENT BILLS</h3><p id="statTotalEntries">0</p></div>
-                <div class="card card-green"><h3>TOTAL FEES COLLECTED</h3><p id="statTotalCollection">Rs. 0</p></div>
-                <div class="card card-red"><h3>TOTAL OUTSTANDING DUES</h3><p id="statTotalDues">Rs. 0</p></div>
+        <main class="main-content">
+            <div class="topbar">
+                <h1 id="pageTitle">🏠 Dashboard</h1>
+                <div class="school-info">Yamuna Mai-1, Suckdev Chowk (Rautahat)</div>
             </div>
 
-            <div class="grid-layout">
-                <div class="box" id="studentFormBox">
-                    <h3 id="formTitle">Create New Student Bill</h3>
-                    <form id="billingForm" onsubmit="saveBill(event)">
-                        <input type="hidden" id="recordId">
-                        <div class="form-group"><label>School Address</label><input type="text" id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Bill No</label><input type="text" id="billNo" required></div>
-                            <div class="form-group"><label>Bill Creation Date</label><input type="date" id="billDate" required></div>
-                        </div>
-                        <div class="form-group" style="background:#e8f5e9; padding:10px; border-radius:6px; border:1px solid #a5d6a7;">
-                            <label style="color:#2e7d32; font-weight:700;">👨‍🎓 Select Existing Student (Auto Fill)</label>
-                            <select id="existingStudentSelect" onchange="fillFromExistingStudent()" style="width:100%; padding:7px; font-size:12px; border-radius:4px; border:1px solid #81c784;">
-                                <option value="">-- Select Existing Student --</option>
-                            </select>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Student Name</label><input type="text" id="studentName" required></div>
-                            <div class="form-group"><label>Father's Name</label><input type="text" id="fatherName" required></div>
-                        </div>
-                        <div class="grid-3">
-                            <div class="form-group"><label>Class</label><input type="text" id="studentClass"></div>
-                            <div class="form-group"><label>Roll No</label><input type="text" id="rollNo"></div>
-                            <div class="form-group"><label>Section</label><input type="text" id="section"></div>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Contact Number</label><input type="text" id="contactNo" required></div>
-                            <div class="form-group"><label>Bill Period / Month</label><input type="text" id="billMonth" placeholder="e.g. Baishakh to Jesth"></div>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Bill Prepared By</label><input type="text" id="billPreparedBy" required></div>
-                            <div class="form-group"><label>Authorized Signatory</label><input type="text" id="authorizedSign" value="Accountant"></div>
-                        </div>
-                        <label style="font-size:11px; font-weight:600; display:block; margin-top:6px;">19 Fee Particulars:</label>
-                        <div class="part-table-container">
-                            <table class="part-table">
-                                <thead><tr><th style="width:30px;">#</th><th>Particular Name</th><th style="width:120px;">Amount (Rs.)</th></tr></thead>
-                                <tbody id="particularsContainer"></tbody>
-                            </table>
-                        </div>
-                        <div class="summary-box">
-                            <div class="form-group"><label>Gross Total Fee Amount:</label><input type="number" id="grossTotal" readonly style="font-weight:bold; background:#eef;"></div>
+            <!-- BILLING TAB -->
+            <div id="billingTab" class="tab-content active">
+                <div class="dashboard-cards">
+                    <div class="card"><h3>TOTAL STUDENT BILLS</h3><p id="statTotalEntries">0</p></div>
+                    <div class="card card-green"><h3>TOTAL FEES COLLECTED</h3><p id="statTotalCollection">Rs. 0</p></div>
+                    <div class="card card-red"><h3>TOTAL OUTSTANDING DUES</h3><p id="statTotalDues">Rs. 0</p></div>
+                </div>
+
+                <div class="grid-layout">
+                    <div class="box" id="studentFormBox">
+                        <h3 id="formTitle">Create New Student Bill</h3>
+                        <form id="billingForm" onsubmit="saveBill(event)">
+                            <input type="hidden" id="recordId">
+                            <div class="form-group"><label>School Address</label><input type="text" id="schoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
                             <div class="grid-2">
-                                <div class="form-group"><label>Make Deposit Payment:</label><input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter payment amount"></div>
-                                <div class="form-group"><label>Deposit Date:</label><input type="date" id="depositDate"></div>
+                                <div class="form-group"><label>Bill No</label><input type="text" id="billNo" required></div>
+                                <div class="form-group"><label>Bill Creation Date</label><input type="date" id="billDate" required></div>
                             </div>
-                            <div class="grid-2">
-                                <div class="form-group"><label>Total Deposit Till Date (-):</label><input type="number" id="depositAmount" value="0" readonly style="font-weight:bold; background:#efe;"></div>
-                                <div class="form-group"><label>Remaining Dues Balance:</label><input type="number" id="netDues" readonly style="font-weight:bold; color:red; background:#fee;"></div>
-                            </div>
-                            <div class="form-group"><label>Amount In Words:</label><input type="text" id="amountInWords" placeholder="e.g. FIVE THOUSAND RUPEES ONLY"></div>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block">Save / Update Entry</button>
-                        <button type="button" class="btn btn-warning btn-block" id="cancelBtn" onclick="resetForm()" style="display:none;">Cancel Edit</button>
-                    </form>
-                </div>
-
-                <div class="box" id="findReportBox">
-                    <h3>🔍 Find Reports & All Student Bills</h3>
-                    <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search Student Name, Father Name, Bill No..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                    <div style="overflow-x:auto;">
-                        <table class="data-table">
-                            <thead><tr><th>Bill No</th><th>Student Name</th><th>Father Name</th><th>Total</th><th>Paid</th><th>Dues</th><th>Actions</th></tr></thead>
-                            <tbody id="billingTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="box" id="studentDepositHistoryBox" style="display:none; margin-top:15px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                    <h3 id="studentHistoryTitle">📅 Deposit History</h3>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="printSelectedStudentHistory()">🖨️ Print</button>
-                        <button class="btn btn-success" onclick="exportSelectedStudentHistoryToExcel()">📊 Excel</button>
-                        <button class="btn" style="background:#37474f; color:white;" onclick="exportSelectedStudentHistoryToJSON()">📥 JSON</button>
-                    </div>
-                </div>
-                <div style="overflow-x:auto;">
-                    <table class="data-table">
-                        <thead><tr style="background:#283593;"><th>Deposit Date</th><th>Bill No</th><th>Student Name</th><th>Father's Name</th><th>Amount (Rs.)</th></tr></thead>
-                        <tbody id="studentHistoryTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- STUDENTS TAB -->
-        <div id="studentsTab" class="tab-content">
-            <div class="dashboard-cards" style="grid-template-columns: repeat(2,1fr);">
-                <div class="card"><h3>TOTAL STUDENTS</h3><p id="statTotalStudents">0</p></div>
-                <div class="card card-green"><h3>ACTIVE STUDENTS</h3><p id="statActiveStudents">0</p></div>
-            </div>
-            <div class="grid-layout">
-                <div class="box" id="studentMasterFormBox">
-                    <h3 id="studentMasterFormTitle">➕ Add New Student</h3>
-                    <form id="studentMasterForm" onsubmit="saveStudent(event)">
-                        <input type="hidden" id="studentMasterId">
-                        <div class="grid-2">
-                            <div class="form-group"><label>Student Name *</label><input type="text" id="smStudentName" required></div>
-                            <div class="form-group"><label>Father's Name *</label><input type="text" id="smFatherName" required></div>
-                        </div>
-                        <div class="grid-3">
-                            <div class="form-group"><label>Class *</label><input type="text" id="smClass" required placeholder="e.g. 5"></div>
-                            <div class="form-group"><label>Roll No</label><input type="text" id="smRollNo"></div>
-                            <div class="form-group"><label>Section</label><input type="text" id="smSection" placeholder="e.g. A"></div>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Contact *</label><input type="text" id="smContact" required></div>
-                            <div class="form-group"><label>Admission Date</label><input type="date" id="smAdmissionDate"></div>
-                        </div>
-                        <div class="form-group"><label>Address</label><input type="text" id="smAddress"></div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Status</label><select id="smStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
-                            <div class="form-group"><label>Remarks</label><input type="text" id="smRemarks"></div>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block">Save Student</button>
-                        <button type="button" class="btn btn-warning btn-block" id="cancelStudentBtn" onclick="resetStudentForm()" style="display:none;">Cancel Edit</button>
-                    </form>
-                </div>
-
-                <div class="box">
-                    <h3>📋 All Students List</h3>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr 2fr; gap:8px; margin-bottom:10px;">
-                        <select id="classFilterSelect" onchange="renderStudentsTable()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                            <option value="">All Classes</option>
-                        </select>
-                        <select id="sectionFilterSelect" onchange="renderStudentsTable()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                            <option value="">All Sections</option>
-                        </select>
-                        <input type="text" id="studentSearchInput" onkeyup="renderStudentsTable()" placeholder="Search by Name, Father, Contact..." style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                    </div>
-                    <div style="overflow-x:auto; max-height:420px;">
-                        <table class="data-table">
-                            <thead><tr><th>Name</th><th>Father</th><th>Class</th><th>Sec</th><th>Roll</th><th>Contact</th><th>Status</th><th>Action</th></tr></thead>
-                            <tbody id="studentsTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MARKSHEET TAB -->
-        <div id="marksheetTab" class="tab-content">
-            <div class="grid-layout">
-                <div class="box" id="marksheetFormBox">
-                    <h3 id="marksheetFormTitle">📄 Create Marksheet</h3>
-                    <form id="marksheetForm" onsubmit="saveMarksheet(event)">
-                        <input type="hidden" id="marksheetId">
-                        <div class="form-group"><label>School Address</label><input type="text" id="msSchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Exam Name *</label><input type="text" id="msExamName" required placeholder="e.g. First Terminal Examination"></div>
-                            <div class="form-group"><label>Exam Date</label><input type="date" id="msExamDate"></div>
-                        </div>
-
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                            <div class="form-group">
-                                <label>Filter Class</label>
-                                <select id="msFilterClass" onchange="populateMarksheetStudentSelect()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                                    <option value="">All Classes</option>
+                            <div class="form-group" style="background:#e8f5e9; padding:10px; border-radius:6px; border:1px solid #a5d6a7;">
+                                <label style="color:#2e7d32; font-weight:700;">👨‍🎓 Select Existing Student (Auto Fill)</label>
+                                <select id="existingStudentSelect" onchange="fillFromExistingStudent()" style="width:100%; padding:7px; font-size:12px; border-radius:4px; border:1px solid #81c784;">
+                                    <option value="">-- Select Existing Student --</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>Filter Section</label>
-                                <select id="msFilterSection" onchange="populateMarksheetStudentSelect()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                                    <option value="">All Sections</option>
-                                </select>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Student Name</label><input type="text" id="studentName" required></div>
+                                <div class="form-group"><label>Father's Name</label><input type="text" id="fatherName" required></div>
                             </div>
-                        </div>
-
-                        <div class="form-group" style="background:#e8f5e9; padding:10px; border-radius:6px; border:1px solid #a5d6a7;">
-                            <label style="color:#2e7d32; font-weight:700;">👨‍🎓 Select Student (Auto Fill)</label>
-                            <select id="marksheetStudentSelect" onchange="fillMarksheetFromStudent()" style="width:100%; padding:7px; font-size:12px; border-radius:4px; border:1px solid #81c784;">
-                                <option value="">-- Select Student --</option>
-                            </select>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group"><label>Student Name *</label><input type="text" id="msStudentName" required></div>
-                            <div class="form-group"><label>Father's Name *</label><input type="text" id="msFatherName" required></div>
-                        </div>
-                        <div class="grid-3">
-                            <div class="form-group"><label>Class *</label><input type="text" id="msClass" required></div>
-                            <div class="form-group"><label>Roll No</label><input type="text" id="msRollNo"></div>
-                            <div class="form-group"><label>Section</label><input type="text" id="msSection"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Student Photo (Upload)</label>
-                            <input type="file" id="msPhotoInput" accept="image/*" onchange="previewMarksheetPhoto(event)">
-                        </div>
-
-                        <label style="font-size:11px; font-weight:600; display:block; margin-top:6px;">📚 Subjects (Manual Entry):</label>
-                        <div class="part-table-container" style="max-height:300px;">
-                            <table class="part-table">
-                                <thead><tr><th style="width:30px;">#</th><th>Subject Name</th><th style="width:70px;">Full</th><th style="width:70px;">Pass</th><th style="width:70px;">Obtained</th><th style="width:50px;">Del</th></tr></thead>
-                                <tbody id="marksheetSubjectsBody"></tbody>
-                            </table>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-block" onclick="addMarksheetSubject()" style="margin-top:6px;">➕ Add Subject Row</button>
-
-                        <div class="summary-box">
                             <div class="grid-3">
-                                <div class="form-group"><label>Total Full:</label><input type="number" id="msTotalFullMarks" readonly style="font-weight:bold; background:#eef;"></div>
-                                <div class="form-group"><label>Total Obtained:</label><input type="number" id="msTotalObtained" readonly style="font-weight:bold; background:#efe;"></div>
-                                <div class="form-group"><label>Percentage:</label><input type="text" id="msPercentage" readonly style="font-weight:bold; background:#eef;"></div>
+                                <div class="form-group"><label>Class</label><input type="text" id="studentClass"></div>
+                                <div class="form-group"><label>Roll No</label><input type="text" id="rollNo"></div>
+                                <div class="form-group"><label>Section</label><input type="text" id="section"></div>
                             </div>
                             <div class="grid-2">
-                                <div class="form-group"><label>Result (Auto @ 40%):</label><input type="text" id="msResult" readonly style="font-weight:bold; background:#eef;"></div>
-                                <div class="form-group"><label>Grade:</label><input type="text" id="msGrade" readonly style="font-weight:bold; background:#eef;"></div>
+                                <div class="form-group"><label>Contact Number</label><input type="text" id="contactNo" required></div>
+                                <div class="form-group"><label>Bill Period / Month</label><input type="text" id="billMonth" placeholder="e.g. Baishakh to Jesth"></div>
                             </div>
-                            <div class="form-group"><label>Remarks:</label><input type="text" id="msRemarks" placeholder="e.g. Excellent performance"></div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Bill Prepared By</label><input type="text" id="billPreparedBy" required></div>
+                                <div class="form-group"><label>Authorized Signatory</label><input type="text" id="authorizedSign" value="Accountant"></div>
+                            </div>
+                            <label style="font-size:11px; font-weight:600; display:block; margin-top:6px;">19 Fee Particulars:</label>
+                            <div class="part-table-container">
+                                <table class="part-table">
+                                    <thead><tr><th style="width:30px;">#</th><th>Particular Name</th><th style="width:120px;">Amount (Rs.)</th></tr></thead>
+                                    <tbody id="particularsContainer"></tbody>
+                                </table>
+                            </div>
+                            <div class="summary-box">
+                                <div class="form-group"><label>Gross Total Fee Amount:</label><input type="number" id="grossTotal" readonly style="font-weight:bold; background:#eef;"></div>
+                                <div class="grid-2">
+                                    <div class="form-group"><label>Make Deposit Payment:</label><input type="number" id="newDepositInput" value="0" oninput="calculateBalance()" placeholder="Enter payment amount"></div>
+                                    <div class="form-group"><label>Deposit Date:</label><input type="date" id="depositDate"></div>
+                                </div>
+                                <div class="grid-2">
+                                    <div class="form-group"><label>Total Deposit Till Date (-):</label><input type="number" id="depositAmount" value="0" readonly style="font-weight:bold; background:#efe;"></div>
+                                    <div class="form-group"><label>Remaining Dues Balance:</label><input type="number" id="netDues" readonly style="font-weight:bold; color:red; background:#fee;"></div>
+                                </div>
+                                <div class="form-group"><label>Amount In Words:</label><input type="text" id="amountInWords" placeholder="e.g. FIVE THOUSAND RUPEES ONLY"></div>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Save / Update Entry</button>
+                            <button type="button" class="btn btn-warning btn-block" id="cancelBtn" onclick="resetForm()" style="display:none;">Cancel Edit</button>
+                        </form>
+                    </div>
+
+                    <div class="box" id="findReportBox">
+                        <h3>🔍 Find Reports & All Student Bills</h3>
+                        <input type="text" id="searchInput" onkeyup="searchRecords()" placeholder="Search Student Name, Father Name, Bill No..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                        <div style="overflow-x:auto;">
+                            <table class="data-table">
+                                <thead><tr><th>Bill No</th><th>Student Name</th><th>Father Name</th><th>Total</th><th>Paid</th><th>Dues</th><th>Actions</th></tr></thead>
+                                <tbody id="billingTableBody"></tbody>
+                            </table>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-block">Save Marksheet</button>
-                        <button type="button" class="btn btn-warning btn-block" id="cancelMarksheetBtn" onclick="resetMarksheetForm()" style="display:none;">Cancel Edit</button>
-                    </form>
-                </div>
-
-                <div class="box">
-                    <h3>📋 Saved Marksheets</h3>
-                    <input type="text" id="marksheetSearchInput" onkeyup="searchMarksheets()" placeholder="Search by Student, Exam, Class..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
-                    <div style="overflow-x:auto; max-height:500px;">
-                        <table class="data-table">
-                            <thead><tr><th>Student</th><th>Class</th><th>Exam</th><th>%</th><th>Result</th><th>Action</th></tr></thead>
-                            <tbody id="marksheetTableBody"></tbody>
-                        </table>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- TEACHER SALARY TAB -->
-        <div id="salaryTab" class="tab-content">
-            <div class="grid-layout">
-                <div class="box">
-                    <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
-                    <form id="salaryForm" onsubmit="saveSalary(event)">
-                        <input type="hidden" id="salaryRecordId">
-                        <div class="form-group"><label>School Address</label><input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Receipt No</label><input type="text" id="salaryReceiptNo" required></div>
-                            <div class="form-group"><label>Payment Date</label><input type="date" id="salaryDate" required></div>
+                <div class="box" id="studentDepositHistoryBox" style="display:none; margin-top:15px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                        <h3 id="studentHistoryTitle">📅 Deposit History</h3>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <button class="btn btn-primary" onclick="printSelectedStudentHistory()">🖨️ Print</button>
+                            <button class="btn btn-success" onclick="exportSelectedStudentHistoryToExcel()">📊 Excel</button>
+                            <button class="btn" style="background:#37474f; color:white;" onclick="exportSelectedStudentHistoryToJSON()">📥 JSON</button>
                         </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Teacher's Name</label><input type="text" id="teacherName" required></div>
-                            <div class="form-group"><label>Father's Name</label><input type="text" id="teacherFatherName" required></div>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Contact No</label><input type="text" id="teacherContact" required></div>
-                            <div class="form-group"><label>Designation</label><input type="text" id="teacherDesignation" required></div>
-                        </div>
-                        <div class="grid-3">
-                            <div class="form-group"><label>Total Salary</label><input type="number" id="basicSalary" oninput="calculateTeacherSalary()" required></div>
-                            <div class="form-group"><label>Now Paid</label><input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required></div>
-                            <div class="form-group"><label>Remaining Dues</label><input type="number" id="salaryDues" readonly style="font-weight:bold; color:red; background:#fee;"></div>
-                        </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Total Paid Till Date</label><input type="number" id="netPaidSalary" value="0" readonly style="font-weight:bold; color:green; background:#efe;"></div>
-                            <div class="form-group"><label>Salary Month / Year</label><input type="text" id="salaryMonth" required></div>
-                        </div>
-                        <div class="form-group"><label>Amount in Words</label><input type="text" id="salaryInWords" required></div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Prepared By</label><input type="text" id="salaryPreparedBy" required></div>
-                            <div class="form-group"><label>Authorized Sign</label><input type="text" id="salaryAuthSign" value="Authorized Signature"></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Save / Update Salary Record</button>
-                        <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
-                    </form>
-                </div>
-
-                <div class="box">
-                    <h3>Teacher Salary Records</h3>
+                    </div>
                     <div style="overflow-x:auto;">
                         <table class="data-table">
-                            <thead><tr><th>Date</th><th>Receipt</th><th>Teacher</th><th>Month</th><th>Total</th><th>Paid</th><th>Dues</th><th>Action</th></tr></thead>
-                            <tbody id="salaryTableBody"></tbody>
+                            <thead><tr style="background:#283593;"><th>Deposit Date</th><th>Bill No</th><th>Student Name</th><th>Father's Name</th><th>Amount (Rs.)</th></tr></thead>
+                            <tbody id="studentHistoryTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <div class="box" id="teacherSalaryHistoryBox" style="display:none; margin-top:15px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                    <h3 id="teacherHistoryTitle">📅 Teacher Payment History</h3>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="printSelectedTeacherHistory()">🖨️ Print</button>
-                        <button class="btn btn-success" onclick="exportSelectedTeacherHistoryToExcel()">📊 Excel</button>
-                        <button class="btn" style="background:#37474f; color:white;" onclick="exportSelectedTeacherHistoryToJSON()">📥 JSON</button>
+            <!-- STUDENTS TAB -->
+            <div id="studentsTab" class="tab-content">
+                <div class="dashboard-cards" style="grid-template-columns: repeat(2,1fr);">
+                    <div class="card"><h3>TOTAL STUDENTS</h3><p id="statTotalStudents">0</p></div>
+                    <div class="card card-green"><h3>ACTIVE STUDENTS</h3><p id="statActiveStudents">0</p></div>
+                </div>
+                <div class="grid-layout">
+                    <div class="box" id="studentMasterFormBox">
+                        <h3 id="studentMasterFormTitle">➕ Add New Student</h3>
+                        <form id="studentMasterForm" onsubmit="saveStudent(event)">
+                            <input type="hidden" id="studentMasterId">
+                            <div class="grid-2">
+                                <div class="form-group"><label>Student Name *</label><input type="text" id="smStudentName" required></div>
+                                <div class="form-group"><label>Father's Name *</label><input type="text" id="smFatherName" required></div>
+                            </div>
+                            <div class="grid-3">
+                                <div class="form-group"><label>Class *</label><input type="text" id="smClass" required placeholder="e.g. 5"></div>
+                                <div class="form-group"><label>Roll No</label><input type="text" id="smRollNo"></div>
+                                <div class="form-group"><label>Section</label><input type="text" id="smSection" placeholder="e.g. A"></div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Contact *</label><input type="text" id="smContact" required></div>
+                                <div class="form-group"><label>Admission Date</label><input type="date" id="smAdmissionDate"></div>
+                            </div>
+                            <div class="form-group"><label>Address</label><input type="text" id="smAddress"></div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Status</label><select id="smStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+                                <div class="form-group"><label>Remarks</label><input type="text" id="smRemarks"></div>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Save Student</button>
+                            <button type="button" class="btn btn-warning btn-block" id="cancelStudentBtn" onclick="resetStudentForm()" style="display:none;">Cancel Edit</button>
+                        </form>
+                    </div>
+
+                    <div class="box">
+                        <h3>📋 All Students List</h3>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr 2fr; gap:8px; margin-bottom:10px;">
+                            <select id="classFilterSelect" onchange="renderStudentsTable()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                                <option value="">All Classes</option>
+                            </select>
+                            <select id="sectionFilterSelect" onchange="renderStudentsTable()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                                <option value="">All Sections</option>
+                            </select>
+                            <input type="text" id="studentSearchInput" onkeyup="renderStudentsTable()" placeholder="Search by Name, Father, Contact..." style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                        </div>
+                        <div style="overflow-x:auto; max-height:420px;">
+                            <table class="data-table">
+                                <thead><tr><th>Name</th><th>Father</th><th>Class</th><th>Sec</th><th>Roll</th><th>Contact</th><th>Status</th><th>Action</th></tr></thead>
+                                <tbody id="studentsTableBody"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div style="overflow-x:auto;">
-                    <table class="data-table">
-                        <thead><tr style="background:#283593;"><th>Date</th><th>Receipt</th><th>Month</th><th>Total</th><th>Paid</th><th>Dues</th></tr></thead>
-                        <tbody id="teacherHistoryTableBody"></tbody>
-                    </table>
-                </div>
             </div>
-        </div>
 
-        <!-- BACKUP TAB -->
-        <div id="backupTab" class="tab-content">
-            <div class="box" style="max-width:600px; margin:20px auto;">
-                <h3>🖼️ School Logo Upload</h3>
-                <p style="font-size:12px; color:#666; margin-bottom:12px;">Yahan se school logo upload karein. Ye logo bill, marksheet, salary receipt — sabhi print views me use hoga.</p>
-                <div class="logo-preview-box">
-                    <img id="settingsLogoPreview" src="" alt="Logo Preview">
-                    <div>
-                        <input type="file" id="settingsLogoInput" accept="image/*" onchange="uploadSchoolLogo(event)" style="font-size:12px;">
-                        <div style="font-size:11px; color:#555; margin-top:4px;">PNG / JPG recommended. Max size 500 KB.</div>
+            <!-- MARKSHEET TAB -->
+            <div id="marksheetTab" class="tab-content">
+                <div class="grid-layout">
+                    <div class="box" id="marksheetFormBox">
+                        <h3 id="marksheetFormTitle">📄 Create Marksheet</h3>
+                        <form id="marksheetForm" onsubmit="saveMarksheet(event)">
+                            <input type="hidden" id="marksheetId">
+                            <div class="form-group"><label>School Address</label><input type="text" id="msSchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Exam Name *</label><input type="text" id="msExamName" required placeholder="e.g. First Terminal Examination"></div>
+                                <div class="form-group"><label>Exam Date</label><input type="date" id="msExamDate"></div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Academic Year</label><input type="text" id="msAcademicYear" placeholder="e.g. 2024-25"></div>
+                                <div class="form-group"><label>Serial No.</label><input type="text" id="msSerialNo" placeholder="e.g. 1039111"></div>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                                <div class="form-group">
+                                    <label>Filter Class</label>
+                                    <select id="msFilterClass" onchange="populateMarksheetStudentSelect()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                                        <option value="">All Classes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Filter Section</label>
+                                    <select id="msFilterSection" onchange="populateMarksheetStudentSelect()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                                        <option value="">All Sections</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="background:#e8f5e9; padding:10px; border-radius:6px; border:1px solid #a5d6a7;">
+                                <label style="color:#2e7d32; font-weight:700;">👨‍🎓 Select Student (Auto Fill)</label>
+                                <select id="marksheetStudentSelect" onchange="fillMarksheetFromStudent()" style="width:100%; padding:7px; font-size:12px; border-radius:4px; border:1px solid #81c784;">
+                                    <option value="">-- Select Student --</option>
+                                </select>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="form-group"><label>Student Name *</label><input type="text" id="msStudentName" required></div>
+                                <div class="form-group"><label>Father's Name *</label><input type="text" id="msFatherName" required></div>
+                            </div>
+                            <div class="form-group"><label>Mother's Name</label><input type="text" id="msMotherName"></div>
+                            <div class="grid-3">
+                                <div class="form-group"><label>Class *</label><input type="text" id="msClass" required></div>
+                                <div class="form-group"><label>Roll No</label><input type="text" id="msRollNo"></div>
+                                <div class="form-group"><label>Section</label><input type="text" id="msSection"></div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Category</label><input type="text" id="msCategory" placeholder="e.g. REGULAR"></div>
+                                <div class="form-group"><label>Medium</label><input type="text" id="msMedium" placeholder="e.g. ENGLISH"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Student Photo (Upload)</label>
+                                <input type="file" id="msPhotoInput" accept="image/*" onchange="previewMarksheetPhoto(event)">
+                            </div>
+
+                            <label style="font-size:11px; font-weight:600; display:block; margin-top:6px;">📚 Subjects (Manual Entry):</label>
+                            <div class="part-table-container" style="max-height:320px;">
+                                <table class="part-table">
+                                    <thead><tr>
+                                        <th style="width:30px;">#</th>
+                                        <th>Subject Name</th>
+                                        <th style="width:60px;">Max</th>
+                                        <th style="width:55px;">Min</th>
+                                        <th style="width:70px;">Obtained</th>
+                                        <th style="width:50px;">Del</th>
+                                    </tr></thead>
+                                    <tbody id="marksheetSubjectsBody"></tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" onclick="addMarksheetSubject()" style="margin-top:6px;">➕ Add Subject Row</button>
+
+                            <div class="summary-box">
+                                <div class="grid-3">
+                                    <div class="form-group"><label>Total Full:</label><input type="number" id="msTotalFullMarks" readonly style="font-weight:bold; background:#eef;"></div>
+                                    <div class="form-group"><label>Total Obtained:</label><input type="number" id="msTotalObtained" readonly style="font-weight:bold; background:#efe;"></div>
+                                    <div class="form-group"><label>Percentage:</label><input type="text" id="msPercentage" readonly style="font-weight:bold; background:#eef;"></div>
+                                </div>
+                                <div class="grid-2">
+                                    <div class="form-group"><label>Result (Auto @ 40%):</label><input type="text" id="msResult" readonly style="font-weight:bold; background:#eef;"></div>
+                                    <div class="form-group"><label>Grade:</label><input type="text" id="msGrade" readonly style="font-weight:bold; background:#eef;"></div>
+                                </div>
+                                <div class="form-group"><label>Remarks:</label><input type="text" id="msRemarks" placeholder="e.g. Excellent performance"></div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block">Save Marksheet</button>
+                            <button type="button" class="btn btn-warning btn-block" id="cancelMarksheetBtn" onclick="resetMarksheetForm()" style="display:none;">Cancel Edit</button>
+                        </form>
+                    </div>
+
+                    <div class="box">
+                        <h3>📋 Saved Marksheets</h3>
+                        <input type="text" id="marksheetSearchInput" onkeyup="searchMarksheets()" placeholder="Search by Student, Exam, Class..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                        <div style="overflow-x:auto; max-height:500px;">
+                            <table class="data-table">
+                                <thead><tr><th>Student</th><th>Class</th><th>Exam</th><th>%</th><th>Result</th><th>Action</th></tr></thead>
+                                <tbody id="marksheetTableBody"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <button class="btn btn-warning btn-block" onclick="resetSchoolLogo()">🔄 Reset to Default Logo</button>
             </div>
 
-            <div class="box" style="max-width:600px; margin:20px auto;">
-                <h3>🔐 Change Login Username & Password</h3>
-                <p style="font-size:12px; color:#666; margin-bottom:12px;">Login email aur password yahan se change karein.</p>
-                <div class="form-group"><label>Current Password</label><input type="password" id="changeCurrentPassword" placeholder="Enter current password"></div>
-                <div class="form-group"><label>New Username / Email</label><input type="email" id="changeNewEmail" placeholder="Enter new email"></div>
-                <div class="form-group"><label>New Password (min 6 chars)</label><input type="password" id="changeNewPassword" placeholder="Enter new password"></div>
-                <div class="form-group"><label>Confirm New Password</label><input type="password" id="changeConfirmPassword" placeholder="Confirm new password"></div>
-                <button type="button" class="btn btn-warning btn-block" onclick="updateLoginDetails()">Update Login Credentials</button>
+            <!-- TEACHER SALARY TAB -->
+            <div id="salaryTab" class="tab-content">
+                <div class="grid-layout">
+                    <div class="box">
+                        <h3 id="salaryFormTitle">Teacher Salary Payment Form</h3>
+                        <form id="salaryForm" onsubmit="saveSalary(event)">
+                            <input type="hidden" id="salaryRecordId">
+                            <div class="form-group"><label>School Address</label><input type="text" id="salarySchoolAddress" value="Yamuna Mai-1, Suckdev Chowk (Rautahat)" required></div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Receipt No</label><input type="text" id="salaryReceiptNo" required></div>
+                                <div class="form-group"><label>Payment Date</label><input type="date" id="salaryDate" required></div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Teacher's Name</label><input type="text" id="teacherName" required></div>
+                                <div class="form-group"><label>Father's Name</label><input type="text" id="teacherFatherName" required></div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Contact No</label><input type="text" id="teacherContact" required></div>
+                                <div class="form-group"><label>Designation</label><input type="text" id="teacherDesignation" required></div>
+                            </div>
+                            <div class="grid-3">
+                                <div class="form-group"><label>Total Salary</label><input type="number" id="basicSalary" oninput="calculateTeacherSalary()" required></div>
+                                <div class="form-group"><label>Now Paid</label><input type="number" id="newSalaryPaidInput" value="0" oninput="calculateTeacherSalary()" required></div>
+                                <div class="form-group"><label>Remaining Dues</label><input type="number" id="salaryDues" readonly style="font-weight:bold; color:red; background:#fee;"></div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Total Paid Till Date</label><input type="number" id="netPaidSalary" value="0" readonly style="font-weight:bold; color:green; background:#efe;"></div>
+                                <div class="form-group"><label>Salary Month / Year</label><input type="text" id="salaryMonth" required></div>
+                            </div>
+                            <div class="form-group"><label>Amount in Words</label><input type="text" id="salaryInWords" required></div>
+                            <div class="grid-2">
+                                <div class="form-group"><label>Prepared By</label><input type="text" id="salaryPreparedBy" required></div>
+                                <div class="form-group"><label>Authorized Sign</label><input type="text" id="salaryAuthSign" value="Authorized Signature"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Save / Update Salary Record</button>
+                            <button type="button" class="btn btn-warning btn-block" id="cancelSalaryBtn" onclick="resetSalaryForm()" style="display:none;">Cancel Edit</button>
+                        </form>
+                    </div>
+
+                    <div class="box">
+                        <h3>Teacher Salary Records</h3>
+                        <div style="overflow-x:auto;">
+                            <table class="data-table">
+                                <thead><tr><th>Date</th><th>Receipt</th><th>Teacher</th><th>Month</th><th>Total</th><th>Paid</th><th>Dues</th><th>Action</th></tr></thead>
+                                <tbody id="salaryTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box" id="teacherSalaryHistoryBox" style="display:none; margin-top:15px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                        <h3 id="teacherHistoryTitle">📅 Teacher Payment History</h3>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <button class="btn btn-primary" onclick="printSelectedTeacherHistory()">🖨️ Print</button>
+                            <button class="btn btn-success" onclick="exportSelectedTeacherHistoryToExcel()">📊 Excel</button>
+                            <button class="btn" style="background:#37474f; color:white;" onclick="exportSelectedTeacherHistoryToJSON()">📥 JSON</button>
+                        </div>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="data-table">
+                            <thead><tr style="background:#283593;"><th>Date</th><th>Receipt</th><th>Month</th><th>Total</th><th>Paid</th><th>Dues</th></tr></thead>
+                            <tbody id="teacherHistoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="box" style="max-width:600px; margin:20px auto;">
-                <h3>1. Download Data Backup</h3>
-                <p style="font-size:12px; color:#666; margin-bottom:15px;">Save complete database locally on your device.</p>
-                <button onclick="downloadBackup()" class="btn btn-success btn-block">Download JSON Backup</button>
-            </div>
+            <!-- BACKUP TAB -->
+            <div id="backupTab" class="tab-content">
+                <div class="box" style="max-width:600px; margin:20px auto;">
+                    <h3>🖼️ School Logo Upload</h3>
+                    <p style="font-size:12px; color:#666; margin-bottom:12px;">Yahan se school logo upload karein. Ye logo bill, marksheet, salary receipt — sabhi print views me use hoga.</p>
+                    <div class="logo-preview-box">
+                        <img id="settingsLogoPreview" src="" alt="Logo Preview">
+                        <div>
+                            <input type="file" id="settingsLogoInput" accept="image/*" onchange="uploadSchoolLogo(event)" style="font-size:12px;">
+                            <div style="font-size:11px; color:#555; margin-top:4px;">PNG / JPG recommended. Max size 500 KB.</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-warning btn-block" onclick="resetSchoolLogo()">🔄 Reset to Default Logo</button>
+                </div>
 
-            <div class="box" style="max-width:600px; margin:20px auto;">
-                <h3>2. Restore Data Backup</h3>
-                <p style="font-size:12px; color:#666; margin-bottom:15px;">Restore system database using exported .json file.</p>
-                <div class="form-group"><input type="file" id="backupFileInput" accept=".json"></div>
-                <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
+                <div class="box" style="max-width:600px; margin:20px auto;">
+                    <h3>🔐 Change Login Username & Password</h3>
+                    <p style="font-size:12px; color:#666; margin-bottom:12px;">Login email aur password yahan se change karein.</p>
+                    <div class="form-group"><label>Current Password</label><input type="password" id="changeCurrentPassword" placeholder="Enter current password"></div>
+                    <div class="form-group"><label>New Username / Email</label><input type="email" id="changeNewEmail" placeholder="Enter new email"></div>
+                    <div class="form-group"><label>New Password (min 6 chars)</label><input type="password" id="changeNewPassword" placeholder="Enter new password"></div>
+                    <div class="form-group"><label>Confirm New Password</label><input type="password" id="changeConfirmPassword" placeholder="Confirm new password"></div>
+                    <button type="button" class="btn btn-warning btn-block" onclick="updateLoginDetails()">Update Login Credentials</button>
+                </div>
+
+                <div class="box" style="max-width:600px; margin:20px auto;">
+                    <h3>1. Download Data Backup</h3>
+                    <p style="font-size:12px; color:#666; margin-bottom:15px;">Save complete database locally on your device.</p>
+                    <button onclick="downloadBackup()" class="btn btn-success btn-block">Download JSON Backup</button>
+                </div>
+
+                <div class="box" style="max-width:600px; margin:20px auto;">
+                    <h3>2. Restore Data Backup</h3>
+                    <p style="font-size:12px; color:#666; margin-bottom:15px;">Restore system database using exported .json file.</p>
+                    <div class="form-group"><input type="file" id="backupFileInput" accept=".json"></div>
+                    <button onclick="restoreBackup()" class="btn btn-primary btn-block">Upload & Restore Data</button>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 </div>
 
@@ -690,71 +767,132 @@ nav button.logout-btn { background: #d32f2f; margin-left: 10px; }
     </div>
 </div>
 
-<!-- PRINTABLE: MARKSHEET (Full A4 page) -->
+<!-- PRINTABLE: UNIVERSITY-STYLE MARKSHEET (Full A4 Page) -->
 <div id="printableMarksheetArea">
-    <div class="marksheet-page">
-        <div class="marksheet-inner-frame">
-            <div class="marksheet-header">
-                <img class="school-logo" src="" alt="School Logo">
-                <div class="header-text">
-                    <h2>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h2>
-                    <div class="sub-address" id="pmsAddress">Yamuna Mai-1, Suckdev Chowk (Rautahat)</div>
-                    <div class="exam-title" id="pmsExamTitle">MARKSHEET</div>
+    <div class="uni-marksheet">
+        <div class="uni-inner">
+            <!-- HEADER -->
+            <div class="uni-header">
+                <div class="uni-header-left">
+                    <img class="school-logo" src="" alt="School Logo">
+                </div>
+                <div class="uni-header-center">
+                    <h1>SHREE CHIRANJIVI NARAYANI RESIDENTIAL SCHOOL</h1>
+                    <div class="subtitle">Copy of Marks Obtained at the</div>
+                    <div class="exam-line" id="pmsExamTitle">ANNUAL EXAMINATION</div>
+                </div>
+                <div class="uni-header-right">
+                    <div class="sno">S.No. <strong id="pmsSerialNo">—</strong></div>
+                    <div class="photo-box" id="pmsPhotoBox">
+                        <span id="pmsPhotoPlaceholder">PHOTO</span>
+                        <img id="pmsPhotoImg" src="" alt="Student Photo" style="display:none;">
+                    </div>
                 </div>
             </div>
 
-            <div class="marksheet-top-info">
-                <div class="marksheet-info-grid">
-                    <div class="info-row"><span class="info-label">Student Name:</span><span class="info-value" id="pmsStudentName"></span></div>
-                    <div class="info-row"><span class="info-label">Roll No:</span><span class="info-value" id="pmsRollNo"></span></div>
-                    <div class="info-row"><span class="info-label">Father's Name:</span><span class="info-value" id="pmsFatherName"></span></div>
-                    <div class="info-row"><span class="info-label">Class:</span><span class="info-value" id="pmsClass"></span></div>
-                    <div class="info-row"><span class="info-label">Section:</span><span class="info-value" id="pmsSection"></span></div>
-                    <div class="info-row"><span class="info-label">Exam Date:</span><span class="info-value" id="pmsExamDate"></span></div>
-                </div>
-                <div class="marksheet-photo-frame" id="pmsPhotoFrame">
-                    <span id="pmsPhotoPlaceholder">PASTE PHOTO</span>
-                    <img id="pmsPhotoImg" src="" alt="Student Photo" style="display:none;">
-                </div>
-            </div>
+            <!-- INFO TABLE -->
+            <table class="uni-info-table">
+                <tr>
+                    <td class="lbl">Roll No.</td>
+                    <td class="val" id="pmsRollNo">—</td>
+                    <td class="lbl">Enroll No.</td>
+                    <td class="val" id="pmsEnrollNo">—</td>
+                </tr>
+                <tr>
+                    <td class="lbl">Name</td>
+                    <td class="val" id="pmsStudentName">—</td>
+                    <td class="lbl">Category</td>
+                    <td class="val" id="pmsCategory">—</td>
+                </tr>
+                <tr>
+                    <td class="lbl">Father's Name</td>
+                    <td class="val" id="pmsFatherName">—</td>
+                    <td class="lbl">Medium</td>
+                    <td class="val" id="pmsMedium">—</td>
+                </tr>
+                <tr>
+                    <td class="lbl">Mother's Name</td>
+                    <td class="val" id="pmsMotherName">—</td>
+                    <td class="lbl">Class / Section</td>
+                    <td class="val"><span id="pmsClass">—</span> / <span id="pmsSection">—</span></td>
+                </tr>
+                <tr>
+                    <td class="lbl">Exam Date</td>
+                    <td class="val" colspan="3" id="pmsExamDate">—</td>
+                </tr>
+            </table>
 
-            <table class="marksheet-table">
+            <!-- SUBJECT TABLE -->
+            <table class="uni-subject-table">
                 <thead>
                     <tr>
-                        <th style="width:35px;">#</th>
-                        <th>Subject</th>
-                        <th style="width:80px;">Full Marks</th>
-                        <th style="width:80px;">Pass Marks</th>
-                        <th style="width:80px;">Obtained</th>
-                        <th style="width:65px;">Grade</th>
+                        <th rowspan="2" style="width: 42%;">Subject (s) Offered</th>
+                        <th rowspan="2" style="width: 8%;">Max. Marks</th>
+                        <th rowspan="2" style="width: 8%;">Min. Marks</th>
+                        <th colspan="2">Marks Obtained</th>
+                        <th rowspan="2" style="width: 10%;">Subject Total</th>
+                        <th rowspan="2" style="width: 8%;">Remarks</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 9%;">I</th>
+                        <th style="width: 9%;">II</th>
                     </tr>
                 </thead>
                 <tbody id="pmsRows"></tbody>
             </table>
 
-            <div class="marksheet-summary-grid">
-                <div class="summary-item"><div class="lbl">Total Full</div><div class="val" id="pmsTotalFull">0</div></div>
-                <div class="summary-item"><div class="lbl">Total Obtained</div><div class="val" id="pmsTotalObtained">0</div></div>
-                <div class="summary-item"><div class="lbl">Percentage</div><div class="val" id="pmsPercentage">0%</div></div>
-                <div class="summary-item" id="pmsResultBox"><div class="lbl">Result</div><div class="val" id="pmsResult">-</div></div>
+            <!-- TOTAL ROW -->
+            <div class="uni-total-row">
+                <span>Total Marks obtained excluding compulsory and back log paper / subject (s) marks</span>
+                <span id="pmsTotalObtainedBig">0</span>
             </div>
 
-            <div class="marksheet-remarks">
-                <strong>Remarks:</strong> <span id="pmsRemarks">-</span>
+            <!-- YEARWISE TABLE -->
+            <table class="uni-yearwise-table">
+                <thead>
+                    <tr>
+                        <th colspan="3">YEARWISE TOTAL MARKS OBTAINED</th>
+                        <th rowspan="2">GRAND TOTAL</th>
+                        <th rowspan="2">RESULT / CLASS / DIVISION</th>
+                    </tr>
+                    <tr>
+                        <th>Part - I</th>
+                        <th>Part - II</th>
+                        <th>Part - III</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="pmsPartI">—</td>
+                        <td id="pmsPartII">—</td>
+                        <td id="pmsPartIII">—</td>
+                        <td><strong id="pmsGrandTotal">—</strong></td>
+                        <td>
+                            <strong id="pmsResult" style="font-size: 13px;">—</strong><br>
+                            <span style="font-size: 10px;">(<span id="pmsPercentageSmall">0%</span>)</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- LEGEND -->
+            <div class="uni-legend">
+                <strong>G</strong> - Passed by Grace ; <strong>P</strong> - Passed ; <strong>S</strong> - Eligible for Supplementary ; <strong>F</strong> - Failed, <strong>A</strong> - Absent
             </div>
 
-            <div class="marksheet-signatures">
-                <div class="sig-block">
-                    <div class="sig-line"></div>
-                    <div>Class Teacher</div>
+            <!-- FOOTER -->
+            <div class="uni-footer">
+                <div class="footer-left">
+                    <div>Result declared on <strong id="pmsResultDate">—</strong></div>
+                    <div style="margin-top: 4px;">ISSUE DATE : <span id="pmsIssueDate">—</span></div>
                 </div>
-                <div class="sig-block">
-                    <div class="sig-line"></div>
-                    <div>Principal</div>
+                <div class="footer-right">
+                    <div class="signature">Signature</div>
+                    <div class="controller">Class Teacher</div>
                 </div>
-                <div class="sig-block">
-                    <div class="sig-line"></div>
-                    <div>School Seal</div>
+                <div class="footer-right">
+                    <div class="signature">Signature</div>
+                    <div class="controller">Principal</div>
                 </div>
             </div>
         </div>
@@ -769,22 +907,20 @@ let schoolLogoData = localStorage.getItem('school_logo') || DEFAULT_LOGO_BASE64;
 
 function applySchoolLogo() {
     document.querySelectorAll('.print-logo, .school-logo').forEach(img => { img.src = schoolLogoData; });
-    const loginLogo = document.getElementById('loginLogo');
-    if (loginLogo) loginLogo.src = schoolLogoData;
-    const preview = document.getElementById('settingsLogoPreview');
-    if (preview) preview.src = schoolLogoData;
+    const l = document.getElementById('loginLogo'); if (l) l.src = schoolLogoData;
+    const p = document.getElementById('settingsLogoPreview'); if (p) p.src = schoolLogoData;
 }
 function uploadSchoolLogo(event) {
     const file = event.target.files[0]; if (!file) return;
     if (file.size > 500 * 1024) { alert("File too large. Max 500 KB allowed."); return; }
-    const reader = new FileReader();
-    reader.onload = function(e) {
+    const r = new FileReader();
+    r.onload = function(e) {
         schoolLogoData = e.target.result;
         localStorage.setItem('school_logo', schoolLogoData);
         applySchoolLogo();
         alert("School logo updated successfully!");
     };
-    reader.readAsDataURL(file);
+    r.readAsDataURL(file);
 }
 function resetSchoolLogo() {
     if (confirm("Reset to default school logo?")) {
@@ -810,12 +946,12 @@ window.onload = function() {
     document.getElementById('billDate').valueAsDate = new Date();
     document.getElementById('depositDate').valueAsDate = new Date();
     document.getElementById('salaryDate').valueAsDate = new Date();
-    if(document.getElementById('smAdmissionDate')) document.getElementById('smAdmissionDate').valueAsDate = new Date();
-    if(document.getElementById('msExamDate')) document.getElementById('msExamDate').valueAsDate = new Date();
-    const loginEmailInput = document.getElementById('loginEmail');
-    if (loginEmailInput) loginEmailInput.value = localStorage.getItem('admin_email') || 'admin@school.com';
-    const chgEmail = document.getElementById('changeNewEmail');
-    if (chgEmail) chgEmail.value = localStorage.getItem('admin_email') || 'admin@school.com';
+    if (document.getElementById('smAdmissionDate')) document.getElementById('smAdmissionDate').valueAsDate = new Date();
+    if (document.getElementById('msExamDate')) document.getElementById('msExamDate').valueAsDate = new Date();
+    const li = document.getElementById('loginEmail');
+    if (li) li.value = localStorage.getItem('admin_email') || 'admin@school.com';
+    const ce = document.getElementById('changeNewEmail');
+    if (ce) ce.value = localStorage.getItem('admin_email') || 'admin@school.com';
     updateClassFilter(); updateSectionFilter(); updateMarksheetFilterDropdowns(); renderMarksheetsTable();
 };
 
@@ -827,7 +963,6 @@ function renderParticulars() {
         c.appendChild(row);
     });
 }
-
 function inWords(num) {
     let a = ['','one ','two ','three ','four ','five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
     let b = ['', '', 'twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
@@ -842,7 +977,6 @@ function inWords(num) {
     s += (n[5] != 0) ? ((s != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'rupees only ' : 'rupees only';
     return s.toUpperCase();
 }
-
 function calculateGross() {
     let t = 0; document.querySelectorAll('.part-amt').forEach(i => t += parseFloat(i.value) || 0);
     document.getElementById('grossTotal').value = t; calculateBalance();
@@ -854,7 +988,7 @@ function calculateBalance() {
     let td = p + n; document.getElementById('depositAmount').value = td;
     let nd = g - td; document.getElementById('netDues').value = nd >= 0 ? nd : 0;
     let w = document.getElementById('amountInWords');
-    if(!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : (td > 0 ? td : g)); w.dataset.auto = "true"; }
+    if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : (td > 0 ? td : g)); w.dataset.auto = "true"; }
 }
 function calculateTeacherSalary() {
     let t = parseFloat(document.getElementById('basicSalary').value) || 0;
@@ -863,9 +997,8 @@ function calculateTeacherSalary() {
     let tp = p + n; document.getElementById('netPaidSalary').value = tp;
     let d = t - tp; document.getElementById('salaryDues').value = d >= 0 ? d : 0;
     let w = document.getElementById('salaryInWords');
-    if(!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : t); w.dataset.auto = "true"; }
+    if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : t); w.dataset.auto = "true"; }
 }
-
 function login() {
     const e = document.getElementById('loginEmail').value.trim().toLowerCase();
     const p = document.getElementById('loginPassword').value;
@@ -899,25 +1032,20 @@ function updateLoginDetails() {
     document.getElementById('changeConfirmPassword').value = '';
     alert("Login credentials updated successfully!");
 }
-
 function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('nav .nav-btns button').forEach(b => b.classList.remove('active-tab'));
+    document.querySelectorAll('.sidebar-menu button').forEach(b => b.classList.remove('active-tab'));
     document.getElementById(tabId).classList.add('active');
-    if(tabId === 'billingTab') document.getElementById('tabBtnHome').classList.add('active-tab');
-    if(tabId === 'studentsTab') {
-        document.getElementById('tabBtnStudents').classList.add('active-tab');
-        renderStudentsTable(); updateStudentStats(); updateClassFilter(); updateSectionFilter();
-    }
-    if(tabId === 'marksheetTab') {
-        document.getElementById('tabBtnMarksheet').classList.add('active-tab');
-        populateMarksheetStudentSelect(); updateMarksheetFilterDropdowns(); renderMarksheetsTable();
-    }
-    if(tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
-    if(tabId === 'backupTab') { document.getElementById('tabBtnBackup').classList.add('active-tab'); applySchoolLogo(); }
+    const titles = { billingTab: '🏠 Dashboard', studentsTab: '👨‍🎓 Students', marksheetTab: '📄 Marksheet', salaryTab: '💰 Teacher Salary', backupTab: '⚙️ Backup / Settings' };
+    document.getElementById('pageTitle').innerText = titles[tabId] || '';
+    if (tabId === 'billingTab') document.getElementById('tabBtnHome').classList.add('active-tab');
+    if (tabId === 'studentsTab') { document.getElementById('tabBtnStudents').classList.add('active-tab'); renderStudentsTable(); updateStudentStats(); updateClassFilter(); updateSectionFilter(); }
+    if (tabId === 'marksheetTab') { document.getElementById('tabBtnMarksheet').classList.add('active-tab'); populateMarksheetStudentSelect(); updateMarksheetFilterDropdowns(); renderMarksheetsTable(); }
+    if (tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
+    if (tabId === 'backupTab') { document.getElementById('tabBtnBackup').classList.add('active-tab'); applySchoolLogo(); }
 }
+function scrollToReportSection() { showTab('billingTab'); document.getElementById('tabBtnFind').classList.add('active-tab'); setTimeout(() => document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' }), 100); }
 function startNewStudentEntry() { showTab('billingTab'); resetForm(); document.getElementById('studentFormBox').scrollIntoView({ behavior: 'smooth' }); }
-function scrollToReportSection() { showTab('billingTab'); document.getElementById('findReportBox').scrollIntoView({ behavior: 'smooth' }); }
 
 function saveBill(e) {
     e.preventDefault();
@@ -928,10 +1056,10 @@ function saveBill(e) {
     let dd = document.getElementById('depositDate').value;
     if (id) {
         let idx = billsData.findIndex(b => b.id === id);
-        if(idx !== -1) {
+        if (idx !== -1) {
             let r = billsData[idx];
-            if(!r.history) r.history = [];
-            if(np > 0) r.history.push({ amount: np, date: dd });
+            if (!r.history) r.history = [];
+            if (np > 0) r.history.push({ amount: np, date: dd });
             r.schoolAddress = document.getElementById('schoolAddress').value;
             r.billNo = document.getElementById('billNo').value;
             r.billDate = document.getElementById('billDate').value;
@@ -988,10 +1116,10 @@ function saveSalary(e) {
     let mv = document.getElementById('salaryMonth').value;
     if (id) {
         let idx = salaryData.findIndex(s => s.id === id);
-        if(idx !== -1) {
+        if (idx !== -1) {
             let r = salaryData[idx];
-            if(!r.history) r.history = [];
-            if(np > 0) r.history.push({ amount: np, date: sd, month: mv });
+            if (!r.history) r.history = [];
+            if (np > 0) r.history.push({ amount: np, date: sd, month: mv });
             r.schoolAddress = document.getElementById('salarySchoolAddress').value;
             r.receiptNo = document.getElementById('salaryReceiptNo').value;
             r.date = sd;
@@ -1041,13 +1169,11 @@ function saveToLocalStorage() {
     localStorage.setItem('sch_students', JSON.stringify(studentsData));
     localStorage.setItem('sch_marksheets', JSON.stringify(marksheetsData));
 }
-
 function loadData() {
     renderBillingTable(); renderSalaryTable(); renderStudentsTable(); renderMarksheetsTable();
     updateDashboard(); updateStudentStats(); populateStudentSelect(); populateMarksheetStudentSelect();
     updateClassFilter(); updateSectionFilter(); updateMarksheetFilterDropdowns();
 }
-
 function updateDashboard() {
     document.getElementById('statTotalEntries').innerText = billsData.length;
     let tc = billsData.reduce((a, i) => a + (i.depositAmount || 0), 0);
@@ -1064,9 +1190,9 @@ function updateStudentStats() {
 function updateClassFilter() {
     const sel = document.getElementById('classFilterSelect'); if (!sel) return;
     const cur = sel.value;
-    const cls = [...new Set(studentsData.map(s => s.studentClass).filter(Boolean))].sort((a,b)=>{const na=parseInt(a),nb=parseInt(b);if(!isNaN(na)&&!isNaN(nb))return na-nb;return a.localeCompare(b);});
+    const cls = [...new Set(studentsData.map(s => s.studentClass).filter(Boolean))].sort((a, b) => { const na = parseInt(a), nb = parseInt(b); if (!isNaN(na) && !isNaN(nb)) return na - nb; return a.localeCompare(b); });
     sel.innerHTML = '<option value="">All Classes</option>';
-    cls.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent='Class '+c; sel.appendChild(o); });
+    cls.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = 'Class ' + c; sel.appendChild(o); });
     if (cur) sel.value = cur;
 }
 function updateSectionFilter() {
@@ -1074,7 +1200,7 @@ function updateSectionFilter() {
     const cur = sel.value;
     const secs = [...new Set(studentsData.map(s => s.section).filter(Boolean))].sort();
     sel.innerHTML = '<option value="">All Sections</option>';
-    secs.forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent='Section '+s; sel.appendChild(o); });
+    secs.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = 'Section ' + s; sel.appendChild(o); });
     if (cur) sel.value = cur;
 }
 function updateMarksheetFilterDropdowns() {
@@ -1082,20 +1208,19 @@ function updateMarksheetFilterDropdowns() {
     const s = document.getElementById('msFilterSection');
     if (c) {
         const cur = c.value;
-        const cls = [...new Set(studentsData.map(x => x.studentClass).filter(Boolean))].sort((a,b)=>{const na=parseInt(a),nb=parseInt(b);if(!isNaN(na)&&!isNaN(nb))return na-nb;return a.localeCompare(b);});
+        const cls = [...new Set(studentsData.map(x => x.studentClass).filter(Boolean))].sort((a, b) => { const na = parseInt(a), nb = parseInt(b); if (!isNaN(na) && !isNaN(nb)) return na - nb; return a.localeCompare(b); });
         c.innerHTML = '<option value="">All Classes</option>';
-        cls.forEach(x => { const o=document.createElement('option'); o.value=x; o.textContent='Class '+x; c.appendChild(o); });
+        cls.forEach(x => { const o = document.createElement('option'); o.value = x; o.textContent = 'Class ' + x; c.appendChild(o); });
         if (cur) c.value = cur;
     }
     if (s) {
         const cur = s.value;
         const secs = [...new Set(studentsData.map(x => x.section).filter(Boolean))].sort();
         s.innerHTML = '<option value="">All Sections</option>';
-        secs.forEach(x => { const o=document.createElement('option'); o.value=x; o.textContent='Section '+x; s.appendChild(o); });
+        secs.forEach(x => { const o = document.createElement('option'); o.value = x; o.textContent = 'Section ' + x; s.appendChild(o); });
         if (cur) s.value = cur;
     }
 }
-
 function saveStudent(e) {
     e.preventDefault();
     let id = document.getElementById('studentMasterId').value;
@@ -1126,7 +1251,6 @@ function saveStudent(e) {
     populateStudentSelect(); populateMarksheetStudentSelect();
     updateClassFilter(); updateSectionFilter(); updateMarksheetFilterDropdowns();
 }
-
 function renderStudentsTable() {
     const tbody = document.getElementById('studentsTableBody'); if (!tbody) return;
     tbody.innerHTML = '';
@@ -1136,9 +1260,9 @@ function renderStudentsTable() {
     let list = [...studentsData];
     if (fc) list = list.filter(s => s.studentClass === fc);
     if (fs) list = list.filter(s => s.section === fs);
-    if (q) list = list.filter(s => (s.studentName||'').toLowerCase().includes(q) || (s.fatherName||'').toLowerCase().includes(q) || (s.contactNo||'').toLowerCase().includes(q) || (s.rollNo||'').toLowerCase().includes(q));
+    if (q) list = list.filter(s => (s.studentName || '').toLowerCase().includes(q) || (s.fatherName || '').toLowerCase().includes(q) || (s.contactNo || '').toLowerCase().includes(q) || (s.rollNo || '').toLowerCase().includes(q));
     if (list.length === 0) { tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#666;">No students found.</td></tr>`; return; }
-    list.sort((a,b) => a.studentName.localeCompare(b.studentName)).forEach(item => {
+    list.sort((a, b) => a.studentName.localeCompare(b.studentName)).forEach(item => {
         const sc = item.status === 'Active' ? '#2e7d32' : '#c62828';
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -1192,9 +1316,9 @@ function populateStudentSelect() {
     const sel = document.getElementById('existingStudentSelect'); if (!sel) return;
     const cur = sel.value;
     sel.innerHTML = `<option value="">-- Select Existing Student --</option>`;
-    studentsData.filter(s => s.status !== 'Inactive').sort((a,b)=>a.studentName.localeCompare(b.studentName)).forEach(s => {
+    studentsData.filter(s => s.status !== 'Inactive').sort((a, b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
         const o = document.createElement('option');
-        o.value = s.id; o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass||'-'}`;
+        o.value = s.id; o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass || '-'}`;
         sel.appendChild(o);
     });
     if (cur) sel.value = cur;
@@ -1220,10 +1344,10 @@ function populateMarksheetStudentSelect() {
     let list = studentsData.filter(s => s.status !== 'Inactive');
     if (fc) list = list.filter(s => s.studentClass === fc);
     if (fs) list = list.filter(s => s.section === fs);
-    list.sort((a,b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
+    list.sort((a, b) => a.studentName.localeCompare(b.studentName)).forEach(s => {
         const o = document.createElement('option');
         o.value = s.id;
-        o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass||'-'}${s.section?' Sec '+s.section:''}`;
+        o.textContent = `${s.studentName} | ${s.fatherName} | Class ${s.studentClass || '-'}${s.section ? ' Sec ' + s.section : ''}`;
         sel.appendChild(o);
     });
     if (cur) sel.value = cur;
@@ -1237,7 +1361,7 @@ function fillMarksheetFromStudent() {
     document.getElementById('msRollNo').value = s.rollNo || '';
     document.getElementById('msSection').value = s.section || '';
 }
-function addMarksheetSubject(name='', full='', pass='', obt='') {
+function addMarksheetSubject(name = '', full = '', pass = '', obt = '') {
     const tb = document.getElementById('marksheetSubjectsBody');
     const n = tb.rows.length + 1;
     const tr = document.createElement('tr');
@@ -1257,8 +1381,6 @@ function removeMarksheetSubject(b) { b.closest('tr').remove(); renumberMarksheet
 function renumberMarksheetSubjects() {
     document.querySelectorAll('#marksheetSubjectsBody tr').forEach((r, i) => r.cells[0].textContent = i + 1);
 }
-
-// ===== AUTO PASS/FAIL @ 40% + RED HIGHLIGHT =====
 function calculateMarksheetTotals() {
     let tf = 0, to = 0;
     document.querySelectorAll('.ms-full-marks').forEach(i => tf += parseFloat(i.value) || 0);
@@ -1266,7 +1388,6 @@ function calculateMarksheetTotals() {
     document.getElementById('msTotalFullMarks').value = tf;
     document.getElementById('msTotalObtained').value = to;
 
-    // Per-subject RED highlight if < 40%
     document.querySelectorAll('#marksheetSubjectsBody tr').forEach(row => {
         const f = parseFloat(row.querySelector('.ms-full-marks').value) || 0;
         const o = parseFloat(row.querySelector('.ms-obtained').value) || 0;
@@ -1322,12 +1443,11 @@ function calculateMarksheetTotals() {
         r.value = '-'; r.style.color = ''; r.style.background = '';
     }
 }
-
 function previewMarksheetPhoto(event) {
     const f = event.target.files[0]; if (!f) return;
-    const reader = new FileReader();
-    reader.onload = e => { marksheetPhotoData = e.target.result; };
-    reader.readAsDataURL(f);
+    const r = new FileReader();
+    r.onload = e => { marksheetPhotoData = e.target.result; };
+    r.readAsDataURL(f);
 }
 function saveMarksheet(e) {
     e.preventDefault();
@@ -1341,17 +1461,21 @@ function saveMarksheet(e) {
         if (n) subs.push({ name: n, full: f, pass: p, obtained: o });
     });
     if (subs.length === 0) { alert("Please add at least one subject!"); return; }
-    const pctVal = parseFloat(document.getElementById('msPercentage').value) || 0;
     const rec = {
         id: id || Date.now().toString(),
         schoolAddress: document.getElementById('msSchoolAddress').value,
         examName: document.getElementById('msExamName').value,
         examDate: document.getElementById('msExamDate').value,
+        academicYear: document.getElementById('msAcademicYear').value,
+        serialNo: document.getElementById('msSerialNo').value,
         studentName: document.getElementById('msStudentName').value,
         fatherName: document.getElementById('msFatherName').value,
+        motherName: document.getElementById('msMotherName').value,
         studentClass: document.getElementById('msClass').value,
         rollNo: document.getElementById('msRollNo').value,
         section: document.getElementById('msSection').value,
+        category: document.getElementById('msCategory').value,
+        medium: document.getElementById('msMedium').value,
         subjects: subs,
         totalFullMarks: parseFloat(document.getElementById('msTotalFullMarks').value) || 0,
         totalObtained: parseFloat(document.getElementById('msTotalObtained').value) || 0,
@@ -1371,7 +1495,6 @@ function saveMarksheet(e) {
     }
     saveToLocalStorage(); resetMarksheetForm(); renderMarksheetsTable();
 }
-
 function renderMarksheetsTable() {
     const tb = document.getElementById('marksheetTableBody'); if (!tb) return;
     tb.innerHTML = '';
@@ -1380,7 +1503,7 @@ function renderMarksheetsTable() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td style="text-align:left; font-weight:600;">${item.studentName}</td>
-            <td>${item.studentClass || '-'}${item.section?' / '+item.section:''}</td>
+            <td>${item.studentClass || '-'}${item.section ? ' / ' + item.section : ''}</td>
             <td>${item.examName || '-'}</td>
             <td>${item.percentage || '-'}</td>
             <td style="color:${item.result === 'PASS' ? '#2e7d32' : '#c62828'}; font-weight:bold;">${item.result || '-'}</td>
@@ -1396,13 +1519,13 @@ function searchMarksheets() {
     const q = document.getElementById('marksheetSearchInput').value.toLowerCase();
     const tb = document.getElementById('marksheetTableBody');
     tb.innerHTML = '';
-    const f = marksheetsData.filter(m => (m.studentName||'').toLowerCase().includes(q) || (m.examName||'').toLowerCase().includes(q) || (m.studentClass||'').toLowerCase().includes(q));
+    const f = marksheetsData.filter(m => (m.studentName || '').toLowerCase().includes(q) || (m.examName || '').toLowerCase().includes(q) || (m.studentClass || '').toLowerCase().includes(q));
     if (f.length === 0) { tb.innerHTML = `<tr><td colspan="6" style="text-align:center;">No matching marksheets found.</td></tr>`; return; }
     f.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td style="text-align:left; font-weight:600;">${item.studentName}</td>
-            <td>${item.studentClass || '-'}${item.section?' / '+item.section:''}</td>
+            <td>${item.studentClass || '-'}${item.section ? ' / ' + item.section : ''}</td>
             <td>${item.examName || '-'}</td>
             <td>${item.percentage || '-'}</td>
             <td style="color:${item.result === 'PASS' ? '#2e7d32' : '#c62828'}; font-weight:bold;">${item.result || '-'}</td>
@@ -1420,11 +1543,16 @@ function editMarksheet(id) {
     document.getElementById('msSchoolAddress').value = item.schoolAddress || '';
     document.getElementById('msExamName').value = item.examName || '';
     document.getElementById('msExamDate').value = item.examDate || '';
+    document.getElementById('msAcademicYear').value = item.academicYear || '';
+    document.getElementById('msSerialNo').value = item.serialNo || '';
     document.getElementById('msStudentName').value = item.studentName || '';
     document.getElementById('msFatherName').value = item.fatherName || '';
+    document.getElementById('msMotherName').value = item.motherName || '';
     document.getElementById('msClass').value = item.studentClass || '';
     document.getElementById('msRollNo').value = item.rollNo || '';
     document.getElementById('msSection').value = item.section || '';
+    document.getElementById('msCategory').value = item.category || '';
+    document.getElementById('msMedium').value = item.medium || '';
     document.getElementById('msRemarks').value = item.remarks || '';
     marksheetPhotoData = item.photo || null;
     const tb = document.getElementById('marksheetSubjectsBody');
@@ -1450,68 +1578,70 @@ function resetMarksheetForm() {
     calculateMarksheetTotals();
     if (document.getElementById('msExamDate')) document.getElementById('msExamDate').valueAsDate = new Date();
 }
-
 function printMarksheet(id) {
     const item = marksheetsData.find(m => m.id === id); if (!item) return;
-    document.getElementById('pmsAddress').innerText = item.schoolAddress || 'Yamuna Mai-1, Suckdev Chowk (Rautahat)';
-    document.getElementById('pmsExamTitle').innerText = item.examName || 'MARKSHEET';
+    document.getElementById('pmsExamTitle').innerText = (item.examName || 'MARKSHEET').toUpperCase();
+    document.getElementById('pmsSerialNo').innerText = item.serialNo || '—';
     document.getElementById('pmsStudentName').innerText = item.studentName;
     document.getElementById('pmsFatherName').innerText = item.fatherName;
+    document.getElementById('pmsMotherName').innerText = item.motherName || '—';
     document.getElementById('pmsClass').innerText = item.studentClass;
-    document.getElementById('pmsRollNo').innerText = item.rollNo || '-';
-    document.getElementById('pmsSection').innerText = item.section || '-';
-    document.getElementById('pmsExamDate').innerText = item.examDate || '-';
+    document.getElementById('pmsSection').innerText = item.section || '—';
+    document.getElementById('pmsRollNo').innerText = item.rollNo || '—';
+    document.getElementById('pmsEnrollNo').innerText = item.rollNo || '—';
+    document.getElementById('pmsCategory').innerText = item.category || 'REGULAR';
+    document.getElementById('pmsMedium').innerText = item.medium || 'ENGLISH';
+    document.getElementById('pmsExamDate').innerText = item.examDate || '—';
 
     const tb = document.getElementById('pmsRows');
     tb.innerHTML = '';
     item.subjects.forEach((s, i) => {
-        let g = '';
+        let g = 'P';
         const p = s.full > 0 ? (s.obtained / s.full) * 100 : 0;
-        if (p >= 90) g = 'A+';
-        else if (p >= 80) g = 'A';
-        else if (p >= 70) g = 'B+';
-        else if (p >= 60) g = 'B';
-        else if (p >= 50) g = 'C+';
-        else if (p >= 40) g = 'C';
-        else g = 'D';
+        if (p >= 90) g = 'P';
+        else if (p >= 80) g = 'P';
+        else if (p >= 40) g = 'P';
+        else g = 'F';
         const isFail = p < 40;
         const rowStyle = isFail ? 'background:#ffe5e5; color:#c62828; font-weight:bold;' : '';
-        const obtStyle = isFail ? 'color:#c62828; font-weight:bold;' : 'color:#2e7d32; font-weight:bold;';
+        const obtStyle = isFail ? 'color:#c62828; font-weight:bold;' : 'color:#1b5e20; font-weight:bold;';
         tb.innerHTML += `<tr style="${rowStyle}">
-            <td>${i + 1}</td>
-            <td class="subject-col">${s.name}</td>
+            <td class="sub-name">${String(i + 1).padStart(4, '0')}-${s.name.toUpperCase()}</td>
             <td>${s.full}</td>
             <td>${s.pass}</td>
+            <td>${s.obtained}</td>
+            <td></td>
             <td style="${obtStyle}">${s.obtained}</td>
             <td>${g}</td>
         </tr>`;
     });
 
-    document.getElementById('pmsTotalFull').innerText = item.totalFullMarks;
-    document.getElementById('pmsTotalObtained').innerText = item.totalObtained;
-    document.getElementById('pmsPercentage').innerText = item.percentage;
-    document.getElementById('pmsRemarks').innerText = item.remarks || 'N/A';
+    document.getElementById('pmsTotalObtainedBig').innerText = item.totalObtained;
+    document.getElementById('pmsPartI').innerText = item.totalObtained;
+    document.getElementById('pmsPartII').innerText = '****';
+    document.getElementById('pmsPartIII').innerText = '****';
+    document.getElementById('pmsGrandTotal').innerText = `${item.totalObtained} / ${item.totalFullMarks}`;
 
     const resEl = document.getElementById('pmsResult');
-    const resBox = document.getElementById('pmsResultBox');
     const pctV = parseFloat(item.percentage) || 0;
     if (pctV >= 40) {
         resEl.innerText = 'PASS';
-        resEl.style.color = '#2e7d32';
-        if (resBox) { resBox.style.background = '#e8f5e9'; resBox.style.borderColor = '#2e7d32'; }
+        resEl.style.color = '#1b5e20';
     } else {
         resEl.innerText = 'FAIL';
         resEl.style.color = '#c62828';
-        if (resBox) { resBox.style.background = '#ffe5e5'; resBox.style.borderColor = '#c62828'; }
     }
+    document.getElementById('pmsPercentageSmall').innerText = item.percentage;
 
     const pi = document.getElementById('pmsPhotoImg');
     const pp = document.getElementById('pmsPhotoPlaceholder');
-    if (item.photo) {
-        pi.src = item.photo; pi.style.display = 'block'; pp.style.display = 'none';
-    } else {
-        pi.style.display = 'none'; pp.style.display = 'block'; pp.textContent = 'PASTE PHOTO';
-    }
+    if (item.photo) { pi.src = item.photo; pi.style.display = 'block'; pp.style.display = 'none'; }
+    else { pi.style.display = 'none'; pp.style.display = 'block'; pp.textContent = 'PHOTO'; }
+
+    const today = new Date();
+    const dStr = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + String(today.getFullYear()).slice(-2);
+    document.getElementById('pmsResultDate').innerText = item.examDate || dStr;
+    document.getElementById('pmsIssueDate').innerText = dStr;
 
     applySchoolLogo();
     document.body.className = 'print-marksheet';
@@ -1571,9 +1701,7 @@ function renderSelectedStudentHistory(s) {
     document.getElementById('studentHistoryTitle').innerText = `📅 Deposit History: ${s.studentName}`;
     tb.innerHTML = ''; c.style.display = 'block';
     if (s.history && s.history.length > 0) {
-        s.history.forEach(h => {
-            tb.innerHTML += `<tr><td>${h.date}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td></tr>`;
-        });
+        s.history.forEach(h => { tb.innerHTML += `<tr><td>${h.date}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td></tr>`; });
     } else if (s.depositAmount > 0) {
         tb.innerHTML = `<tr><td>${s.billDate}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${s.depositAmount}</td></tr>`;
     } else {
@@ -1589,7 +1717,7 @@ function printSelectedStudentHistory() {
     document.getElementById('phContact').innerText = s.contactNo || 'N/A';
     let rows = document.getElementById('phRows'); rows.innerHTML = ''; let t = 0;
     if (s.history && s.history.length > 0) {
-        s.history.forEach((h, i) => { t += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i+1}</td><td>${h.date}</td><td>${s.billNo}</td><td>Rs. ${h.amount}</td></tr>`; });
+        s.history.forEach((h, i) => { t += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${h.date}</td><td>${s.billNo}</td><td>Rs. ${h.amount}</td></tr>`; });
     } else if (s.depositAmount > 0) {
         t = Number(s.depositAmount) || 0;
         rows.innerHTML += `<tr><td>1</td><td>${s.billDate}</td><td>${s.billNo}</td><td>Rs. ${s.depositAmount}</td></tr>`;
@@ -1617,7 +1745,6 @@ function exportSelectedStudentHistoryToJSON() {
     let b = new Blob([JSON.stringify(activeEditingStudent, null, 2)], { type: 'application/json' });
     let a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${activeEditingStudent.studentName}_History.json`; a.click();
 }
-
 function renderSalaryTable() {
     const tb = document.getElementById('salaryTableBody'); tb.innerHTML = '';
     salaryData.forEach(item => {
@@ -1668,9 +1795,7 @@ function renderSelectedTeacherHistory(t) {
     document.getElementById('teacherHistoryTitle').innerText = `📅 Salary History: ${t.teacherName}`;
     tb.innerHTML = ''; c.style.display = 'block';
     if (t.history && t.history.length > 0) {
-        t.history.forEach(h => {
-            tb.innerHTML += `<tr><td>${h.date}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic||0}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues||0}</td></tr>`;
-        });
+        t.history.forEach(h => { tb.innerHTML += `<tr><td>${h.date}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues || 0}</td></tr>`; });
     } else if (t.netPaid > 0) {
         tb.innerHTML = `<tr><td>${t.date}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td style="color:green; font-weight:bold;">Rs. ${t.netPaid}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues}</td></tr>`;
     } else {
@@ -1686,7 +1811,7 @@ function printSelectedTeacherHistory() {
     document.getElementById('pthContact').innerText = t.contact || 'N/A';
     let rows = document.getElementById('pthRows'); rows.innerHTML = ''; let tot = 0;
     if (t.history && t.history.length > 0) {
-        t.history.forEach((h, i) => { tot += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i+1}</td><td>${h.date}</td><td>${t.receiptNo}</td><td>${h.month||t.month}</td><td>Rs. ${t.basic||0}</td><td>Rs. ${h.amount}</td><td>Rs. ${t.dues||0}</td></tr>`; });
+        t.history.forEach((h, i) => { tot += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${h.date}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td>Rs. ${h.amount}</td><td>Rs. ${t.dues || 0}</td></tr>`; });
     } else if (t.netPaid > 0) {
         tot = Number(t.netPaid) || 0;
         rows.innerHTML += `<tr><td>1</td><td>${t.date}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td>Rs. ${t.netPaid}</td><td>Rs. ${t.dues}</td></tr>`;
@@ -1699,7 +1824,7 @@ function exportSelectedTeacherHistoryToExcel() {
     if (!activeEditingTeacher) return;
     let t = activeEditingTeacher, d = [];
     if (t.history && t.history.length > 0) {
-        t.history.forEach(h => d.push({ Date: h.date, ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: h.month||t.month, Total: t.basic, Paid: h.amount, Dues: t.dues }));
+        t.history.forEach(h => d.push({ Date: h.date, ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: h.month || t.month, Total: t.basic, Paid: h.amount, Dues: t.dues }));
     } else if (t.netPaid > 0) {
         d.push({ Date: t.date, ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: t.month, Total: t.basic, Paid: t.netPaid, Dues: t.dues });
     }
@@ -1743,7 +1868,7 @@ function printBill(id) {
     document.getElementById('pPreparedBy').innerText = item.billPreparedBy;
     document.getElementById('pAuthSign').innerText = item.authorizedSign;
     let rows = document.getElementById('pRows'); rows.innerHTML = '';
-    item.particulars.forEach((p, i) => { if (p.amount > 0) rows.innerHTML += `<tr><td style="text-align:center;">${i+1}</td><td>${p.name}</td><td>Rs. ${p.amount}</td></tr>`; });
+    item.particulars.forEach((p, i) => { if (p.amount > 0) rows.innerHTML += `<tr><td style="text-align:center;">${i + 1}</td><td>${p.name}</td><td>Rs. ${p.amount}</td></tr>`; });
     applySchoolLogo();
     document.body.className = 'print-billing'; window.print(); document.body.className = '';
 }
@@ -1813,7 +1938,7 @@ function downloadBackup() {
     let b = { bills: billsData, salaries: salaryData, students: studentsData, marksheets: marksheetsData, logo: schoolLogoData };
     let blob = new Blob([JSON.stringify(b, null, 2)], { type: 'application/json' });
     let a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = `School_Backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
+    a.download = `School_Backup_${new Date().toISOString().slice(0, 10)}.json`; a.click();
 }
 function restoreBackup() {
     let fi = document.getElementById('backupFileInput');
@@ -1829,7 +1954,7 @@ function restoreBackup() {
                 saveToLocalStorage(); applySchoolLogo(); loadData();
                 alert("Data Restored Successfully!");
             } else alert("Invalid backup format!");
-        } catch(err) { alert("Error reading file!"); }
+        } catch (err) { alert("Error reading file!"); }
     };
     r.readAsText(fi.files[0]);
 }
