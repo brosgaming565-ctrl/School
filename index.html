@@ -127,8 +127,8 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .tile .form-group input { font-size: 12px; padding: 6px 8px; }
 .tile-logo-preview { width: 100%; height: 100px; object-fit: contain; background: #f8f9fa; border: 1px dashed #ccc; border-radius: 6px; margin-bottom: 8px; display: block; }
 
-/* ============ GRADE SHEET (BLUE BORDER, NO WATERMARK) ============ */
-.grade-sheet { width: 210mm; min-height: 297mm; padding: 5mm; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; border: 5px double #1a237e; }
+/* ============ GRADE SHEET (MOTA FRAME) ============ */
+.grade-sheet { width: 210mm; min-height: 297mm; padding: 5mm; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; border: 10px double #1a237e; } /* Mota Frame */
 .grade-sheet .bg-layer { position: absolute; top: 5mm; left: 5mm; right: 5mm; bottom: 5mm; background-size: 100% 100%; background-repeat: no-repeat; z-index: 0; pointer-events: none; }
 .grade-sheet .frame-layer { position: absolute; top: 5mm; left: 5mm; right: 5mm; bottom: 5mm; background-size: 100% 100%; background-repeat: no-repeat; z-index: 1; pointer-events: none; }
 .grade-sheet .content { position: relative; z-index: 2; padding: 15mm 12mm 12mm 12mm; }
@@ -188,8 +188,8 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .gs-signatures-bottom .sig-line { border-top: 1.5px solid #000; margin-bottom: 4px; }
 .gs-signatures-bottom .sig-label { font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10.5px; }
 
-/* ============ CERTIFICATES (RED BORDER + PHOTO) ============ */
-.certificate-page-new { width: 210mm; min-height: 297mm; padding: 15mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 5px double #c62828; line-height: 1.8; }
+/* ============ CERTIFICATES (LETTER SIZE + SAME DESIGN) ============ */
+.certificate-page-new { width: 8.5in; min-height: 11in; padding: 12mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 5px double #c62828; line-height: 1.8; }
 .cert-new-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 10px; margin-bottom: 8px; }
 .cert-new-header .cert-logo-left { width: 85px; height: 85px; object-fit: contain; flex-shrink: 0; }
 .cert-new-header .cert-center-block { flex: 1; text-align: center; padding-top: 5px; }
@@ -197,6 +197,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .cert-new-header .cert-center-block h1 { font-size: 20px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #000; margin-bottom: 3px; line-height: 1.2; }
 .cert-new-header .cert-center-block .cert-affil { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
 .cert-new-header .cert-center-block .cert-addr { font-size: 11px; font-weight: 700; }
+.cert-new-header .cert-center-block .cert-estd-heading { font-size: 11px; font-weight: 700; color: #c62828; margin-top: 2px; } /* Estd Heading */
 .cert-new-header .cert-photo-right { width: 90px; height: 115px; flex-shrink: 0; border: 2px solid #000; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .cert-new-header .cert-photo-right img { width: 100%; height: 100%; object-fit: cover; }
 .cert-new-header .cert-photo-right .cert-photo-ph { font-size: 9px; font-weight: 700; color: #888; text-align: center; text-transform: uppercase; }
@@ -682,7 +683,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: NEW GRADE SHEET (NO WATERMARK) -->
+<!-- PRINTABLE: NEW GRADE SHEET (MOTA FRAME) -->
 <div id="printableMarksheetArea">
     <div class="grade-sheet">
         <div class="bg-layer" id="gsBgLayer"></div>
@@ -831,7 +832,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: TRANSFER CERTIFICATE -->
+<!-- PRINTABLE: TRANSFER CERTIFICATE (ESTD IN HEADING) -->
 <div id="printableTCArea">
     <div class="certificate-page-new">
         <div class="cert-new-header">
@@ -841,6 +842,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <h1 id="tcSchoolName">SCHOOL NAME</h1>
                 <div class="cert-affil">Affiliated to HSEB</div>
                 <div class="cert-addr" id="tcSchoolAddress">Address</div>
+                <div class="cert-estd-heading">[Estd. 2054]</div> <!-- ESTD DATE HEADING -->
             </div>
             <div class="cert-photo-right">
                 <img id="tcPhotoImg" src="" alt="" style="display:none;">
@@ -864,7 +866,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: CHARACTER CERTIFICATE -->
+<!-- PRINTABLE: CHARACTER CERTIFICATE (ESTD IN HEADING) -->
 <div id="printableCCArea">
     <div class="certificate-page-new">
         <div class="cert-new-header">
@@ -874,6 +876,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <h1 id="ccSchoolName">SCHOOL NAME</h1>
                 <div class="cert-affil">Affiliated to HSEB</div>
                 <div class="cert-addr" id="ccSchoolAddress">Address</div>
+                <div class="cert-estd-heading">[Estd. 2054]</div> <!-- ESTD DATE HEADING -->
             </div>
             <div class="cert-photo-right">
                 <img id="ccPhotoImg" src="" alt="" style="display:none;">
@@ -897,7 +900,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: SCHOOL LEAVING CERTIFICATE -->
+<!-- PRINTABLE: SCHOOL LEAVING CERTIFICATE (ESTD IN HEADING) -->
 <div id="printableSLCArea">
     <div class="certificate-page-new">
         <div class="cert-new-header">
@@ -907,6 +910,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <h1 id="slcSchoolName">SCHOOL NAME</h1>
                 <div class="cert-affil">Affiliated to HSEB</div>
                 <div class="cert-addr" id="slcSchoolAddress">Address</div>
+                <div class="cert-estd-heading">[Estd. 2054]</div> <!-- ESTD DATE HEADING -->
             </div>
             <div class="cert-photo-right">
                 <img id="slcPhotoImg" src="" alt="" style="display:none;">
