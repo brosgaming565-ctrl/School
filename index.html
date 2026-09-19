@@ -37,13 +37,17 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
 .main-content { margin-left: 230px; padding: 20px; flex: 1; width: calc(100% - 230px); }
 
+/* Topbar — SKY BLUE */
 .topbar {
-    background: #fff; padding: 12px 20px; border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 15px;
+    background: linear-gradient(135deg, #4FC3F7, #29B6F6);
+    padding: 14px 22px; border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(41,182,246,0.35);
+    margin-bottom: 15px;
     display: flex; justify-content: space-between; align-items: center;
+    color: #fff;
 }
-.topbar h1 { font-size: 15px; color: #1a237e; font-weight: 700; }
-.topbar .school-info { font-size: 11px; color: #666; }
+.topbar h1 { font-size: 17px; color: #fff; font-weight: 800; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+.topbar .school-info { font-size: 11.5px; color: #fff; font-weight: 600; opacity: 0.95; }
 
 /* Login */
 #loginBgWrapper {
@@ -115,22 +119,22 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .logo-preview-box img { width: 60px; height: 60px; object-fit: contain; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
 
 /* ============================================
-   UNIVERSITY-STYLE MARKSHEET (Full A4 Page)
+   UNIVERSITY-STYLE MARKSHEET (Cream Background)
    ============================================ */
 .uni-marksheet {
     width: 210mm; min-height: 297mm;
-    padding: 6mm; background: #fff; margin: 0 auto;
-    border: 2px solid #000;
+    padding: 8mm; background: #FAF6EC; margin: 0 auto;
+    border: 3px double #1a237e;
     font-family: 'Times New Roman', Times, serif;
     color: #000; font-size: 11px;
 }
-.uni-inner { border: 1px solid #000; }
+.uni-inner { border: 1px solid #1a237e; background: #FAF6EC; }
 .uni-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 5px 10px; border-bottom: 1px solid #000; position: relative;
+    padding: 6px 10px; border-bottom: 2px solid #1a237e; position: relative;
 }
 .uni-header-left { display: flex; align-items: center; gap: 10px; flex: 0 0 90px; }
-.uni-header-left img { width: 70px; height: 70px; object-fit: contain; flex-shrink: 0; }
+.uni-header-left img { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
 .uni-header-center { flex: 1; text-align: center; padding: 0 10px; }
 .uni-header-center h1 {
     font-size: 17px; font-weight: 800; letter-spacing: 1px;
@@ -138,62 +142,67 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 }
 .uni-header-center .subtitle { font-size: 10.5px; font-weight: 600; }
 .uni-header-center .exam-line {
-    font-size: 10.5px; font-weight: 700; margin-top: 3px;
-    text-decoration: underline;
+    font-size: 11px; font-weight: 800; margin-top: 3px;
+    text-decoration: underline; color: #003366;
 }
-.uni-header-right { flex: 0 0 100px; text-align: right; font-size: 10px; }
+.uni-header-right { flex: 0 0 105px; text-align: right; font-size: 10px; }
 .uni-header-right .sno { margin-bottom: 3px; }
 .uni-header-right .sno strong { font-size: 11px; }
 .uni-header-right .photo-box {
-    width: 75px; height: 90px; border: 1px solid #000;
+    width: 78px; height: 92px; border: 1px solid #000;
     margin-left: auto; margin-top: 4px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 9px; color: #666; background: #f5f5f5; overflow: hidden;
+    font-size: 9px; color: #666; background: #fff; overflow: hidden;
 }
 .uni-header-right .photo-box img { width: 100%; height: 100%; object-fit: cover; }
 
 .uni-info-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.uni-info-table td { border: 1px solid #000; padding: 3px 6px; vertical-align: top; }
-.uni-info-table .lbl { font-weight: 700; background: #f0f0f0; width: 90px; }
+.uni-info-table td { border: 1px solid #1a237e; padding: 3px 6px; vertical-align: top; }
+.uni-info-table .lbl { font-weight: 700; background: #f0ece0; width: 90px; }
 .uni-info-table .val { font-weight: 600; }
 
 .uni-subject-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
 .uni-subject-table th, .uni-subject-table td {
-    border: 1px solid #000; padding: 3px 5px;
+    border: 1px solid #1a237e; padding: 3px 5px;
     text-align: center; vertical-align: middle;
 }
-.uni-subject-table th { background: #e8e8e8; font-weight: 700; font-size: 10px; }
+.uni-subject-table th { background: #f0ece0; font-weight: 700; font-size: 10px; }
 .uni-subject-table td.sub-name { text-align: left; padding-left: 8px; }
 .uni-subject-table .fail-row td { color: #c62828; font-weight: 700; background: #ffe5e5; }
 .uni-subject-table .pass-row td.obtained { color: #1b5e20; font-weight: 700; }
 .uni-subject-table .section-label {
     text-align: left; font-weight: 700; font-style: italic;
-    padding-left: 8px; background: #f9f9f9;
+    padding-left: 8px; background: #f5f0e0;
 }
 
 .uni-total-row {
     display: flex; justify-content: space-between;
-    padding: 5px 10px; border-top: 1px solid #000;
-    border-bottom: 1px solid #000; font-size: 11px; font-weight: 700;
+    padding: 5px 10px; border-top: 1px solid #1a237e;
+    border-bottom: 1px solid #1a237e; font-size: 11px; font-weight: 700;
+    background: #f5f0e0;
 }
 .uni-yearwise-table { width: 100%; border-collapse: collapse; font-size: 11px; }
 .uni-yearwise-table th, .uni-yearwise-table td {
-    border: 1px solid #000; padding: 4px 6px; text-align: center;
+    border: 1px solid #1a237e; padding: 4px 6px; text-align: center;
 }
-.uni-yearwise-table th { background: #e8e8e8; font-weight: 700; }
-.uni-legend { padding: 4px 10px; font-size: 10px; border-bottom: 1px solid #000; }
+.uni-yearwise-table th { background: #f0ece0; font-weight: 700; }
+.uni-legend { padding: 5px 10px; font-size: 10px; border-bottom: 1px solid #1a237e; background: #FAF6EC; }
 
 .uni-footer {
     display: flex; justify-content: space-between; align-items: flex-end;
-    padding: 15px 15px 8px 15px; font-size: 10.5px;
+    padding: 20px 20px 10px 20px; font-size: 11px; background: #FAF6EC;
 }
-.uni-footer .footer-left { text-align: left; }
-.uni-footer .footer-right { text-align: right; }
-.uni-footer .signature {
-    font-family: 'Brush Script MT', cursive; font-size: 15px;
-    color: #000080; margin-bottom: 3px;
+.uni-footer .footer-left { text-align: left; line-height: 1.7; }
+.uni-footer .footer-right { text-align: center; min-width: 150px; }
+.uni-footer .sig-line {
+    border-top: 2px solid #000;
+    margin-bottom: 5px;
+    height: 40px;
+    width: 140px;
+    margin-left: auto;
+    margin-right: auto;
 }
-.uni-footer .controller { font-weight: 700; }
+.uni-footer .controller { font-weight: 700; font-size: 11px; }
 
 @media print {
     body * { visibility: hidden; }
@@ -207,8 +216,8 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     body.print-teacher-history #printableTeacherHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-marksheet #printableMarksheetArea, body.print-marksheet #printableMarksheetArea * { visibility: visible; }
     body.print-marksheet #printableMarksheetArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-    body.print-marksheet .uni-marksheet { width: 100%; min-height: 100vh; margin: 0; padding: 5mm; border: none; }
-    @page { size: A4; margin: 5mm; }
+    body.print-marksheet .uni-marksheet { width: 100%; min-height: 100vh; margin: 0; padding: 6mm; border: none; background: #FAF6EC; }
+    @page { size: A4; margin: 6mm; }
     .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
     .bill-header h2 { font-size: 15px; margin-bottom: 2px; }
     .bill-header p { font-size: 11px; font-weight: 600; }
@@ -425,7 +434,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                             <select id="sectionFilterSelect" onchange="renderStudentsTable()" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
                                 <option value="">All Sections</option>
                             </select>
-                            <input type="text" id="studentSearchInput" onkeyup="renderStudentsTable()" placeholder="Search by Name, Father, Contact..." style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                            <input type="text" id="studentSearchInput" onkeyup="renderStudentsTable()" placeholder="Search..." style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
                         </div>
                         <div style="overflow-x:auto; max-height:420px;">
                             <table class="data-table">
@@ -532,7 +541,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
                     <div class="box">
                         <h3>📋 Saved Marksheets</h3>
-                        <input type="text" id="marksheetSearchInput" onkeyup="searchMarksheets()" placeholder="Search by Student, Exam, Class..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
+                        <input type="text" id="marksheetSearchInput" onkeyup="searchMarksheets()" placeholder="Search..." style="width:100%; padding:7px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px; font-size:12px;">
                         <div style="overflow-x:auto; max-height:500px;">
                             <table class="data-table">
                                 <thead><tr><th>Student</th><th>Class</th><th>Exam</th><th>%</th><th>Result</th><th>Action</th></tr></thead>
@@ -880,18 +889,19 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <strong>G</strong> - Passed by Grace ; <strong>P</strong> - Passed ; <strong>S</strong> - Eligible for Supplementary ; <strong>F</strong> - Failed, <strong>A</strong> - Absent
             </div>
 
-            <!-- FOOTER -->
+            <!-- FOOTER with signature lines -->
             <div class="uni-footer">
                 <div class="footer-left">
                     <div>Result declared on <strong id="pmsResultDate">—</strong></div>
-                    <div style="margin-top: 4px;">ISSUE DATE : <span id="pmsIssueDate">—</span></div>
+                    <div>ISSUE DATE : <span id="pmsIssueDate">—</span></div>
+                    <div style="margin-top: 4px;">RAUTAHAT</div>
                 </div>
                 <div class="footer-right">
-                    <div class="signature">Signature</div>
+                    <div class="sig-line"></div>
                     <div class="controller">Class Teacher</div>
                 </div>
                 <div class="footer-right">
-                    <div class="signature">Signature</div>
+                    <div class="sig-line"></div>
                     <div class="controller">Principal</div>
                 </div>
             </div>
@@ -900,7 +910,69 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 </div>
 
 <script>
-// ============ SCHOOL LOGO ============
+/* ============ NEPALI DATE CONVERTER (AD -> BS) ============ */
+/* Nepali calendar data (2080–2090 BS) for accurate conversion */
+const NP_MONTHS = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
+const NP_DATA = {
+    // [bsYear]: [days in each of 12 months]
+    2080: [31,32,31,32,31,30,30,30,29,30,29,31],
+    2081: [31,31,32,31,31,31,30,29,30,29,30,30],
+    2082: [31,31,32,31,31,31,30,29,30,29,30,30],
+    2083: [31,31,32,31,31,30,30,30,29,30,29,31],
+    2084: [31,31,32,31,31,30,30,30,29,30,29,31],
+    2085: [31,32,31,32,31,30,30,30,29,30,29,31],
+    2086: [30,32,31,32,31,30,30,30,29,30,29,31],
+    2087: [31,31,32,31,31,31,30,30,29,30,29,31],
+    2088: [31,31,32,31,31,31,30,30,29,30,29,31],
+    2089: [31,31,32,31,31,31,30,30,29,30,29,31],
+    2090: [31,32,31,32,31,30,30,30,29,30,29,31]
+};
+
+function adToBs(adDateStr) {
+    if (!adDateStr) return '';
+    const d = new Date(adDateStr);
+    if (isNaN(d.getTime())) return '';
+    // Reference: 2000-01-01 AD = 2056-09-17 BS (approx)
+    const refAD = new Date(2000, 0, 1);
+    const refBS = { y: 2056, m: 8, d: 17 }; // 0-based month index (8 = Ashwin)
+    const diffDays = Math.floor((d - refAD) / 86400000);
+    let y = refBS.y, m = refBS.m, day = refBS.d;
+    let rem = diffDays;
+    while (rem > 0) {
+        const dim = NP_DATA[y] ? NP_DATA[y][m] : 30;
+        const leftInMonth = dim - day;
+        if (rem <= leftInMonth) { day += rem; rem = 0; }
+        else {
+            rem -= (leftInMonth + 1);
+            day = 1;
+            m++;
+            if (m > 11) { m = 0; y++; }
+        }
+    }
+    while (rem < 0) {
+        if (day > 1) { day--; rem++; }
+        else {
+            m--;
+            if (m < 0) { m = 11; y--; }
+            day = NP_DATA[y] ? NP_DATA[y][m] : 30;
+            rem++;
+        }
+    }
+    return {
+        y, m, d: day,
+        numeric: `${y}/${String(m+1).padStart(2,'0')}/${String(day).padStart(2,'0')}`,
+        withMonth: `${day} ${NP_MONTHS[m]} ${y}`
+    };
+}
+
+function formatDateWithNepali(adDateStr) {
+    if (!adDateStr) return '';
+    const bs = adToBs(adDateStr);
+    if (!bs) return adDateStr;
+    return `${adDateStr} (${bs.numeric})`;
+}
+
+/* ============ SCHOOL LOGO ============ */
 const DEFAULT_LOGO_BASE64 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/7S3GUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAccAgAAAgAAADhCSU0EJQAAAAAAEOjxXPMvwRihontnrcVk1bo4QklNBDoAAAAAAOUAAAAQAAAAAQAAAAAAC3ByaW50T3V0cHV0AAAABQAAAABQc3RTYm9vbAEAAAAASW50ZWVudW0AAAAASW50ZQAAAABDbHJtAAAAD3ByaW50U2l4dGVlbkJpdGJvb2wAAAAAC3ByaW50ZXJOYW1lVEVYVAAAAAEAAAAAAA9wcmludFByb29mU2V0dXBPYmpjAAAADABQAHIAbwBvAGYAIABTAGUAdAB1AHAAAAAAAApwcm9vZlNldHVwAAAAAQAAAABCbHRuZW51bQAAAAxidWlsdGluUHJvb2YAAAAJcHJvb2ZDTVlLADhCSU0EOwAAAAACLQAAABAAAAABAAAAAAAScHJpbnRPdXRwdXRPcHRpb25zAAAAFwAAAABDcHRuYm9vbAAAAAAAQ2xicmJvb2wAAAAAAFJnc01ib29sAAAAAABDcm5DYm9vbAAAAAAAQ250Q2Jvb2wAAAAAAExibHNib29sAAAAAABOZ3R2Ym9vbAAAAAAARW1sRGJvb2wAAAAAAEludHJib29sAAAAAABCY2tnT2JqYwAAAAEAAAAAAABSR0JDAAAAAwAAAABSZCAgZG91YkBv4AAAAAAAAAAAAEdybiBkb3ViQG/gAAAAAAAAAAAAQmwgIGRvdWJAb+AAAAAAAAAAAABCcmRUVW50RiNSbHQAAAAAAAAAAAAAAABCbGQgVW50RiNSbHQAAAAAAAAAAAAAAABSc2x0VW50RiNQeGxAWAAAAAAAAAAAAAp2ZWN0b3JEYXRhYm9vbAEAAAAAUGdQc2VudW0AAAAAUGdQcwAAAABQZ1BDAAAAAExlZnRVbnRGI1JsdAAAAAAAAAAAAAAAAFRvcCBVbnRGI1JsdAAAAAAAAAAAAAAAAFNjbCBVbnRGI1ByY0BZAAAAAAAAAAAAEGNyb3BXaGVuUHJpbnRpbmdib29sAAAAAA5jcm9wUmVjdEJvdHRvbWxvbmcAAAAAAAAADGNyb3BSZWN0TGVmdGxvbmcAAAAAAAAADWNyb3BSZWN0UmlnaHRsb25nAAAAAAAAAAtjcm9wUmVjdFRvcGxvbmcAAAAAADhCSU0D7QAAAAAAEABgAAAAAQABAGAAAAABAAE4QklNBCYAAAAAAA4AAAAAAAAAAAAAP4AAADhCSU0EDQAAAAAABAAAAB44QklNBBkAAAAAAAQAAAAeOEJJTQPzAAAAAAAJAAAAAAAAAAABADhCSU0nEAAAAAAACgABAAAAAAAAAAE4QklNA/UAAAAAAEgAL2ZmAAEAbGZmAAYAAAAAAAEAL2ZmAAEAoZmaAAYAAAAAAAEAMgAAAAEAWgAAAAYAAAAAAAEANQAAAAEALQAAAAYAAAAAAAE4QklNA/gAAAAAAHAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAOEJJTQQAAAAAAAACAAA4QklNBAIAAAAAAAIAADhCSU0EMAAAAAAAAQEAOEJJTQQtAAAAAAAGAAEAAAACOEJJTQQIAAAAAAAQAAAAAQAAAkAAAAJAAAAAADhCSU0EHgAAAAAABAAAAAA4QklNBBoAAAAAAz0AAAAGAAAAAAAAAAAAAAWaAAAESQAAAAQAbABvAGcAbwAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAESQAABZoAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAG51bGwAAAACAAAABmJvdW5kc09iamMAAAABAAAAAAAAUmN0MQAAAAQAAAAAVG9wIGxvbmcAAAAAAAAAAExlZnRsb25nAAAAAAAAAABCdG9tbG9uZwAABZoAAAAAUmdodGxvbmcAAARJAAAABnNsaWNlc1ZsTHMAAAABT2JqYwAAAAEAAAAAAAVzbGljZQAAABIAAAAHc2xpY2VJRGxvbmcAAAAAAAAAB2dyb3VwSURsb25nAAAAAAAAAAZvcmlnaW5lbnVtAAAADEVTbGljZU9yaWdpbgAAAA1hdXRvR2VuZXJhdGVkAAAAAFR5cGVlbnVtAAAACkVTbGljZVR5cGUAAAAASW1nIAAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJjdDEAAAAEAAAAAFRvcCBsb25nAAAAAAAAAABMZWZ0bG9uZwAAAAAA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';
 
 let schoolLogoData = localStorage.getItem('school_logo') || DEFAULT_LOGO_BASE64;
@@ -1591,16 +1663,17 @@ function printMarksheet(id) {
     document.getElementById('pmsEnrollNo').innerText = item.rollNo || '—';
     document.getElementById('pmsCategory').innerText = item.category || 'REGULAR';
     document.getElementById('pmsMedium').innerText = item.medium || 'ENGLISH';
-    document.getElementById('pmsExamDate').innerText = item.examDate || '—';
+
+    // Exam date with Nepali conversion
+    const examDateStr = item.examDate ? formatDateWithNepali(item.examDate) : '—';
+    document.getElementById('pmsExamDate').innerText = examDateStr;
 
     const tb = document.getElementById('pmsRows');
     tb.innerHTML = '';
     item.subjects.forEach((s, i) => {
         let g = 'P';
         const p = s.full > 0 ? (s.obtained / s.full) * 100 : 0;
-        if (p >= 90) g = 'P';
-        else if (p >= 80) g = 'P';
-        else if (p >= 40) g = 'P';
+        if (p >= 40) g = 'P';
         else g = 'F';
         const isFail = p < 40;
         const rowStyle = isFail ? 'background:#ffe5e5; color:#c62828; font-weight:bold;' : '';
@@ -1638,10 +1711,15 @@ function printMarksheet(id) {
     if (item.photo) { pi.src = item.photo; pi.style.display = 'block'; pp.style.display = 'none'; }
     else { pi.style.display = 'none'; pp.style.display = 'block'; pp.textContent = 'PHOTO'; }
 
+    // Today's date with Nepali conversion
     const today = new Date();
-    const dStr = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + String(today.getFullYear()).slice(-2);
-    document.getElementById('pmsResultDate').innerText = item.examDate || dStr;
-    document.getElementById('pmsIssueDate').innerText = dStr;
+    const todayStr = today.getFullYear() + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + String(today.getDate()).padStart(2, '0');
+    const todayNepali = formatDateWithNepali(todayStr);
+
+    // Result declared date — use exam date or today
+    const resultDateStr = item.examDate ? formatDateWithNepali(item.examDate) : todayNepali;
+    document.getElementById('pmsResultDate').innerText = resultDateStr;
+    document.getElementById('pmsIssueDate').innerText = todayNepali;
 
     applySchoolLogo();
     document.body.className = 'print-marksheet';
@@ -1701,9 +1779,9 @@ function renderSelectedStudentHistory(s) {
     document.getElementById('studentHistoryTitle').innerText = `📅 Deposit History: ${s.studentName}`;
     tb.innerHTML = ''; c.style.display = 'block';
     if (s.history && s.history.length > 0) {
-        s.history.forEach(h => { tb.innerHTML += `<tr><td>${h.date}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td></tr>`; });
+        s.history.forEach(h => { tb.innerHTML += `<tr><td>${formatDateWithNepali(h.date)}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td></tr>`; });
     } else if (s.depositAmount > 0) {
-        tb.innerHTML = `<tr><td>${s.billDate}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${s.depositAmount}</td></tr>`;
+        tb.innerHTML = `<tr><td>${formatDateWithNepali(s.billDate)}</td><td>${s.billNo}</td><td>${s.studentName}</td><td>${s.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${s.depositAmount}</td></tr>`;
     } else {
         tb.innerHTML = `<tr><td colspan="5">No deposit history.</td></tr>`;
     }
@@ -1717,10 +1795,10 @@ function printSelectedStudentHistory() {
     document.getElementById('phContact').innerText = s.contactNo || 'N/A';
     let rows = document.getElementById('phRows'); rows.innerHTML = ''; let t = 0;
     if (s.history && s.history.length > 0) {
-        s.history.forEach((h, i) => { t += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${h.date}</td><td>${s.billNo}</td><td>Rs. ${h.amount}</td></tr>`; });
+        s.history.forEach((h, i) => { t += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${formatDateWithNepali(h.date)}</td><td>${s.billNo}</td><td>Rs. ${h.amount}</td></tr>`; });
     } else if (s.depositAmount > 0) {
         t = Number(s.depositAmount) || 0;
-        rows.innerHTML += `<tr><td>1</td><td>${s.billDate}</td><td>${s.billNo}</td><td>Rs. ${s.depositAmount}</td></tr>`;
+        rows.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(s.billDate)}</td><td>${s.billNo}</td><td>Rs. ${s.depositAmount}</td></tr>`;
     }
     document.getElementById('phTotalPaid').innerText = "Rs. " + t;
     applySchoolLogo();
@@ -1730,9 +1808,9 @@ function exportSelectedStudentHistoryToExcel() {
     if (!activeEditingStudent) return;
     let d = [];
     if (activeEditingStudent.history && activeEditingStudent.history.length > 0) {
-        activeEditingStudent.history.forEach(h => d.push({ Date: h.date, BillNo: activeEditingStudent.billNo, Student: activeEditingStudent.studentName, Father: activeEditingStudent.fatherName, Amount: h.amount }));
+        activeEditingStudent.history.forEach(h => d.push({ Date: formatDateWithNepali(h.date), BillNo: activeEditingStudent.billNo, Student: activeEditingStudent.studentName, Father: activeEditingStudent.fatherName, Amount: h.amount }));
     } else if (activeEditingStudent.depositAmount > 0) {
-        d.push({ Date: activeEditingStudent.billDate, BillNo: activeEditingStudent.billNo, Student: activeEditingStudent.studentName, Father: activeEditingStudent.fatherName, Amount: activeEditingStudent.depositAmount });
+        d.push({ Date: formatDateWithNepali(activeEditingStudent.billDate), BillNo: activeEditingStudent.billNo, Student: activeEditingStudent.studentName, Father: activeEditingStudent.fatherName, Amount: activeEditingStudent.depositAmount });
     }
     if (d.length === 0) { alert("No history!"); return; }
     let ws = XLSX.utils.json_to_sheet(d);
@@ -1750,7 +1828,7 @@ function renderSalaryTable() {
     salaryData.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${item.date || 'N/A'}</td><td>${item.receiptNo || 'N/A'}</td>
+            <td>${formatDateWithNepali(item.date) || 'N/A'}</td><td>${item.receiptNo || 'N/A'}</td>
             <td>${item.teacherName}</td><td>${item.month}</td>
             <td>Rs. ${item.basic || 0}</td>
             <td style="color:green; font-weight:bold;">Rs. ${item.netPaid || 0}</td>
@@ -1795,9 +1873,9 @@ function renderSelectedTeacherHistory(t) {
     document.getElementById('teacherHistoryTitle').innerText = `📅 Salary History: ${t.teacherName}`;
     tb.innerHTML = ''; c.style.display = 'block';
     if (t.history && t.history.length > 0) {
-        t.history.forEach(h => { tb.innerHTML += `<tr><td>${h.date}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues || 0}</td></tr>`; });
+        t.history.forEach(h => { tb.innerHTML += `<tr><td>${formatDateWithNepali(h.date)}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues || 0}</td></tr>`; });
     } else if (t.netPaid > 0) {
-        tb.innerHTML = `<tr><td>${t.date}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td style="color:green; font-weight:bold;">Rs. ${t.netPaid}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues}</td></tr>`;
+        tb.innerHTML = `<tr><td>${formatDateWithNepali(t.date)}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td style="color:green; font-weight:bold;">Rs. ${t.netPaid}</td><td style="color:red; font-weight:bold;">Rs. ${t.dues}</td></tr>`;
     } else {
         tb.innerHTML = `<tr><td colspan="6">No payment record.</td></tr>`;
     }
@@ -1811,10 +1889,10 @@ function printSelectedTeacherHistory() {
     document.getElementById('pthContact').innerText = t.contact || 'N/A';
     let rows = document.getElementById('pthRows'); rows.innerHTML = ''; let tot = 0;
     if (t.history && t.history.length > 0) {
-        t.history.forEach((h, i) => { tot += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${h.date}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td>Rs. ${h.amount}</td><td>Rs. ${t.dues || 0}</td></tr>`; });
+        t.history.forEach((h, i) => { tot += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i + 1}</td><td>${formatDateWithNepali(h.date)}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td>Rs. ${h.amount}</td><td>Rs. ${t.dues || 0}</td></tr>`; });
     } else if (t.netPaid > 0) {
         tot = Number(t.netPaid) || 0;
-        rows.innerHTML += `<tr><td>1</td><td>${t.date}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td>Rs. ${t.netPaid}</td><td>Rs. ${t.dues}</td></tr>`;
+        rows.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(t.date)}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td>Rs. ${t.netPaid}</td><td>Rs. ${t.dues}</td></tr>`;
     }
     document.getElementById('pthTotalPaid').innerText = "Rs. " + tot;
     applySchoolLogo();
@@ -1824,9 +1902,9 @@ function exportSelectedTeacherHistoryToExcel() {
     if (!activeEditingTeacher) return;
     let t = activeEditingTeacher, d = [];
     if (t.history && t.history.length > 0) {
-        t.history.forEach(h => d.push({ Date: h.date, ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: h.month || t.month, Total: t.basic, Paid: h.amount, Dues: t.dues }));
+        t.history.forEach(h => d.push({ Date: formatDateWithNepali(h.date), ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: h.month || t.month, Total: t.basic, Paid: h.amount, Dues: t.dues }));
     } else if (t.netPaid > 0) {
-        d.push({ Date: t.date, ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: t.month, Total: t.basic, Paid: t.netPaid, Dues: t.dues });
+        d.push({ Date: formatDateWithNepali(t.date), ReceiptNo: t.receiptNo, Teacher: t.teacherName, Month: t.month, Total: t.basic, Paid: t.netPaid, Dues: t.dues });
     }
     if (d.length === 0) { alert("No history!"); return; }
     let ws = XLSX.utils.json_to_sheet(d);
@@ -1853,7 +1931,7 @@ function printBill(id) {
     let item = billsData.find(b => b.id === id); if (!item) return;
     document.getElementById('pAddress').innerText = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
     document.getElementById('pBillNo').innerText = item.billNo;
-    document.getElementById('pDate').innerText = item.billDate;
+    document.getElementById('pDate').innerText = formatDateWithNepali(item.billDate);
     document.getElementById('pStudentName').innerText = item.studentName;
     document.getElementById('pFatherName').innerText = item.fatherName;
     document.getElementById('pClass').innerText = item.studentClass;
@@ -1876,7 +1954,7 @@ function printSalary(id) {
     let item = salaryData.find(s => s.id === id); if (!item) return;
     document.getElementById('psAddress').innerText = item.schoolAddress || "Yamuna Mai-1, Suckdev Chowk (Rautahat)";
     document.getElementById('psReceiptNo').innerText = item.receiptNo || '';
-    document.getElementById('psDate').innerText = item.date || '';
+    document.getElementById('psDate').innerText = formatDateWithNepali(item.date) || '';
     document.getElementById('psTeacherName').innerText = item.teacherName || '';
     document.getElementById('psFatherName').innerText = item.fatherName || '';
     document.getElementById('psContact').innerText = item.contact || '';
