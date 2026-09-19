@@ -126,7 +126,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .tile-logo-preview { width: 100%; height: 100px; object-fit: contain; background: #f8f9fa; border: 1px dashed #ccc; border-radius: 6px; margin-bottom: 8px; display: block; }
 
 /* ============ GRADE SHEET (MOTA FRAME) ============ */
-.grade-sheet { width: 210mm; min-height: 297mm; padding: 5mm; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; border: 10px double #1a237e; } /* Mota Frame */
+.grade-sheet { width: 210mm; min-height: 297mm; padding: 5mm; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; border: 10px double #1a237e; }
 .grade-sheet .bg-layer { position: absolute; top: 5mm; left: 5mm; right: 5mm; bottom: 5mm; background-size: 100% 100%; background-repeat: no-repeat; z-index: 0; pointer-events: none; }
 .grade-sheet .frame-layer { position: absolute; top: 5mm; left: 5mm; right: 5mm; bottom: 5mm; background-size: 100% 100%; background-repeat: no-repeat; z-index: 1; pointer-events: none; }
 .grade-sheet .content { position: relative; z-index: 2; padding: 15mm 12mm 12mm 12mm; }
@@ -188,6 +188,9 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
 /* ============ CERTIFICATES (BORDER CONTENT KE HISAAB SE) ============ */
 .certificate-page-new { width: 8.5in; height: auto; display: inline-block; padding: 12mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 5px double #c62828; line-height: 1.8; }
+.certificate-page-new .bg-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: 100% 100%; background-repeat: no-repeat; z-index: 0; pointer-events: none; opacity: 0.15; }
+.certificate-page-new .cert-new-header, .certificate-page-new .cert-date-line, .certificate-page-new .cert-title-badge-wrap, .certificate-page-new .cert-body-new, .certificate-page-new .cert-footer-new { position: relative; z-index: 2; }
+
 .cert-new-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 10px; margin-bottom: 8px; }
 .cert-new-header .cert-logo-left { width: 85px; height: 85px; object-fit: contain; flex-shrink: 0; }
 .cert-new-header .cert-center-block { flex: 1; text-align: center; padding-top: 5px; }
@@ -824,9 +827,10 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: TRANSFER CERTIFICATE (BORDER CONTENT KE HISAAB SE, ESTD CIRCLE REMOVED) -->
+<!-- PRINTABLE: TRANSFER CERTIFICATE (UPDATED TEXT + LAYOUT) -->
 <div id="printableTCArea">
     <div class="certificate-page-new">
+        <div class="bg-layer" id="tcBgLayer"></div>
         <div class="cert-new-header">
             <img class="cert-logo-left" id="tcLogo" src="" alt="Logo">
             <div class="cert-center-block">
@@ -834,25 +838,57 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <h1 id="tcSchoolName">SCHOOL NAME</h1>
                 <div class="cert-affil">Affiliated to HSEB</div>
                 <div class="cert-addr" id="tcSchoolAddress">Address</div>
-                <div class="cert-estd-heading">[Estd. 2054]</div> <!-- ESTD DATE HEADING -->
+                <div class="cert-estd-heading">[Estd. 2054]</div>
             </div>
             <div class="cert-photo-right">
                 <img id="tcPhotoImg" src="" alt="" style="display:none;">
                 <span class="cert-photo-ph" id="tcPhotoPlaceholder">PHOTO</span>
             </div>
         </div>
-        <div class="cert-date-line">Date: <span id="tcIssueDate">—</span></div>
+        
         <div class="cert-title-badge-wrap">
             <div class="ribbon-shape ribbon-left"></div>
-            <div class="cert-title-badge">CHARACTER / TRANSFER CERTIFICATE</div>
+            <div class="cert-title-badge">TRANSFER CUM CHARACTER CERTIFICATE</div>
             <div class="ribbon-shape ribbon-right"></div>
         </div>
-        <div class="cert-body-new">
-            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="tcStudentName">—</span> son/daughter of Mr. <span class="cert-field-new" id="tcFatherName">—</span> a resident of <span class="cert-field-new" id="tcResident">—</span> studied the prescribed course in <span class="cert-field-new" id="tcCourse">—</span> Education in this school from <span class="cert-field-new" id="tcFromYear">—</span> to <span class="cert-field-new" id="tcToYear">—</span> as a regular student and duly passed the <span class="cert-field-new" id="tcExamName">—</span> Examination held in <span class="cert-field-new" id="tcExamYear">—</span> and was placed in <span class="cert-field-new" id="tcDivision">—</span> Division. His/Her Registration no. is <span class="cert-field-new" id="tcRegNo">—</span> and the date of birth is <span class="cert-field-new" id="tcDOB">—</span>.</p>
-            <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
+
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 15px;">
+            <div>Certificate No.: <span id="tcCertNo" style="border-bottom: 1px dotted #000; padding: 0 10px;">____________</span></div>
+            <div>Date: <span id="tcDate" style="border-bottom: 1px dotted #000; padding: 0 10px;">____________</span></div>
         </div>
+
+        <div class="cert-body-new" style="line-height: 2.2; font-size: 13.5px;">
+            <p style="text-align: justify; margin-bottom: 8px;">This is to certify that Mr./Ms. <span class="cert-field-new" id="tcStudentName">—</span>, son/daughter of Mr./Mrs. <span class="cert-field-new" id="tcFatherName">—</span>, was a bonafide student of <span class="cert-field-new" id="tcSchoolName2">—</span> School/College.</p>
+            
+            <p style="text-align: justify; margin-bottom: 8px;">He/She was enrolled in Class <span class="cert-field-new" id="tcClass">—</span> during the academic session <span class="cert-field-new" id="tcSession">—</span> and studied at this institution from <span class="cert-field-new" id="tcFromYear">—</span> to <span class="cert-field-new" id="tcToYear">—</span>.</p>
+            
+            <p style="text-align: justify; margin-bottom: 8px;">His/Her Date of Birth as recorded in the school register is <span class="cert-field-new" id="tcDOB">—</span>.</p>
+            
+            <p style="text-align: justify; margin-bottom: 8px;">He/She is hereby granted this Transfer Cum Character Certificate on leaving this institution.</p>
+            
+            <p style="text-align: justify; margin-bottom: 8px;">During his/her stay in the institution, his/her character and conduct were found to be satisfactory.</p>
+            
+            <p style="text-align: justify; margin-bottom: 8px;">There are no dues pending against him/her as per the school records.</p>
+            
+            <p style="text-align: justify; margin-bottom: 8px;">We wish him/her every success in future studies and life.</p>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-top: 30px; margin-bottom: 20px;">
+            <div>Place: <span id="tcPlace" style="border-bottom: 1px dotted #000; padding: 0 10px;">____________</span></div>
+            <div>Date: <span id="tcDate2" style="border-bottom: 1px dotted #000; padding: 0 10px;">____________</span></div>
+        </div>
+
         <div class="cert-footer-new">
-            <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
+            <div style="text-align: center; font-size: 12px;">
+                <div class="cert-sig-space"></div>
+                <div class="cert-sig-line-new"></div>
+                <div class="cert-sig-label-new">Class Teacher</div>
+            </div>
+            <div style="text-align: center; font-size: 12px;">
+                <div class="cert-sig-space"></div>
+                <div class="cert-sig-line-new"></div>
+                <div class="cert-sig-label-new">Principal</div>
+            </div>
         </div>
     </div>
 </div>
@@ -987,6 +1023,16 @@ function applySchoolBranding() {
     if (bgLayer) { if (BG_IMG) bgLayer.style.backgroundImage = `url('${BG_IMG}')`; else bgLayer.style.backgroundImage = ''; }
     const frameLayer = document.getElementById('gsFrameLayer');
     if (frameLayer) { if (FRAME_IMG) frameLayer.style.backgroundImage = `url('${FRAME_IMG}')`; else frameLayer.style.backgroundImage = ''; }
+    
+    // TC Background Apply
+    const tcBgLayer = document.getElementById('tcBgLayer');
+    if (tcBgLayer) { 
+        if (BG_IMG) {
+            tcBgLayer.style.backgroundImage = `url('${BG_IMG}')`; 
+        } else {
+            tcBgLayer.style.backgroundImage = ''; 
+        }
+    }
 }
 
 function saveSchoolName() { const v = document.getElementById('settingsSchoolName').value.trim(); if (!v) { alert("Enter name!"); return; } localStorage.setItem('school_name', v); applySchoolBranding(); alert("Saved!"); }
@@ -1724,21 +1770,20 @@ function printMarksheet(id) {
 function printTC(id) {
     const s = studentsData.find(x => x.id === id);
     if (!s) { alert("Student not found!"); return; }
-    document.getElementById('tcStudentName').innerText = s.studentName;
-    document.getElementById('tcFatherName').innerText = s.fatherName;
-    document.getElementById('tcResident').innerText = s.address || '—';
-    document.getElementById('tcCourse').innerText = 'General';
+    document.getElementById('tcStudentName').innerText = s.studentName || '—';
+    document.getElementById('tcFatherName').innerText = s.fatherName || '—';
+    document.getElementById('tcClass').innerText = s.studentClass || '—';
+    document.getElementById('tcSession').innerText = s.admissionDate ? new Date(s.admissionDate).getFullYear() : '—';
     document.getElementById('tcFromYear').innerText = s.admissionDate ? new Date(s.admissionDate).getFullYear() : '—';
     document.getElementById('tcToYear').innerText = new Date().getFullYear();
-    document.getElementById('tcExamName').innerText = 'Annual';
-    document.getElementById('tcExamYear').innerText = new Date().getFullYear();
-    document.getElementById('tcDivision').innerText = '—';
-    document.getElementById('tcRegNo').innerText = s.rollNo || '—';
     document.getElementById('tcDOB').innerText = s.admissionDate || '—';
+    document.getElementById('tcCertNo').innerText = 'TC-' + (s.rollNo || '000');
+    document.getElementById('tcDate').innerText = todayBsNumeric();
+    document.getElementById('tcDate2').innerText = todayBsNumeric();
+    document.getElementById('tcPlace').innerText = getSchoolAddress();
     const pImg = document.getElementById('tcPhotoImg'); const pPh = document.getElementById('tcPhotoPlaceholder');
     if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
     else { pImg.style.display='none'; pPh.style.display='block'; }
-    document.getElementById('tcIssueDate').innerText = todayBsNumeric();
     applySchoolBranding();
     document.body.className = 'print-tc';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
