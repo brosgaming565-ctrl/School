@@ -71,16 +71,44 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .btn-warning { background: #f57c00; color: white; }
 .btn-block { width: 100%; margin-top: 8px; }
 
-.action-btns { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.action-btns { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
 .btn-act-print { background: #1565c0; color: white; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; border:none; cursor:pointer; }
 .btn-act-edit { background: #ff9800; color: #fff; border: 1px solid #e65100; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor:pointer; }
 .btn-act-delete { background: #d32f2f; color: #ffffff; border: 1px solid #8e0000; border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor:pointer; }
+.btn-act-tc { background: #7b1fa2; color: #fff; border: 1px solid #4a148c; border-radius: 3px; padding: 3px 6px; font-size: 9px; font-weight: bold; cursor:pointer; }
+.btn-act-cc { background: #00838f; color: #fff; border: 1px solid #005662; border-radius: 3px; padding: 3px 6px; font-size: 9px; font-weight: bold; cursor:pointer; }
+.btn-act-slc { background: #5d4037; color: #fff; border: 1px solid #3e2723; border-radius: 3px; padding: 3px 6px; font-size: 9px; font-weight: bold; cursor:pointer; }
 
 .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
 .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
 .data-table th { background: #1a237e; color: white; font-weight: 600; }
+.thumb-img { width: 30px; height: 38px; object-fit: cover; border: 1px solid #ccc; border-radius: 3px; background: #f0f0f0; }
 
-#printableArea, #printableSalaryArea, #printableMarksheetArea { display: none; }
+/* PHOTO UPLOAD BOX (Add Student Form) */
+.photo-upload-box {
+    display: flex; gap: 15px; align-items: flex-start;
+    padding: 12px; background: #f8f9fa; border: 2px dashed #b0bec5;
+    border-radius: 8px; margin-bottom: 10px;
+}
+.photo-upload-box .photo-preview-wrap {
+    width: 100px; height: 128px; flex-shrink: 0;
+    border: 2px solid #1a237e; border-radius: 4px;
+    overflow: hidden; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+.photo-upload-box .photo-preview-wrap img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.photo-upload-box .photo-preview-wrap .photo-placeholder-text {
+    color: #888; font-size: 10px; font-weight: 600; text-align: center;
+}
+.photo-upload-box .photo-controls { flex: 1; }
+.photo-upload-box .photo-controls label { font-size: 11px; font-weight: 700; color: #1a237e; margin-bottom: 6px; display: block; }
+.photo-upload-box .photo-controls input[type=file] { font-size: 11px; margin-bottom: 6px; }
+.photo-upload-box .photo-controls small { display: block; color: #666; font-size: 10px; line-height: 1.4; }
+
+#printableArea, #printableSalaryArea, #printableMarksheetArea, #printableTCArea, #printableCCArea, #printableSLCArea { display: none; }
 
 .tiles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px; }
 .tile { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 4px solid #1a237e; display: flex; flex-direction: column; }
@@ -100,18 +128,28 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .tile .form-group input { font-size: 12px; padding: 6px 8px; }
 .tile-logo-preview { width: 100%; height: 100px; object-fit: contain; background: #f8f9fa; border: 1px dashed #ccc; border-radius: 6px; margin-bottom: 8px; display: block; }
 
+/* ============ GRADE SHEET ============ */
 .grade-sheet { width: 210mm; min-height: 297mm; padding: 0; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; }
 .grade-sheet .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat; z-index: 0; pointer-events: none; }
 .grade-sheet .frame-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat; z-index: 1; pointer-events: none; }
 .grade-sheet .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; opacity: 0.05; z-index: 1; pointer-events: none; }
-.grade-sheet .content { position: relative; z-index: 2; padding: 25mm 22mm 22mm 22mm; }
+.grade-sheet .content { position: relative; z-index: 2; padding: 25mm 22mm 20mm 22mm; }
 
-.gs-header { display: flex; align-items: center; gap: 12px; padding-bottom: 6px; border-bottom: 2px solid #000; margin-bottom: 8px; }
+.gs-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 6px; border-bottom: 2px solid #000; margin-bottom: 8px; }
 .gs-header .gs-logo { width: 75px; height: 75px; object-fit: contain; flex-shrink: 0; }
-.gs-header .gs-center { flex: 1; text-align: center; }
+.gs-header .gs-center { flex: 1; text-align: center; padding-top: 8px; }
 .gs-header .gs-center h1 { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; color: #000; margin-bottom: 2px; text-transform: uppercase; }
 .gs-header .gs-center .gs-sub { font-size: 11px; font-weight: 700; letter-spacing: 0.3px; }
-.gs-header .gs-right { width: 75px; flex-shrink: 0; }
+.gs-header .gs-photo-wrap {
+    width: 90px; height: 115px; flex-shrink: 0;
+    border: 3px double #1a237e; border-radius: 3px;
+    overflow: hidden; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+}
+.gs-header .gs-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.gs-header .gs-photo-wrap .gs-photo-placeholder {
+    font-size: 10px; font-weight: 700; color: #888; text-align: center; text-transform: uppercase;
+}
 
 .gs-exam-title { text-align: center; font-size: 13px; font-weight: 800; letter-spacing: 2px; margin: 6px 0 2px 0; text-transform: uppercase; }
 .gs-grade-sheet-title { text-align: center; font-size: 17px; font-weight: 900; letter-spacing: 3px; margin-bottom: 10px; text-transform: uppercase; text-decoration: underline; }
@@ -132,27 +170,57 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .gs-table tbody tr.fail-row { background: #ffe5e5; }
 
 .gs-total-row { display: flex; justify-content: center; gap: 40px; padding: 8px; border: 1px solid #000; border-top: none; font-weight: 800; font-size: 12px; background: #e8e0c8; }
-.gs-total-row span { margin: 0 15px; }
 
-.gs-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; padding-top: 10px; font-size: 11px; }
-.gs-sig-block { text-align: center; }
-.gs-sig-space { height: 40px; }
-.gs-sig-line { border-top: 1.5px solid #000; margin: 0 auto 4px auto; width: 150px; }
-.gs-sig-label { font-weight: 800; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.5px; }
+.gs-remark-section { margin-top: 12px; border: 1.5px solid #000; background: #FAF6EC; }
+.gs-remark-header { background: #C5A8DA; color: #000; text-align: center; font-weight: 900; padding: 6px 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #000; }
+.gs-remark-body { padding: 10px 12px; font-size: 11px; font-style: italic; min-height: 50px; line-height: 1.6; color: #1b5e20; font-weight: 600; }
+.gs-issue-date-section { padding: 8px 12px; border-top: 1px solid #000; font-size: 11px; font-weight: 700; }
+.gs-signatures-inline { display: flex; justify-content: space-between; padding: 20px 30px 12px 30px; margin-top: 5px; }
+.gs-signatures-inline .gs-sig-block { text-align: center; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.gs-signatures-inline .gs-sig-line-inline { width: 150px; border-top: 1.5px solid #000; margin-bottom: 5px; height: 30px; }
 
-.gs-issue-date { font-size: 11px; font-weight: 700; margin-top: 15px; }
-.gs-issue-date .gs-dotted { display: inline-block; border-bottom: 1px dotted #000; min-width: 150px; padding: 0 6px; font-weight: 700; }
+.gs-instructions-section { margin-top: 10px; border: 1.5px solid #000; background: #FAF6EC; }
+.gs-instructions-header { background: #C5A8DA; color: #000; text-align: center; font-weight: 900; padding: 6px 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #000; }
+.gs-instructions-subtitle { text-align: center; font-size: 10.5px; font-weight: 700; padding: 6px 8px; background: #f0ece0; border-bottom: 1px solid #000; }
+.gs-grading-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+.gs-grading-table th, .gs-grading-table td { border: 1px solid #000; padding: 4px 6px; text-align: center; font-weight: 700; }
+.gs-grading-table th { background: #e8e0c8; font-weight: 900; font-size: 10px; text-transform: uppercase; }
 
+/* ============ BILL & SALARY ============ */
 .bill-box { border: 2px solid #000; padding: 18px; max-width: 650px; margin: auto; }
 .bill-header h2 { font-size: 15px; margin-bottom: 2px; }
 .bill-header p { font-size: 11px; font-weight: 600; }
 .p-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
 .p-table th, .p-table td { border: 1px solid #000; padding: 4px; font-size: 10px; }
-
 .sig-area { display: flex; justify-content: space-between; margin-top: 40px; font-size: 10px; }
 .sig-area .sig-left { text-align: left; font-weight: 700; }
 .sig-area .sig-right { text-align: center; min-width: 160px; }
 .sig-area .sig-right .sig-line { border-top: 1.5px solid #000; margin-bottom: 3px; width: 150px; margin-left: auto; margin-right: auto; }
+
+/* ============ CERTIFICATES ============ */
+.certificate-page { width: 210mm; min-height: 297mm; padding: 18mm 20mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 4px double #1a237e; line-height: 2; }
+.cert-header { display: flex; align-items: flex-start; gap: 15px; padding-bottom: 10px; border-bottom: 2px solid #000; margin-bottom: 15px; }
+.cert-header .cert-logo { width: 80px; height: 80px; object-fit: contain; flex-shrink: 0; }
+.cert-header .cert-center { flex: 1; text-align: center; padding-top: 10px; }
+.cert-header h1 { font-size: 22px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #000; margin-bottom: 3px; }
+.cert-header .cert-address { font-size: 12px; font-weight: 700; }
+.cert-header .cert-photo-wrap {
+    width: 90px; height: 115px; flex-shrink: 0;
+    border: 3px double #1a237e; border-radius: 3px;
+    overflow: hidden; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+}
+.cert-header .cert-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.cert-header .cert-photo-wrap .cert-photo-placeholder {
+    font-size: 10px; font-weight: 700; color: #888; text-align: center; text-transform: uppercase;
+}
+.cert-title { text-align: center; font-size: 18px; font-weight: 900; text-decoration: underline; text-transform: uppercase; letter-spacing: 2px; margin: 15px 0 20px 0; }
+.cert-body { font-size: 13px; text-align: justify; line-height: 2.2; }
+.cert-body .cert-field { display: inline-block; border-bottom: 1px dotted #000; padding: 0 8px; font-weight: 700; min-width: 150px; }
+.cert-signatures { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 20px; }
+.cert-signatures .cert-sig-block { text-align: center; font-size: 12px; font-weight: 700; }
+.cert-signatures .cert-sig-line { width: 180px; border-top: 1.5px solid #000; margin: 0 auto 6px auto; height: 40px; }
+.cert-place-date { margin-top: 40px; font-size: 12px; font-weight: 700; }
 
 @media print {
     body * { visibility: hidden; }
@@ -163,6 +231,12 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     body.print-marksheet #printableMarksheetArea, body.print-marksheet #printableMarksheetArea * { visibility: visible; }
     body.print-marksheet #printableMarksheetArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-marksheet .grade-sheet { width: 100%; min-height: 100vh; margin: 0; }
+    body.print-tc #printableTCArea, body.print-tc #printableTCArea * { visibility: visible; }
+    body.print-tc #printableTCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+    body.print-cc #printableCCArea, body.print-cc #printableCCArea * { visibility: visible; }
+    body.print-cc #printableCCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+    body.print-slc #printableSLCArea, body.print-slc #printableSLCArea * { visibility: visible; }
+    body.print-slc #printableSLCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     @page { size: A4; margin: 0; }
 }
 
@@ -327,6 +401,21 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                                 <div class="form-group"><label>Status</label><select id="smStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
                                 <div class="form-group"><label>Remarks</label><input type="text" id="smRemarks"></div>
                             </div>
+
+                            <!-- STUDENT PHOTO UPLOAD -->
+                            <div class="photo-upload-box">
+                                <div class="photo-preview-wrap" id="smPhotoPreviewWrap">
+                                    <img id="smPhotoPreview" src="" alt="" style="display:none;">
+                                    <span class="photo-placeholder-text" id="smPhotoPlaceholder">PHOTO</span>
+                                </div>
+                                <div class="photo-controls">
+                                    <label>📸 Student Photo</label>
+                                    <input type="file" id="smPhotoInput" accept="image/*" onchange="uploadStudentPhoto(event)">
+                                    <small>Passport size (35×45mm). Max 200 KB. Yeh photo Marksheet, TC, CC aur SLC sab me automatic lagegi.</small>
+                                    <button type="button" class="btn btn-warning" onclick="removeStudentPhoto()" style="margin-top:6px;font-size:11px;padding:4px 10px;">🗑️ Remove Photo</button>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn btn-success btn-block">Save Student</button>
                             <button type="button" class="btn btn-warning btn-block" id="cancelStudentBtn" onclick="resetStudentForm()" style="display:none;">Cancel Edit</button>
                         </form>
@@ -342,9 +431,9 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                             </select>
                             <input type="text" id="studentSearchInput" onkeyup="renderStudentsTable()" placeholder="Search..." style="padding:7px;border:1px solid #ccc;border-radius:4px;font-size:12px;">
                         </div>
-                        <div style="overflow-x:auto;max-height:420px;">
+                        <div style="overflow-x:auto;max-height:500px;">
                             <table class="data-table">
-                                <thead><tr><th>Name</th><th>Father</th><th>Class</th><th>Sec</th><th>Roll</th><th>Contact</th><th>Status</th><th>Action</th></tr></thead>
+                                <thead><tr><th>Photo</th><th>Name</th><th>Father</th><th>Class</th><th>Sec</th><th>Roll</th><th>Status</th><th>Action</th></tr></thead>
                                 <tbody id="studentsTableBody"></tbody>
                             </table>
                         </div>
@@ -395,6 +484,10 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                                 <div class="form-group"><label>Class *</label><input type="text" id="msClass" required></div>
                                 <div class="form-group"><label>Roll No</label><input type="text" id="msRollNo"></div>
                                 <div class="form-group"><label>Section</label><input type="text" id="msSection"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Class Teacher's Remark</label>
+                                <input type="text" id="msTeacherRemark" value="Has the potential to do much better. Keep working hard.">
                             </div>
                             <label style="font-size:11px;font-weight:600;display:block;margin-top:6px;">📚 Subjects:</label>
                             <div class="part-table-container" style="max-height:320px;">
@@ -491,7 +584,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
             <!-- BACKUP / SETTINGS -->
             <div id="backupTab" class="tab-content">
                 <div class="tiles-grid">
-                    <!-- FRAME UPLOAD -->
                     <div class="tile tile-frame">
                         <div class="tile-icon">🖼️</div>
                         <h3>Marksheet Frame</h3>
@@ -500,7 +592,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         <input type="file" id="frameInput" accept="image/*" onchange="uploadFrame(event)" style="font-size:11px;margin-bottom:8px;">
                         <button class="btn btn-warning btn-block" onclick="resetFrame()">🔄 Reset Frame</button>
                     </div>
-                    <!-- BG UPLOAD -->
                     <div class="tile tile-bg">
                         <div class="tile-icon">🎨</div>
                         <h3>Marksheet Background</h3>
@@ -509,7 +600,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         <input type="file" id="bgInput" accept="image/*" onchange="uploadBg(event)" style="font-size:11px;margin-bottom:8px;">
                         <button class="btn btn-warning btn-block" onclick="resetBg()">🔄 Reset Background</button>
                     </div>
-                    <!-- LOGO -->
                     <div class="tile tile-logo">
                         <div class="tile-icon">🏫</div>
                         <h3>School Logo</h3>
@@ -517,21 +607,18 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         <input type="file" id="settingsLogoInput" accept="image/*" onchange="uploadSchoolLogo(event)" style="font-size:11px;margin-bottom:8px;">
                         <button class="btn btn-warning btn-block" onclick="resetSchoolLogo()">🔄 Reset Logo</button>
                     </div>
-                    <!-- NAME -->
                     <div class="tile tile-name">
                         <div class="tile-icon">📝</div>
                         <h3>School Name</h3>
                         <div class="form-group"><label>Enter Name</label><input type="text" id="settingsSchoolName" placeholder="School Name"></div>
                         <button class="btn btn-primary btn-block" onclick="saveSchoolName()">💾 Save Name</button>
                     </div>
-                    <!-- ADDRESS -->
                     <div class="tile tile-address">
                         <div class="tile-icon">📍</div>
                         <h3>School Address</h3>
                         <div class="form-group"><label>Enter Address</label><input type="text" id="settingsSchoolAddress" placeholder="Address"></div>
                         <button class="btn btn-primary btn-block" onclick="saveSchoolAddress()">💾 Save Address</button>
                     </div>
-                    <!-- LOGIN -->
                     <div class="tile tile-login">
                         <div class="tile-icon">🔐</div>
                         <h3>Change Login</h3>
@@ -541,14 +628,12 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         <div class="form-group"><label>Confirm</label><input type="password" id="changeConfirmPassword"></div>
                         <button class="btn btn-warning btn-block" onclick="updateLoginDetails()">🔐 Update Login</button>
                     </div>
-                    <!-- BACKUP -->
                     <div class="tile tile-backup">
                         <div class="tile-icon">💾</div>
                         <h3>Backup Data</h3>
                         <p class="tile-desc">Save complete database.</p>
                         <button onclick="downloadBackup()" class="btn btn-success btn-block">📥 Download Backup</button>
                     </div>
-                    <!-- RESTORE -->
                     <div class="tile tile-restore">
                         <div class="tile-icon">📥</div>
                         <h3>Restore Data</h3>
@@ -575,7 +660,10 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                     <h1 id="gsSchoolName">SCHOOL NAME</h1>
                     <div class="gs-sub" id="gsSchoolAddress">Address</div>
                 </div>
-                <div class="gs-right"></div>
+                <div class="gs-photo-wrap" id="gsPhotoWrap">
+                    <img id="gsPhotoImg" src="" alt="" style="display:none;">
+                    <span class="gs-photo-placeholder" id="gsPhotoPlaceholder">PHOTO</span>
+                </div>
             </div>
             <div class="gs-exam-title" id="gsExamTitle">ANNUAL EXAMINATION</div>
             <div class="gs-grade-sheet-title">GRADE SHEET</div>
@@ -626,20 +714,46 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <span>PERCENTAGE: <span id="gsPercent">0%</span></span>
                 <span>GRADE: <span id="gsGrade">-</span></span>
             </div>
-            <div class="gs-signatures">
-                <div class="gs-sig-block">
-                    <div class="gs-sig-space"></div>
-                    <div class="gs-sig-line"></div>
-                    <div class="gs-sig-label">CLASS TEACHER</div>
+
+            <div class="gs-remark-section">
+                <div class="gs-remark-header">CLASS TEACHER'S REMARK</div>
+                <div class="gs-remark-body" id="gsTeacherRemark">Has the potential to do much better. Keep working hard.</div>
+                <div class="gs-issue-date-section">
+                    Issue Date : <span id="gsIssueDate2">&nbsp;</span>
                 </div>
-                <div class="gs-sig-block">
-                    <div class="gs-sig-space"></div>
-                    <div class="gs-sig-line"></div>
-                    <div class="gs-sig-label">PRINCIPAL</div>
+                <div class="gs-signatures-inline">
+                    <div class="gs-sig-block">
+                        <div class="gs-sig-line-inline"></div>
+                        CLASS TEACHER
+                    </div>
+                    <div class="gs-sig-block">
+                        <div class="gs-sig-line-inline"></div>
+                        PRINCIPAL
+                    </div>
                 </div>
             </div>
-            <div class="gs-issue-date">
-                DATE OF ISSUE : <span class="gs-dotted" id="gsIssueDate">&nbsp;</span>
+
+            <div class="gs-instructions-section">
+                <div class="gs-instructions-header">INSTRUCTIONS</div>
+                <div class="gs-instructions-subtitle">
+                    Grading scale for scholastic areas : Grades are awarded on a 8 point grading scale as follows
+                </div>
+                <table class="gs-grading-table">
+                    <thead>
+                        <tr>
+                            <th>MARKS RANGE</th>
+                            <th>GRADE</th>
+                            <th>MARKS RANGE</th>
+                            <th>GRADE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>91 - 100</td><td>A1</td><td>51 - 60</td><td>C1</td></tr>
+                        <tr><td>81 - 90</td><td>A2</td><td>41 - 50</td><td>C2</td></tr>
+                        <tr><td>71 - 80</td><td>B1</td><td>33 - 40</td><td>D</td></tr>
+                        <tr><td>61 - 70</td><td>B2</td><td>32 &amp; Below</td><td>E (Failed)</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -710,8 +824,127 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
         </div>
     </div>
 </div>
+
+<!-- PRINTABLE: TRANSFER CERTIFICATE -->
+<div id="printableTCArea">
+    <div class="certificate-page">
+        <div class="cert-header">
+            <img class="cert-logo" id="tcLogo" src="" alt="Logo">
+            <div class="cert-center">
+                <h1 id="tcSchoolName">SCHOOL NAME</h1>
+                <div class="cert-address" id="tcSchoolAddress">Address</div>
+            </div>
+            <div class="cert-photo-wrap" id="tcPhotoWrap">
+                <img id="tcPhotoImg" src="" alt="" style="display:none;">
+                <span class="cert-photo-placeholder" id="tcPhotoPlaceholder">PHOTO</span>
+            </div>
+        </div>
+        <div class="cert-title">TRANSFER CERTIFICATE</div>
+        <div class="cert-body">
+            <p>This is to certify that <span class="cert-field" id="tcStudentName">—</span> son/daughter of <span class="cert-field" id="tcFatherName">—</span> was a bonafide student of this school.</p>
+            <p>He/She was studying in Class <span class="cert-field" id="tcClass">—</span> with Roll No. <span class="cert-field" id="tcRoll">—</span> during the academic session <span class="cert-field" id="tcSession">—</span>.</p>
+            <p>His/Her Date of Birth as per school records is <span class="cert-field" id="tcDOB">—</span> (A.D.) i.e. <span class="cert-field" id="tcDOB_BS">—</span> (B.S.).</p>
+            <p>His/Her conduct and character during the stay in the school was <span class="cert-field" id="tcConduct">Good</span>.</p>
+            <p>All school dues have been <span class="cert-field" id="tcDuesStatus">cleared</span>. He/She is being issued this Transfer Certificate on request.</p>
+            <p>We wish him/her all the best for future endeavours.</p>
+        </div>
+        <div class="cert-place-date">
+            <div>Place : <span id="tcPlace">Rautahat</span></div>
+            <div>Date : <span id="tcIssueDate">—</span></div>
+        </div>
+        <div class="cert-signatures">
+            <div class="cert-sig-block">
+                <div class="cert-sig-line"></div>
+                Class Teacher
+            </div>
+            <div class="cert-sig-block">
+                <div class="cert-sig-line"></div>
+                Principal
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PRINTABLE: CHARACTER CERTIFICATE -->
+<div id="printableCCArea">
+    <div class="certificate-page">
+        <div class="cert-header">
+            <img class="cert-logo" id="ccLogo" src="" alt="Logo">
+            <div class="cert-center">
+                <h1 id="ccSchoolName">SCHOOL NAME</h1>
+                <div class="cert-address" id="ccSchoolAddress">Address</div>
+            </div>
+            <div class="cert-photo-wrap" id="ccPhotoWrap">
+                <img id="ccPhotoImg" src="" alt="" style="display:none;">
+                <span class="cert-photo-placeholder" id="ccPhotoPlaceholder">PHOTO</span>
+            </div>
+        </div>
+        <div class="cert-title">CHARACTER CERTIFICATE</div>
+        <div class="cert-body">
+            <p>This is to certify that <span class="cert-field" id="ccStudentName">—</span> son/daughter of <span class="cert-field" id="ccFatherName">—</span> was a bonafide student of this school.</p>
+            <p>He/She studied in Class <span class="cert-field" id="ccClass">—</span> with Roll No. <span class="cert-field" id="ccRoll">—</span>.</p>
+            <p>To the best of our knowledge, his/her character and conduct during the entire period of study in this school remained <span class="cert-field" id="ccConduct">Good</span>.</p>
+            <p>He/She was never found involved in any act of indiscipline or misconduct. He/She was regular and sincere in studies.</p>
+            <p>We wish him/her a bright future ahead.</p>
+        </div>
+        <div class="cert-place-date">
+            <div>Place : <span id="ccPlace">Rautahat</span></div>
+            <div>Date : <span id="ccIssueDate">—</span></div>
+        </div>
+        <div class="cert-signatures">
+            <div class="cert-sig-block">
+                <div class="cert-sig-line"></div>
+                Class Teacher
+            </div>
+            <div class="cert-sig-block">
+                <div class="cert-sig-line"></div>
+                Principal
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PRINTABLE: SCHOOL LEAVING CERTIFICATE -->
+<div id="printableSLCArea">
+    <div class="certificate-page">
+        <div class="cert-header">
+            <img class="cert-logo" id="slcLogo" src="" alt="Logo">
+            <div class="cert-center">
+                <h1 id="slcSchoolName">SCHOOL NAME</h1>
+                <div class="cert-address" id="slcSchoolAddress">Address</div>
+            </div>
+            <div class="cert-photo-wrap" id="slcPhotoWrap">
+                <img id="slcPhotoImg" src="" alt="" style="display:none;">
+                <span class="cert-photo-placeholder" id="slcPhotoPlaceholder">PHOTO</span>
+            </div>
+        </div>
+        <div class="cert-title">SCHOOL LEAVING CERTIFICATE</div>
+        <div class="cert-body">
+            <p>This is to certify that <span class="cert-field" id="slcStudentName">—</span> son/daughter of <span class="cert-field" id="slcFatherName">—</span> was a student of this school from <span class="cert-field" id="slcFromDate">—</span> to <span class="cert-field" id="slcToDate">—</span>.</p>
+            <p>He/She left the school after completing Class <span class="cert-field" id="slcClass">—</span>.</p>
+            <p>His/Her Date of Birth as per school records is <span class="cert-field" id="slcDOB">—</span> (A.D.) i.e. <span class="cert-field" id="slcDOB_BS">—</span> (B.S.).</p>
+            <p>Reason for leaving : <span class="cert-field" id="slcReason">—</span></p>
+            <p>His/Her conduct was <span class="cert-field" id="slcConduct">Good</span> throughout the stay in the school.</p>
+            <p>We wish him/her success in all future endeavours.</p>
+        </div>
+        <div class="cert-place-date">
+            <div>Place : <span id="slcPlace">Rautahat</span></div>
+            <div>Date : <span id="slcIssueDate">—</span></div>
+        </div>
+        <div class="cert-signatures">
+            <div class="cert-sig-block">
+                <div class="cert-sig-line"></div>
+                Class Teacher
+            </div>
+            <div class="cert-sig-block">
+                <div class="cert-sig-line"></div>
+                Principal
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-/* ============ FRAME + BACKGROUND (localStorage se load hoga) ============ */
+/* ============ FRAME + BACKGROUND ============ */
 let FRAME_IMG = localStorage.getItem('frame_img') || "";
 let BG_IMG = localStorage.getItem('bg_img') || "";
 
@@ -765,13 +998,13 @@ function applySchoolBranding() {
     const logo = getSchoolLogo();
     const name = getSchoolName();
     const addr = getSchoolAddress();
-    document.querySelectorAll('.print-logo, .gs-logo, #gsLogo, #loginLogo, #settingsLogoPreview').forEach(img => { img.src = logo; });
+    document.querySelectorAll('.print-logo, .gs-logo, .cert-logo, #loginLogo, #settingsLogoPreview').forEach(img => { img.src = logo; });
     const wm = document.getElementById('gsWatermark'); if (wm) wm.src = logo;
     document.getElementById('loginSchoolName').innerText = name;
     document.getElementById('sidebarSchoolName').innerText = name;
     document.getElementById('topbarSchoolInfo').innerText = addr;
-    ['pSchoolName','psSchoolName','gsSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
-    ['pAddress','psAddress','gsSchoolAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = addr; });
+    ['pSchoolName','psSchoolName','gsSchoolName','tcSchoolName','ccSchoolName','slcSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
+    ['pAddress','psAddress','gsSchoolAddress','tcSchoolAddress','ccSchoolAddress','slcSchoolAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = addr; });
     const sa = document.getElementById('schoolAddress'); if (sa) sa.value = addr;
     const ssa = document.getElementById('salarySchoolAddress'); if (ssa) ssa.value = addr;
     const sAddr = document.getElementById('settingsSchoolAddress'); if (sAddr) sAddr.value = addr;
@@ -862,6 +1095,8 @@ function inWords(num) {
     return s.toUpperCase();
 }
 
+let currentStudentPhoto = null; // Temporary photo holder for Add/Edit Student form
+
 window.onload = function() {
     applySchoolBranding();
     renderParticulars();
@@ -926,6 +1161,7 @@ function showTab(tabId) {
     if (tabId === 'backupTab') { document.getElementById('tabBtnBackup').classList.add('active-tab'); applySchoolBranding(); }
 }
 
+/* ============ BILL CALC ============ */
 function calculateGross() {
     let t = 0; document.querySelectorAll('.part-amt').forEach(i => t += parseFloat(i.value) || 0);
     document.getElementById('grossTotal').value = t; calculateBalance();
@@ -949,6 +1185,7 @@ function calculateTeacherSalary() {
     if (!w.value || w.dataset.auto === "true") { w.value = inWords(n > 0 ? n : t); w.dataset.auto = "true"; }
 }
 
+/* ============ SAVE BILL ============ */
 function saveBill(e) {
     e.preventDefault();
     let id = document.getElementById('recordId').value;
@@ -990,6 +1227,7 @@ function saveBill(e) {
     saveToLocalStorage(); resetForm(); loadData();
 }
 
+/* ============ SAVE SALARY ============ */
 function saveSalary(e) {
     e.preventDefault();
     let id = document.getElementById('salaryRecordId').value;
@@ -1039,7 +1277,7 @@ function updateDashboard() {
     document.getElementById('statTotalDues').innerText = 'Rs. ' + td;
 }
 
-/* STUDENTS */
+/* ============ STUDENTS ============ */
 function updateStudentStats() {
     document.getElementById('statTotalStudents').innerText = studentsData.length;
     document.getElementById('statActiveStudents').innerText = studentsData.filter(s => s.status === 'Active').length;
@@ -1078,6 +1316,30 @@ function updateMarksheetFilterDropdowns() {
         if (cur) s.value = cur;
     }
 }
+
+/* ============ STUDENT PHOTO UPLOAD ============ */
+function uploadStudentPhoto(event) {
+    const file = event.target.files[0]; if (!file) return;
+    if (file.size > 200 * 1024) { alert("Photo max 200 KB."); return; }
+    const r = new FileReader();
+    r.onload = e => {
+        currentStudentPhoto = e.target.result;
+        const preview = document.getElementById('smPhotoPreview');
+        const placeholder = document.getElementById('smPhotoPlaceholder');
+        preview.src = currentStudentPhoto; preview.style.display = 'block';
+        placeholder.style.display = 'none';
+    };
+    r.readAsDataURL(file);
+}
+function removeStudentPhoto() {
+    currentStudentPhoto = null;
+    const preview = document.getElementById('smPhotoPreview');
+    const placeholder = document.getElementById('smPhotoPlaceholder');
+    preview.src = ''; preview.style.display = 'none';
+    placeholder.style.display = 'block';
+    const input = document.getElementById('smPhotoInput'); if (input) input.value = '';
+}
+
 function saveStudent(e) {
     e.preventDefault();
     let id = document.getElementById('studentMasterId').value;
@@ -1091,11 +1353,16 @@ function saveStudent(e) {
         admissionDate: document.getElementById('smAdmissionDate').value,
         address: document.getElementById('smAddress').value.trim(),
         status: document.getElementById('smStatus').value,
-        remarks: document.getElementById('smRemarks').value.trim()
+        remarks: document.getElementById('smRemarks').value.trim(),
+        photo: currentStudentPhoto || ''
     };
     if (id) {
         let idx = studentsData.findIndex(s => s.id === id);
-        if (idx !== -1) studentsData[idx] = { ...studentsData[idx], ...o };
+        if (idx !== -1) {
+            // If no new photo uploaded, keep old photo
+            if (!o.photo && studentsData[idx].photo) o.photo = studentsData[idx].photo;
+            studentsData[idx] = { ...studentsData[idx], ...o };
+        }
         alert("Updated!");
     } else {
         o.id = Date.now().toString();
@@ -1106,6 +1373,7 @@ function saveStudent(e) {
     populateStudentSelect(); populateMarksheetStudentSelect();
     updateClassFilter(); updateSectionFilter(); updateMarksheetFilterDropdowns();
 }
+
 function renderStudentsTable() {
     const tbody = document.getElementById('studentsTableBody'); if (!tbody) return;
     tbody.innerHTML = '';
@@ -1119,8 +1387,23 @@ function renderStudentsTable() {
     if (list.length === 0) { tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:#666;">No students.</td></tr>`; return; }
     list.sort((a,b) => a.studentName.localeCompare(b.studentName)).forEach(item => {
         const sc = item.status === 'Active' ? '#2e7d32' : '#c62828';
+        const photoThumb = item.photo ? `<img src="${item.photo}" class="thumb-img" alt="">` : `<div class="thumb-img" style="display:flex;align-items:center;justify-content:center;font-size:8px;color:#888;">N/A</div>`;
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td style="text-align:left;font-weight:600;">${item.studentName}</td><td style="text-align:left;">${item.fatherName}</td><td>${item.studentClass||'-'}</td><td>${item.section||'-'}</td><td>${item.rollNo||'-'}</td><td>${item.contactNo||'-'}</td><td style="color:${sc};font-weight:bold;">${item.status||'Active'}</td><td><div class="action-btns"><button class="btn-act-edit" onclick="editStudent('${item.id}')">✏️</button><button class="btn-act-delete" onclick="deleteStudent('${item.id}')">🗑️</button></div></td>`;
+        tr.innerHTML = `
+            <td>${photoThumb}</td>
+            <td style="text-align:left;font-weight:600;">${item.studentName}</td>
+            <td style="text-align:left;">${item.fatherName}</td>
+            <td>${item.studentClass||'-'}</td>
+            <td>${item.section||'-'}</td>
+            <td>${item.rollNo||'-'}</td>
+            <td style="color:${sc};font-weight:bold;">${item.status||'Active'}</td>
+            <td><div class="action-btns">
+                <button class="btn-act-edit" onclick="editStudent('${item.id}')" title="Edit">✏️</button>
+                <button class="btn-act-delete" onclick="deleteStudent('${item.id}')" title="Delete">🗑️</button>
+                <button class="btn-act-tc" onclick="printTC('${item.id}')" title="Transfer Certificate">TC</button>
+                <button class="btn-act-cc" onclick="printCC('${item.id}')" title="Character Certificate">CC</button>
+                <button class="btn-act-slc" onclick="printSLC('${item.id}')" title="School Leaving Certificate">SLC</button>
+            </div></td>`;
         tbody.appendChild(tr);
     });
 }
@@ -1137,11 +1420,40 @@ function editStudent(id) {
     document.getElementById('smAddress').value = item.address || '';
     document.getElementById('smStatus').value = item.status || 'Active';
     document.getElementById('smRemarks').value = item.remarks || '';
+    // Load photo
+    currentStudentPhoto = item.photo || null;
+    const preview = document.getElementById('smPhotoPreview');
+    const placeholder = document.getElementById('smPhotoPlaceholder');
+    if (currentStudentPhoto) {
+        preview.src = currentStudentPhoto; preview.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        preview.src = ''; preview.style.display = 'none';
+        placeholder.style.display = 'block';
+    }
     document.getElementById('studentMasterFormTitle').innerText = `✏️ Edit: ${item.studentName}`;
     document.getElementById('cancelStudentBtn').style.display = 'block';
 }
-function deleteStudent(id) { if (confirm("DELETE?")) { studentsData = studentsData.filter(s => s.id !== id); saveToLocalStorage(); renderStudentsTable(); updateStudentStats(); populateStudentSelect(); populateMarksheetStudentSelect(); updateClassFilter(); updateSectionFilter(); updateMarksheetFilterDropdowns(); } }
-function resetStudentForm() { document.getElementById('studentMasterId').value = ''; document.getElementById('studentMasterForm').reset(); document.getElementById('studentMasterFormTitle').innerText = "➕ Add New Student"; document.getElementById('cancelStudentBtn').style.display = 'none'; if (document.getElementById('smAdmissionDate')) document.getElementById('smAdmissionDate').valueAsDate = new Date(); }
+function deleteStudent(id) {
+    if (confirm("DELETE?")) {
+        studentsData = studentsData.filter(s => s.id !== id);
+        saveToLocalStorage(); renderStudentsTable(); updateStudentStats();
+        populateStudentSelect(); populateMarksheetStudentSelect();
+        updateClassFilter(); updateSectionFilter(); updateMarksheetFilterDropdowns();
+    }
+}
+function resetStudentForm() {
+    document.getElementById('studentMasterId').value = '';
+    document.getElementById('studentMasterForm').reset();
+    currentStudentPhoto = null;
+    const preview = document.getElementById('smPhotoPreview');
+    const placeholder = document.getElementById('smPhotoPlaceholder');
+    preview.src = ''; preview.style.display = 'none';
+    placeholder.style.display = 'block';
+    document.getElementById('studentMasterFormTitle').innerText = "➕ Add New Student";
+    document.getElementById('cancelStudentBtn').style.display = 'none';
+    if (document.getElementById('smAdmissionDate')) document.getElementById('smAdmissionDate').valueAsDate = new Date();
+}
 function populateStudentSelect() {
     const sel = document.getElementById('existingStudentSelect'); if (!sel) return;
     const cur = sel.value;
@@ -1164,7 +1476,7 @@ function fillFromExistingStudent() {
     document.getElementById('contactNo').value = s.contactNo || '';
 }
 
-/* MARKSHEET */
+/* ============ MARKSHEET ============ */
 function populateMarksheetStudentSelect() {
     const sel = document.getElementById('marksheetStudentSelect'); if (!sel) return;
     const cur = sel.value;
@@ -1236,13 +1548,14 @@ function calculateMarksheetTotals() {
         const pct = ((to / tf) * 100).toFixed(2);
         document.getElementById('msPercentage').value = pct + '%';
         let g = '';
-        if (pct >= 90) g = 'A+';
-        else if (pct >= 80) g = 'A';
-        else if (pct >= 70) g = 'B+';
-        else if (pct >= 60) g = 'B';
-        else if (pct >= 50) g = 'C+';
-        else if (pct >= 40) g = 'C';
-        else g = 'D';
+        if (pct >= 90) g = 'A1';
+        else if (pct >= 80) g = 'A2';
+        else if (pct >= 70) g = 'B1';
+        else if (pct >= 60) g = 'B2';
+        else if (pct >= 50) g = 'C1';
+        else if (pct >= 41) g = 'C2';
+        else if (pct >= 33) g = 'D';
+        else g = 'E (Failed)';
         document.getElementById('msGrade').value = g;
     } else {
         document.getElementById('msPercentage').value = '0%';
@@ -1272,12 +1585,16 @@ function saveMarksheet(e) {
         studentClass: document.getElementById('msClass').value,
         rollNo: document.getElementById('msRollNo').value,
         section: document.getElementById('msSection').value,
+        teacherRemark: document.getElementById('msTeacherRemark').value,
         subjects: subs,
         totalFull: parseFloat(document.getElementById('msTotalFull').value) || 0,
         totalObtained: parseFloat(document.getElementById('msTotalObtained').value) || 0,
         percentage: document.getElementById('msPercentage').value,
         grade: document.getElementById('msGrade').value
     };
+    // Attach student photo (find in studentsData by name)
+    const matchedStudent = studentsData.find(s => s.studentName === rec.studentName && s.fatherName === rec.fatherName);
+    rec.photo = matchedStudent && matchedStudent.photo ? matchedStudent.photo : '';
     if (id) {
         const i = marksheetsData.findIndex(m => m.id === id);
         if (i !== -1) marksheetsData[i] = rec;
@@ -1321,6 +1638,7 @@ function editMarksheet(id) {
     document.getElementById('msClass').value = item.studentClass || '';
     document.getElementById('msRollNo').value = item.rollNo || '';
     document.getElementById('msSection').value = item.section || '';
+    document.getElementById('msTeacherRemark').value = item.teacherRemark || 'Has the potential to do much better. Keep working hard.';
     const tb = document.getElementById('marksheetSubjectsBody');
     tb.innerHTML = '';
     item.subjects.forEach(s => addMarksheetSubject(s.name, s.full, s.pass, s.obtained));
@@ -1334,6 +1652,7 @@ function resetMarksheetForm() {
     document.getElementById('marksheetForm').reset();
     document.getElementById('marksheetSubjectsBody').innerHTML = '';
     document.getElementById('cancelMarksheetBtn').style.display = 'none';
+    document.getElementById('msTeacherRemark').value = 'Has the potential to do much better. Keep working hard.';
     calculateMarksheetTotals();
     if (document.getElementById('msDOB')) document.getElementById('msDOB').valueAsDate = new Date();
 }
@@ -1344,6 +1663,7 @@ function printMarksheet(id) {
     document.getElementById('gsGradeLevel').innerText = item.gradeLevel || item.studentClass || '—';
     document.getElementById('gsRollNo').innerText = item.rollNo || '—';
     document.getElementById('gsSection').innerText = item.section || '—';
+    document.getElementById('gsTeacherRemark').innerText = item.teacherRemark || 'Has the potential to do much better. Keep working hard.';
     const dobAD = item.dob || '';
     const dobBS = dobAD ? adToBs(dobAD) : null;
     document.getElementById('gsDOB_AD').innerText = dobAD || '—';
@@ -1352,6 +1672,17 @@ function printMarksheet(id) {
     const acBs = adToBs(`${acYear}-01-01`);
     document.getElementById('gsExamYear_AD').innerText = acYear;
     document.getElementById('gsExamYear_BS').innerText = acBs ? acBs.y : '—';
+
+    // Photo
+    const photoImg = document.getElementById('gsPhotoImg');
+    const photoPh = document.getElementById('gsPhotoPlaceholder');
+    if (item.photo) {
+        photoImg.src = item.photo; photoImg.style.display = 'block';
+        photoPh.style.display = 'none';
+    } else {
+        photoImg.style.display = 'none'; photoPh.style.display = 'block';
+    }
+
     const tb = document.getElementById('gsSubjectRows');
     tb.innerHTML = '';
     item.subjects.forEach(s => {
@@ -1373,13 +1704,94 @@ function printMarksheet(id) {
     const today = new Date();
     const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
     const todayBs = adToBs(todayStr);
-    document.getElementById('gsIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    const dateStr = todayBs ? todayBs.numeric : todayStr;
+    document.getElementById('gsIssueDate2').innerText = dateStr;
     applySchoolBranding();
     document.body.className = 'print-marksheet';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
 }
 
-/* BILLS */
+/* ============ TRANSFER CERTIFICATE ============ */
+function printTC(id) {
+    const s = studentsData.find(x => x.id === id);
+    if (!s) { alert("Student not found!"); return; }
+    document.getElementById('tcLogo').src = getSchoolLogo();
+    document.getElementById('tcSchoolName').innerText = getSchoolName();
+    document.getElementById('tcSchoolAddress').innerText = getSchoolAddress();
+    document.getElementById('tcStudentName').innerText = s.studentName;
+    document.getElementById('tcFatherName').innerText = s.fatherName;
+    document.getElementById('tcClass').innerText = s.studentClass || '—';
+    document.getElementById('tcRoll').innerText = s.rollNo || '—';
+    document.getElementById('tcSession').innerText = s.admissionDate ? new Date(s.admissionDate).getFullYear() : new Date().getFullYear();
+    document.getElementById('tcDOB').innerText = s.admissionDate || '—';
+    const dobBs = s.admissionDate ? adToBs(s.admissionDate) : null;
+    document.getElementById('tcDOB_BS').innerText = dobBs ? dobBs.numeric : '—';
+    document.getElementById('tcConduct').innerText = 'Good';
+    document.getElementById('tcDuesStatus').innerText = 'cleared';
+    // Photo
+    const pImg = document.getElementById('tcPhotoImg'); const pPh = document.getElementById('tcPhotoPlaceholder');
+    if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
+    else { pImg.style.display='none'; pPh.style.display='block'; }
+    const today = new Date();
+    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
+    const todayBs = adToBs(todayStr);
+    document.getElementById('tcIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    document.body.className = 'print-tc';
+    setTimeout(() => { window.print(); document.body.className = ''; }, 300);
+}
+
+/* ============ CHARACTER CERTIFICATE ============ */
+function printCC(id) {
+    const s = studentsData.find(x => x.id === id);
+    if (!s) { alert("Student not found!"); return; }
+    document.getElementById('ccLogo').src = getSchoolLogo();
+    document.getElementById('ccSchoolName').innerText = getSchoolName();
+    document.getElementById('ccSchoolAddress').innerText = getSchoolAddress();
+    document.getElementById('ccStudentName').innerText = s.studentName;
+    document.getElementById('ccFatherName').innerText = s.fatherName;
+    document.getElementById('ccClass').innerText = s.studentClass || '—';
+    document.getElementById('ccRoll').innerText = s.rollNo || '—';
+    document.getElementById('ccConduct').innerText = 'Good';
+    const pImg = document.getElementById('ccPhotoImg'); const pPh = document.getElementById('ccPhotoPlaceholder');
+    if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
+    else { pImg.style.display='none'; pPh.style.display='block'; }
+    const today = new Date();
+    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
+    const todayBs = adToBs(todayStr);
+    document.getElementById('ccIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    document.body.className = 'print-cc';
+    setTimeout(() => { window.print(); document.body.className = ''; }, 300);
+}
+
+/* ============ SCHOOL LEAVING CERTIFICATE ============ */
+function printSLC(id) {
+    const s = studentsData.find(x => x.id === id);
+    if (!s) { alert("Student not found!"); return; }
+    document.getElementById('slcLogo').src = getSchoolLogo();
+    document.getElementById('slcSchoolName').innerText = getSchoolName();
+    document.getElementById('slcSchoolAddress').innerText = getSchoolAddress();
+    document.getElementById('slcStudentName').innerText = s.studentName;
+    document.getElementById('slcFatherName').innerText = s.fatherName;
+    document.getElementById('slcClass').innerText = s.studentClass || '—';
+    document.getElementById('slcFromDate').innerText = s.admissionDate || '—';
+    document.getElementById('slcToDate').innerText = new Date().toLocaleDateString();
+    document.getElementById('slcDOB').innerText = s.admissionDate || '—';
+    const dobBs = s.admissionDate ? adToBs(s.admissionDate) : null;
+    document.getElementById('slcDOB_BS').innerText = dobBs ? dobBs.numeric : '—';
+    document.getElementById('slcReason').innerText = 'Passed / Completed';
+    document.getElementById('slcConduct').innerText = 'Good';
+    const pImg = document.getElementById('slcPhotoImg'); const pPh = document.getElementById('slcPhotoPlaceholder');
+    if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
+    else { pImg.style.display='none'; pPh.style.display='block'; }
+    const today = new Date();
+    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
+    const todayBs = adToBs(todayStr);
+    document.getElementById('slcIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    document.body.className = 'print-slc';
+    setTimeout(() => { window.print(); document.body.className = ''; }, 300);
+}
+
+/* ============ BILLS ============ */
 function renderBillingTable() {
     const tb = document.getElementById('billingTableBody'); tb.innerHTML = '';
     billsData.forEach(item => {
@@ -1461,7 +1873,7 @@ function printBill(id) {
     document.body.className = 'print-billing'; window.print(); document.body.className = '';
 }
 
-/* SALARY */
+/* ============ SALARY ============ */
 function renderSalaryTable() {
     const tb = document.getElementById('salaryTableBody'); tb.innerHTML = '';
     salaryData.forEach(item => {
@@ -1522,7 +1934,7 @@ function printSalary(id) {
     document.body.className = 'print-salary'; window.print(); document.body.className = '';
 }
 
-/* BACKUP */
+/* ============ BACKUP ============ */
 function downloadBackup() {
     let b = { bills: billsData, salaries: salaryData, students: studentsData, marksheets: marksheetsData, logo: getSchoolLogo(), schoolName: getSchoolName(), schoolAddress: getSchoolAddress(), frame: FRAME_IMG, bg: BG_IMG };
     let blob = new Blob([JSON.stringify(b, null, 2)], { type: 'application/json' });
