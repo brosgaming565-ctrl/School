@@ -56,7 +56,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .form-group input, .form-group select { width: 100%; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
 
 .part-table-container { max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; }
 .part-table { width: 100%; border-collapse: collapse; }
@@ -95,7 +94,20 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .photo-upload-box .photo-controls input[type=file] { font-size: 11px; margin-bottom: 6px; }
 .photo-upload-box .photo-controls small { display: block; color: #666; font-size: 10px; line-height: 1.4; }
 
-#printableArea, #printableSalaryArea, #printableMarksheetArea, #printableTCArea, #printableCCArea, #printableSLCArea { display: none; }
+/* PAYMENT HISTORY */
+.history-box { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 15px; margin-top: 15px; }
+.history-box h3 { color: #1a237e; font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+.history-box .history-sub { font-size: 11px; color: #666; margin-bottom: 10px; }
+.history-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-hist-print { background: #1565c0; color: white; border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 600; border:none; cursor:pointer; }
+.btn-hist-excel { background: #2e7d32; color: white; border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 600; border:none; cursor:pointer; }
+.btn-hist-json { background: #37474f; color: white; border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 600; border:none; cursor:pointer; }
+.history-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.history-table th, .history-table td { border: 1px solid #ddd; padding: 6px 8px; font-size: 11px; text-align: center; }
+.history-table th { background: #283593; color: white; font-weight: 600; }
+.history-table tfoot th { background: #e8eaf6; color: #1a237e; }
+
+#printableArea, #printableSalaryArea, #printableMarksheetArea, #printableTCArea, #printableCCArea, #printableSLCArea, #printableStudentHistoryArea, #printableTeacherHistoryArea { display: none; }
 
 .tiles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px; }
 .tile { background: #fff; border-radius: 10px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 4px solid #1a237e; display: flex; flex-direction: column; }
@@ -115,14 +127,12 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .tile .form-group input { font-size: 12px; padding: 6px 8px; }
 .tile-logo-preview { width: 100%; height: 100px; object-fit: contain; background: #f8f9fa; border: 1px dashed #ccc; border-radius: 6px; margin-bottom: 8px; display: block; }
 
-/* ============ NEW GRADE SHEET (Rohit wali photo) ============ */
-.grade-sheet { width: 210mm; min-height: 297mm; padding: 0; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; }
-.grade-sheet .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat; z-index: 0; pointer-events: none; }
-.grade-sheet .frame-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat; z-index: 1; pointer-events: none; }
-.grade-sheet .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45%; opacity: 0.05; z-index: 1; pointer-events: none; }
+/* ============ GRADE SHEET (BLUE BORDER, NO WATERMARK) ============ */
+.grade-sheet { width: 210mm; min-height: 297mm; padding: 5mm; background: #FAF6EC; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 11px; position: relative; overflow: hidden; border: 5px double #1a237e; }
+.grade-sheet .bg-layer { position: absolute; top: 5mm; left: 5mm; right: 5mm; bottom: 5mm; background-size: 100% 100%; background-repeat: no-repeat; z-index: 0; pointer-events: none; }
+.grade-sheet .frame-layer { position: absolute; top: 5mm; left: 5mm; right: 5mm; bottom: 5mm; background-size: 100% 100%; background-repeat: no-repeat; z-index: 1; pointer-events: none; }
 .grade-sheet .content { position: relative; z-index: 2; padding: 15mm 12mm 12mm 12mm; }
 
-/* Header with Logo LEFT, Name CENTER, Photo RIGHT */
 .gs-top-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 8px; }
 .gs-top-header .gs-header-logo { width: 75px; height: 75px; object-fit: contain; flex-shrink: 0; }
 .gs-top-header .gs-header-center { flex: 1; text-align: center; padding-top: 5px; }
@@ -133,21 +143,17 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .gs-top-header .gs-header-photo img { width: 100%; height: 100%; object-fit: cover; }
 .gs-top-header .gs-header-photo .gs-header-photo-placeholder { font-size: 10px; font-weight: 700; color: #888; text-align: center; text-transform: uppercase; }
 
-/* GRADE-SHEET Title Bar */
 .gs-title-bar { text-align: center; padding: 6px 0; margin: 8px 0 0 0; border-top: 1.5px solid #000; border-bottom: 1.5px solid #000; background: #FAF6EC; }
 .gs-title-bar h2 { font-size: 16px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin: 0; }
 
-/* Student Info */
 .gs-student-info { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 30px; padding: 8px 0; font-size: 11.5px; border-bottom: 1.5px solid #000; }
 .gs-student-info .info-row { display: flex; align-items: baseline; gap: 6px; }
 .gs-student-info .info-label { font-weight: 700; min-width: 110px; }
 .gs-student-info .info-value { font-weight: 600; border-bottom: 1px dotted #000; flex: 1; padding: 0 4px; min-width: 80px; }
 
-/* Exam Title */
 .gs-exam-title-bar { text-align: center; padding: 6px 0; border-bottom: 1.5px solid #000; }
 .gs-exam-title-bar h3 { font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
 
-/* Subject Table */
 .gs-table-new { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-top: 6px; }
 .gs-table-new th, .gs-table-new td { border: 1px solid #000; padding: 4px 3px; text-align: center; vertical-align: middle; }
 .gs-table-new th { background: #e8e0c8; font-weight: 800; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.2px; padding: 5px 2px; }
@@ -160,7 +166,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .gs-table-new td.remark-cell { font-size: 9.5px; font-weight: 700; }
 .gs-table-new tbody tr.fail-row { background: #ffe5e5; }
 
-/* Summary Bar */
 .gs-summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid #000; border-top: none; }
 .gs-summary-bar .summary-cell { padding: 6px 4px; text-align: center; font-size: 11px; font-weight: 800; border-right: 1px solid #000; background: #e8e0c8; }
 .gs-summary-bar .summary-cell:last-child { border-right: none; }
@@ -169,25 +174,22 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 .gs-summary-bar .summary-cell.pass-box .summary-val { color: #1b5e20; }
 .gs-summary-bar .summary-cell.fail-box .summary-val { color: #c62828; }
 
-/* Remarks Section */
 .gs-remarks-section { margin-top: 8px; border: 1px solid #000; padding: 6px 10px; background: #FAF6EC; font-size: 11px; }
 .gs-remarks-section .remarks-lbl { font-weight: 800; }
 .gs-remarks-section .remarks-val { font-style: italic; font-weight: 700; color: #1b5e20; }
 
-/* Issue Date + Note */
 .gs-issue-note { margin-top: 8px; padding: 6px 0; font-size: 10.5px; border-top: 1px solid #000; }
 .gs-issue-note .issue-line { font-weight: 700; margin-bottom: 4px; }
 .gs-issue-note .note-line { font-weight: 600; font-size: 10px; }
 
-/* Signatures */
 .gs-signatures-bottom { display: flex; justify-content: space-between; padding: 30px 20px 5px 20px; font-size: 11px; }
 .gs-signatures-bottom .sig-block { text-align: center; min-width: 180px; }
 .gs-signatures-bottom .sig-space { height: 40px; }
 .gs-signatures-bottom .sig-line { border-top: 1.5px solid #000; margin-bottom: 4px; }
 .gs-signatures-bottom .sig-label { font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10.5px; }
 
-/* ============ TRANSFER / CHARACTER CERTIFICATE (Manakamana style) ============ */
-.certificate-page-new { width: 210mm; min-height: 297mm; padding: 15mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 4px double #c62828; line-height: 1.8; }
+/* ============ CERTIFICATES (RED BORDER + PHOTO) ============ */
+.certificate-page-new { width: 210mm; min-height: 297mm; padding: 15mm 15mm; background: #FFFFFF; margin: 0 auto; font-family: 'Times New Roman', Times, serif; color: #000; font-size: 13px; position: relative; border: 5px double #c62828; line-height: 1.8; }
 .cert-new-header { display: flex; align-items: flex-start; gap: 12px; padding-bottom: 10px; margin-bottom: 8px; }
 .cert-new-header .cert-logo-left { width: 85px; height: 85px; object-fit: contain; flex-shrink: 0; }
 .cert-new-header .cert-center-block { flex: 1; text-align: center; padding-top: 5px; }
@@ -212,7 +214,6 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
 
 .cert-footer-new { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 60px; padding: 0 20px; }
 .cert-footer-new .cert-footer-left { text-align: left; font-size: 11px; }
-.cert-footer-new .cert-footer-left .cert-logo-bottom { width: 80px; height: 80px; object-fit: contain; margin-bottom: 8px; }
 .cert-footer-new .cert-footer-left .estd-box { border: 2px solid #c62828; border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #c62828; }
 .cert-footer-new .cert-footer-right { text-align: center; font-size: 12px; }
 .cert-footer-new .cert-footer-right .cert-sig-space { height: 40px; }
@@ -245,6 +246,10 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     body.print-cc #printableCCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     body.print-slc #printableSLCArea, body.print-slc #printableSLCArea * { visibility: visible; }
     body.print-slc #printableSLCArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+    body.print-student-history #printableStudentHistoryArea, body.print-student-history #printableStudentHistoryArea * { visibility: visible; }
+    body.print-student-history #printableStudentHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+    body.print-teacher-history #printableTeacherHistoryArea, body.print-teacher-history #printableTeacherHistoryArea * { visibility: visible; }
+    body.print-teacher-history #printableTeacherHistoryArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
     @page { size: A4; margin: 0; }
 }
 
@@ -378,6 +383,23 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         </div>
                     </div>
                 </div>
+                <!-- STUDENT DEPOSIT HISTORY -->
+                <div class="history-box" id="studentHistoryBox" style="display:none;">
+                    <h3 id="studentHistoryTitle">📅 Deposit History</h3>
+                    <p class="history-sub">Is student ki saari payments ki history</p>
+                    <div class="history-actions">
+                        <button class="btn-hist-print" onclick="printSelectedStudentHistory()">🖨️ Print</button>
+                        <button class="btn-hist-excel" onclick="exportSelectedStudentHistoryToExcel()">📊 Download Excel</button>
+                        <button class="btn-hist-json" onclick="exportSelectedStudentHistoryToJSON()">📥 Download JSON</button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="history-table">
+                            <thead><tr><th>#</th><th>Deposit Date</th><th>Bill No</th><th>Student Name</th><th>Father's Name</th><th>Deposited Amount (Rs.)</th></tr></thead>
+                            <tbody id="studentHistoryTableBody"></tbody>
+                            <tfoot><tr><th colspan="5" style="text-align:right;">Total Cumulative Paid:</th><th id="studentHistoryTotal">Rs. 0</th></tr></tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- STUDENTS TAB -->
@@ -481,7 +503,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                                 <div class="form-group"><label>Roll No</label><input type="text" id="msRollNo" placeholder="4"></div>
                             </div>
                             <div class="form-group"><label>Remarks (Footer)</label><input type="text" id="msFooterRemark" value="Your result is growing up, continue hard working..."></div>
-                            <label style="font-size:11px;font-weight:600;display:block;margin-top:6px;">📚 Subjects (Enter EX = External, IN = Internal):</label>
+                            <label style="font-size:11px;font-weight:600;display:block;margin-top:6px;">📚 Subjects:</label>
                             <div class="part-table-container">
                                 <table class="part-table">
                                     <thead><tr>
@@ -575,6 +597,23 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                         </div>
                     </div>
                 </div>
+                <!-- TEACHER SALARY HISTORY -->
+                <div class="history-box" id="teacherHistoryBox" style="display:none;">
+                    <h3 id="teacherHistoryTitle">📅 Salary History</h3>
+                    <p class="history-sub">Is teacher ki saari payments ki history</p>
+                    <div class="history-actions">
+                        <button class="btn-hist-print" onclick="printSelectedTeacherHistory()">🖨️ Print</button>
+                        <button class="btn-hist-excel" onclick="exportSelectedTeacherHistoryToExcel()">📊 Download Excel</button>
+                        <button class="btn-hist-json" onclick="exportSelectedTeacherHistoryToJSON()">📥 Download JSON</button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="history-table">
+                            <thead><tr><th>#</th><th>Payment Date</th><th>Receipt No</th><th>Month</th><th>Total Salary</th><th>Paid Amount</th><th>Dues</th></tr></thead>
+                            <tbody id="teacherHistoryTableBody"></tbody>
+                            <tfoot><tr><th colspan="5" style="text-align:right;">Total Cumulative Paid:</th><th colspan="2" id="teacherHistoryTotal">Rs. 0</th></tr></tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- BACKUP / SETTINGS -->
@@ -643,14 +682,12 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: NEW GRADE SHEET (Rohit wala design) -->
+<!-- PRINTABLE: NEW GRADE SHEET (NO WATERMARK) -->
 <div id="printableMarksheetArea">
     <div class="grade-sheet">
         <div class="bg-layer" id="gsBgLayer"></div>
         <div class="frame-layer" id="gsFrameLayer"></div>
-        <img class="watermark" id="gsWatermark" src="" alt="">
         <div class="content">
-            <!-- HEADER: Logo LEFT, Name CENTER, Photo RIGHT -->
             <div class="gs-top-header">
                 <img class="gs-header-logo" id="gsLogo" src="" alt="Logo">
                 <div class="gs-header-center">
@@ -664,37 +701,21 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 </div>
             </div>
 
-            <!-- GRADE-SHEET Title -->
             <div class="gs-title-bar">
                 <h2>GRADE-SHEET</h2>
             </div>
 
-            <!-- Student Info -->
             <div class="gs-student-info">
-                <div class="info-row">
-                    <span class="info-label">StudentName:</span>
-                    <span class="info-value" id="gsStudentName">&nbsp;</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">StudentID:</span>
-                    <span class="info-value" id="gsStudentID">&nbsp;</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Class (Section):</span>
-                    <span class="info-value" id="gsClassSection">&nbsp;</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Roll No:</span>
-                    <span class="info-value" id="gsRollNo">&nbsp;</span>
-                </div>
+                <div class="info-row"><span class="info-label">StudentName:</span><span class="info-value" id="gsStudentName">&nbsp;</span></div>
+                <div class="info-row"><span class="info-label">StudentID:</span><span class="info-value" id="gsStudentID">&nbsp;</span></div>
+                <div class="info-row"><span class="info-label">Class (Section):</span><span class="info-value" id="gsClassSection">&nbsp;</span></div>
+                <div class="info-row"><span class="info-label">Roll No:</span><span class="info-value" id="gsRollNo">&nbsp;</span></div>
             </div>
 
-            <!-- Exam Title -->
             <div class="gs-exam-title-bar">
                 <h3 id="gsExamTitle">1st Term Examination 2082</h3>
             </div>
 
-            <!-- Subject Table -->
             <table class="gs-table-new">
                 <thead>
                     <tr>
@@ -713,20 +734,10 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <tbody id="gsSubjectRows"></tbody>
             </table>
 
-            <!-- Summary Bar -->
             <div class="gs-summary-bar">
-                <div class="summary-cell">
-                    <span class="summary-lbl">Total Mark</span>
-                    <span class="summary-val" id="gsTotalMark">0</span>
-                </div>
-                <div class="summary-cell">
-                    <span class="summary-lbl">Percentage</span>
-                    <span class="summary-val" id="gsPercent">0%</span>
-                </div>
-                <div class="summary-cell">
-                    <span class="summary-lbl">Rank</span>
-                    <span class="summary-val" id="gsRank">-</span>
-                </div>
+                <div class="summary-cell"><span class="summary-lbl">Total Mark</span><span class="summary-val" id="gsTotalMark">0</span></div>
+                <div class="summary-cell"><span class="summary-lbl">Percentage</span><span class="summary-val" id="gsPercent">0%</span></div>
+                <div class="summary-cell"><span class="summary-lbl">Rank</span><span class="summary-val" id="gsRank">-</span></div>
                 <div class="summary-cell" id="gsResultBox">
                     <span class="summary-lbl">Result</span>
                     <span class="summary-val" id="gsResult">-</span>
@@ -734,19 +745,16 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 </div>
             </div>
 
-            <!-- Remarks -->
             <div class="gs-remarks-section">
                 <span class="remarks-lbl">Remarks:</span>
                 <span class="remarks-val" id="gsFooterRemark">Your result is growing up, continue hard working...</span>
             </div>
 
-            <!-- Issue Date + Note -->
             <div class="gs-issue-note">
                 <div class="issue-line">Issue Date: <span id="gsIssueDate">—</span></div>
                 <div class="note-line">Note: O.G = Obtained Grade | EX = External | IN = Internal | CH = Credit Hour</div>
             </div>
 
-            <!-- Signatures -->
             <div class="gs-signatures-bottom">
                 <div class="sig-block">
                     <div class="sig-space"></div>
@@ -823,7 +831,7 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
     </div>
 </div>
 
-<!-- PRINTABLE: TRANSFER CERTIFICATE (Manakamana style) -->
+<!-- PRINTABLE: TRANSFER CERTIFICATE -->
 <div id="printableTCArea">
     <div class="certificate-page-new">
         <div class="cert-new-header">
@@ -839,39 +847,19 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <span class="cert-photo-ph" id="tcPhotoPlaceholder">PHOTO</span>
             </div>
         </div>
-
         <div class="cert-date-line">Date: <span id="tcIssueDate">—</span></div>
-
         <div class="cert-title-badge-wrap">
             <div class="ribbon-shape ribbon-left"></div>
             <div class="cert-title-badge">CHARACTER / TRANSFER CERTIFICATE</div>
             <div class="ribbon-shape ribbon-right"></div>
         </div>
-
         <div class="cert-body-new">
-            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="tcStudentName">—</span> 
-            son/daughter of Mr. <span class="cert-field-new" id="tcFatherName">—</span> 
-            a resident of <span class="cert-field-new" id="tcResident">—</span> 
-            studied the prescribed course in <span class="cert-field-new" id="tcCourse">—</span> 
-            Education in this school from <span class="cert-field-new" id="tcFromYear">—</span> to 
-            <span class="cert-field-new" id="tcToYear">—</span> as a regular student and duly passed 
-            the <span class="cert-field-new" id="tcExamName">—</span> Examination held in 
-            <span class="cert-field-new" id="tcExamYear">—</span> and was placed in 
-            <span class="cert-field-new" id="tcDivision">—</span> Division. 
-            His/Her Registration no. is <span class="cert-field-new" id="tcRegNo">—</span> and 
-            the date of birth is <span class="cert-field-new" id="tcDOB">—</span>.</p>
+            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="tcStudentName">—</span> son/daughter of Mr. <span class="cert-field-new" id="tcFatherName">—</span> a resident of <span class="cert-field-new" id="tcResident">—</span> studied the prescribed course in <span class="cert-field-new" id="tcCourse">—</span> Education in this school from <span class="cert-field-new" id="tcFromYear">—</span> to <span class="cert-field-new" id="tcToYear">—</span> as a regular student and duly passed the <span class="cert-field-new" id="tcExamName">—</span> Examination held in <span class="cert-field-new" id="tcExamYear">—</span> and was placed in <span class="cert-field-new" id="tcDivision">—</span> Division. His/Her Registration no. is <span class="cert-field-new" id="tcRegNo">—</span> and the date of birth is <span class="cert-field-new" id="tcDOB">—</span>.</p>
             <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
         </div>
-
         <div class="cert-footer-new">
-            <div class="cert-footer-left">
-                <div class="estd-box">Estd.<br>2054</div>
-            </div>
-            <div class="cert-footer-right">
-                <div class="cert-sig-space"></div>
-                <div class="cert-sig-line-new"></div>
-                <div class="cert-sig-label-new">Principal</div>
-            </div>
+            <div class="cert-footer-left"><div class="estd-box">Estd.<br>2054</div></div>
+            <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
         </div>
     </div>
 </div>
@@ -892,36 +880,19 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <span class="cert-photo-ph" id="ccPhotoPlaceholder">PHOTO</span>
             </div>
         </div>
-
         <div class="cert-date-line">Date: <span id="ccIssueDate">—</span></div>
-
         <div class="cert-title-badge-wrap">
             <div class="ribbon-shape ribbon-left"></div>
             <div class="cert-title-badge">CHARACTER CERTIFICATE</div>
             <div class="ribbon-shape ribbon-right"></div>
         </div>
-
         <div class="cert-body-new">
-            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="ccStudentName">—</span> 
-            son/daughter of Mr. <span class="cert-field-new" id="ccFatherName">—</span> 
-            a resident of <span class="cert-field-new" id="ccResident">—</span> 
-            studied in this school from <span class="cert-field-new" id="ccFromYear">—</span> to 
-            <span class="cert-field-new" id="ccToYear">—</span> in Class 
-            <span class="cert-field-new" id="ccClass">—</span>. 
-            His/Her conduct and character during the entire period of study in this school 
-            remained <span class="cert-field-new" id="ccConduct">Good</span>.</p>
+            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="ccStudentName">—</span> son/daughter of Mr. <span class="cert-field-new" id="ccFatherName">—</span> a resident of <span class="cert-field-new" id="ccResident">—</span> studied in this school from <span class="cert-field-new" id="ccFromYear">—</span> to <span class="cert-field-new" id="ccToYear">—</span> in Class <span class="cert-field-new" id="ccClass">—</span>. His/Her conduct and character during the entire period of study in this school remained <span class="cert-field-new" id="ccConduct">Good</span>.</p>
             <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
         </div>
-
         <div class="cert-footer-new">
-            <div class="cert-footer-left">
-                <div class="estd-box">Estd.<br>2054</div>
-            </div>
-            <div class="cert-footer-right">
-                <div class="cert-sig-space"></div>
-                <div class="cert-sig-line-new"></div>
-                <div class="cert-sig-label-new">Principal</div>
-            </div>
+            <div class="cert-footer-left"><div class="estd-box">Estd.<br>2054</div></div>
+            <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
         </div>
     </div>
 </div>
@@ -942,36 +913,69 @@ body { background-color: #f0f2f5; color: #333; font-size: 13px; }
                 <span class="cert-photo-ph" id="slcPhotoPlaceholder">PHOTO</span>
             </div>
         </div>
-
         <div class="cert-date-line">Date: <span id="slcIssueDate">—</span></div>
-
         <div class="cert-title-badge-wrap">
             <div class="ribbon-shape ribbon-left"></div>
             <div class="cert-title-badge">SCHOOL LEAVING CERTIFICATE</div>
             <div class="ribbon-shape ribbon-right"></div>
         </div>
-
         <div class="cert-body-new">
-            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="slcStudentName">—</span> 
-            son/daughter of Mr. <span class="cert-field-new" id="slcFatherName">—</span> 
-            a resident of <span class="cert-field-new" id="slcResident">—</span> 
-            studied in this school from <span class="cert-field-new" id="slcFromYear">—</span> to 
-            <span class="cert-field-new" id="slcToYear">—</span> in Class 
-            <span class="cert-field-new" id="slcClass">—</span>. 
-            He/She left the school after completing the course. 
-            Reason for leaving: <span class="cert-field-new" id="slcReason">—</span>.</p>
+            <p>This is to certify that Mr./Ms. <span class="cert-field-new" id="slcStudentName">—</span> son/daughter of Mr. <span class="cert-field-new" id="slcFatherName">—</span> a resident of <span class="cert-field-new" id="slcResident">—</span> studied in this school from <span class="cert-field-new" id="slcFromYear">—</span> to <span class="cert-field-new" id="slcToYear">—</span> in Class <span class="cert-field-new" id="slcClass">—</span>. He/She left the school after completing the course. Reason for leaving: <span class="cert-field-new" id="slcReason">—</span>.</p>
             <p>He/She bears good moral character. I wish him/her successful career and a bright future.</p>
         </div>
-
         <div class="cert-footer-new">
-            <div class="cert-footer-left">
-                <div class="estd-box">Estd.<br>2054</div>
-            </div>
-            <div class="cert-footer-right">
-                <div class="cert-sig-space"></div>
-                <div class="cert-sig-line-new"></div>
-                <div class="cert-sig-label-new">Principal</div>
-            </div>
+            <div class="cert-footer-left"><div class="estd-box">Estd.<br>2054</div></div>
+            <div class="cert-footer-right"><div class="cert-sig-space"></div><div class="cert-sig-line-new"></div><div class="cert-sig-label-new">Principal</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- PRINTABLE: STUDENT HISTORY -->
+<div id="printableStudentHistoryArea">
+    <div class="bill-box">
+        <div class="bill-header" style="text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:10px;">
+            <img class="print-logo" src="" alt="Logo" style="width:75px;height:75px;object-fit:contain;display:block;margin:0 auto 6px auto;">
+            <h2 id="phSchoolName" style="font-size:16px;">SCHOOL NAME</h2>
+            <p style="font-size:11px;font-weight:600;">Address</p>
+            <h3 style="margin-top:6px;font-size:13px;">STUDENT DEPOSIT HISTORY REPORT</h3>
+        </div>
+        <table style="width:100%;font-size:10px;margin-bottom:10px;">
+            <tr><td><strong>Student Name:</strong> <span id="phStudentName"></span></td><td><strong>Father's Name:</strong> <span id="phFatherName"></span></td></tr>
+            <tr><td><strong>Class:</strong> <span id="phClass"></span></td><td><strong>Contact No:</strong> <span id="phContact"></span></td></tr>
+        </table>
+        <table class="p-table">
+            <thead><tr><th style="width:30px;">#</th><th>Deposit Date</th><th>Bill No</th><th>Paid Amount (Rs.)</th></tr></thead>
+            <tbody id="phRows"></tbody>
+            <tfoot><tr><th colspan="3" style="text-align:right;">Total Cumulative Paid:</th><th id="phTotalPaid"></th></tr></tfoot>
+        </table>
+        <div class="sig-area">
+            <div><p>___________________</p><p><strong>Accountant Signature</strong></p></div>
+            <div><p>___________________</p><p><strong>Principal / Authority</strong></p></div>
+        </div>
+    </div>
+</div>
+
+<!-- PRINTABLE: TEACHER HISTORY -->
+<div id="printableTeacherHistoryArea">
+    <div class="bill-box">
+        <div class="bill-header" style="text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:10px;">
+            <img class="print-logo" src="" alt="Logo" style="width:75px;height:75px;object-fit:contain;display:block;margin:0 auto 6px auto;">
+            <h2 id="pthSchoolName" style="font-size:16px;">SCHOOL NAME</h2>
+            <p style="font-size:11px;font-weight:600;">Address</p>
+            <h3 style="margin-top:6px;font-size:13px;">TEACHER SALARY PAYMENT HISTORY</h3>
+        </div>
+        <table style="width:100%;font-size:10px;margin-bottom:10px;">
+            <tr><td><strong>Teacher Name:</strong> <span id="pthTeacherName"></span></td><td><strong>Designation:</strong> <span id="pthDesignation"></span></td></tr>
+            <tr><td><strong>Father's Name:</strong> <span id="pthFatherName"></span></td><td><strong>Contact No:</strong> <span id="pthContact"></span></td></tr>
+        </table>
+        <table class="p-table">
+            <thead><tr><th style="width:30px;">#</th><th>Payment Date</th><th>Receipt No</th><th>Month</th><th>Total Sal.</th><th>Paid</th><th>Dues</th></tr></thead>
+            <tbody id="pthRows"></tbody>
+            <tfoot><tr><th colspan="5" style="text-align:right;">Total Cumulative Paid:</th><th id="pthTotalPaid" colspan="2"></th></tr></tfoot>
+        </table>
+        <div class="sig-area">
+            <div><p>___________________</p><p><strong>Accountant Signature</strong></p></div>
+            <div><p>___________________</p><p><strong>Principal / Authority</strong></p></div>
         </div>
     </div>
 </div>
@@ -1016,6 +1020,12 @@ function formatDateWithNepali(adDateStr) {
     if (!bs) return adDateStr;
     return `${adDateStr} (${bs.numeric})`;
 }
+function todayBsNumeric() {
+    const today = new Date();
+    const str = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
+    const bs = adToBs(str);
+    return bs ? bs.numeric : str;
+}
 
 /* ============ BRANDING ============ */
 const DEFAULT_SCHOOL_NAME = 'CHIRANJIVEE NARAYANI ENGLISH BOARDING SCHOOL';
@@ -1031,11 +1041,10 @@ function applySchoolBranding() {
     const name = getSchoolName();
     const addr = getSchoolAddress();
     document.querySelectorAll('.print-logo, .gs-header-logo, .cert-logo-left, #loginLogo, #settingsLogoPreview').forEach(img => { img.src = logo; });
-    const wm = document.getElementById('gsWatermark'); if (wm) wm.src = logo;
     document.getElementById('loginSchoolName').innerText = name;
     document.getElementById('sidebarSchoolName').innerText = name;
     document.getElementById('topbarSchoolInfo').innerText = addr;
-    ['pSchoolName','psSchoolName','gsSchoolName','tcSchoolName','ccSchoolName','slcSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
+    ['pSchoolName','psSchoolName','gsSchoolName','tcSchoolName','ccSchoolName','slcSchoolName','phSchoolName','pthSchoolName'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = name; });
     ['pAddress','psAddress','gsSchoolAddress','tcSchoolAddress','ccSchoolAddress','slcSchoolAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = addr; });
     const sa = document.getElementById('schoolAddress'); if (sa) sa.value = addr;
     const ssa = document.getElementById('salarySchoolAddress'); if (ssa) ssa.value = addr;
@@ -1086,6 +1095,8 @@ let billsData = JSON.parse(localStorage.getItem('sch_bills')) || [];
 let salaryData = JSON.parse(localStorage.getItem('sch_salaries')) || [];
 let studentsData = JSON.parse(localStorage.getItem('sch_students')) || [];
 let marksheetsData = JSON.parse(localStorage.getItem('sch_marksheets')) || [];
+let activeEditingBill = null;
+let activeEditingSalary = null;
 
 function saveToLocalStorage() {
     localStorage.setItem('sch_bills', JSON.stringify(billsData));
@@ -1172,7 +1183,7 @@ function showTab(tabId) {
     if (tabId === 'billingTab') document.getElementById('tabBtnHome').classList.add('active-tab');
     if (tabId === 'studentsTab') { document.getElementById('tabBtnStudents').classList.add('active-tab'); renderStudentsTable(); updateStudentStats(); updateClassFilter(); updateSectionFilter(); }
     if (tabId === 'marksheetTab') { document.getElementById('tabBtnMarksheet').classList.add('active-tab'); populateMarksheetStudentSelect(); updateMarksheetFilterDropdowns(); renderMarksheetsTable(); }
-    if (tabId === 'salaryTab') document.getElementById('tabBtnSalary').classList.add('active-tab');
+    if (tabId === 'salaryTab') { document.getElementById('tabBtnSalary').classList.add('active-tab'); renderSalaryTable(); }
     if (tabId === 'backupTab') { document.getElementById('tabBtnBackup').classList.add('active-tab'); applySchoolBranding(); }
 }
 
@@ -1489,7 +1500,7 @@ function fillFromExistingStudent() {
     document.getElementById('contactNo').value = s.contactNo || '';
 }
 
-/* ============ MARKSHEET (NEW DESIGN) ============ */
+/* ============ MARKSHEET ============ */
 function populateMarksheetStudentSelect() {
     const sel = document.getElementById('marksheetStudentSelect'); if (!sel) return;
     const cur = sel.value;
@@ -1536,7 +1547,6 @@ function addMarksheetSubject(code='', name='', fm='', ex='', inn='') {
 function removeMarksheetSubject(b) { b.closest('tr').remove(); renumberMarksheetSubjects(); calculateMarksheetTotals(); }
 function renumberMarksheetSubjects() { document.querySelectorAll('#marksheetSubjectsBody tr').forEach((r, i) => r.cells[0].textContent = i + 1); }
 
-/* ============ GRADE / DIVISION CALCULATORS ============ */
 function calcGradeFromPct(pct) {
     if (pct >= 90) return { grade: 'A+', remark: 'Outstanding' };
     if (pct >= 80) return { grade: 'A', remark: 'Excellent' };
@@ -1553,7 +1563,6 @@ function calcDivisionFromPct(pct) {
     if (pct >= 33) return 'Third Division';
     return 'Fail';
 }
-
 function calculateMarksheetTotals() {
     let totalFM = 0, totalObt = 0;
     document.querySelectorAll('#marksheetSubjectsBody tr').forEach(row => {
@@ -1574,48 +1583,29 @@ function calculateMarksheetTotals() {
     document.getElementById('msResult').value = pct >= 40 ? 'PASS' : 'FAIL';
 }
 
-/* ============ AUTO RANK CALCULATION ============ */
 function calculateRanks(currentMarksheetId) {
-    // Get all marksheets of same class+section
     const ref = marksheetsData.find(m => m.id === currentMarksheetId);
     if (!ref) return { subjectRanks: {}, overallRank: { rank: 1, total: 1 } };
-
-    const sameClass = marksheetsData.filter(m =>
-        (m.studentClass || '') === (ref.studentClass || '') &&
-        (m.section || '') === (ref.section || '')
-    );
-
-    // Overall Rank
-    const withPct = sameClass.map(m => ({
-        id: m.id,
-        pct: parseFloat((m.percentage || '0').replace('%','')) || 0
-    }));
+    const sameClass = marksheetsData.filter(m => (m.studentClass || '') === (ref.studentClass || '') && (m.section || '') === (ref.section || ''));
+    const withPct = sameClass.map(m => ({ id: m.id, pct: parseFloat((m.percentage || '0').replace('%','')) || 0 }));
     withPct.sort((a,b) => b.pct - a.pct);
-    // Assign ranks (tie => same rank)
-    let overallRankVal = 0, prevPct = -1, rankCounter = 0;
+    let overallRankVal = 0, prevPct = -1;
     withPct.forEach((x, i) => {
         if (x.pct !== prevPct) { overallRankVal = i + 1; prevPct = x.pct; }
         x.rank = overallRankVal;
     });
     const currentEntry = withPct.find(x => x.id === currentMarksheetId);
-    const overallRank = {
-        rank: currentEntry ? currentEntry.rank : 1,
-        total: sameClass.length
-    };
-
-    // Subject Ranks
+    const overallRank = { rank: currentEntry ? currentEntry.rank : 1, total: sameClass.length };
     const subjectRanks = {};
     const refSubjects = ref.subjects || [];
     refSubjects.forEach((sub, sIdx) => {
-        const subjectKey = (sub.name || '').toUpperCase().trim();
-        if (!subjectKey) return;
         const list = sameClass.map(m => {
             const subj = (m.subjects || [])[sIdx];
             const total = subj ? (parseFloat(subj.ex) || 0) + (parseFloat(subj.inn) || 0) : 0;
             return { id: m.id, total };
         });
         list.sort((a,b) => b.total - a.total);
-        let rVal = 0, prevT = -1, ctr = 0;
+        let rVal = 0, prevT = -1;
         list.forEach((x, i) => {
             if (x.total !== prevT) { rVal = i + 1; prevT = x.total; }
             x.rank = rVal;
@@ -1623,11 +1613,9 @@ function calculateRanks(currentMarksheetId) {
         const cur = list.find(x => x.id === currentMarksheetId);
         subjectRanks[sIdx] = cur ? cur.rank : 1;
     });
-
     return { subjectRanks, overallRank };
 }
 
-/* ============ SAVE MARKSHEET ============ */
 function saveMarksheet(e) {
     e.preventDefault();
     const id = document.getElementById('marksheetId').value;
@@ -1641,11 +1629,9 @@ function saveMarksheet(e) {
         if (name) subs.push({ code, name, fm, ex, inn });
     });
     if (subs.length === 0) { alert("Add at least one subject!"); return; }
-
     const totalFM = subs.reduce((a,s) => a + s.fm, 0);
     const totalObt = subs.reduce((a,s) => a + (s.ex + s.inn), 0);
     const pct = totalFM > 0 ? (totalObt / totalFM) * 100 : 0;
-
     const rec = {
         id: id || Date.now().toString(),
         examName: document.getElementById('msExamName').value,
@@ -1666,10 +1652,8 @@ function saveMarksheet(e) {
         division: calcDivisionFromPct(pct),
         result: pct >= 40 ? 'PASS' : 'FAIL'
     };
-    // Attach student photo
     const matched = studentsData.find(s => s.studentName === rec.studentName && s.fatherName === rec.fatherName);
     rec.photo = matched && matched.photo ? matched.photo : '';
-
     if (id) {
         const i = marksheetsData.findIndex(m => m.id === id);
         if (i !== -1) marksheetsData[i] = rec;
@@ -1679,12 +1663,10 @@ function saveMarksheet(e) {
         alert("Saved!");
     }
     saveToLocalStorage(); resetMarksheetForm(); renderMarksheetsTable();
-    // Recalculate ranks for same class/section
     recalculateAllRanks();
 }
 
 function recalculateAllRanks() {
-    // Group by class+section and assign overall rank
     const groups = {};
     marksheetsData.forEach(m => {
         const key = `${m.studentClass || ''}|${m.section || ''}`;
@@ -1758,30 +1740,21 @@ function resetMarksheetForm() {
     calculateMarksheetTotals();
 }
 
-/* ============ PRINT MARKSHEET ============ */
 function printMarksheet(id) {
     const item = marksheetsData.find(m => m.id === id); if (!item) return;
-
-    // Recalculate ranks
     recalculateAllRanks();
     const { subjectRanks, overallRank } = calculateRanks(id);
-
     document.getElementById('gsExamTitle').innerText = `${item.examName || 'EXAMINATION'} ${item.academicYearBS || ''}`.trim();
     document.getElementById('gsStudentName').innerText = item.studentName;
     document.getElementById('gsStudentID').innerText = item.studentID || '—';
     document.getElementById('gsClassSection').innerText = `${item.studentClass || ''} ${item.section ? '(' + item.section + ')' : ''}`.trim() || '—';
     document.getElementById('gsRollNo').innerText = item.rollNo || '—';
     document.getElementById('gsFooterRemark').innerText = item.footerRemark || 'Your result is growing up, continue hard working...';
-
-    // Photo
     const pImg = document.getElementById('gsPhotoImg'); const pPh = document.getElementById('gsPhotoPlaceholder');
     if (item.photo) { pImg.src = item.photo; pImg.style.display='block'; pPh.style.display='none'; }
     else { pImg.style.display='none'; pPh.style.display='block'; }
-
-    // Subjects
     const tb = document.getElementById('gsSubjectRows');
     tb.innerHTML = '';
-    let idx = 0;
     item.subjects.forEach((s, i) => {
         const total = (parseFloat(s.ex) || 0) + (parseFloat(s.inn) || 0);
         const pct = s.fm > 0 ? (total / s.fm) * 100 : 0;
@@ -1803,8 +1776,6 @@ function printMarksheet(id) {
             <td class="remark-cell">${g.remark}</td>
         </tr>`;
     });
-
-    // Summary
     document.getElementById('gsTotalMark').innerText = item.totalObtained;
     document.getElementById('gsPercent').innerText = item.percentage;
     document.getElementById('gsRank').innerText = `${overallRank.rank} / ${overallRank.total}`;
@@ -1818,19 +1789,13 @@ function printMarksheet(id) {
         document.getElementById('gsResult').style.color = '#c62828';
         resultBox.classList.remove('pass-box'); resultBox.classList.add('fail-box');
     }
-
-    // Issue Date
-    const today = new Date();
-    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
-    const todayBs = adToBs(todayStr);
-    document.getElementById('gsIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
-
+    document.getElementById('gsIssueDate').innerText = todayBsNumeric();
     applySchoolBranding();
     document.body.className = 'print-marksheet';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
 }
 
-/* ============ PRINT TC / CC / SLC (Manakamana style) ============ */
+/* ============ PRINT TC / CC / SLC ============ */
 function printTC(id) {
     const s = studentsData.find(x => x.id === id);
     if (!s) { alert("Student not found!"); return; }
@@ -1848,10 +1813,7 @@ function printTC(id) {
     const pImg = document.getElementById('tcPhotoImg'); const pPh = document.getElementById('tcPhotoPlaceholder');
     if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
     else { pImg.style.display='none'; pPh.style.display='block'; }
-    const today = new Date();
-    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
-    const todayBs = adToBs(todayStr);
-    document.getElementById('tcIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    document.getElementById('tcIssueDate').innerText = todayBsNumeric();
     applySchoolBranding();
     document.body.className = 'print-tc';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
@@ -1869,10 +1831,7 @@ function printCC(id) {
     const pImg = document.getElementById('ccPhotoImg'); const pPh = document.getElementById('ccPhotoPlaceholder');
     if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
     else { pImg.style.display='none'; pPh.style.display='block'; }
-    const today = new Date();
-    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
-    const todayBs = adToBs(todayStr);
-    document.getElementById('ccIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    document.getElementById('ccIssueDate').innerText = todayBsNumeric();
     applySchoolBranding();
     document.body.className = 'print-cc';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
@@ -1890,10 +1849,7 @@ function printSLC(id) {
     const pImg = document.getElementById('slcPhotoImg'); const pPh = document.getElementById('slcPhotoPlaceholder');
     if (s.photo) { pImg.src = s.photo; pImg.style.display='block'; pPh.style.display='none'; }
     else { pImg.style.display='none'; pPh.style.display='block'; }
-    const today = new Date();
-    const todayStr = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2,'0') + '/' + String(today.getDate()).padStart(2,'0');
-    const todayBs = adToBs(todayStr);
-    document.getElementById('slcIssueDate').innerText = todayBs ? todayBs.numeric : todayStr;
+    document.getElementById('slcIssueDate').innerText = todayBsNumeric();
     applySchoolBranding();
     document.body.className = 'print-slc';
     setTimeout(() => { window.print(); document.body.className = ''; }, 300);
@@ -1910,6 +1866,7 @@ function renderBillingTable() {
 }
 function editBill(id) {
     let item = billsData.find(b => b.id === id); if (!item) return;
+    activeEditingBill = item;
     document.getElementById('recordId').value = item.id;
     document.getElementById('schoolAddress').value = item.schoolAddress || getSchoolAddress();
     document.getElementById('billNo').value = item.billNo;
@@ -1934,15 +1891,18 @@ function editBill(id) {
     w.value = item.amountInWords; w.dataset.auto = "false";
     document.getElementById('formTitle').innerText = `Update: ${item.studentName}`;
     document.getElementById('cancelBtn').style.display = 'block';
+    renderSelectedStudentHistory(item);
 }
 function deleteBill(id) { if (confirm("Delete?")) { billsData = billsData.filter(b => b.id !== id); saveToLocalStorage(); loadData(); } }
 function resetForm() {
+    activeEditingBill = null;
     document.getElementById('recordId').value = '';
     document.getElementById('billingForm').reset();
     document.querySelectorAll('.part-amt').forEach(i => i.value = 0);
     document.getElementById('depositAmount').dataset.base = 0;
     document.getElementById('formTitle').innerText = "Create New Student Bill";
     document.getElementById('cancelBtn').style.display = 'none';
+    document.getElementById('studentHistoryBox').style.display = 'none';
     document.getElementById('billDate').valueAsDate = new Date();
     document.getElementById('depositDate').valueAsDate = new Date();
     const s = document.getElementById('existingStudentSelect'); if (s) s.value = '';
@@ -1981,6 +1941,71 @@ function printBill(id) {
     document.body.className = 'print-billing'; window.print(); document.body.className = '';
 }
 
+/* ============ STUDENT DEPOSIT HISTORY ============ */
+function renderSelectedStudentHistory(student) {
+    const box = document.getElementById('studentHistoryBox');
+    const tb = document.getElementById('studentHistoryTableBody');
+    document.getElementById('studentHistoryTitle').innerText = `📅 Deposit History: ${student.studentName}`;
+    tb.innerHTML = '';
+    box.style.display = 'block';
+    let total = 0;
+    if (student.history && student.history.length > 0) {
+        student.history.forEach((h, i) => {
+            total += Number(h.amount) || 0;
+            tb.innerHTML += `<tr><td>${i+1}</td><td>${formatDateWithNepali(h.date)}</td><td>${student.billNo}</td><td>${student.studentName}</td><td>${student.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td></tr>`;
+        });
+    } else if (student.depositAmount > 0) {
+        total = Number(student.depositAmount) || 0;
+        tb.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(student.billDate)}</td><td>${student.billNo}</td><td>${student.studentName}</td><td>${student.fatherName}</td><td style="color:green; font-weight:bold;">Rs. ${student.depositAmount}</td></tr>`;
+    } else {
+        tb.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#888;">Koi deposit record nahi mila.</td></tr>`;
+    }
+    document.getElementById('studentHistoryTotal').innerText = 'Rs. ' + total;
+}
+
+function printSelectedStudentHistory() {
+    if (!activeEditingBill) return;
+    let s = activeEditingBill;
+    document.getElementById('phStudentName').innerText = s.studentName;
+    document.getElementById('phFatherName').innerText = s.fatherName;
+    document.getElementById('phClass').innerText = s.studentClass || 'N/A';
+    document.getElementById('phContact').innerText = s.contactNo || 'N/A';
+    let rows = document.getElementById('phRows'); rows.innerHTML = ''; let total = 0;
+    if (s.history && s.history.length > 0) {
+        s.history.forEach((h, i) => { total += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i+1}</td><td>${formatDateWithNepali(h.date)}</td><td>${s.billNo}</td><td>Rs. ${h.amount}</td></tr>`; });
+    } else if (s.depositAmount > 0) {
+        total = Number(s.depositAmount) || 0;
+        rows.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(s.billDate)}</td><td>${s.billNo}</td><td>Rs. ${s.depositAmount}</td></tr>`;
+    }
+    document.getElementById('phTotalPaid').innerText = "Rs. " + total;
+    applySchoolBranding();
+    document.body.className = 'print-student-history'; window.print(); document.body.className = '';
+}
+
+function exportSelectedStudentHistoryToExcel() {
+    if (!activeEditingBill) return;
+    let data = [];
+    if (activeEditingBill.history && activeEditingBill.history.length > 0) {
+        activeEditingBill.history.forEach(h => data.push({ 'Deposit Date': formatDateWithNepali(h.date), 'Bill No': activeEditingBill.billNo, 'Student Name': activeEditingBill.studentName, 'Father Name': activeEditingBill.fatherName, 'Class': activeEditingBill.studentClass, 'Deposited Amount': h.amount }));
+    } else if (activeEditingBill.depositAmount > 0) {
+        data.push({ 'Deposit Date': formatDateWithNepali(activeEditingBill.billDate), 'Bill No': activeEditingBill.billNo, 'Student Name': activeEditingBill.studentName, 'Father Name': activeEditingBill.fatherName, 'Class': activeEditingBill.studentClass, 'Deposited Amount': activeEditingBill.depositAmount });
+    }
+    if (data.length === 0) { alert("No history available!"); return; }
+    let ws = XLSX.utils.json_to_sheet(data);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Deposit History");
+    XLSX.writeFile(wb, `${activeEditingBill.studentName}_Deposit_History.xlsx`);
+}
+
+function exportSelectedStudentHistoryToJSON() {
+    if (!activeEditingBill) return;
+    let blob = new Blob([JSON.stringify(activeEditingBill, null, 2)], { type: 'application/json' });
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${activeEditingBill.studentName}_History.json`;
+    a.click();
+}
+
 /* ============ SALARY ============ */
 function renderSalaryTable() {
     const tb = document.getElementById('salaryTableBody'); tb.innerHTML = '';
@@ -1992,6 +2017,7 @@ function renderSalaryTable() {
 }
 function editSalary(id) {
     let item = salaryData.find(s => s.id === id); if (!item) return;
+    activeEditingSalary = item;
     document.getElementById('salaryRecordId').value = item.id;
     document.getElementById('salarySchoolAddress').value = item.schoolAddress || getSchoolAddress();
     document.getElementById('salaryReceiptNo').value = item.receiptNo || '';
@@ -2012,14 +2038,17 @@ function editSalary(id) {
     document.getElementById('salaryAuthSign').value = item.authSign || '';
     document.getElementById('salaryFormTitle').innerText = `Edit: ${item.teacherName}`;
     document.getElementById('cancelSalaryBtn').style.display = 'block';
+    renderSelectedTeacherHistory(item);
 }
 function deleteSalary(id) { if (confirm("Delete?")) { salaryData = salaryData.filter(s => s.id !== id); saveToLocalStorage(); renderSalaryTable(); } }
 function resetSalaryForm() {
+    activeEditingSalary = null;
     document.getElementById('salaryRecordId').value = '';
     document.getElementById('salaryForm').reset();
     document.getElementById('netPaidSalary').dataset.base = 0;
     document.getElementById('salaryFormTitle').innerText = "Teacher Salary Payment";
     document.getElementById('cancelSalaryBtn').style.display = 'none';
+    document.getElementById('teacherHistoryBox').style.display = 'none';
     document.getElementById('salaryDate').valueAsDate = new Date();
 }
 function printSalary(id) {
@@ -2040,6 +2069,71 @@ function printSalary(id) {
     document.getElementById('psPreparedBy').innerText = item.preparedBy || '';
     applySchoolBranding();
     document.body.className = 'print-salary'; window.print(); document.body.className = '';
+}
+
+/* ============ TEACHER SALARY HISTORY ============ */
+function renderSelectedTeacherHistory(teacher) {
+    const box = document.getElementById('teacherHistoryBox');
+    const tb = document.getElementById('teacherHistoryTableBody');
+    document.getElementById('teacherHistoryTitle').innerText = `📅 Salary History: ${teacher.teacherName}`;
+    tb.innerHTML = '';
+    box.style.display = 'block';
+    let total = 0;
+    if (teacher.history && teacher.history.length > 0) {
+        teacher.history.forEach((h, i) => {
+            total += Number(h.amount) || 0;
+            tb.innerHTML += `<tr><td>${i+1}</td><td>${formatDateWithNepali(h.date)}</td><td>${teacher.receiptNo}</td><td>${h.month || teacher.month}</td><td>Rs. ${teacher.basic || 0}</td><td style="color:green; font-weight:bold;">Rs. ${h.amount}</td><td style="color:red; font-weight:bold;">Rs. ${teacher.dues || 0}</td></tr>`;
+        });
+    } else if (teacher.netPaid > 0) {
+        total = Number(teacher.netPaid) || 0;
+        tb.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(teacher.date)}</td><td>${teacher.receiptNo}</td><td>${teacher.month}</td><td>Rs. ${teacher.basic}</td><td style="color:green; font-weight:bold;">Rs. ${teacher.netPaid}</td><td style="color:red; font-weight:bold;">Rs. ${teacher.dues}</td></tr>`;
+    } else {
+        tb.innerHTML = `<tr><td colspan="7" style="text-align:center;color:#888;">Koi payment record nahi mila.</td></tr>`;
+    }
+    document.getElementById('teacherHistoryTotal').innerText = 'Rs. ' + total;
+}
+
+function printSelectedTeacherHistory() {
+    if (!activeEditingSalary) return;
+    let t = activeEditingSalary;
+    document.getElementById('pthTeacherName').innerText = t.teacherName;
+    document.getElementById('pthDesignation').innerText = t.designation || 'N/A';
+    document.getElementById('pthFatherName').innerText = t.fatherName || 'N/A';
+    document.getElementById('pthContact').innerText = t.contact || 'N/A';
+    let rows = document.getElementById('pthRows'); rows.innerHTML = ''; let total = 0;
+    if (t.history && t.history.length > 0) {
+        t.history.forEach((h, i) => { total += Number(h.amount) || 0; rows.innerHTML += `<tr><td>${i+1}</td><td>${formatDateWithNepali(h.date)}</td><td>${t.receiptNo}</td><td>${h.month || t.month}</td><td>Rs. ${t.basic || 0}</td><td>Rs. ${h.amount}</td><td>Rs. ${t.dues || 0}</td></tr>`; });
+    } else if (t.netPaid > 0) {
+        total = Number(t.netPaid) || 0;
+        rows.innerHTML += `<tr><td>1</td><td>${formatDateWithNepali(t.date)}</td><td>${t.receiptNo}</td><td>${t.month}</td><td>Rs. ${t.basic}</td><td>Rs. ${t.netPaid}</td><td>Rs. ${t.dues}</td></tr>`;
+    }
+    document.getElementById('pthTotalPaid').innerText = "Rs. " + total;
+    applySchoolBranding();
+    document.body.className = 'print-teacher-history'; window.print(); document.body.className = '';
+}
+
+function exportSelectedTeacherHistoryToExcel() {
+    if (!activeEditingSalary) return;
+    let t = activeEditingSalary, data = [];
+    if (t.history && t.history.length > 0) {
+        t.history.forEach(h => data.push({ 'Payment Date': formatDateWithNepali(h.date), 'Receipt No': t.receiptNo, 'Teacher Name': t.teacherName, 'Month': h.month || t.month, 'Total Salary': t.basic, 'Paid Amount': h.amount, 'Dues': t.dues }));
+    } else if (t.netPaid > 0) {
+        data.push({ 'Payment Date': formatDateWithNepali(t.date), 'Receipt No': t.receiptNo, 'Teacher Name': t.teacherName, 'Month': t.month, 'Total Salary': t.basic, 'Paid Amount': t.netPaid, 'Dues': t.dues });
+    }
+    if (data.length === 0) { alert("No history available!"); return; }
+    let ws = XLSX.utils.json_to_sheet(data);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Salary History");
+    XLSX.writeFile(wb, `${t.teacherName}_Salary_History.xlsx`);
+}
+
+function exportSelectedTeacherHistoryToJSON() {
+    if (!activeEditingSalary) return;
+    let blob = new Blob([JSON.stringify(activeEditingSalary, null, 2)], { type: 'application/json' });
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${activeEditingSalary.teacherName}_Salary_History.json`;
+    a.click();
 }
 
 /* ============ BACKUP ============ */
